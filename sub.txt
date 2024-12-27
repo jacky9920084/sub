@@ -1,5 +1,5 @@
-socks5://pp186201_custom_zone_CA_st_Ontario_sid_22739628_time_180:P186201@as.swiftproxy.net:7878#CA
-socks5://pp186201_custom_zone_CA_st_Ontario_sid_87881744_time_180:P186201@as.swiftproxy.net:7878#CA
-socks5://pp186201_custom_zone_CA_st_Ontario_sid_89833946_time_180:P186201@as.swiftproxy.net:7878#CA
-socks5://pp186201_custom_zone_CA_st_Ontario_sid_44731261_time_180:P186201@as.swiftproxy.net:7878#CA
-socks5://pp186201_custom_zone_CA_st_Ontario_sid_56798258_time_180:P186201@as.swiftproxy.net:7878#CA
+socks5://as.swiftproxy.net:7878:pp186201_custom_zone_CA_st_Ontario_sid_22739628_time_180:P186201
+socks5://as.swiftproxy.net:7878:pp186201_custom_zone_CA_st_Ontario_sid_87881744_time_180:P186201
+socks5://as.swiftproxy.net:7878:pp186201_custom_zone_CA_st_Ontario_sid_89833946_time_180:P186201
+socks5://as.swiftproxy.net:7878:pp186201_custom_zone_CA_st_Ontario_sid_44731261_time_180:P186201
+socks5://as.swiftproxy.net:7878:pp186201_custom_zone_CA_st_Ontario_sid_56798258_time_180:P186201

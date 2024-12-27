@@ -11,3 +11,51 @@ proxies:
     port: 7878
     username: pp186201_custom_zone_CA_st_Ontario_sid_87881744_time_180
     password: P186201
+  - name: 'CA-3'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_89833946_time_180
+    password: P186201
+  - name: 'CA-4'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_44731261_time_180
+    password: P186201
+  - name: 'CA-5'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_56798258_time_180
+    password: P186201
+  - name: 'CA-6'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_35651569_time_180
+    password: P186201
+  - name: 'CA-7'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_16192189_time_180
+    password: P186201
+  - name: 'CA-8'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_44287538_time_180
+    password: P186201
+  - name: 'CA-9'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_55694528_time_180
+    password: P186201
+  - name: 'CA-10'
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_25991832_time_180
+    password: P186201

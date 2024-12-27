@@ -1,0 +1,70 @@
+proxies:
+  - name: 'Proxy1'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_44969615_time_180
+    password: P186201
+
+  - name: 'Proxy2'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_46473527_time_180
+    password: P186201
+
+  - name: 'Proxy3'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_25318957_time_180
+    password: P186201
+
+  - name: 'Proxy4'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_18373285_time_180
+    password: P186201
+
+  - name: 'Proxy5'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_24543117_time_180
+    password: P186201
+
+  - name: 'Proxy6'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_97199497_time_180
+    password: P186201
+
+  - name: 'Proxy7'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_64698597_time_180
+    password: P186201
+
+  - name: 'Proxy8'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_69212823_time_180
+    password: P186201
+
+  - name: 'Proxy9'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_18194149_time_180
+    password: P186201
+
+  - name: 'Proxy10'
+    type: socks5
+    server: us.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_US_st_NewYork_city_Brooklyn_sid_38929644_time_180
+    password: P186201

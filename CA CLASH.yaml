@@ -1,0 +1,119 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  enhanced-mode: redir-host
+
+proxies:
+  - name: "Canada 1"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_22739628_time_180
+    password: P186201
+
+  - name: "Canada 2"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_87881744_time_180
+    password: P186201
+
+  - name: "Canada 3"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_89833946_time_180
+    password: P186201
+
+  - name: "Canada 4"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_44731261_time_180
+    password: P186201
+
+  - name: "Canada 5"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_56798258_time_180
+    password: P186201
+
+  - name: "Canada 6"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_35651569_time_180
+    password: P186201
+
+  - name: "Canada 7"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_16192189_time_180
+    password: P186201
+
+  - name: "Canada 8"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_44287538_time_180
+    password: P186201
+
+  - name: "Canada 9"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_55694528_time_180
+    password: P186201
+
+  - name: "Canada 10"
+    type: socks5
+    server: as.swiftproxy.net
+    port: 7878
+    username: pp186201_custom_zone_CA_st_Ontario_sid_25991832_time_180
+    password: P186201
+
+proxy-groups:
+  - name: 🚀 节点选择
+    type: select
+    proxies:
+      - 🌐 直接连接
+      - DIRECT
+      - Canada 1
+      - Canada 2
+      - Canada 3
+      - Canada 4
+      - Canada 5
+      - Canada 6
+      - Canada 7
+      - Canada 8
+      - Canada 9
+      - Canada 10
+
+  - name: 🌐 直接连接
+    type: url-test
+    url: http://www.gstatic.com/generate_204
+    interval: 300
+    tolerance: 50
+    proxies:
+      - Canada 1
+      - Canada 2
+      - Canada 3
+      - Canada 4
+      - Canada 5
+      - Canada 6
+      - Canada 7
+      - Canada 8
+      - Canada 9
+      - Canada 10
+
+rules:
+  - MATCH,🚀 节点选择

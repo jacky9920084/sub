@@ -224,9 +224,10 @@
             transform: translateY(100%);
             transition: transform 0.3s ease-out;
             z-index: 1000;
-            max-height: 80vh;
+            height: 80vh; /* 改为固定高度 */
             display: flex;
             flex-direction: column;
+            overscroll-behavior: contain; /* 防止滚动传播 */
         }
 
         .ai-dialog.active {
@@ -251,6 +252,23 @@
             overflow-y: auto;
             padding: 16px;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain; /* 防止滚动传播 */
+            position: relative; /* 创建新的堆叠上下文 */
+        }
+        
+        /* 添加滚动条样式 */
+        .ai-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .ai-body::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 2px;
+        }
+        
+        .ai-body::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 2px;
         }
 
         .message {
@@ -766,12 +784,40 @@
             });
         }, 8000);
 
-        // 防止iOS橡皮筋效果
-        document.body.addEventListener('touchmove', function(e) {
-            if (e.target.closest('.ai-body') === null) {
+        // 优化滚动处理
+        function handleScroll(e) {
+            const aiBody = e.target.closest('.ai-body');
+            if (!aiBody) {
+                e.preventDefault();
+                return;
+            }
+
+            const scrollTop = aiBody.scrollTop;
+            const scrollHeight = aiBody.scrollHeight;
+            const clientHeight = aiBody.clientHeight;
+
+            // 在顶部或底部时阻止继续滚动
+            if ((scrollTop <= 0 && e.touches[0].clientY > e.touches[0].clientY) ||
+                (scrollTop + clientHeight >= scrollHeight && e.touches[0].clientY < e.touches[0].clientY)) {
                 e.preventDefault();
             }
-        }, { passive: false });
+        }
+
+        // 添加触摸事件监听
+        document.body.addEventListener('touchmove', handleScroll, { passive: false });
+        
+        // 打开对话框时禁止背景滚动
+        function toggleAI() {
+            const dialog = document.getElementById('aiDialog');
+            const overlay = document.getElementById('overlay');
+            const isOpening = !dialog.classList.contains('active');
+            
+            dialog.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // 切换body的滚动状态
+            document.body.style.overflow = isOpening ? 'hidden' : '';
+        }
 
         // 初始化触摸事件
         document.addEventListener('DOMContentLoaded', function() {

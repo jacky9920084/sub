@@ -15,9 +15,12 @@
         
         body {
             margin: 0;
+            padding: 0;
             background: #f5f7fa;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
             -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            position: relative;
         }
 
         /* 移动端头部导航 */
@@ -54,6 +57,8 @@
         .mobile-container {
             padding: 72px 16px 80px;
             box-sizing: border-box;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* 统计卡片网格 */
@@ -82,7 +87,7 @@
             opacity: 0.85;
         }
 
-        /* 数据指标卡片 */
+        /* 数据卡片 */
         .data-card {
             background: white;
             padding: 16px;
@@ -144,9 +149,10 @@
             transform: translateY(100%);
             transition: transform 0.3s ease-out;
             z-index: 1000;
-            max-height: 80vh;
+            height: 80vh;
             display: flex;
             flex-direction: column;
+            overscroll-behavior: contain;
         }
 
         .ai-dialog.active {
@@ -171,6 +177,8 @@
             overflow-y: auto;
             padding: 16px;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior: contain;
+            position: relative;
         }
 
         .message {
@@ -193,6 +201,7 @@
         .ai-input {
             padding: 12px 16px;
             border-top: 1px solid #f0f0f0;
+            background: white;
         }
 
         /* 底部导航栏 */
@@ -221,13 +230,6 @@
             color: var(--primary-color);
         }
 
-        /* 动画效果 */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-            100% { transform: scale(1); }
-        }
-
         /* 遮罩层 */
         .overlay {
             position: fixed;
@@ -247,7 +249,31 @@
             visibility: visible;
         }
 
-        /* 触摸反馈 */
+        /* 滚动优化 */
+        .scrollable-content {
+            -webkit-overflow-scrolling: touch;
+            overflow-y: auto;
+            overscroll-behavior-y: contain;
+        }
+
+        /* 修复iOS滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 4px;
+            background-color: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 2px;
+        }
+
+        /* 动画效果 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
         .touch-feedback {
             transition: opacity 0.2s;
         }
@@ -257,12 +283,12 @@
         }
     </style>
 </head>
-<body>
+<body class="scrollable-content">
     <!-- 头部导航 -->
     <header class="mobile-header">
         <div class="mobile-logo">
             <img src="/api/placeholder/24/24" alt="logo">
-            瀚兮教育AI运营系统
+            瀚兮-领播教育系统
         </div>
         <div class="layui-icon layui-icon-notice">
             <span class="layui-badge-dot"></span>
@@ -336,6 +362,10 @@
             <span>AI助手</span>
         </div>
         <div class="nav-item">
+            <i class="layui-icon layui-icon-chart"></i>
+            <span>统计</span>
+        </div>
+        <div class="nav-item">
             <i class="layui-icon layui-icon-user"></i>
             <span>我的</span>
         </div>
@@ -352,7 +382,7 @@
                 <i class="layui-icon layui-icon-close"></i>
             </div>
         </div>
-        <div class="ai-body" id="chatBody">
+        <div class="ai-body scrollable-content" id="chatBody">
             <div class="message ai-msg">
                 您好江总,我是您的助手小播。今日重要情况:
 
@@ -362,7 +392,7 @@
                 - 总退费率12%
 
                 需要了解更详细情况吗?         
-                
+
                 您可以问我:
                 1.- 今日异常情况
                 2.- 业绩分析报告
@@ -397,22 +427,30 @@
 1. 深入分析退费原因,优化教学服务
 2. 安排专人跟进逾期还款学员
 3. 协助武昌校区制定提升方案`,
-            "业绩": `江总,当前业绩情况如下:
 
-📈 整体表现:
-- 本月目标完成率: 52%
-- 环比增长: +15%
-- top1校区: 广州白云(¥992,000)
+            "业绩": `江总,这是业绩分析报告：
 
-🎯 重点关注:
-1. 武昌校区业绩下滑明显
-2. 深圳校区新单转化率偏低
-3. 海南校区续费率有提升空间`,
+📈 业务指标：
+总业绩: ¥104,000
+- 实收: ¥41,600
+- 待收: ¥62,400
+- 完成率: 85%
+
+🔍 数据分析：
+1. 新单转化率：21.7%
+2. 客单价：¥20,800
+3. 退费率：12%
+
+💡 建议：
+- 重点关注高意向客户
+- 加强销售技能培训
+- 优化定价策略`,
+
             "建议": `基于当前数据,我的建议是:
 
-1. 师资配置
-- 优化深圳校区教师结构（换血替换）
-- 加强武昌校区招生老师的专业培训（一周3次）
+1. 教学服务
+- 制定新的教学质量标准
+- 增加教师培训频次
 
 2. 运营策略
 - 细化学员分层运营
@@ -426,8 +464,13 @@
         function toggleAI() {
             const dialog = document.getElementById('aiDialog');
             const overlay = document.getElementById('overlay');
+            const isOpening = !dialog.classList.contains('active');
+            
             dialog.classList.toggle('active');
             overlay.classList.toggle('active');
+            
+            // 切换body滚动状态
+            document.body.style.overflow = isOpening ? 'hidden' : '';
         }
 
         function sendMessage() {
@@ -461,7 +504,7 @@
             chatBody.scrollTop = chatBody.scrollHeight;
         }
 
-        // 图表初始化
+        // 初始化图表
         var chartDom = document.getElementById('mainChart');
         var myChart = echarts.init(chartDom);
         var option = {
@@ -513,7 +556,6 @@
                 {
                     name: '上门量',
                     type: 'line',
-                    stack: 'Total',
                     areaStyle: {},
                     emphasis: {
                         focus: 'series'
@@ -523,7 +565,6 @@
                 {
                     name: '签约人数',
                     type: 'line',
-                    stack: 'Total',
                     areaStyle: {},
                     emphasis: {
                         focus: 'series'
@@ -533,7 +574,6 @@
                 {
                     name: '退费人数',
                     type: 'line',
-                    stack: 'Total',
                     areaStyle: {},
                     emphasis: {
                         focus: 'series'
@@ -550,7 +590,8 @@
             
             option.series.forEach(series => {
                 series.data = series.data.map(value => {
-                    return Math.max(0, value + randomIncrease());
+                    let newValue = value + randomIncrease();
+                    return Math.max(0, newValue);
                 });
             });
             
@@ -604,16 +645,29 @@
             });
         }, 8000);
 
-        // 防止iOS橡皮筋效果
-        document.body.addEventListener('touchmove', function(e) {
-            if (e.target.closest('.ai-body') === null) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-
-        // 初始化触摸事件
+        // 优化移动端滚动体验
         document.addEventListener('DOMContentLoaded', function() {
-            // 为所有触摸反馈元素添加触摸事件
+            const aiBody = document.querySelector('.ai-body');
+            let touchStartY;
+
+            aiBody.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            aiBody.addEventListener('touchmove', function(e) {
+                const touchY = e.touches[0].clientY;
+                const scrollTop = this.scrollTop;
+                const scrollHeight = this.scrollHeight;
+                const height = this.clientHeight;
+
+                // 防止顶部下拉和底部上拉的橡皮筋效果
+                if (scrollTop <= 0 && touchY > touchStartY || 
+                    scrollTop + height >= scrollHeight && touchY < touchStartY) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // 为所有可触摸元素添加反馈效果
             document.querySelectorAll('.touch-feedback').forEach(el => {
                 el.addEventListener('touchstart', function() {
                     this.style.opacity = '0.7';

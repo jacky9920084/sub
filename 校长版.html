@@ -15,9 +15,12 @@
         
         body {
             margin: 0;
+            padding: 0;
             background: #f5f7fa;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
             -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            position: relative;
         }
 
         /* 移动端头部导航 */
@@ -44,19 +47,17 @@
             align-items: center;
         }
 
-        .mobile-logo img {
-            width: 24px;
-            height: 24px;
-            margin-right: 8px;
-        }
-
         /* 主容器 */
         .mobile-container {
             padding: 72px 16px 80px;
             box-sizing: border-box;
+            height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            overscroll-behavior-y: contain;
         }
 
-        /* 统计卡片网格 */
+        /* 统计卡片 */
         .stat-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -71,16 +72,81 @@
             color: white;
         }
 
-        .stat-value {
+        .stat-card .stat-value {
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 4px;
             color: white;
         }
 
-        .stat-title {
+        .stat-card .stat-title {
             font-size: 14px;
             opacity: 0.85;
+        }
+
+        /* 数据卡片 */
+        .data-card {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .data-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .data-title {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* 支出分析 */
+        .expense-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .expense-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .expense-name {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .expense-value {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .trend-up {
+            color: var(--danger-color);
+            margin-left: 4px;
+        }
+
+        .trend-down {
+            color: var(--success-color);
+            margin-left: 4px;
         }
 
         /* 教学质量卡片 */
@@ -96,7 +162,6 @@
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 12px;
-            color: #333;
         }
 
         .performance-indicator {
@@ -134,55 +199,6 @@
             text-align: right;
         }
 
-        /* 支出分析卡片 */
-        .expense-card {
-            background: white;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .expense-title {
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 12px;
-            color: #333;
-        }
-
-        .expense-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .expense-item:last-child {
-            border-bottom: none;
-        }
-
-        .expense-name {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .expense-value {
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .trend-up {
-            color: #ff4d4f;
-            margin-left: 4px;
-        }
-
-        .trend-down {
-            color: #52c41a;
-            margin-left: 4px;
-        }
-
         /* 图表容器 */
         .chart-container {
             background: white;
@@ -195,7 +211,7 @@
 
         /* 预警面板 */
         .alerts-panel {
-            margin-top: 16px;
+            margin: 16px 0;
         }
 
         .alert-item {
@@ -224,10 +240,10 @@
             transform: translateY(100%);
             transition: transform 0.3s ease-out;
             z-index: 1000;
-            height: 80vh; /* 改为固定高度 */
+            height: 80vh;
             display: flex;
             flex-direction: column;
-            overscroll-behavior: contain; /* 防止滚动传播 */
+            overscroll-behavior: contain;
         }
 
         .ai-dialog.active {
@@ -240,6 +256,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: white;
         }
 
         .ai-close {
@@ -252,22 +269,18 @@
             overflow-y: auto;
             padding: 16px;
             -webkit-overflow-scrolling: touch;
-            overscroll-behavior: contain; /* 防止滚动传播 */
-            position: relative; /* 创建新的堆叠上下文 */
+            overscroll-behavior: contain;
+            position: relative;
+            background: white;
         }
-        
-        /* 添加滚动条样式 */
+
         .ai-body::-webkit-scrollbar {
             width: 4px;
+            background-color: transparent;
         }
-        
-        .ai-body::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 2px;
-        }
-        
+
         .ai-body::-webkit-scrollbar-thumb {
-            background: #888;
+            background-color: rgba(0,0,0,0.2);
             border-radius: 2px;
         }
 
@@ -276,6 +289,7 @@
             padding: 12px;
             border-radius: 12px;
             max-width: 85%;
+            word-wrap: break-word;
         }
 
         .user-msg {
@@ -291,6 +305,7 @@
         .ai-input {
             padding: 12px 16px;
             border-top: 1px solid #f0f0f0;
+            background: white;
         }
 
         /* 底部导航栏 */
@@ -331,6 +346,7 @@
             visibility: hidden;
             transition: opacity 0.3s;
             z-index: 999;
+            overscroll-behavior: contain;
         }
 
         .overlay.active {
@@ -378,9 +394,13 @@
                 <div class="stat-value number-animate">68%</div>
                 <div class="stat-title">毛利率</div>
             </div>
+            <div class="stat-card touch-feedback" style="background: linear-gradient(135deg, #faad14 0%, #d48806 100%);">
+                <div class="stat-value number-animate">¥8,000</div>
+                <div class="stat-title">运营支出</div>
+            </div>
         </div>
 
-        <!-- 教学质量分析 -->
+        <!-- 质量指标 -->
         <div class="quality-card">
             <div class="quality-title">教学质量分析</div>
             <div class="performance-indicator">
@@ -567,7 +587,7 @@
 - 8K-15K：45%
 - 15K以上：30%`,
 
-            "业绩": `校长，这是本月业绩深度分析：
+            "业绩": `校长，这是本月业绩分析：
 
 📈 收入构成：
 营收104,000元
@@ -601,8 +621,13 @@
         function toggleAI() {
             const dialog = document.getElementById('aiDialog');
             const overlay = document.getElementById('overlay');
+            const isOpening = !dialog.classList.contains('active');
+            
             dialog.classList.toggle('active');
             overlay.classList.toggle('active');
+            
+            // 切换body滚动状态
+            document.body.style.overflow = isOpening ? 'hidden' : '';
         }
 
         function sendMessage() {
@@ -616,7 +641,7 @@
 
             // 模拟AI响应
             setTimeout(() => {
-                let response = "校长，需要了解以下哪些方面的情况：\n- 教学质量和满意度\n- 贷款逾期追踪\n- 就业数据分析\n- 业绩完成情况\n- 运营改善建议";
+                let response = "校长，需要了解以下哪些方面的情况：\n- 教学质量分析\n- 贷款逾期情况\n- 就业数据分析\n- 业绩完成情况\n- 改进建议";
                 
                 for (let key in aiResponses) {
                     if (message.includes(key)) {
@@ -784,50 +809,47 @@
             });
         }, 8000);
 
-        // 优化滚动处理
-        function handleScroll(e) {
-            const aiBody = e.target.closest('.ai-body');
-            if (!aiBody) {
-                e.preventDefault();
-                return;
-            }
-
-            const scrollTop = aiBody.scrollTop;
-            const scrollHeight = aiBody.scrollHeight;
-            const clientHeight = aiBody.clientHeight;
-
-            // 在顶部或底部时阻止继续滚动
-            if ((scrollTop <= 0 && e.touches[0].clientY > e.touches[0].clientY) ||
-                (scrollTop + clientHeight >= scrollHeight && e.touches[0].clientY < e.touches[0].clientY)) {
-                e.preventDefault();
-            }
-        }
-
-        // 添加触摸事件监听
-        document.body.addEventListener('touchmove', handleScroll, { passive: false });
-        
-        // 打开对话框时禁止背景滚动
-        function toggleAI() {
-            const dialog = document.getElementById('aiDialog');
-            const overlay = document.getElementById('overlay');
-            const isOpening = !dialog.classList.contains('active');
-            
-            dialog.classList.toggle('active');
-            overlay.classList.toggle('active');
-            
-            // 切换body的滚动状态
-            document.body.style.overflow = isOpening ? 'hidden' : '';
-        }
-
-        // 初始化触摸事件
+        // 优化移动端滚动体验
         document.addEventListener('DOMContentLoaded', function() {
-            // 为所有触摸反馈元素添加触摸事件
+            const aiBody = document.querySelector('.ai-body');
+            let touchStartY;
+
+            // 处理AI对话框的滚动
+            aiBody.addEventListener('touchstart', function(e) {
+                touchStartY = e.touches[0].clientY;
+            });
+
+            aiBody.addEventListener('touchmove', function(e) {
+                const touchY = e.touches[0].clientY;
+                const scrollTop = this.scrollTop;
+                const scrollHeight = this.scrollHeight;
+                const height = this.clientHeight;
+
+                // 防止顶部下拉和底部上拉的橡皮筋效果
+                if (scrollTop <= 0 && touchY > touchStartY || 
+                    scrollTop + height >= scrollHeight && touchY < touchStartY) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+
+            // 处理主容器的滚动
+            const container = document.querySelector('.mobile-container');
+            container.addEventListener('scroll', function() {
+                // 滚动时隐藏键盘
+                document.activeElement.blur();
+            });
+
+            // 为所有可触摸元素添加反馈效果
             document.querySelectorAll('.touch-feedback').forEach(el => {
                 el.addEventListener('touchstart', function() {
                     this.style.opacity = '0.7';
                 });
                 
                 el.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+
+                el.addEventListener('touchcancel', function() {
                     this.style.opacity = '1';
                 });
             });

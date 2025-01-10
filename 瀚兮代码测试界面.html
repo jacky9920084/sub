@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>瀚兮-领播教育AI运营系统 - 移动版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/layui/2.8.0/css/layui.min.css">
+    <style>
+        :root {
+            --primary-color: #1890ff;
+            --warning-color: #faad14;
+            --success-color: #52c41a;
+            --danger-color: #ff4d4f;
+        }
+        
+        body {
+            margin: 0;
+            background: #f5f7fa;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 移动端头部导航 */
+        .mobile-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background: white;
+            padding: 0 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .mobile-logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .mobile-logo img {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+        }
+
+        /* 主容器 */
+        .mobile-container {
+            padding: 72px 16px 80px;
+            box-sizing: border-box;
+        }
+
+        /* 统计卡片网格 */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+            padding: 16px;
+            border-radius: 12px;
+            color: white;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            opacity: 0.85;
+        }
+
+        /* 数据指标卡片 */
+        .data-card {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .data-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .data-title {
+            font-size: 14px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        /* 图表容器 */
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+            height: 280px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        /* 预警面板 */
+        .alerts-panel {
+            margin-top: 16px;
+        }
+
+        .alert-item {
+            background: #fff2f0;
+            border: 1px solid #ffccc7;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            animation: pulse 2s infinite;
+        }
+
+        .alert-item.warning {
+            background: #fffbe6;
+            border-color: #ffe58f;
+        }
+
+        /* AI助手对话框 */
+        .ai-dialog {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            z-index: 1000;
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ai-dialog.active {
+            transform: translateY(0);
+        }
+
+        .ai-header {
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-close {
+            padding: 8px;
+            cursor: pointer;
+        }
+
+        .ai-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            max-width: 85%;
+        }
+
+        .user-msg {
+            background: #f0f7ff;
+            margin-left: auto;
+        }
+
+        .ai-msg {
+            background: #f6ffed;
+            margin-right: auto;
+        }
+
+        .ai-input {
+            padding: 12px 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* 底部导航栏 */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.1);
+            z-index: 99;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px 12px;
+            color: #666;
+        }
+
+        .nav-item.active {
+            color: var(--primary-color);
+        }
+
+        /* 动画效果 */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+
+        /* 遮罩层 */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s;
+            z-index: 999;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 触摸反馈 */
+        .touch-feedback {
+            transition: opacity 0.2s;
+        }
+
+        .touch-feedback:active {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部导航 -->
+    <header class="mobile-header">
+        <div class="mobile-logo">
+            <img src="/api/placeholder/24/24" alt="logo">
+            瀚兮教育AI运营系统
+        </div>
+        <div class="layui-icon layui-icon-notice">
+            <span class="layui-badge-dot"></span>
+        </div>
+    </header>
+
+    <!-- 主容器 -->
+    <div class="mobile-container">
+        <!-- 统计卡片 -->
+        <div class="stat-grid">
+            <div class="stat-card touch-feedback">
+                <div class="stat-value number-animate">¥104,000</div>
+                <div class="stat-title">社招收入总额</div>
+            </div>
+            <div class="stat-card touch-feedback" style="background: linear-gradient(135deg, #52c41a 0%, #389e0d 100%);">
+                <div class="stat-value number-animate">¥41,600</div>
+                <div class="stat-title">实际回款</div>
+            </div>
+        </div>
+
+        <!-- 关键指标 -->
+        <div class="data-card touch-feedback">
+            <div class="data-value number-animate">23</div>
+            <div class="data-title">总上门量</div>
+        </div>
+        <div class="data-card touch-feedback">
+            <div class="data-value number-animate">5</div>
+            <div class="data-title">总缴费人数</div>
+        </div>
+        <div class="data-card touch-feedback">
+            <div class="data-value number-animate">3</div>
+            <div class="data-title">总退费量</div>
+        </div>
+        <div class="data-card touch-feedback">
+            <div class="data-value">¥20,800</div>
+            <div class="data-title">客单价</div>
+        </div>
+
+        <!-- 图表区域 -->
+        <div class="chart-container" id="mainChart"></div>
+
+        <!-- 预警面板 -->
+        <div class="alerts-panel">
+            <h3>
+                <i class="layui-icon layui-icon-warning" style="color: var(--warning-color);"></i>
+                实时预警
+            </h3>
+            <div class="alert-item touch-feedback">
+                <strong>高风险预警</strong><br>
+                深圳校区退费率超过预警阈值15%,建议及时干预
+            </div>
+            <div class="alert-item warning touch-feedback">
+                <strong>中风险预警</strong><br>
+                海南校区有3名学员逾期未还款,请注意
+            </div>
+            <div class="alert-item warning touch-feedback">
+                <strong>业绩预警</strong><br>
+                武昌校区本月业绩完成率低于目标30%
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <nav class="mobile-nav">
+        <div class="nav-item active">
+            <i class="layui-icon layui-icon-home"></i>
+            <span>首页</span>
+        </div>
+        <div class="nav-item" onclick="toggleAI()">
+            <i class="layui-icon layui-icon-dialogue"></i>
+            <span>AI助手</span>
+        </div>
+        <div class="nav-item">
+            <i class="layui-icon layui-icon-user"></i>
+            <span>我的</span>
+        </div>
+    </nav>
+
+    <!-- AI助手对话框 -->
+    <div class="ai-dialog" id="aiDialog">
+        <div class="ai-header">
+            <span>
+                <i class="layui-icon layui-icon-dialogue"></i>
+                您的助手 小播
+            </span>
+            <div class="ai-close" onclick="toggleAI()">
+                <i class="layui-icon layui-icon-close"></i>
+            </div>
+        </div>
+        <div class="ai-body" id="chatBody">
+            <div class="message ai-msg">
+                您好江总,我是您的助手小播。今日重要情况:
+
+                📊 关键指标:
+                - 总上门量23人,签约5人
+                - 实际回款41,600元
+                - 总退费率12%
+
+                需要了解更详细情况吗?         
+                
+                您可以问我:
+                1.- 今日异常情况
+                2.- 业绩分析报告
+                3.- 运营改善建议
+            </div>
+        </div>
+        <div class="ai-input">
+            <div class="layui-input-group">
+                <input type="text" id="userInput" placeholder="请输入您的问题..." class="layui-input">
+                <div class="layui-input-suffix">
+                    <button class="layui-btn" onclick="sendMessage()">发送</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 遮罩层 -->
+    <div class="overlay" id="overlay" onclick="toggleAI()"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/layui/2.8.0/layui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.3/echarts.min.js"></script>
+    <script>
+        // AI对话功能
+        let aiResponses = {
+            "异常": `Hi江总,以下是今日重要异常情况:
+📊 异常预警:
+- 深圳校区退费率超出预警值5%
+- 有3名学员超过60天未还款
+- 武昌校区本月业绩偏低
+
+💡 建议措施:
+1. 深入分析退费原因,优化教学服务
+2. 安排专人跟进逾期还款学员
+3. 协助武昌校区制定提升方案`,
+            "业绩": `江总,当前业绩情况如下:
+
+📈 整体表现:
+- 本月目标完成率: 52%
+- 环比增长: +15%
+- top1校区: 广州白云(¥992,000)
+
+🎯 重点关注:
+1. 武昌校区业绩下滑明显
+2. 深圳校区新单转化率偏低
+3. 海南校区续费率有提升空间`,
+            "建议": `基于当前数据,我的建议是:
+
+1. 师资配置
+- 优化深圳校区教师结构（换血替换）
+- 加强武昌校区招生老师的专业培训（一周3次）
+
+2. 运营策略
+- 细化学员分层运营
+- 完善续费激励机制
+
+3. 风控措施
+- 建立退费预警机制
+- 优化收款跟进流程`
+        };
+
+        function toggleAI() {
+            const dialog = document.getElementById('aiDialog');
+            const overlay = document.getElementById('overlay');
+            dialog.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        function sendMessage() {
+            let input = document.getElementById('userInput');
+            let message = input.value.trim();
+            if (!message) return;
+
+            // 添加用户消息
+            addMessage(message, 'user');
+            input.value = '';
+
+            // 模拟AI响应
+            setTimeout(() => {
+                let response = "抱歉江总,我没有很好理解您的问题。您可以问我:\n- 今日异常情况\n- 业绩分析报告\n- 运营改善建议";
+                for (let key in aiResponses) {
+                    if (message.includes(key)) {
+                        response = aiResponses[key];
+                        break;
+                    }
+                }
+                addMessage(response, 'ai');
+            }, 500);
+        }
+
+        function addMessage(text, type) {
+            let chatBody = document.getElementById('chatBody');
+            let div = document.createElement('div');
+            div.className = `message ${type}-msg`;
+            div.innerText = text;
+            chatBody.appendChild(div);
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }
+
+        // 图表初始化
+        var chartDom = document.getElementById('mainChart');
+        var myChart = echarts.init(chartDom);
+        var option = {
+            title: {
+                text: '各校区业绩趋势',
+                left: 'center',
+                textStyle: {
+                    fontSize: 14
+                }
+            },
+            tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                    type: 'cross',
+                    label: {
+                        backgroundColor: '#6a7985'
+                    }
+                }
+            },
+            legend: {
+                data: ['上门量', '签约人数', '退费人数'],
+                bottom: '0%',
+                textStyle: {
+                    fontSize: 12
+                }
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '15%',
+                top: '15%',
+                containLabel: true
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['深圳', '海南', '广州', '武昌', '成都'],
+                axisLabel: {
+                    fontSize: 12
+                }
+            },
+            yAxis: {
+                type: 'value',
+                axisLabel: {
+                    fontSize: 12
+                }
+            },
+            series: [
+                {
+                    name: '上门量',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [120, 132, 101, 134, 90]
+                },
+                {
+                    name: '签约人数',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [45, 52, 42, 49, 36]
+                },
+                {
+                    name: '退费人数',
+                    type: 'line',
+                    stack: 'Total',
+                    areaStyle: {},
+                    emphasis: {
+                        focus: 'series'
+                    },
+                    data: [12, 15, 8, 14, 10]
+                }
+            ]
+        };
+        myChart.setOption(option);
+
+        // 动态数据更新
+        function updateData() {
+            let randomIncrease = () => Math.floor(Math.random() * 10) - 3;
+            
+            option.series.forEach(series => {
+                series.data = series.data.map(value => {
+                    return Math.max(0, value + randomIncrease());
+                });
+            });
+            
+            myChart.setOption(option);
+        }
+
+        // 定时更新数据
+        setInterval(updateData, 5000);
+
+        // 响应式处理
+        window.addEventListener('resize', function() {
+            myChart.resize();
+        });
+
+        // 数字动画效果
+        function animateNumber(element, start, end, duration) {
+            let range = end - start;
+            let current = start;
+            let increment = range / (duration / 16);
+            let timer = setInterval(function() {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    clearInterval(timer);
+                    current = end;
+                }
+                element.textContent = Math.round(current).toLocaleString('zh-CN');
+            }, 16);
+        }
+
+        // 初始化数字动画
+        document.querySelectorAll('.number-animate').forEach(el => {
+            let value = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+            animateNumber(el, 0, value, 1000);
+        });
+
+        // 绑定回车事件
+        document.getElementById('userInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // 模拟实时数据更新
+        setInterval(() => {
+            document.querySelectorAll('.number-animate').forEach(el => {
+                let currentValue = parseInt(el.textContent.replace(/[^0-9]/g, ''));
+                let newValue = currentValue + Math.floor(Math.random() * 10) - 3;
+                if (newValue >= 0) {
+                    animateNumber(el, currentValue, newValue, 500);
+                }
+            });
+        }, 8000);
+
+        // 防止iOS橡皮筋效果
+        document.body.addEventListener('touchmove', function(e) {
+            if (e.target.closest('.ai-body') === null) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // 初始化触摸事件
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为所有触摸反馈元素添加触摸事件
+            document.querySelectorAll('.touch-feedback').forEach(el => {
+                el.addEventListener('touchstart', function() {
+                    this.style.opacity = '0.7';
+                });
+                
+                el.addEventListener('touchend', function() {
+                    this.style.opacity = '1';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1269,4 +1269,3 @@ app.listen(port, '0.0.0.0', () => {
   console.log(`抖音评论API服务运行在 http://0.0.0.0:${port}`);
 });
 
-EOF"

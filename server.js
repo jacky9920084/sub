@@ -1,4 +1,4 @@
-ssh root@120.55.41.230 "cat > /root/douyin-comments-api/server.js << 'EOF'
+curl -s https://raw.githubusercontent.com/jacky9920084/sub/main/server.js | sed '/EOF"/,$d' > /root/douyin-comments-api/server.js
 const express = require('express');
 const puppeteer = require('puppeteer');
 const NodeCache = require('node-cache');

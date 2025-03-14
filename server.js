@@ -1,3 +1,4 @@
+
 const express = require('express');
 const puppeteer = require('puppeteer');
 const NodeCache = require('node-cache');
@@ -1010,7 +1011,8 @@ app.get('/api/comments', async (req, res) => {
                     btn.dispatchEvent(mouseoverEvent);
                     
                     // 短暂等待模拟真实用户行为
-                    await new Promise(r => setTimeout(r, 150));
+                    let startTime = Date.now();
+                    while(Date.now() - startTime < 150) {}
                     
                     // 触发更完整的鼠标事件序列
                     const events = ['mouseenter', 'mouseover', 'mousedown', 'mouseup', 'click'];
@@ -1022,8 +1024,9 @@ app.get('/api/comments', async (req, res) => {
                         buttons: 1
                       });
                       btn.dispatchEvent(event);
-                      // 小延迟使事件更自然
-                      await new Promise(r => setTimeout(r, 50));
+                      // 小延迟使事件更自然 - 同样使用同步延迟
+                      startTime = Date.now();
+                      while(Date.now() - startTime < 50) {}
                     }
                     
                     console.log(`已点击评论按钮: ${selector}`);
@@ -1088,7 +1091,8 @@ app.get('/api/comments', async (req, res) => {
                     element.dispatchEvent(mouseoverEvent);
                     
                     // 短暂等待
-                    await new Promise(r => setTimeout(r, 200));
+                    let startWait = Date.now();
+                    while(Date.now() - startWait < 200) {}
                     
                     // 执行点击
                     element.click();
@@ -1112,7 +1116,8 @@ app.get('/api/comments', async (req, res) => {
                   console.log('已点击视频元素');
                   
                   // 短暂等待
-                  await new Promise(r => setTimeout(r, 500));
+                  let videoClickWait = Date.now();
+                  while(Date.now() - videoClickWait < 500) {}
                   
                   // 点击视频下方区域，可能触发评论显示
                   document.elementFromPoint(
@@ -1724,3 +1729,6 @@ function parseLikes(likesStr) {
 app.listen(port, '0.0.0.0', () => {
   console.log(`抖音评论API服务运行在 http://0.0.0.0:${port}`);
 });
+
+    
+    

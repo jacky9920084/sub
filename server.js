@@ -1,4 +1,3 @@
-
 const express = require('express');
 const puppeteer = require('puppeteer');
 const NodeCache = require('node-cache');
@@ -533,6 +532,67 @@ async function withRetry(fn, maxRetries = MAX_RETRIES, retryDelay = RETRY_DELAY)
   }
   
   throw lastError;
+}
+
+// 辅助函数：自动滚动页面加载更多评论
+async function autoScroll(page) {
+  return page.evaluate(async () => {
+    // 设置最大滚动次数防止无限滚动
+    const MAX_SCROLL_COUNT = 5;
+    
+    // 主评论列表选择器数组，兼容不同版本的抖音
+    const commentContainerSelectors = [
+      '.UJ3DpJTM', // 2025年版抖音评论区
+      '.RzKJpP2S', // 2025年评论列表
+      '.OxhJfHrE', // 公共评论区
+      '.KzPVzIKf', // 评论面板
+      '.comment-mainContent',
+      '.CMU_z1Vn',
+      '.comment-public-container',
+      '.lVaCGvQq',
+      '#commentArea',
+      '[data-e2e="comment-list"]',
+      '.comment-container',
+      '.comment-list',
+      '.comments-list',
+      '.ReplyList',
+      '.BbQpYS1P',
+      '.comment-panel',
+      '.ESlRXJ16'
+    ];
+
+    // 实现自动滚动逻辑
+    for (let i = 0; i < MAX_SCROLL_COUNT; i++) {
+      console.log(`正在滚动页面，第${i + 1}次`);
+      
+      // 滚动到页面底部
+      await window.scrollTo(0, document.body.scrollHeight);
+      
+      // 等待页面加载更多评论
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
+    // 获取滚动后的评论元素
+    const comments = [];
+    for (const selector of commentContainerSelectors) {
+      const elements = document.querySelectorAll(selector);
+      if (elements.length > 0) {
+        console.log(`找到评论容器: ${elements.length}个, 使用选择器: ${selector}`);
+        
+        // 遍历容器尝试找评论项
+        for (const container of elements) {
+          const commentItems = Array.from(container.querySelectorAll(selector));
+          if (commentItems.length > 0) {
+            console.log(`在容器中找到评论项: ${commentItems.length}个, 使用选择器: ${selector}`);
+            comments.push(...commentItems);
+          }
+        }
+      }
+    }
+
+    console.log(`共找到 ${comments.length} 个评论项`);
+    return comments.slice(0, MAX_COMMENTS);
+  });
 }
 
 // 评论爬取API
@@ -1164,179 +1224,20 @@ app.get('/api/comments', async (req, res) => {
         await page.waitForTimeout(2000);
         
         // 实现扩展程序的waitForComments逻辑
-        await page.evaluate(() => {
-          return new Promise((resolve, reject) => {
-            const selectors = [
-              // 2024年最新版抖音评论项选择器
-              '.comment-mainContent-item', // 主评论项
-              '.VlUSW36j',  // 新版评论项基类
-              '.Y0zLXVVj',  // 新版视频评论列表项
-              '.n46QrfWK',  // 新版评论项容器
-              '.comment-item-v2', // 新版评论项v2
-              '[data-e2e="comment-list-item"]', // 评论列表项
-              '.comment-item-container', // 评论项容器
-              '.Qu86aRTU', // 新版评论内容
-              
-              // 通用备选评论项选择器
-              '.comment-item',
-              '.CommentItem',
-              '[data-e2e="comment-item"]',
-              '.comment-card',
-              '.BbQpYS1P',
-              '.comment-wrapper',
-              '.ESlRXJ16',
-              'div[class*="CommentItem"]',
-              'div[class*="comment-item"]',
-              'div[class*="commentItem"]',
-              '.comment-content-item',
-              '[class*="CommentWrapper"]',
-              '[class*="commentWrapper"]',
-              '[class*="comment-content"]',
-              '[class*="commentContent"]',
-              '.WM0DtUw9',
-              '.comment-list-item',
-              '.AiLUjvzO'
-            ];
-            
-            let attempts = 0;
-            const maxAttempts = 40; // 增加最大检查次数
-            
-            const check = () => {
-              attempts++;
-              console.log(`检查评论加载状态... 第 ${attempts} 次`);
-              
-              // 遍历所有可能的评论容器
-              const containerSelectors = [
-                // 2024年最新版抖音评论容器
-                '.comment-mainContent', // 主评论内容区
-                '.CMU_z1Vn', // 新版评论列表容器 
-                '.comment-public-container', // 新版公共评论容器
-                '.lVaCGvQq', // 新版评论面板
-                '#commentArea', // 评论区ID
-                '[data-e2e="comment-list"]', // 官方评论列表标记
-                '.comment-container', // 标准评论容器
-                
-                // 通用备选评论容器
-                '.comment-list',
-                '.comments-list',
-                '.ReplyList',
-                '.BbQpYS1P',
-                '.comment-panel',
-                '.ESlRXJ16',
-                '.comment-area',
-                '[class*="CommentList"]',
-                '[class*="commentList"]',
-                '.modal-comment-list',
-                '.modal-comments',
-                '.EqzT2C1r',
-                '.commentWraper',
-                '.video-comment-container',
-                '.comment-list-container'
-              ];
-              
-              // 改进的评论容器查找逻辑 - 使用数组连接而不是字符串
-              const containers = document.querySelectorAll(containerSelectors.join(','));
-              
-              console.log(`找到 ${containers.length} 个评论容器`);
-              
-              if (containers.length > 0) {
-                // 记录找到的容器信息
-                console.log('评论容器详情:', Array.from(containers).map(c => ({
-                  className: typeof c.className === 'string' ? c.className : (c.classList ? Array.from(c.classList).join(' ') : ''),
-                  id: c.id,
-                  children: c.children.length,
-                  visible: c.offsetWidth > 0 && c.offsetHeight > 0
-                })));
-              }
-              
-              // 检查每个容器是否可见且包含评论
-              for (const container of containers) {
-                const style = window.getComputedStyle(container);
-                if (style.display !== 'none' && style.visibility !== 'hidden' && 
-                    container.offsetWidth > 0 && container.offsetHeight > 0) {
-                  for (const selector of selectors) {
-                    const comments = container.querySelectorAll(selector);
-                    if (comments.length > 0) {
-                      console.log(`在容器中找到 ${comments.length} 条评论，使用选择器: ${selector}`);
-                      resolve();
-                      return;
-                    }
-                  }
-                }
-              }
-              
-              // 尝试检查整个DOM中的评论项
-              for (const selector of selectors) {
-                const comments = document.querySelectorAll(selector);
-                if (comments.length > 0) {
-                  const visibleComments = Array.from(comments).filter(el => {
-                    const style = window.getComputedStyle(el);
-                    return style.display !== 'none' && style.visibility !== 'hidden' && 
-                          el.offsetWidth > 0 && el.offsetHeight > 0;
-                  });
-                  
-                  if (visibleComments.length > 0) {
-                    console.log(`在整个页面中找到 ${visibleComments.length} 条可见评论，使用选择器: ${selector}`);
-                    resolve();
-                    return;
-                  }
-                }
-              }
-              
-              if (attempts >= maxAttempts) {
-                console.error('评论加载超时，请确保评论区已展开并等待评论加载完成');
-                resolve(); // 即使超时也继续执行，尝试获取评论
-                return;
-              }
-              
-              // 尝试更多方法激活评论区
-              if (attempts % 5 === 0) { // 每5次尝试一次额外激活方法
-                try {
-                  // 点击评论区附近区域
-                  const rect = document.body.getBoundingClientRect();
-                  const centerX = rect.width / 2;
-                  const bottomY = Math.min(rect.height - 200, window.innerHeight - 200);
-                  document.elementFromPoint(centerX, bottomY)?.click();
-                  
-                  // 随机滚动以触发加载
-                  window.scrollBy(0, Math.random() * 100 - 50);
-                } catch (err) {
-                  console.error('尝试额外激活评论区失败:', err);
-                }
-              }
-              
-              // 尝试滚动加载更多评论
-              const commentContainers = document.querySelectorAll(containerSelectors.join(','));
-              if (commentContainers.length > 0) {
-                commentContainers.forEach(container => {
-                  try {
-                    container.scrollTop = container.scrollHeight;
-                    console.log(`已滚动评论容器到底部: ${container.className || container.id}`);
-                  } catch (err) {
-                    console.log(`滚动评论容器失败: ${err.message}`);
-                  }
-                });
-              } else {
-                // 如果没有找到评论容器，尝试整体滚动页面
-                window.scrollBy(0, 200);
-              }
-              
-              setTimeout(check, 1000);
-            };
-            
-            check();
-          });
-        });
-        
-        // 提取评论
-        const comments = await page.evaluate(() => {
+        await page.evaluate((MAX_COMMENTS) => {
           try {
             console.log('开始提取评论...');
             
-            // 2024年最新PC版抖音评论选择器
+            // 2025年最新PC版抖音评论选择器
             const selectors = {
               commentItem: [
-                // 最新版首选选择器
+                // 2025最新版首选选择器 
+                '.ZrN9g8J3', // 2025版评论容器项
+                '.xPUO2JV5', // 2025版评论项
+                '.OipmUZLO', // 2025版评论内容容器
+                '.YvccbM1F', // 2025版评论项包装器
+                '.RHiEl2W9', // 2025版评论项新布局
+                // 以前版本的选择器（兼容性）
                 '.comment-mainContent-item', // 主评论项
                 '.VlUSW36j',  // 新版评论项基类
                 '.Y0zLXVVj',  // 新版视频评论列表项
@@ -1344,6 +1245,7 @@ app.get('/api/comments', async (req, res) => {
                 '.comment-item-v2', // 新版评论项v2
                 '[data-e2e="comment-list-item"]', // 评论列表项
                 '.comment-item-container', // 评论项容器
+                '.Qu86aRTU', // 新版评论内容
                 
                 // 通用备选选择器
                 '.comment-item',
@@ -1366,7 +1268,11 @@ app.get('/api/comments', async (req, res) => {
                 '.AiLUjvzO'
               ],
               username: [
-                // 最新版首选选择器
+                // 2025最新选择器
+                '.ZH1HPMS7', // 2025年用户名选择器 
+                '.R9sH4NwP', // 2025年新版用户名
+                '.uHGrB1fP', // 2025年账号名称
+                // 以前版本的选择器
                 '.iCbgYSqA', // 2024用户名选择器
                 '.FbQxz6vC', // 新版用户名
                 '.user-name', // 标准用户名
@@ -1394,7 +1300,11 @@ app.get('/api/comments', async (req, res) => {
                 '.comment-item-v2 .user span'
               ],
               content: [
-                // 最新版首选选择器
+                // 2025最新选择器
+                '.QT5MuNL7', // 2025年评论内容
+                '.TjxZ9KZY', // 2025年评论文本容器
+                '.PyZcBKFb', // 2025年评论文本
+                // 以前版本的选择器
                 '.Qu86aRTU', // 新版评论内容
                 '.X2jHbVhh', // 评论文本
                 '.comment-content', // 标准评论内容
@@ -1418,7 +1328,11 @@ app.get('/api/comments', async (req, res) => {
                 '.AiLUjvzO .content'
               ],
               time: [
-                // 最新版首选选择器
+                // 2025最新选择器
+                '.LaB7V9HW', // 2025年时间戳
+                '.Hs8JdGWC', // 2025年时间信息
+                '.NxAbJMuK', // 2025年发布时间
+                // 以前版本的选择器
                 '.TYGfQcFR', // 新版时间戳
                 '.kqzEMvnb', // 另一个时间选择器
                 '.comment-time', // 标准评论时间
@@ -1441,7 +1355,11 @@ app.get('/api/comments', async (req, res) => {
                 '.AiLUjvzO .time'
               ],
               likeCount: [
-                // 最新版首选选择器
+                // 2025最新选择器
+                '.VT7pNbtS', // 2025年点赞计数
+                '.H7vvGdTQ', // 2025年点赞数容器
+                '.Bc8CPX9M', // 2025年点赞按钮
+                // 以前版本的选择器
                 '.gRi_qw_5', // 新版点赞计数
                 '.digg-count', // 赞数量
                 '.like-btn .count', // 赞按钮数量
@@ -1519,7 +1437,12 @@ app.get('/api/comments', async (req, res) => {
             
             // 寻找评论项 - 遍历多个容器选择器
             const containerSelectors = [
-              // 2024年最新版抖音评论容器
+              // 2025年最新版抖音评论容器
+              '.UJ3DpJTM', // 2025版主评论区
+              '.RzKJpP2S', // 2025版评论列表容器 
+              '.OxhJfHrE', // 2025版公共评论区
+              '.KzPVzIKf', // 2025版评论面板新布局
+              // 以前版本的容器
               '.comment-mainContent', // 主评论内容区
               '.CMU_z1Vn', // 新版评论列表容器 
               '.comment-public-container', // 新版公共评论容器
@@ -1624,7 +1547,7 @@ app.get('/api/comments', async (req, res) => {
             console.error('提取评论失败:', error);
             throw error; // 让错误向上传递，以便更好地处理
           }
-        });
+        }, MAX_COMMENTS);
         
         await browser.close();
         

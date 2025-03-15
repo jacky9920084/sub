@@ -2,7 +2,7 @@ const express = require('express');
 const puppeteer = require('puppeteer');
 const NodeCache = require('node-cache');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const fs = require('fs');
 const path = require('path');
 
@@ -45,7 +45,46 @@ app.use((req, res, next) => {
 });
 
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+  // 计算服务运行时间
+  const uptime = process.uptime();
+  const uptimeHours = Math.floor(uptime / 3600);
+  const uptimeMinutes = Math.floor((uptime % 3600) / 60);
+  const uptimeSeconds = Math.floor(uptime % 60);
+  
+  // 获取内存使用情况
+  const memoryUsage = process.memoryUsage();
+  const memoryUsageMB = {
+    rss: (memoryUsage.rss / 1024 / 1024).toFixed(2) + 'MB',
+    heapTotal: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2) + 'MB',
+    heapUsed: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2) + 'MB',
+    external: (memoryUsage.external / 1024 / 1024).toFixed(2) + 'MB'
+  };
+  
+  // 获取CPU使用情况
+  const cpuUsage = process.cpuUsage();
+  
+  // 检查磁盘空间
+  const screenshotDirSize = fs.existsSync(screenshotDir) ? 
+    fs.readdirSync(screenshotDir).length : 0;
+  
+  res.json({
+    status: 'ok',
+    version: '1.2.0',
+    timestamp: new Date().toISOString(),
+    uptime: `${uptimeHours}h ${uptimeMinutes}m ${uptimeSeconds}s`,
+    memory: memoryUsageMB,
+    cpu: {
+      user: cpuUsage.user,
+      system: cpuUsage.system
+    },
+    storage: {
+      screenshots: screenshotDirSize
+    },
+    cache: {
+      size: cache.keys().length,
+      stats: cache.getStats()
+    }
+  });
 });
 
 app.get('/version', (req, res) => {
@@ -1733,6 +1772,99 @@ app.get('/api/comments', async (req, res) => {
               }
               
               // 其余评论提取代码...
+              // 查找评论容器
+              const commentContainer = document.querySelector('.comment-mainContent');
+              if (!commentContainer) {
+                console.log('未找到评论容器');
+                return {
+                  success: false,
+                  comments: [],
+                  error: '未找到评论容器'
+                };
+              }
+
+              // 查找所有评论项
+              const commentItems = commentContainer.querySelectorAll('[data-e2e="comment-item"]');
+              console.log('找到评论容器:', commentContainer ? '是' : '否');
+              console.log('找到评论项数量:', commentItems.length);
+
+              if (commentItems.length === 0) {
+                console.log('未找到评论项');
+                return {
+                  success: false,
+                  comments: [],
+                  error: '未找到评论项'
+                };
+              }
+
+              // 提取评论
+              const extractedComments = [];
+              for (let i = 0; i < Math.min(commentItems.length, MAX_COMMENTS); i++) {
+                const item = commentItems[i];
+                try {
+                  // 记录评论项的HTML结构，用于调试
+                  console.log(`评论${i + 1}的HTML结构:`, item.outerHTML);
+
+                  // 提取用户名
+                  const usernameElement = item.querySelector('[data-e2e="comment-user-name"], [class*="user-name"], [class*="nickname"]');
+                  const username = usernameElement?.textContent?.trim() || '提取失败';
+
+                  // 提取评论内容
+                  const contentElement = item.querySelector('[data-e2e="comment-content"], [class*="content"], [class*="text"]');
+                  const content = contentElement?.textContent?.trim() || '提取失败';
+
+                  // 提取点赞数
+                  const likeElement = item.querySelector('[class*="like-count"], [class*="digg"], .like span, .digg span');
+                  const likeCount = likeElement?.textContent?.trim() || '0';
+
+                  // 提取时间
+                  const timeElement = item.querySelector('[class*="time"], [data-e2e="comment-time"]');
+                  const time = timeElement?.textContent?.trim() || '';
+
+                  // 构建评论对象
+                  const comment = {
+                    username,
+                    content,
+                    likeCount,
+                    time,
+                    likeMethod: likeElement ? `选择器:${Array.from(likeElement.classList).join('.')}` : '未找到'
+                  };
+
+                  console.log(`成功提取评论${i + 1}:`, comment);
+                  extractedComments.push(comment);
+                } catch (err) {
+                  console.error(`提取评论${i + 1}时出错:`, err);
+                  extractedComments.push({
+                    username: '提取失败',
+                    content: '提取过程中出错',
+                    likeCount: '0',
+                    time: '',
+                    likeMethod: '提取出错'
+                  });
+                }
+              }
+
+              // 按点赞数排序
+              extractedComments.sort((a, b) => {
+                const likesA = parseLikes(a.likeCount);
+                const likesB = parseLikes(b.likeCount);
+                return likesB - likesA;
+              });
+
+              console.log('成功提取评论数量:', extractedComments.length);
+              console.log('按点赞数排序完成，前三条评论点赞数：');
+              console.log(extractedComments.slice(0, 3).map(c => `${parseLikes(c.likeCount)} (${c.likeCount})`).join(', '));
+
+              return {
+                success: true,
+                comments: extractedComments,
+                debug: {
+                  containerFound: !!commentContainer,
+                  totalItems: commentItems.length,
+                  extractedCount: extractedComments.length,
+                  firstItemHtml: commentItems[0]?.outerHTML || '无'
+                }
+              };
             } catch (error) {
               console.error('提取评论失败:', error);
               return {
@@ -2009,14 +2141,15 @@ app.get('/api/comments', async (req, res) => {
   }
 });
 
+// 启动服务器
 app.listen(port, '0.0.0.0', () => {
   console.log(`抖音评论API服务运行在 http://0.0.0.0:${port}`);
 });
-
+    
 // 全局错误处理设置
 process.on('uncaughtException', (error) => {
-  console.error('未捕获的异常:', error);
-  console.error('堆栈:', error.stack);
+  logger.error('未捕获的异常:', error);
+  logger.error('堆栈:', error.stack);
   
   // 记录日志
   addLog('critical', `未捕获的异常: ${error.message}`, {
@@ -2029,7 +2162,7 @@ process.on('uncaughtException', (error) => {
   if (error.message.includes('ENOMEM') || 
       error.message.includes('堆内存不足') || 
       error.message.includes('out of memory')) {
-    console.error('内存不足错误，服务将在3秒后退出...');
+    logger.error('内存不足错误，服务将在3秒后退出...');
     setTimeout(() => {
       process.exit(1);
     }, 3000);
@@ -2037,7 +2170,7 @@ process.on('uncaughtException', (error) => {
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error('未处理的Promise拒绝:', reason);
+  logger.error('未处理的Promise拒绝:', reason);
   
   // 记录日志
   addLog('warning', `未处理的Promise拒绝: ${reason}`, {
@@ -2064,246 +2197,6 @@ app.get('/api/logs', (req, res) => {
       type,
       count: recentLogs.filter(log => log.type === type).length
     }))
-  });
-});
-
-// 健康检查和API文档路由
-app.get('/', (req, res) => {
-  const docsHTML = `
-  <!DOCTYPE html>
-  <html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抖音评论爬取API文档</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        max-width: 1000px;
-        margin: 0 auto;
-        padding: 20px;
-        color: #333;
-      }
-      h1 {
-        color: #ff2d55;
-        border-bottom: 2px solid #eee;
-        padding-bottom: 10px;
-      }
-      h2 {
-        color: #007aff;
-        margin-top: 30px;
-      }
-      .endpoint {
-        background: #f5f5f7;
-        padding: 15px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-      }
-      .method {
-        font-weight: bold;
-        color: #34c759;
-      }
-      code {
-        background: #eee;
-        padding: 2px 5px;
-        border-radius: 4px;
-        font-family: monospace;
-      }
-      pre {
-        background: #282c34;
-        color: #abb2bf;
-        padding: 15px;
-        border-radius: 8px;
-        overflow-x: auto;
-      }
-      .status {
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 14px;
-        font-weight: bold;
-      }
-      .status.up {
-        background: #34c759;
-        color: white;
-      }
-      .status.warn {
-        background: #ffcc00;
-        color: black;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0;
-      }
-      th, td {
-        padding: 10px;
-        border: 1px solid #ddd;
-        text-align: left;
-      }
-      th {
-        background-color: #f5f5f7;
-      }
-      .screenshot {
-        max-width: 100%;
-        border-radius: 8px;
-        margin-top: 20px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      }
-    </style>
-  </head>
-  <body>
-    <h1>抖音评论爬取API文档</h1>
-    <div>
-      <p>服务状态: <span class="status up">运行中</span></p>
-      <p>版本: ${require('puppeteer/package.json').version} (Puppeteer)</p>
-      <p>服务启动时间: ${new Date().toLocaleString()}</p>
-    </div>
-    
-    <h2>API接口</h2>
-    <div class="endpoint">
-      <p><span class="method">GET</span> /api/comments</p>
-      <p>获取抖音视频评论数据，按点赞数排序。</p>
-      <h3>请求参数:</h3>
-      <table>
-        <tr>
-          <th>参数名</th>
-          <th>类型</th>
-          <th>必须</th>
-          <th>描述</th>
-        </tr>
-        <tr>
-          <td>url</td>
-          <td>string</td>
-          <td>是</td>
-          <td>抖音视频URL，如https://www.douyin.com/video/7123456789012345678</td>
-        </tr>
-      </table>
-      <h3>响应示例:</h3>
-      <pre>{
-  "success": true,
-  "url": "https://www.douyin.com/video/7123456789012345678",
-  "summary": {
-    "total": 42,
-    "hasLikes": true,
-    "processTime": 12345,
-    "commentCount": 42
-  },
-  "comments": [
-    {
-      "username": "抖音用户123456",
-      "text": "这个视频太有意思了！",
-      "likes": 1234,
-      "time": "3天前",
-      "raw_like_count": "1234",
-      "like_method": "selector:.VT7pNbtS"
-    },
-    ...
-  ],
-  "debug": { ... },
-  "screenshots": [
-    "http://localhost:3000/screenshots/douyin_1234567890_full.png",
-    "http://localhost:3000/screenshots/douyin_1234567890_comments.png"
-  ]
-}</pre>
-    </div>
-    
-    <div class="endpoint">
-      <p><span class="method">GET</span> /api/logs</p>
-      <p>获取服务日志信息。</p>
-      <h3>请求参数:</h3>
-      <table>
-        <tr>
-          <th>参数名</th>
-          <th>类型</th>
-          <th>必须</th>
-          <th>描述</th>
-        </tr>
-        <tr>
-          <td>type</td>
-          <td>string</td>
-          <td>否</td>
-          <td>日志类型，可选值：all, success, error, warning, info, critical。默认为all</td>
-        </tr>
-        <tr>
-          <td>limit</td>
-          <td>number</td>
-          <td>否</td>
-          <td>返回日志条数，默认50</td>
-        </tr>
-      </table>
-    </div>
-    
-    <div class="endpoint">
-      <p><span class="method">GET</span> /health</p>
-      <p>健康检查接口。</p>
-    </div>
-    
-    <div class="endpoint">
-      <p><span class="method">GET</span> /version</p>
-      <p>获取版本信息。</p>
-    </div>
-    
-    <h2>使用示例</h2>
-    <pre>fetch('http://localhost:3000/api/comments?url=https://www.douyin.com/video/7123456789012345678')
-  .then(response => response.json())
-  .then(data => console.log(data));</pre>
-    
-    <h2>注意事项</h2>
-    <ul>
-      <li>请求频率不宜过高，建议使用缓存结果</li>
-      <li>每次请求会返回截图，可用于调试</li>
-      <li>如果遇到反爬虫措施，可能需要更新选择器</li>
-    </ul>
-    
-  </body>
-  </html>
-  `;
-  res.send(docsHTML);
-});
-
-// 增强的健康检查
-app.get('/health', (req, res) => {
-  // 计算服务运行时间
-  const uptime = process.uptime();
-  const uptimeHours = Math.floor(uptime / 3600);
-  const uptimeMinutes = Math.floor((uptime % 3600) / 60);
-  const uptimeSeconds = Math.floor(uptime % 60);
-  
-  // 获取内存使用情况
-  const memoryUsage = process.memoryUsage();
-  const memoryUsageMB = {
-    rss: (memoryUsage.rss / 1024 / 1024).toFixed(2) + 'MB',
-    heapTotal: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2) + 'MB',
-    heapUsed: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2) + 'MB',
-    external: (memoryUsage.external / 1024 / 1024).toFixed(2) + 'MB'
-  };
-  
-  // 获取CPU使用情况
-  const cpuUsage = process.cpuUsage();
-  
-  // 检查磁盘空间
-  const screenshotDirSize = fs.existsSync(screenshotDir) ? 
-    fs.readdirSync(screenshotDir).length : 0;
-  
-  res.json({
-    status: 'ok',
-    version: '1.2.0',
-    timestamp: new Date().toISOString(),
-    uptime: `${uptimeHours}h ${uptimeMinutes}m ${uptimeSeconds}s`,
-    memory: memoryUsageMB,
-    cpu: {
-      user: cpuUsage.user,
-      system: cpuUsage.system
-    },
-    storage: {
-      screenshots: screenshotDirSize
-    },
-    cache: {
-      size: cache.keys().length,
-      stats: cache.getStats()
-    }
   });
 });
     

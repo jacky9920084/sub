@@ -1765,6 +1765,49 @@ app.get('/api/comments', async (req, res) => {
               
               console.log(`成功提取 ${extractedComments.length} 条评论`);
               
+              // 在浏览器环境中定义parseLikes函数
+              function parseLikes(likeText) {
+                if (!likeText) return 0;
+                
+                try {
+                  // 清理输入文本，去除非数字、小数点和"万"以外的字符
+                  const cleanText = likeText.toString().replace(/[^\d\.万]/g, '');
+                  
+                  // 处理"万"单位
+                  if (cleanText.includes('万')) {
+                    return parseFloat(cleanText.replace('万', '')) * 10000;
+                  }
+                  
+                  // 处理可能的科学计数法
+                  if (cleanText.includes('e') || cleanText.includes('E')) {
+                    return Math.round(parseFloat(cleanText));
+                  }
+                  
+                  // 处理纯数字
+                  const num = parseInt(cleanText, 10);
+                  if (!isNaN(num)) {
+                    return num;
+                  }
+                  
+                  // 处理小数
+                  const floatNum = parseFloat(cleanText);
+                  if (!isNaN(floatNum)) {
+                    return Math.round(floatNum);
+                  }
+                  
+                  // 如果以上都失败，尝试提取任何数字
+                  const numMatch = cleanText.match(/\d+/);
+                  if (numMatch) {
+                    return parseInt(numMatch[0], 10);
+                  }
+                  
+                  return 0;
+                } catch (err) {
+                  console.error('解析点赞数出错:', err, '原始文本:', likeText);
+                  return 0;
+                }
+              }
+              
               // 按点赞数排序评论
               const sortedComments = extractedComments.sort((a, b) => {
                 const likesA = parseLikes(a.likeCount);
@@ -1773,7 +1816,7 @@ app.get('/api/comments', async (req, res) => {
               });
               
               console.log('按点赞数排序完成，前三条评论点赞数：', 
-                sortedComments.slice(0, 3).map(c => c.likeCount).join(', '));
+                sortedComments.slice(0, 3).map(c => `${c.likeCount} (${parseLikes(c.likeCount)})`).join(', '));
               
               // 只返回排序后的前10条评论
               return sortedComments.slice(0, 10);

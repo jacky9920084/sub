@@ -1654,4 +1654,45 @@ app.listen(port, '0.0.0.0', () => {
 });
 
     
+//展示效果：
+[root@iZbp1ja8ewaitkxnh548twZ douyin-comments-api]# curl "http://localhost:3000/api/comments?url=https://www.douyin.com/video/7480873540087008538"
+{"success":true,"data":{"comments":[{"username":"何苦HEKU COFFEE ... 上一个视频是雷总十八岁和马云王健林董明珠同台的视频 ，三十年河东 三十年河西莫欺少年穷。加油干 2天前·四川 12 分享 回复","text":"何苦HEKU COFFEE ... 上一个视频是雷总十八岁和 马云王健林董明珠同台的视频，三十年河东 三十年河西莫欺少年穷。加油干 2天前·四川 12 分享 回复","likes":null,"time":"何苦HEKU COFFEE ... 上一个视频是雷总十八岁和马云王健林董明珠同台的视频，三十年河东 三十年河西莫欺少年穷。加油干 2天前·四川 12 分享 回复"},{"username":"... 我一个月5000  007告诉我下班能干嘛  躺下那一分钟我已经满足了 刚刚·贵州 0 分享 回复","text":"... 我一个月5000  007告诉我下班能干嘛  躺下那一分钟我已经满足了 刚刚·贵州 0 分享 回复","likes":null,"time":"... 我一个月5000  007告诉我下班能干嘛  躺下那一分钟我已经满足了 刚刚·贵州 0 分享 回复"},{"username":"王Ti ... 雷总，你的路还很长，我们的路也还很长，让我们在未来的路上越来越好 2天前·河南 91 分享 回复","text":"王Ti ... 雷总，你的路还很长，我们的路也还很 长，让我们在未来的路上越来越好 2天前·河南 91 分享 回复","likes":null,"time":"王Ti ... 雷总，你的路还很长，我们的路也还很长，让我们在未来的路上越来越好 2天前·河南 91 分享 回复"},{"username":"米阁崇华 ... 雷军大大你能关注一下米哈游说出2030年 创造的脑部虚拟仪器嘛（参考刀剑神域），现实好多人都想拥有一个理想的世界，让上班族们下班回家能体验新的开放模拟世界比如在虚拟世界跟玩家一起过田园或者打怪生活 2天前·广西 8 分享 回复 展开 2 条回复","text":"米阁崇华 ... 雷军大大你能关注一下米哈游说出2030年创造的脑部虚拟仪器嘛（参考刀剑神域），现实好多人都想拥有一个理想的世界，让上班族们下班回家能体验新的开放模拟世界比如在虚拟世界跟玩家一起过田园或者打怪生活 2天前·广西 8 分享 回复 展开 2 条回复","likes":null,"time":"米阁崇华 ... 雷 军大大你能关注一下米哈游说出2030年创造的脑部虚拟仪器嘛（参考刀剑神域），现实好多人都想拥有一个理想的世界，让上班族们下班回家能体验新的开放模拟世界比如在虚拟世界跟玩家一起过田园或者打怪生活 2天前·广西 8 分享 回复 展开 2 条回复"},{"username":"真爱坤 ... 别家积极解锁便利玩家，小米却封锁BL，真不懂用户要什么  当开放成为行业共识，小米却封锁BL，这决策实在短视  玩机自由是基本权益，小米封锁BL，无疑是背道而驰，令人唏嘘  科技进步在于开放，小米封锁BL限制用户，和时代趋势唱反调 1分钟前·广 东 0 分享 回复","text":"真爱坤 ... 别家积极解锁便利玩家，小米却封锁BL，真不懂用户要什么  当开放成为行业共识，小米却封锁BL，这决策实在短视  玩机自由是基本权益，小米封锁BL，无疑是背道而驰，令人唏嘘  科技进步在于开放，小米封锁BL限制用户，和时 代趋势唱反调 1分钟前·广东 0 分享 回复","likes":null,"time":"真爱坤 ... 别家积极解锁便利玩家，小米却封锁BL，真不懂用户要 什么  当开放成为行业共识，小米却封锁BL，这决策实在短视  玩机自由是基本权益，小米封锁BL，无疑是背道而驰，令人唏嘘  科技进步在于开放，小米封锁BL限制用户，和时代趋势唱反调 1分钟前·广东 0 分享 回复"}],"count":5,"url":"https://www.douyin.com/video/7480873540087008538"}}[root@iZbp1ja8ewaitkxnh548twZ douyin-comments-api]#
+
+
+eo/7480873540087008538"}}[root@iZbp1ja8ewaitkxnh548twZ douyin-comments-api]# pm2 logs server
+[TAILING] Tailing last 15 lines for [server] process (change the value with --lines option)
+/root/.pm2/logs/server-error.log last 15 lines:
+0|server   | 错误详情: ReferenceError: comments is not defined
+0|server   |     at /root/douyin-comments-api/server.js:1554:9
+0|server   |     at async withRetry (/root/douyin-comments-api/server.js:516:14)
+0|server   |     at async /root/douyin-comments-api/server.js:626:20
+0|server   | 尝试失败 (0/2): 未找到评论，请确保网页中评论区已加载
+0|server   | 尝试失败 (1/2): 未找到评论，请确保网页中评论区已加载
+0|server   | 尝试失败 (2/2): 未找到评论，请确保网页中评论区已加载
+0|server   | 处理请求时出错: Error: 未找到评论，请确保网页中评论区已加载
+0|server   |     at /root/douyin-comments-api/server.js:1555:17
+0|server   |     at async withRetry (/root/douyin-comments-api/server.js:516:14)
+0|server   |     at async /root/douyin-comments-api/server.js:626:20
+0|server   | 错误详情: Error: 未找到评论，请确保网页中评论区已加载
+0|server   |     at /root/douyin-comments-api/server.js:1555:17
+0|server   |     at async withRetry (/root/douyin-comments-api/server.js:516:14)
+0|server   |     at async /root/douyin-comments-api/server.js:626:20
+
+/root/.pm2/logs/server-out.log last 15 lines:
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 王Ti ... 雷总，你的路还很长，我们...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 王Ti ... 雷总，你的路还很长，我们...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 王Ti ... 雷总，你的路还很长，我们...
+0|server   | 页面控制台: 评论 3: JSHandle@object
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 米阁崇华 ... 雷军大大你能关注一下米...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 米阁崇华 ... 雷军大大你能关注一下米...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 米阁崇华 ... 雷军大大你能关注一下米...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 米阁崇华 ... 雷军大大你能关注一下米...
+0|server   | 页面控制台: 评论 4: JSHandle@object
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 真爱坤 ... 别家积极解锁便利玩家，小...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 真爱坤 ... 别家积极解锁便利玩家，小...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 真爱坤 ... 别家积极解锁便利玩家，小...
+0|server   | 页面控制台: 通过文本节点搜索找到内容: 真爱坤 ... 别家积极解锁便利玩家，小...
+0|server   | 页面控制台: 评论 5: JSHandle@object
+0|server   | 页面控制台: 成功提取 5 条评论
+
     

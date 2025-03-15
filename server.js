@@ -595,7 +595,7 @@ app.get('/api/page-debug', async (req, res) => {
     res.json(response);
     
   } catch (error) {
-    console.error(`页面分析失败: ${error.message}`);
+    console.error('页面分析失败: ', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -1244,11 +1244,8 @@ app.get('/api/comments', async (req, res) => {
           '--disable-accelerated-2d-canvas',
           '--disable-gpu',
           '--window-size=1920,1080',
-          '--hide-scrollbars',
           '--disable-notifications',
-          '--disable-extensions',
-          '--ignore-certificate-errors',
-          '--disable-web-security'
+          '--disable-extensions'
         ],
         defaultViewport: {
           width: 1920,
@@ -1260,59 +1257,22 @@ app.get('/api/comments', async (req, res) => {
         // 打开新页面
         const page = await browser.newPage();
         
-        // 应用指纹伪装
-        await setupBrowserEvasion(page);
-        
-        // 设置请求拦截
-        await page.setRequestInterception(true);
-        page.on('request', (req) => {
-          // 拦截图片和字体请求以加速加载
-          if (req.resourceType() === 'image' || req.resourceType() === 'font') {
-            req.abort();
-          } else {
-            req.continue();
-          }
-        });
-        
-        // 设置额外的头信息
-        await page.setExtraHTTPHeaders({
-          'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Connection': 'keep-alive',
-          'Upgrade-Insecure-Requests': '1',
-          'Sec-Fetch-Dest': 'document',
-          'Sec-Fetch-Mode': 'navigate',
-          'Sec-Fetch-Site': 'none',
-          'Sec-Fetch-User': '?1',
-          'sec-ch-ua': '"Chromium";v="120", "Google Chrome";v="120", "Not-A.Brand";v="99"',
-          'sec-ch-ua-mobile': '?0',
-          'sec-ch-ua-platform': '"Windows"'
-        });
-        
-        // 设置随机用户代理
-        const userAgent = getRandomUserAgent();
-        console.log('使用随机用户代理:', userAgent);
-        await page.setUserAgent(userAgent);
+        // 设置用户代理
+        await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
         
         console.log('正在访问URL:', url);
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
         console.log('页面已加载');
         
         // 等待页面加载
-        await page.waitForTimeout(5000);
+        await page.waitForTimeout(3000);
         
         // 检查是否在视频页面
         const isVideoPage = await page.evaluate(() => {
-          // 复用扩展程序的isVideoPage函数逻辑
-          console.log('检查是否在视频页面...');
-          
           // 检查URL是否包含视频标识
           const isVideoUrl = window.location.href.includes('/video/') || 
                             window.location.href.includes('modal_id=');
-          console.log('URL检查结果:', isVideoUrl);
-
+          
           // 检查是否存在视频相关元素
           const videoElements = [
             '.xgplayer-container',
@@ -1320,17 +1280,7 @@ app.get('/api/comments', async (req, res) => {
             '[data-e2e="video-player"]',
             '.video-container',
             'video',
-            '.swiper-slide-active',
-            '.video-card-container',
-            '.video-info-container',
-            '.UwR4pj2m',
-            '[data-e2e="video-container"]',
-            '.player-container',
-            '.swiper-wrapper',
-            '.modal-video-player',
-            '.modal-content-wrapper',
-            '[class*="videoContainer"]',
-            '[class*="player"]'
+            '.swiper-slide-active'
           ];
 
           const hasVideoElement = videoElements.some(selector => {
@@ -1352,16 +1302,12 @@ app.get('/api/comments', async (req, res) => {
         
         console.log('视频页面检测通过');
         
-        // 尝试点击"暂不登录"按钮，确保可以继续浏览
+        // 尝试点击"暂不登录"按钮
         await page.evaluate(() => {
-          const texts = ['暂不登录', '稍后再说', '暂不', '取消', '关闭', '稍后', '继续浏览'];
+          const texts = ['暂不登录', '稍后再说', '暂不', '取消', '关闭'];
           
-          // 查找包含特定文本的元素
           for (const text of texts) {
-            // 获取所有元素
             const elements = Array.from(document.querySelectorAll('*'));
-            
-            // 筛选出包含特定文本且可见的元素
             const matchingElements = elements.filter(el => {
               const hasText = el.innerText && el.innerText.includes(text);
               const isVisible = el.offsetWidth > 0 && el.offsetHeight > 0;
@@ -1369,7 +1315,6 @@ app.get('/api/comments', async (req, res) => {
             });
             
             if (matchingElements.length > 0) {
-              console.log(`找到包含"${text}"的元素`);
               try {
                 matchingElements[0].click();
                 console.log(`已点击包含"${text}"的元素`);
@@ -1383,761 +1328,60 @@ app.get('/api/comments', async (req, res) => {
           return false;
         });
         
-        // 检查评论区是否已打开，如果没有，需要点击打开
-        const isCommentSectionOpen = await page.evaluate(() => {
-          // 复用扩展程序的isCommentSectionOpen函数逻辑
-          console.log('检查评论区是否已打开...');
-          
-          // 先确保加载后滚动一下，有些页面需要滚动才显示评论控件
-          window.scrollBy(0, 300);
-          
-          // 检查评论区是否打开
-          const commentSelectors = [
-            '.comment-list',
-            '.comments-list',
-            '[data-e2e="comment-list"]',
-            '.comment-container',
-            '.ReplyList',
-            '.comment-card-list',
-            '.comment-mainContent',
-            '.BbQpYS1P',
-            '.comment-panel',
-            '[data-e2e="comment-panel"]',
-            '.comment-list-container',
-            '.ESlRXJ16',
-            '.comment-area',
-            '.comment-box',
-            '.comment-items',
-            '[class*="CommentList"]',
-            '[class*="commentList"]',
-            '[class*="comment-wrapper"]',
-            '.modal-comment-list',
-            '.modal-comments',
-            // PC版douyin特有的评论容器
-            '.comment-container',
-            '#commentArea',
-            '.comment-mainContent',
-            '[data-e2e="comment-mainContent"]',
-            '.EqzT2C1r',
-            '.commentWraper',
-            '.video-comment-container'
-          ];
-
-          for (const selector of commentSelectors) {
-            const elements = document.querySelectorAll(selector);
-            if (elements.length > 0) {
-              console.log('找到评论区元素:', selector, '数量:', elements.length);
-              // 检查评论区是否可见
-              const isVisible = Array.from(elements).some(el => {
-                const style = window.getComputedStyle(el);
-                return style.display !== 'none' && style.visibility !== 'hidden' && 
-                      (el.offsetWidth > 0 && el.offsetHeight > 0);
-              });
-              if (isVisible) {
-                return true;
-              }
-            }
-          }
-
-          return false;
-        });
+        // 使用我们新的评论提取函数
+        const comments = await getCommentsFromPage(page, url, 50);
         
-        console.log('评论区是否已打开:', isCommentSectionOpen);
+        // 截取评论区截图
+        const screenshotPath = path.join(screenshotDir, `comments_${Date.now()}.png`);
+        await page.screenshot({ path: screenshotPath });
         
-        // 如果评论区未打开，找到评论按钮并点击
-        if (!isCommentSectionOpen) {
-          console.log('评论区未打开，尝试点击评论按钮...');
-          
-          const commentBtnClicked = await page.evaluate(() => {
-            // 更新的评论按钮选择器 - 最新PC版抖音 - 2024年版本
-            const commentBtnSelectors = [
-              // 最新版本选择器优先尝试
-              '.O_IK7XKB', // 2024版评论按钮
-              '.comment-public-container', // 新版评论容器
-              '.video-info-detail .comment-count', // 视频详情评论数
-              '.xcx-video-comment', // 小程序视频评论
-              '.Akq9Uybc > span:nth-child(3)', // 操作栏第3个元素通常是评论
-              
-              // 通用选择器
-              '.xgplayer-comment', // 播放器中的评论按钮
-              '.UwR4pj2z', // 视频操作区评论按钮
-              '.pzPe9k2f', // 数据统计中的评论项
-              '.comment-icon', // 评论图标
-              '[data-e2e="comment-icon"]', // 评论数据属性
-              '[data-e2e="comment-count"]', // 评论数字
-              '.video-action-item:nth-child(2)', // 视频操作区第二个按钮通常是评论
-              '.aD0LGY4T', // 评论数字
-              '.bar-container svg:nth-child(2)', // 工具栏中的第二个图标通常是评论
-              '.yNI69HcY' // 新版视频操作栏
-            ];
-            
-            // 记录页面中的所有评论相关元素，帮助调试
-            const allCommentElements = Array.from(document.querySelectorAll('*')).filter(el => {
-              try {
-                const text = el.innerText || '';
-                const classes = el.className || '';
-                let classListArray = [];
-                
-                // 安全获取classList
-                if (el.classList) {
-                  try {
-                    classListArray = Array.from(el.classList);
-                  } catch (err) {
-                    console.error('获取classList时出错:', err);
-                  }
-                }
-                
-                return (safeIncludes(text, '评论') || 
-                        safeIncludes(text, '留言') || 
-                        safeIncludes(text, '条评论') || 
-                        safeIncludes(classes, 'comment') ||
-                        classListArray.some(c => safeIncludes(c, 'comment'))) && 
-                        el.offsetWidth > 0 && el.offsetHeight > 0;
-              } catch (error) {
-                console.error('过滤评论元素时出错:', error);
-                return false;
-              }
-            });
-            
-            console.log('找到的所有评论相关元素:', allCommentElements.map(el => ({
-              text: el.innerText,
-              tag: el.tagName,
-              className: typeof el.className === 'string' ? el.className : (el.classList ? Array.from(el.classList).join(' ') : '')
-            })));
-            
-            // 遍历选择器找评论按钮
-            for (const selector of commentBtnSelectors) {
-              const btns = document.querySelectorAll(selector);
-              if (btns.length > 0) {
-                console.log(`找到评论按钮: ${selector}, 数量: ${btns.length}`);
-                for (const btn of btns) {
-                  try {
-                    console.log(`尝试点击评论按钮: ${selector}, 内容: ${btn.innerText || '无文本'}`);
-                    
-                    // 先触发鼠标悬停事件，模拟真实用户行为
-                    const mouseoverEvent = new MouseEvent('mouseover', {
-                      view: window,
-                      bubbles: true,
-                      cancelable: true
-                    });
-                    btn.dispatchEvent(mouseoverEvent);
-                    
-                    // 短暂等待模拟真实用户行为
-                    let startTime = Date.now();
-                    while(Date.now() - startTime < 150) {}
-                    
-                    // 触发更完整的鼠标事件序列
-                    const events = ['mouseenter', 'mouseover', 'mousedown', 'mouseup', 'click'];
-                    for (const eventType of events) {
-                      const event = new MouseEvent(eventType, {
-                        view: window,
-                        bubbles: true,
-                        cancelable: true,
-                        buttons: 1
-                      });
-                      btn.dispatchEvent(event);
-                      // 小延迟使事件更自然 - 同样使用同步延迟
-                      startTime = Date.now();
-                      while(Date.now() - startTime < 50) {}
-                    }
-                    
-                    console.log(`已点击评论按钮: ${selector}`);
-                    return {success: true, selector};
-                  } catch (err) {
-                    console.error(`点击评论按钮失败: ${err.message}`);
-                  }
-                }
-              }
-            }
-            
-            return {success: false, message: '未找到评论按钮'};
-          });
-          
-          console.log('点击评论按钮结果:', commentBtnClicked);
-          
-          // 如果第一次尝试未成功，尝试第二种方法：根据文本内容查找并点击
-          if (!commentBtnClicked || !commentBtnClicked.success) {
-            console.log('尝试第二种方法查找评论按钮...');
-            
-            const commentTextBtnClicked = await page.evaluate(() => {
-              // 尝试寻找包含"评论"文字的任何元素 - 优先选择更可能的点击目标
-              const commentTexts = ['评论', '条评论', '查看评论', '留言', '条留言'];
-              
-              for (const text of commentTexts) {
-                // 获取所有元素
-                const elements = Array.from(document.querySelectorAll('*'));
-                
-                // 筛选出包含特定文本且可见、可能可点击的元素
-                const matchingElements = elements.filter(el => {
-                  const hasText = el.innerText && el.innerText.includes(text);
-                  const isVisible = el.offsetWidth > 0 && el.offsetHeight > 0;
-                  const isPossiblyClickable = 
-                    el.tagName === 'BUTTON' || 
-                    el.tagName === 'A' || 
-                    el.getAttribute('role') === 'button' || 
-                    el.onclick || 
-                    (typeof el.className === 'string' && 
-                      (el.className.includes('btn') || 
-                       el.className.includes('button') || 
-                       el.className.includes('click')));
-                  return hasText && isVisible && isPossiblyClickable;
-                });
-                
-                if (matchingElements.length > 0) {
-                  console.log(`找到包含"${text}"的可点击元素:`, matchingElements.map(e => ({
-                    tag: e.tagName,
-                    text: e.innerText,
-                    class: typeof e.className === 'string' ? e.className : (e.classList ? Array.from(e.classList).join(' ') : '')
-                  })));
-                  
-                  try {
-                    // 模拟真实用户点击
-                    const element = matchingElements[0];
-                    
-                    // 先模拟鼠标悬停
-                    const mouseoverEvent = new MouseEvent('mouseover', {
-                      view: window,
-                      bubbles: true,
-                      cancelable: true
-                    });
-                    element.dispatchEvent(mouseoverEvent);
-                    
-                    // 短暂等待
-                    let startWait = Date.now();
-                    while(Date.now() - startWait < 200) {}
-                    
-                    // 执行点击
-                    element.click();
-                    console.log(`已点击包含"${text}"的元素`);
-                    return {success: true, text: text};
-                  } catch (err) {
-                    console.error(`点击包含"${text}"的元素失败:`, err);
-                  }
-                }
-              }
-              
-              // 第三种方法：尝试点击视频区域，这有时会触发评论面板
-              try {
-                console.log('尝试点击视频区域...');
-                
-                // 查找视频相关元素
-                const videoElements = document.querySelectorAll('video, .xgplayer-video, .video-player, [data-e2e="video-player"]');
-                if (videoElements.length > 0) {
-                  const videoElement = videoElements[0];
-                  videoElement.click();
-                  console.log('已点击视频元素');
-                  
-                  // 短暂等待
-                  let videoClickWait = Date.now();
-                  while(Date.now() - videoClickWait < 500) {}
-                  
-                  // 点击视频下方区域，可能触发评论显示
-                  document.elementFromPoint(
-                    window.innerWidth / 2,
-                    videoElement.getBoundingClientRect().bottom + 50
-                  )?.click();
-                  
-                  return {success: true, method: 'video-area-click'};
-                }
-              } catch (err) {
-                console.error('点击视频区域失败:', err);
-              }
-              
-              return {success: false, message: '所有方法都未找到可点击的评论按钮'};
-            });
-            
-            console.log('第二次尝试结果:', commentTextBtnClicked);
-          }
-          
-          // 等待评论区加载 - 增加等待时间
-          await page.waitForTimeout(8000); // 增加到8秒
-        }
+        // 构造响应
+        const response = {
+          success: true,
+          url: url,
+          commentCount: comments.comments.length,
+          comments: comments.comments.map(comment => ({
+            index: comment.index,
+            username: comment.username,
+            content: comment.content,
+            likes: comment.likeCount,
+            originalLikeText: comment.originalLikeCount
+          })),
+          processTime: Date.now() - startTime,
+          timestamp: new Date().toISOString(),
+          screenshots: [`/screenshots/${path.basename(screenshotPath)}`]
+        };
         
-        // 滚动并等待评论加载
-        await page.evaluate(() => {
-          // 确保滚动到评论区可见并尝试多种交互方式激活评论加载
-          window.scrollBy(0, window.innerHeight / 2);
-          
-          // 尝试点击页面，有时这能触发评论加载
-          document.body.click();
-          
-          // 模拟按下End键，尝试滚动到底部
-          const endKeyEvent = new KeyboardEvent('keydown', {
-            key: 'End',
-            code: 'End',
-            keyCode: 35,
-            which: 35,
-            bubbles: true
-          });
-          document.body.dispatchEvent(endKeyEvent);
-        });
+        // 关闭浏览器
+        await browser.close();
         
-        // 再等待确保评论完全加载
-        await page.waitForTimeout(2000);
+        // 保存到缓存
+        cache.set(cacheKey, response, 3600); // 缓存1小时
         
-        // 如果comments仍然未定义，在这里捕获并处理
-        let comments = [];
-        try {
-          // 实现扩展程序的waitForComments逻辑
-          comments = await page.evaluate(async (MAX_COMMENTS) => {
-            try {
-              console.log('开始提取评论...');
-              
-              // 在页面环境中定义parseLikes函数，确保在浏览器环境中可用
-              // 浏览器环境中的点赞数解析函数
-              function parseLikes(likeText) {
-                if (!likeText) return 0;
-                
-                try {
-                  // 如果接收到的是对象，检查是否有value属性
-                  if (typeof likeText === 'object' && likeText !== null) {
-                    if (likeText.value) {
-                      likeText = likeText.value;
-                    } else if (likeText.found === false) {
-                      return 0; // 如果标记为未找到，返回0
-                    } else {
-                      return 0; // 未找到有效数据
-                    }
-                  }
-                  
-                  // 清理输入文本，去除非数字、小数点和"万"以外的字符
-                  const cleanText = likeText.toString().replace(/[^\d\.万]/g, '');
-                  
-                  // 检查是否为空字符串
-                  if (!cleanText || cleanText === '') {
-                    return 0;
-                  }
-                  
-                  // 处理"万"单位
-                  if (cleanText.includes('万')) {
-                    // 提取数字部分
-                    const numMatch = cleanText.match(/([\d\.]+)万/);
-                    if (numMatch && numMatch[1]) {
-                      return Math.round(parseFloat(numMatch[1]) * 10000);
-                    } else {
-                      // 尝试另一种模式
-                      const altMatch = cleanText.match(/([\d\.]+)/);
-                      if (altMatch && altMatch[1]) {
-                        return Math.round(parseFloat(altMatch[1]) * 10000);
-                      }
-                    }
-                    return 10000; // 如果仅有"万"字但无法提取数字，默认为1万
-                  }
-                  
-                  // 处理纯数字
-                  const num = parseInt(cleanText, 10);
-                  if (!isNaN(num)) {
-                    return num;
-                  }
-                  
-                  // 处理小数
-                  const floatNum = parseFloat(cleanText);
-                  if (!isNaN(floatNum)) {
-                    return Math.round(floatNum);
-                  }
-                  
-                  return 0;
-                } catch (err) {
-                  console.error('解析点赞数出错:', err, '原始文本:', likeText);
-                  return 0;
-                }
-              }
-              
-              // 确保safeIncludes函数在页面环境中定义
-              function safeIncludes(obj, searchString) {
-                if (!obj) return false;
-                
-                try {
-                  if (typeof obj === 'string') {
-                    return obj.includes(searchString);
-                  }
-                  
-                  if (Array.isArray(obj)) {
-                    return obj.some(item => 
-                      typeof item === 'string' && item.includes(searchString)
-                    );
-                  }
-                  
-                  if (typeof obj === 'object') {
-                    return Object.values(obj).some(val => 
-                      typeof val === 'string' && val.includes(searchString)
-                    );
-                  }
-                  
-                  return false;
-                } catch (err) {
-                  console.error('safeIncludes出错:', err);
-                  return false;
-                }
-              }
-              
-              // 其余评论提取代码...
-              // 查找评论容器
-              const commentContainer = document.querySelector('.comment-mainContent');
-              if (!commentContainer) {
-                console.log('未找到评论容器');
-                return {
-                  success: false,
-                  comments: [],
-                  error: '未找到评论容器'
-                };
-              }
-
-              // 查找所有评论项
-              const commentItems = commentContainer.querySelectorAll('[data-e2e="comment-item"]');
-              console.log('找到评论容器:', commentContainer ? '是' : '否');
-              console.log('找到评论项数量:', commentItems.length);
-
-              if (commentItems.length === 0) {
-                console.log('未找到评论项');
-                return {
-                  success: false,
-                  comments: [],
-                  error: '未找到评论项'
-                };
-              }
-
-              // 提取评论
-              const extractedComments = [];
-              for (let i = 0; i < Math.min(commentItems.length, MAX_COMMENTS); i++) {
-                const item = commentItems[i];
-                try {
-                  // 记录评论项的HTML结构，用于调试
-                  console.log(`评论${i + 1}的HTML结构:`, item.outerHTML);
-
-                  // 提取用户名
-                  const usernameElement = item.querySelector('[data-e2e="comment-user-name"], [class*="user-name"], [class*="nickname"]');
-                  const username = usernameElement?.textContent?.trim() || '提取失败';
-
-                  // 提取评论内容
-                  const contentElement = item.querySelector('[data-e2e="comment-content"], [class*="content"], [class*="text"]');
-                  const content = contentElement?.textContent?.trim() || '提取失败';
-
-                  // 提取点赞数
-                  const likeElement = item.querySelector('[class*="like-count"], [class*="digg"], .like span, .digg span');
-                  const likeCount = likeElement?.textContent?.trim() || '0';
-
-                  // 提取时间
-                  const timeElement = item.querySelector('[class*="time"], [data-e2e="comment-time"]');
-                  const time = timeElement?.textContent?.trim() || '';
-
-                  // 构建评论对象
-                  const comment = {
-                    username,
-                    content,
-                    likeCount,
-                    time,
-                    likeMethod: likeElement ? `选择器:${Array.from(likeElement.classList).join('.')}` : '未找到'
-                  };
-
-                  console.log(`成功提取评论${i + 1}:`, comment);
-                  extractedComments.push(comment);
-                } catch (err) {
-                  console.error(`提取评论${i + 1}时出错:`, err);
-                  extractedComments.push({
-                    username: '提取失败',
-                    content: '提取过程中出错',
-                    likeCount: '0',
-                    time: '',
-                    likeMethod: '提取出错'
-                  });
-                }
-              }
-
-              // 按点赞数排序
-              extractedComments.sort((a, b) => {
-                const likesA = parseLikes(a.likeCount);
-                const likesB = parseLikes(b.likeCount);
-                return likesB - likesA;
-              });
-
-              console.log('成功提取评论数量:', extractedComments.length);
-              console.log('按点赞数排序完成，前三条评论点赞数：');
-              console.log(extractedComments.slice(0, 3).map(c => `${parseLikes(c.likeCount)} (${c.likeCount})`).join(', '));
-
-              return {
-                success: true,
-                comments: extractedComments,
-                debug: {
-                  containerFound: !!commentContainer,
-                  totalItems: commentItems.length,
-                  extractedCount: extractedComments.length,
-                  firstItemHtml: commentItems[0]?.outerHTML || '无'
-                }
-              };
-            } catch (error) {
-              console.error('提取评论失败:', error);
-              return {
-                success: false,
-                error: error.toString(),
-                stack: error.stack,
-                url: window.location.href,
-                title: document.title
-              }; // 返回错误信息而不是抛出异常
-            }
-          }, MAX_COMMENTS);
-        
-          // 提取评论后检查结果
-          if (!comments || comments.length === 0) {
-            // 记录详细日志以便调试
-            console.error('评论提取结果为空，可能原因：1.评论区未正确加载 2.选择器不匹配 3.页面结构变化');
-            await browser.close();
-            throw new Error('未找到评论，请确保网页中评论区已加载');
-          }
-          
-          // 关闭浏览器
-          await browser.close();
-        
-          // 返回评论数据
-          return {
-            comments: comments.comments.map(comment => ({
-              username: comment.username,
-              text: comment.content, // 将content字段映射为text
-              likes: parseLikes(comment.likeCount), // 解析点赞数
-              time: comment.time,
-              raw_like_count: comment.likeCount, // 保留原始点赞数文本
-              debug: comment.debug // 保留调试信息
-            })),
-            count: comments.comments.length,
-            url: url,
-            raw_data: {
-              rawCommentCount: comments.rawCommentCount,
-              extractedCommentCount: comments.extractedCommentCount,
-              pageUrl: comments.pageUrl,
-              pageTitle: comments.pageTitle
-            },
-            screenshots: comments.screenshots.map(path => ({
-              path,
-              url: path.replace('/root/douyin-comments-api', '/screenshots')
-            }))
-          };
-        } catch (error) {
-          // 确保任何情况下浏览器都会被关闭
-          console.error('评论提取过程中出错:', error);
-          
-          try {
-            // 检查浏览器是否已关闭，如果未关闭则关闭
-            if (browser && typeof browser.close === 'function') {
-              await browser.close().catch(err => {
-                console.error('关闭浏览器时出错:', err);
-              });
-            }
-          } catch (closingError) {
-            console.error('尝试关闭浏览器时出错:', closingError);
-          }
-          
-          throw error;
-        }
-      } catch (err) {
-        // 确保关闭浏览器防止内存泄漏
-        try {
-          if (browser && typeof browser.close === 'function') {
-            await browser.close().catch(closeErr => {
-              console.error('关闭浏览器时出错:', closeErr);
-            });
-          }
-        } catch (browserCloseErr) {
-          console.error('尝试关闭浏览器时出错:', browserCloseErr);
-        }
-        
-        throw err;
+        return response;
+      } catch (error) {
+        // 确保浏览器关闭
+        await browser.close();
+        throw error;
       }
-    });
+    }, 2); // 最多重试2次
     
-    // 截图功能 - 无论评论提取成功还是失败都进行截图
-    const timestamp = Date.now();
-    const screenshotPathBase = `${screenshotDir}/douyin_${timestamp}`;
-    const screenshotPaths = [];
-    
-    try {
-      // 保存当前页面截图
-      const fullPagePath = `${screenshotPathBase}_full.png`;
-      await page.screenshot({ path: fullPagePath, fullPage: true });
-      screenshotPaths.push(fullPagePath);
-      console.log(`已保存完整页面截图: ${fullPagePath}`);
-      
-      // 尝试滚动并截图评论区
-      await page.evaluate(() => {
-        // 尝试找到评论区容器并滚动
-        const commentSelectors = [
-          '.comment-mainContent',
-          '.CMU_z1Vn',
-          '.UJ3DpJTM',
-          '#commentArea',
-          '[data-e2e="comment-list"]'
-        ];
-        
-        for (const selector of commentSelectors) {
-          const container = document.querySelector(selector);
-          if (container) {
-            container.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            return true;
-          }
-        }
-        
-        // 如果找不到具体的评论区，尝试滚动到页面中间
-        window.scrollTo(0, document.body.scrollHeight / 2);
-        return false;
-      });
-      
-      // 等待滚动完成
-      await page.waitForTimeout(1000);
-      
-      // 再截一张评论区截图
-      const commentsPath = `${screenshotPathBase}_comments.png`;
-      await page.screenshot({ path: commentsPath });
-      screenshotPaths.push(commentsPath);
-      console.log(`已保存评论区截图: ${commentsPath}`);
-      
-    } catch (screenshotError) {
-      console.error('截图时出错:', screenshotError);
-    }
-    
-    // 检查评论提取结果
-    if (!comments.success || !comments.comments || comments.comments.length === 0) {
-      const errorPath = `${screenshotPathBase}_error.png`;
-      try {
-        await page.screenshot({ path: errorPath, fullPage: true });
-        screenshotPaths.push(errorPath);
-        console.log(`已保存错误状态截图: ${errorPath}`);
-      } catch (e) {
-        console.error('保存错误截图时出错:', e);
-      }
-      
-      // 记录详细日志以便调试
-      console.error('评论提取结果有误:', JSON.stringify(comments, null, 2));
-      await browser.close();
-      
-      // 返回错误信息和截图路径
-      throw new Error(JSON.stringify({
-        error: true,
-        message: '未找到评论或提取失败',
-        details: comments,
-        screenshots: screenshotPaths.map(path => ({
-          path,
-          url: `http://localhost:${port}${path.replace(screenshotDir, '/screenshots')}`
-        }))
-      }));
-    }
-    
-    // 关闭浏览器
-    await browser.close();
-    
-    // 返回处理结果并保存到缓存
-    const responseData = {
-      success: true,
-      url: url,
-      summary: {
-        total: comments?.comments?.length || 0,
-        hasLikes: comments?.comments?.some(c => c?.likeCount && c?.likeCount !== '提取失败') || false,
-        processTime: Date.now() - startTime,
-        commentCount: comments?.comments?.length || 0,
-      },
-      comments: (comments?.comments || []).map(comment => ({
-        username: comment?.username || '提取失败',
-        text: comment?.text || comment?.content || '提取过程中出错',
-        likes: parseLikes(comment?.likeCount),
-        time: comment?.time || '',
-        raw_like_count: comment?.likeCount || '提取失败',
-        like_method: comment?.likeMethod || '',
-      })).sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 10), // 按点赞数排序，取前10条
-      debug: {
-        raw: comments?.debug || {},
-        firstComment: comments?.comments?.length > 0 ? comments.comments[0] : null,
-        commentCount: comments?.comments?.length || 0,
-        totalProcessingTime: `${Date.now() - startTime}ms`,
-        timestamp: new Date().toISOString()
-      },
-      screenshots: (screenshotPaths || []).map(path => `http://localhost:${port}/${path}`)
-    };
-    
-    // 记录成功日志
-    addLog('success', `成功爬取 ${comments?.comments?.length || 0} 条评论`, {
-      url,
-      commentCount: comments?.comments?.length || 0,
-      topComment: responseData.comments.length > 0 ? {
-        likes: responseData.comments[0].likes,
-        text: responseData.comments[0].text.substring(0, 50) + (responseData.comments[0].text.length > 50 ? '...' : '')
-      } : null,
-      processingTime: `${Date.now() - startTime}ms`,
-      screenshots: responseData.screenshots
-    });
-    
-    // 保存到缓存
-    cache.set(cacheKey, responseData);
-    
-    return responseData;
+    return res.json(result);
     
   } catch (error) {
-    console.error('处理请求时出错:', error);
-    console.error('错误详情:', error.stack);
+    console.error('处理评论请求时出错:', error);
     
-    // 解析错误信息，检查是否包含截图信息
-    let errorObj = error;
-    let screenshots = [];
-    let errorDetails = null;
-    
-    try {
-      // 检查错误是否包含JSON数据
-      const errorStr = error.message || error.toString();
-      if (typeof errorStr === 'string' && (errorStr.startsWith('{') || errorStr.includes('{"error":'))) {
-        try {
-          errorObj = JSON.parse(errorStr.substring(errorStr.indexOf('{')));
-          screenshots = errorObj.screenshots || [];
-          errorDetails = errorObj.details;
-        } catch (e) {
-          console.error('解析错误JSON失败:', e);
-        }
-      }
-    } catch (parseErr) {
-      console.error('处理错误对象时出错:', parseErr);
-    }
-    
-    // 根据错误类型返回不同的状态码和信息
-    let statusCode = 500;
-    let errorMessage = '无法获取评论';
-    let errorCategory = 'UNKNOWN_ERROR';
-    
-    if (error.message && error.message.includes('确保您在抖音视频页面')) {
-      statusCode = 400;
-      errorMessage = '无效的URL: ' + error.message;
-      errorCategory = 'INVALID_URL';
-    } else if (error.message && error.message.includes('未找到评论')) {
-      statusCode = 404;
-      errorMessage = '未找到评论: ' + error.message;
-      errorCategory = 'NO_COMMENTS_FOUND';
-    } else if (error.message && error.message.includes('Navigation timeout')) {
-      statusCode = 504;
-      errorMessage = '页面加载超时: 请检查网络连接或目标网站是否可访问';
-      errorCategory = 'TIMEOUT';
-    } else if (error.message && error.message.includes('net::ERR_')) {
-      statusCode = 503;
-      errorMessage = '网络错误: ' + error.message;
-      errorCategory = 'NETWORK_ERROR';
-    } else if (error.message && error.message.includes('context')) {
-      statusCode = 500;
-      errorMessage = '浏览器上下文错误: 可能是服务器资源不足';
-      errorCategory = 'BROWSER_ERROR';
-    }
-    
-    // 记录错误日志
-    addLog('error', errorMessage, {
-      url,
-      errorCategory,
-      timestamp: new Date().toISOString(),
-      processingTime: `${Date.now() - startTime}ms`
-    });
-    
-    res.status(statusCode).json({
+    // 构造清晰的错误响应
+    const errorResponse = {
       success: false,
-      error: errorMessage,
-      errorCategory,
-      originalError: error.message,
+      error: error.message,
       url: url,
       timestamp: new Date().toISOString(),
-      screenshots: screenshots,
-      errorDetails: errorDetails
-    });
+      processTime: Date.now() - startTime,
+      screenshotPath: '/screenshots/error.png'
+    };
+    
+    return res.status(500).json(errorResponse);
   }
 });
 
@@ -2199,5 +1443,328 @@ app.get('/api/logs', (req, res) => {
     }))
   });
 });
+    
+// 滚动加载更多评论
+async function scrollForComments(page, maxComments = 50) {
+  console.log('开始滚动加载更多评论...');
+  
+  let previousCommentCount = 0;
+  let noChangeCount = 0;
+  const maxScrollAttempts = 20;
+  
+  for (let i = 0; i < maxScrollAttempts; i++) {
+    // 获取当前评论数量
+    const currentCommentCount = await page.evaluate(() => {
+      const selectors = [
+        '[data-e2e="comment-item"]',
+        '.UuCzPLbi',
+        '.comment-item',
+        'div[class*="CommentItem"]'
+      ];
+      
+      for (const selector of selectors) {
+        const items = document.querySelectorAll(selector);
+        if (items.length > 0) {
+          return items.length;
+        }
+      }
+      return 0;
+    });
+    
+    console.log(`当前评论数量: ${currentCommentCount}, 滚动次数: ${i+1}/${maxScrollAttempts}`);
+    
+    // 如果评论数量达到目标或连续3次没有增加，则停止滚动
+    if (currentCommentCount >= maxComments) {
+      console.log(`已达到目标评论数量: ${currentCommentCount}`);
+      break;
+    }
+    
+    if (currentCommentCount === previousCommentCount) {
+      noChangeCount++;
+      if (noChangeCount >= 3) {
+        console.log(`连续 ${noChangeCount} 次评论数量未增加，停止滚动`);
+        break;
+      }
+    } else {
+      noChangeCount = 0;
+    }
+    
+    previousCommentCount = currentCommentCount;
+    
+    // 执行滚动
+    await page.evaluate(() => {
+      const selectors = [
+        '[data-e2e="comment-list"]',
+        '.comment-list',
+        '.comments-list',
+        '.comment-container',
+        '.ReplyList',
+        '.comment-mainContent'
+      ];
+      
+      for (const selector of selectors) {
+        const container = document.querySelector(selector);
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+          console.log(`已滚动评论容器: ${selector}`);
+          return true;
+        }
+      }
+      
+      // 如果没找到特定容器，尝试滚动整个页面
+      window.scrollTo(0, document.body.scrollHeight);
+      console.log('已滚动整个页面');
+      return true;
+    });
+    
+    // 等待新评论加载
+    await page.waitForTimeout(1000);
+  }
+}
+    
+// 评论提取主函数
+async function getCommentsFromPage(page, url, MAX_COMMENTS = 50) {
+  console.log('开始提取评论...');
+  const startTime = Date.now();
+  
+  // 1. 滚动加载更多评论
+  await scrollForComments(page, MAX_COMMENTS);
+  
+  // 2. 提取评论
+  const comments = await page.evaluate((MAX_COMMENTS) => {
+    console.log('开始评论提取...');
+    
+    // 定义点赞数解析函数
+    function parseLikes(likesStr) {
+      if (!likesStr) return 0;
+      const str = likesStr.trim().toLowerCase();
+      
+      try {
+        // 处理带单位的数字
+        if (str.includes('亿')) {
+          const num = parseFloat(str.replace(/亿.*$/, ''));
+          return Math.round(num * 100000000);
+        }
+        
+        if (str.includes('万')) {
+          const num = parseFloat(str.replace(/万.*$/, ''));
+          return Math.round(num * 10000);
+        }
+        
+        if (str.includes('k')) {
+          const num = parseFloat(str.replace(/k.*$/, ''));
+          return Math.round(num * 1000);
+        }
+        
+        // 处理小数点
+        if (str.includes('.')) {
+          return Math.round(parseFloat(str.replace(/[^\d.]/g, '')));
+        }
+        
+        // 处理普通数字
+        const num = parseInt(str.replace(/[^\d]/g, ''));
+        return isNaN(num) ? 0 : num;
+      } catch (e) {
+        console.error('解析点赞数出错:', likesStr, e);
+        return 0;
+      }
+    }
+    
+    // 查找评论容器
+    const commentContainerSelectors = [
+      '.comment-list',
+      '.comments-list',
+      '[data-e2e="comment-list"]',
+      '.comment-container',
+      '.ReplyList',
+      '.BbQpYS1P',
+      '.comment-panel',
+      '.ESlRXJ16',
+      '.comment-area',
+      '.comment-mainContent',
+      '.comment-box'
+    ];
+    
+    let commentContainer = null;
+    for (const selector of commentContainerSelectors) {
+      const container = document.querySelector(selector);
+      if (container) {
+        commentContainer = container;
+        console.log(`找到评论容器，使用选择器: ${selector}`);
+        break;
+      }
+    }
+    
+    if (!commentContainer) {
+      console.error('未找到评论容器');
+      return { comments: [], success: false, error: '未找到评论容器' };
+    }
+    
+    // 查找评论项
+    const commentItemSelectors = [
+      '.UuCzPLbi',
+      '[data-e2e="comment-item"]',
+      '.comment-item',
+      '.CommentItem',
+      '.comment-card',
+      '.BbQpYS1P',
+      '.comment-wrapper',
+      '.ESlRXJ16',
+      'div[class*="CommentItem"]',
+      'div[class*="comment-item"]',
+      'div[class*="commentItem"]',
+      '.comment-content-item'
+    ];
+    
+    let commentItems = [];
+    for (const selector of commentItemSelectors) {
+      const items = commentContainer.querySelectorAll(selector);
+      if (items && items.length > 0) {
+        commentItems = Array.from(items);
+        console.log(`找到 ${items.length} 条评论，使用选择器: ${selector}`);
+        break;
+      }
+    }
+    
+    if (commentItems.length === 0) {
+      console.error('未找到评论项');
+      return { comments: [], success: false, error: '未找到评论项' };
+    }
+    
+    // 限制评论数量
+    if (commentItems.length > MAX_COMMENTS) {
+      console.log(`评论数量超过限制，将截取前 ${MAX_COMMENTS} 条`);
+      commentItems = commentItems.slice(0, MAX_COMMENTS);
+    }
+    
+    // 提取评论数据
+    const extractedComments = [];
+    
+    for (let i = 0; i < commentItems.length; i++) {
+      const item = commentItems[i];
+      try {
+        console.log(`提取第 ${i+1} 条评论...`);
+        
+        // 提取用户名
+        const usernameSelectors = [
+          '[data-e2e="comment-user-name"]',
+          '.user-name',
+          '.username',
+          '.author-name',
+          '.comment-user',
+          '.user-nickname',
+          'span.xtTwhlGw',
+          '.arnSiSbK span',
+          '.arnSiSbK.xtTwhlGw span span span span'
+        ];
+        
+        let username = '未知用户';
+        for (const selector of usernameSelectors) {
+          const el = item.querySelector(selector);
+          if (el && el.textContent.trim()) {
+            username = el.textContent.trim();
+            break;
+          }
+        }
+        
+        // 提取评论内容
+        const contentSelectors = [
+          '[data-e2e="comment-content"]',
+          '.comment-content',
+          '.content-text',
+          '.comment-text',
+          '.text-content',
+          '.WFJiGxr7',
+          '.C7LroK_h .WFJiGxr7',
+          'p'
+        ];
+        
+        let content = '';
+        for (const selector of contentSelectors) {
+          const el = item.querySelector(selector);
+          if (el && el.textContent.trim()) {
+            content = el.textContent.trim();
+            break;
+          }
+        }
+        
+        // 如果选择器没找到，尝试用文本节点搜索
+        if (!content) {
+          const textNodes = [];
+          // 获取所有文本节点
+          const walker = document.createTreeWalker(item, NodeFilter.SHOW_TEXT);
+          let node;
+          while (node = walker.nextNode()) {
+            const text = node.textContent.trim();
+            if (text && text.length > 5 && !username.includes(text)) {
+              textNodes.push(text);
+            }
+          }
+          
+          if (textNodes.length > 0) {
+            // 取最长的文本作为评论内容
+            content = textNodes.reduce((longest, current) => 
+              current.length > longest.length ? current : longest, '');
+            console.log(`通过文本节点搜索找到内容: ${content.substring(0, 20)}...`);
+          }
+        }
+        
+        // 提取点赞数
+        const likeSelectors = [
+          '.xZhLomAs span',
+          '[class*="like-count"]',
+          '[class*="digg-count"]',
+          '[data-e2e="like-count"]',
+          '.like-num',
+          '.comment-like-count',
+          '[class*="like"] span',
+          '[class*="digg"] span',
+          'svg[class*="like"] + span',
+          '.LVdHm6YR',
+          '.NR5VYR6L'
+        ];
+        
+        let likeCount = '0';
+        for (const selector of likeSelectors) {
+          const el = item.querySelector(selector);
+          if (el && el.textContent.trim()) {
+            likeCount = el.textContent.trim();
+            console.log(`找到点赞数: ${likeCount}, 使用选择器: ${selector}`);
+            break;
+          }
+        }
+        
+        // 如果用户名和内容都不为空，才添加到结果中
+        if (content && content.length > 1) {
+          extractedComments.push({
+            username,
+            content,
+            likeCount: parseLikes(likeCount),
+            originalLikeCount: likeCount,
+            index: i + 1
+          });
+        }
+      } catch (err) {
+        console.error(`提取评论 ${i+1} 时出错:`, err);
+      }
+    }
+    
+    console.log(`成功提取 ${extractedComments.length} 条评论`);
+    
+    // 根据点赞数排序
+    extractedComments.sort((a, b) => b.likeCount - a.likeCount);
+    
+    return {
+      comments: extractedComments,
+      success: extractedComments.length > 0,
+      selectors: {
+        container: commentContainer ? commentContainer.className : '',
+        items: commentItems.length > 0 ? commentItems[0].className : ''
+      }
+    };
+  }, MAX_COMMENTS);
+  
+  return comments;
+}
     
     

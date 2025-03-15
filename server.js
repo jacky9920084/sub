@@ -476,7 +476,35 @@ app.get('/api/page-debug', async (req, res) => {
       ]
     };
     
-    res.json(result);
+    // 构造成功响应，添加更详细的信息
+    const response = {
+      success: true,
+      data: {
+        ...result,
+        url: url,
+        summary: {
+          extractedAt: new Date().toISOString(),
+          processingTime: `${Date.now() - startTime}ms`,  // 添加处理时间
+          source: "www.douyin.com",
+          commentCount: result.count,
+          hasLikes: result.comments.some(c => c.likes > 0),
+          topLikeCount: Math.max(...result.comments.map(c => c.likes || 0))
+        }
+      }
+    };
+    
+    // 添加错误处理和日志
+    console.log(`成功爬取 ${result.count} 条评论，按点赞数排序返回前 ${Math.min(result.count, 10)} 条`);
+    if (result.count > 0) {
+      console.log('排名第一的评论:', 
+        result.comments[0] ? 
+        `${result.comments[0].username.substring(0, 10)}...: ${result.comments[0].text.substring(0, 20)}...(${result.comments[0].likes}赞)` : 
+        '无评论');
+    }
+    
+    // 缓存结果
+    cache.set(cacheKey, response, CACHE_TTL);
+    res.json(response);
     
   } catch (error) {
     console.error(`页面分析失败: ${error.message}`);
@@ -812,9 +840,31 @@ function extractLikeCount(commentElement) {
   }
 }
 
+// 改进safeIncludes函数实现，提高健壮性
+function safeIncludes(obj, searchString) {
+  // 检查类型并安全地调用includes方法
+  if (!obj) return false;
+  
+  if (typeof obj === 'string') {
+    return obj.includes(searchString);
+  } else if (Array.isArray(obj)) {
+    return obj.includes(searchString);
+  } else if (obj && typeof obj.contains === 'function') {
+    // DOM元素的classList对象
+    return obj.contains(searchString);
+  } else if (obj && typeof obj.toString === 'function') {
+    // 处理其他可能的对象类型
+    return obj.toString().includes(searchString);
+  }
+  return false;
+}
+
 // 评论爬取API
 app.get('/api/comments', async (req, res) => {
   let url = req.query.url;
+  
+  // 记录处理开始时间
+  const startTime = Date.now();
   
   if (!url) {
     return res.status(400).json({ 
@@ -1257,11 +1307,30 @@ app.get('/api/comments', async (req, res) => {
             
             // 记录页面中的所有评论相关元素，帮助调试
             const allCommentElements = Array.from(document.querySelectorAll('*')).filter(el => {
-              const text = el.innerText || '';
-              const classes = el.className || '';
-              return (text.includes('评论') || text.includes('留言') || 
-                     text.includes('条评论') || classes.includes('comment')) && 
-                     el.offsetWidth > 0 && el.offsetHeight > 0;
+              try {
+                const text = el.innerText || '';
+                const classes = el.className || '';
+                let classListArray = [];
+                
+                // 安全获取classList
+                if (el.classList) {
+                  try {
+                    classListArray = Array.from(el.classList);
+                  } catch (err) {
+                    console.error('获取classList时出错:', err);
+                  }
+                }
+                
+                return (safeIncludes(text, '评论') || 
+                        safeIncludes(text, '留言') || 
+                        safeIncludes(text, '条评论') || 
+                        safeIncludes(classes, 'comment') ||
+                        classListArray.some(c => safeIncludes(c, 'comment'))) && 
+                        el.offsetWidth > 0 && el.offsetHeight > 0;
+              } catch (error) {
+                console.error('过滤评论元素时出错:', error);
+                return false;
+              }
             });
             
             console.log('找到的所有评论相关元素:', allCommentElements.map(el => ({
@@ -1810,13 +1879,29 @@ app.get('/api/comments', async (req, res) => {
               
               // 按点赞数排序评论
               const sortedComments = extractedComments.sort((a, b) => {
-                const likesA = parseLikes(a.likeCount);
-                const likesB = parseLikes(b.likeCount);
-                return likesB - likesA; // 倒序排列
+                try {
+                  const likesA = parseLikes(a.likeCount);
+                  const likesB = parseLikes(b.likeCount);
+                  return likesB - likesA; // 倒序排列
+                } catch (err) {
+                  console.error('排序评论时出错:', err);
+                  return 0; // 保持原有顺序
+                }
               });
               
-              console.log('按点赞数排序完成，前三条评论点赞数：', 
-                sortedComments.slice(0, 3).map(c => `${c.likeCount} (${parseLikes(c.likeCount)})`).join(', '));
+              // 完善的排序日志
+              console.log('按点赞数排序完成，前三条评论点赞数：');
+              try { 
+                console.log(sortedComments.slice(0, 3).map(c => {
+                  try {
+                    return `${c.likeCount || '0'} (${parseLikes(c.likeCount)})`;
+                  } catch (err) {
+                    return `${c.likeCount || '0'} (解析出错)`;
+                  }
+                }).join(', ')); 
+              } catch (err) {
+                console.error('输出排序结果时出错:', err);
+              }
               
               // 只返回排序后的前10条评论
               return sortedComments.slice(0, 10);
@@ -1826,43 +1911,86 @@ app.get('/api/comments', async (req, res) => {
             }
           }, MAX_COMMENTS);
         
-          await browser.close();
-        
+          // 提取评论后检查结果
           if (!comments || comments.length === 0) {
+            // 记录详细日志以便调试
+            console.error('评论提取结果为空，可能原因：1.评论区未正确加载 2.选择器不匹配 3.页面结构变化');
+            await browser.close();
             throw new Error('未找到评论，请确保网页中评论区已加载');
           }
-        } catch (error) {
-          console.error('评论提取函数执行失败:', error);
+          
+          // 关闭浏览器
           await browser.close();
+        
+          // 返回评论数据
+          return {
+            comments: comments.map(comment => ({
+              username: comment.username,
+              text: comment.content, // 将content字段映射为text
+              likes: parseLikes(comment.likeCount), // 解析点赞数
+              time: comment.time
+            })),
+            count: comments.length,
+            url: url
+          };
+        } catch (error) {
+          // 确保任何情况下浏览器都会被关闭
+          console.error('评论提取过程中出错:', error);
+          
+          try {
+            // 检查浏览器是否已关闭，如果未关闭则关闭
+            if (browser && typeof browser.close === 'function') {
+              await browser.close().catch(err => {
+                console.error('关闭浏览器时出错:', err);
+              });
+            }
+          } catch (closingError) {
+            console.error('尝试关闭浏览器时出错:', closingError);
+          }
+          
           throw error;
         }
-        
-        // 返回评论数据
-        return {
-          comments: comments.map(comment => ({
-            username: comment.username,
-            text: comment.content, // 将content字段映射为text
-            likes: parseLikes(comment.likeCount), // 解析点赞数
-            time: comment.time
-          })),
-          count: comments.length,
-          url: url
-        };
       } catch (err) {
         // 确保关闭浏览器防止内存泄漏
-        await browser.close();
+        try {
+          if (browser && typeof browser.close === 'function') {
+            await browser.close().catch(closeErr => {
+              console.error('关闭浏览器时出错:', closeErr);
+            });
+          }
+        } catch (browserCloseErr) {
+          console.error('尝试关闭浏览器时出错:', browserCloseErr);
+        }
+        
         throw err;
       }
     });
     
-    // 构造成功响应
+    // 构造成功响应，添加更详细的信息
     const response = {
       success: true,
       data: {
         ...result,
-        url: url
+        url: url,
+        summary: {
+          extractedAt: new Date().toISOString(),
+          processingTime: `${Date.now() - startTime}ms`,  // 添加处理时间
+          source: "www.douyin.com",
+          commentCount: result.count,
+          hasLikes: result.comments.some(c => c.likes > 0),
+          topLikeCount: Math.max(...result.comments.map(c => c.likes || 0))
+        }
       }
     };
+    
+    // 添加错误处理和日志
+    console.log(`成功爬取 ${result.count} 条评论，按点赞数排序返回前 ${Math.min(result.count, 10)} 条`);
+    if (result.count > 0) {
+      console.log('排名第一的评论:', 
+        result.comments[0] ? 
+        `${result.comments[0].username.substring(0, 10)}...: ${result.comments[0].text.substring(0, 20)}...(${result.comments[0].likes}赞)` : 
+        '无评论');
+    }
     
     // 缓存结果
     cache.set(cacheKey, response, CACHE_TTL);
@@ -1875,22 +2003,45 @@ app.get('/api/comments', async (req, res) => {
     // 根据错误类型返回不同的状态码和信息
     let statusCode = 500;
     let errorMessage = '无法获取评论';
+    let errorCategory = 'UNKNOWN_ERROR';
     
     if (error.message.includes('确保您在抖音视频页面')) {
       statusCode = 400;
       errorMessage = '无效的URL: ' + error.message;
+      errorCategory = 'INVALID_URL';
     } else if (error.message.includes('未找到评论')) {
       statusCode = 404;
       errorMessage = '未找到评论: ' + error.message;
+      errorCategory = 'NO_COMMENTS_FOUND';
     } else if (error.message.includes('Navigation timeout')) {
       statusCode = 504;
       errorMessage = '页面加载超时: 请检查网络连接或目标网站是否可访问';
+      errorCategory = 'TIMEOUT';
+    } else if (error.message.includes('net::ERR_')) {
+      statusCode = 503;
+      errorMessage = '网络错误: ' + error.message;
+      errorCategory = 'NETWORK_ERROR';
+    } else if (error.message.includes('context')) {
+      statusCode = 500;
+      errorMessage = '浏览器上下文错误: 可能是服务器资源不足';
+      errorCategory = 'BROWSER_ERROR';
     }
+    
+    // 记录错误日志
+    addLog('error', errorMessage, {
+      url,
+      errorCategory,
+      timestamp: new Date().toISOString(),
+      processingTime: `${Date.now() - startTime}ms`
+    });
     
     res.status(statusCode).json({
       success: false,
       error: errorMessage,
-      originalError: error.message
+      errorCategory,
+      originalError: error.message,
+      url: url,
+      timestamp: new Date().toISOString()
     });
   }
 });

@@ -1644,582 +1644,45 @@ app.get('/api/comments', async (req, res) => {
             try {
               console.log('开始提取评论...');
               
-              // 2025年最新PC版抖音评论选择器
-              const selectors = {
-                commentItem: [
-                  // 2025最新版首选选择器 
-                  '.ZrN9g8J3', // 2025版评论容器项
-                  '.xPUO2JV5', // 2025版评论项
-                  '.OipmUZLO', // 2025版评论内容容器
-                  '.YvccbM1F', // 2025版评论项包装器
-                  '.RHiEl2W9', // 2025版评论项新布局
-                  // 以前版本的选择器（兼容性）
-                  '.comment-mainContent-item', // 主评论项
-                  '.VlUSW36j',  // 新版评论项基类
-                  '.Y0zLXVVj',  // 新版视频评论列表项
-                  '.n46QrfWK',  // 新版评论项容器
-                  '.comment-item-v2', // 新版评论项v2
-                  '[data-e2e="comment-list-item"]', // 评论列表项
-                  '.comment-item-container', // 评论项容器
-                  '.Qu86aRTU', // 新版评论内容
-                  
-                  // 通用备选选择器
-                  '.comment-item',
-                  '.CommentItem',
-                  '[data-e2e="comment-item"]',
-                  '.comment-card',
-                  '.BbQpYS1P',
-                  '.comment-wrapper',
-                  '.ESlRXJ16',
-                  'div[class*="CommentItem"]',
-                  'div[class*="comment-item"]',
-                  'div[class*="commentItem"]',
-                  '.comment-content-item',
-                  '[class*="CommentWrapper"]',
-                  '[class*="commentWrapper"]',
-                  '[class*="comment-content"]',
-                  '[class*="commentContent"]',
-                  '.WM0DtUw9',
-                  '.comment-list-item',
-                  '.AiLUjvzO'
-                ],
-                username: [
-                  // 2025最新选择器
-                  '.ZH1HPMS7', // 2025年用户名选择器 
-                  '.R9sH4NwP', // 2025年新版用户名
-                  '.uHGrB1fP', // 2025年账号名称
-                  // 以前版本的选择器
-                  '.iCbgYSqA', // 2024用户名选择器
-                  '.FbQxz6vC', // 新版用户名
-                  '.user-name', // 标准用户名
-                  '[data-e2e="comment-user-name"]', // 官方用户名标记
-                  '.comment-user-name', // 评论用户名
-                  '.JYcxTg2t', // 新版用户名选择器
-                  '.r5Ole23P', // 另一个用户名样式
-                  '.M0rK4QlG', // 另一个用户名类
-                  
-                  // 通用备选选择器
-                  '.nickname',
-                  '.user-nickname',
-                  '.author-name',
-                  '.user-info-name',
-                  '.username',
-                  '.user span',
-                  '.name',
-                  '.avatar-wrapper + span',
-                  '.avatar-wrapper + div',
-                  '.avatar + span',
-                  '.comment-user-nickname',
-                  '.user-info-wrapper .user-name',
-                  '.iUCrKsbK',
-                  '.user-info .Avq4cm4k',
-                  '.comment-item-v2 .user span'
-                ],
-                content: [
-                  // 2025最新选择器
-                  '.QT5MuNL7', // 2025年评论内容
-                  '.TjxZ9KZY', // 2025年评论文本容器
-                  '.PyZcBKFb', // 2025年评论文本
-                  // 以前版本的选择器
-                  '.Qu86aRTU', // 新版评论内容
-                  '.X2jHbVhh', // 评论文本
-                  '.comment-content', // 标准评论内容
-                  '[data-e2e="comment-content"]', // 官方评论内容标记
-                  '.content-text', // 内容文本
-                  
-                  // 通用备选选择器
-                  '.content', 
-                  '.text-content',
-                  '.comment-text',
-                  '.text',
-                  '.comment-item-text',
-                  '.comment p',
-                  '.comment-message',
-                  '.comment-info',
-                  '.message',
-                  '.comment div:not(.info):not(.user):not(.actions)',
-                  '.comment-wrapper div:not(.info):not(.avatar):not(.actions)',
-                  '.comment-item-v2 .content',
-                  '.WM0DtUw9 p',
-                  '.AiLUjvzO .content'
-                ],
-                time: [
-                  // 2025最新选择器
-                  '.LaB7V9HW', // 2025年时间戳
-                  '.Hs8JdGWC', // 2025年时间信息
-                  '.NxAbJMuK', // 2025年发布时间
-                  // 以前版本的选择器
-                  '.TYGfQcFR', // 新版时间戳
-                  '.kqzEMvnb', // 另一个时间选择器
-                  '.comment-time', // 标准评论时间
-                  '.time-info', // 时间信息
-                  
-                  // 通用备选选择器
-                  '.time', 
-                  '.date',
-                  '.comment-date',
-                  '.publish-time',
-                  '.timestamp',
-                  '.created-at',
-                  '.posted-time',
-                  '.create-time',
-                  '.msg-create-time',
-                  '.gkA8hAR1',
-                  '.Uehud6Vf',
-                  '.comment-item-v2 .time',
-                  '.WM0DtUw9 .time',
-                  '.AiLUjvzO .time'
-                ],
-                likeCount: [
-                  // 2025最新选择器
-                  '.VT7pNbtS', // 2025年点赞计数
-                  '.H7vvGdTQ', // 2025年点赞数容器
-                  '.Bc8CPX9M', // 2025年点赞按钮
-                  // 以前版本的选择器
-                  '.gRi_qw_5', // 新版点赞计数
-                  '.digg-count', // 赞数量
-                  '.like-btn .count', // 赞按钮数量
-                  '.like-count-wrapper', // 点赞计数包装器
-                  '.praise-count', // 点赞数
-                  
-                  // 通用备选选择器
-                  '.like-count', 
-                  '.thumb-count',
-                  '.like-num',
-                  '.like',
-                  '.digg',
-                  '.comment-like',
-                  '.like span',
-                  '.digg span',
-                  '.praise-num',
-                  '.mT0SUjcw span',
-                  '.digg-btn span',
-                  '.comment-item-v2 .digg-count',
-                  '.WM0DtUw9 .digg',
-                  '.AiLUjvzO .like-count'
-                ]
-              };
-              
-              // 改进的查找元素内容函数
-              const findWithSelectors = (element, selectorList) => {
-                const results = { 
-                  found: false, 
-                  value: '', 
-                  usedSelector: '',
-                  allAttempts: [] 
-                };
-                
-                for (const selector of selectorList) {
-                  try {
-                    const elements = element.querySelectorAll(selector);
-                    const visibleElements = Array.from(elements).filter(el => {
-                      const style = window.getComputedStyle(el);
-                      return style.display !== 'none' && style.visibility !== 'hidden' && 
-                            el.offsetWidth > 0 && el.offsetHeight > 0;
-                    });
-                    
-                    const attempt = {
-                      selector,
-                      count: elements.length,
-                      visibleCount: visibleElements.length,
-                      content: visibleElements.length > 0 ? visibleElements[0].innerText.trim() : 'none'
-                    };
-                    
-                    results.allAttempts.push(attempt);
-                    
-                    if (visibleElements.length > 0) {
-                      // 记录找到的元素，帮助调试
-                      console.log(`找到内容，使用选择器: ${selector}，内容: ${visibleElements[0].innerText.trim().substring(0, 20)}${visibleElements[0].innerText.trim().length > 20 ? '...' : ''}`);
-                      results.found = true;
-                      results.value = visibleElements[0].innerText.trim();
-                      results.usedSelector = selector;
-                      return results;
-                    }
-                  } catch (e) {
-                    console.error(`选择器 "${selector}" 出错:`, e);
-                    results.allAttempts.push({
-                      selector,
-                      error: e.toString()
-                    });
-                  }
-                }
-                
-                // 如果没有找到，尝试查找任何文本节点
-                try {
-                  const walkTextNodes = (el) => {
-                    let text = '';
-                    if (el.childNodes.length === 0 && el.textContent && el.textContent.trim()) {
-                      return el.textContent.trim();
-                    }
-                    
-                    for (const child of el.childNodes) {
-                      if (child.nodeType === 3 && child.textContent && child.textContent.trim()) { // 文本节点
-                        text += ' ' + child.textContent.trim();
-                      } else if (child.nodeType === 1) { // 元素节点
-                        text += ' ' + walkTextNodes(child);
-                      }
-                    }
-                    return text.trim();
-                  };
-                  
-                  const text = walkTextNodes(element);
-                  if (text) {
-                    console.log(`通过文本节点搜索找到内容: ${text.substring(0, 20)}${text.length > 20 ? '...' : ''}`);
-                    results.found = true;
-                    results.value = text;
-                    results.usedSelector = 'textNode';
-                    return results;
-                  }
-                } catch (e) {
-                  console.error('查找文本节点时出错:', e);
-                  results.allAttempts.push({
-                    selector: 'textNode',
-                    error: e.toString()
-                  });
-                }
-                
-                return results;
-              };
-              
-              // 改进点赞数提取函数
-              const extractLikeCount = (commentElement) => {
-                const results = {
-                  found: false,
-                  value: '0',
-                  method: '',
-                  allAttempts: []
-                };
-                
-                try {
-                  // 尝试多种方式提取点赞数
-                  
-                  // 1. 首先尝试查找常见的点赞数容器
-                  const likeSelectors = [
-                    // 新增2025年最新选择器
-                    '.UJliHmHF', // 新增-最新点赞数容器
-                    '.z8n8JKcz', // 新增-点赞计数器 
-                    '.VsAqHUEt', // 新增-点赞按钮
-                    // 2025新版选择器
-                    'svg + span', 
-                    '.VT7pNbtS', // 2025年点赞计数
-                    '.H7vvGdTQ', // 2025年点赞数容器
-                    '.Bc8CPX9M', // 2025年点赞按钮
-                    '.qzGBUiME', // 可能的新版点赞容器
-                    // 图片中看到的点赞数选择器（红色框内）
-                    'svg:nth-child(3) + span', // 评论内第三个SVG图标后的数字
-                    '.comment-action span', // 评论操作区的数字
-                    // 通用选择器
-                    '[class*="like-count"]',
-                    '[class*="digg"]', 
-                    '[class*="vote"]',
-                    '.like-count',
-                    '.digg-count',
-                    // 相邻元素选择器
-                    'svg[class*="like"] + span',
-                    'svg[class*="digg"] + span',
-                    '.like span',
-                    '.digg span',
-                    // 更多通用选择器
-                    '.action-number',
-                    '[class*="action"] span',
-                    '[class*="praise"] span',
-                    '[class*="thumb"] span',
-                    // 尝试使用更通用的属性选择器
-                    '[class*="like"]',
-                    '[class*="digg"]',
-                    '[class*="vote"]',
-                    '[class*="praise"]'
-                  ];
-                  
-                  for (const selector of likeSelectors) {
-                    try {
-                      const elements = commentElement.querySelectorAll(selector);
-                      const attempt = {
-                        selector,
-                        count: elements.length,
-                        elements: Array.from(elements).map(el => ({
-                          text: el.textContent.trim(),
-                          html: el.outerHTML.substring(0, 100),
-                          className: el.className
-                        })).slice(0, 3) // 最多保存3个结果
-                      };
-                      
-                      results.allAttempts.push(attempt);
-                      
-                      for (const el of elements) {
-                        const text = el.textContent.trim();
-                        // 匹配数字和可能的"万"字
-                        const match = text.match(/(\d+(\.\d+)?)(万)?/);
-                        if (match) {
-                          console.log(`找到点赞数: ${match[0]}, 使用选择器: ${selector}`);
-                          results.found = true;
-                          results.value = match[0];
-                          results.method = `selector:${selector}`;
-                          return results;
-                        }
-                      }
-                    } catch (err) {
-                      console.error(`使用选择器 "${selector}" 提取点赞数时出错:`, err);
-                      results.allAttempts.push({
-                        selector,
-                        error: err.toString()
-                      });
-                    }
-                  }
-                  
-                  // 2. 尝试从评论文本中提取
-                  const commentText = commentElement.textContent;
-                  
-                  // 匹配常见模式
-                  const patterns = [
-                    /(\d+(\.\d+)?万?)\s*分享/, // "123 分享"或"1.2万 分享"
-                    /(\d+(\.\d+)?万?)\s*回复/, // "123 回复"或"1.2万 回复"
-                    /·[^·]*?(\d+(\.\d+)?万?)/, // 点号后的数字，通常是点赞数
-                    /赞\s*(\d+(\.\d+)?万?)/, // "赞 123"或"赞 1.2万"
-                    /(\d+(\.\d+)?万?)\s*赞/, // "123 赞"或"1.2万 赞"
-                    /[\d\.]+万?[^\d]*$/ // 评论末尾的数字
-                  ];
-                  
-                  for (const pattern of patterns) {
-                    try {
-                      const match = commentText.match(pattern);
-                      if (match && match[1]) {
-                        console.log(`从评论文本中使用模式 ${pattern} 提取到点赞数: ${match[1]}`);
-                        results.found = true;
-                        results.value = match[1];
-                        results.method = `pattern:${pattern}`;
-                        return results;
-                      }
-                    } catch (err) {
-                      console.error(`使用模式 "${pattern}" 提取点赞数时出错:`, err);
-                      results.allAttempts.push({
-                        pattern: pattern.toString(),
-                        error: err.toString()
-                      });
-                    }
-                  }
-                  
-                  // 3. 其他策略：查找只包含数字的短文本元素
-                  try {
-                    const textNodes = Array.from(commentElement.querySelectorAll('*'))
-                      .filter(el => {
-                        const text = el.textContent.trim();
-                        // 仅包含数字和可能的"万"字的短文本
-                        return text.length < 10 && /^(\d+(\.\d+)?(万)?)$/.test(text);
-                      });
-                    
-                    if (textNodes.length > 0) {
-                      // 对于多个匹配，尝试找出最可能是点赞数的元素（通常位于评论底部区域）
-                      // 按元素在评论中的垂直位置排序，偏下方的更可能是点赞数
-                      textNodes.sort((a, b) => {
-                        const rectA = a.getBoundingClientRect();
-                        const rectB = b.getBoundingClientRect();
-                        return rectB.top - rectA.top; // 排序，底部元素优先
-                      });
-                      
-                      results.allAttempts.push({
-                        method: 'textNodeFilter',
-                        count: textNodes.length,
-                        nodes: textNodes.slice(0, 5).map(node => node.textContent) // 最多5个
-                      });
-                      
-                      console.log(`找到可能的点赞数元素: ${textNodes[0].textContent}`);
-                      results.found = true;
-                      results.value = textNodes[0].textContent;
-                      results.method = 'textNodePosition';
-                      return results;
-                    }
-                  } catch (err) {
-                    console.error('查找数字文本节点时出错:', err);
-                    results.allAttempts.push({
-                      method: 'textNodeFilter',
-                      error: err.toString()
-                    });
-                  }
-                  
-                  // 4. 尝试通过图片识别 - 记录图像元素的存在
-                  try {
-                    const images = commentElement.querySelectorAll('img, svg');
-                    if (images.length > 0) {
-                      results.allAttempts.push({
-                        method: 'images',
-                        count: images.length,
-                        types: Array.from(images).map(img => img.tagName)
-                      });
-                    }
-                  } catch (err) {
-                    console.error('检查图像元素时出错:', err);
-                  }
-                  
-                  return results;
-                } catch (err) {
-                  console.error('提取点赞数主函数出错:', err);
-                  results.allAttempts.push({
-                    method: 'main',
-                    error: err.toString()
-                  });
-                  return results;
-                }
-              };
-              
-              // 寻找评论项 - 遍历多个容器选择器
-              const containerSelectors = [
-                // 2025年最新版抖音评论容器
-                '.UJ3DpJTM', // 2025版主评论区
-                '.RzKJpP2S', // 2025版评论列表容器 
-                '.OxhJfHrE', // 2025版公共评论区
-                '.KzPVzIKf', // 2025版评论面板新布局
-                // 以前版本的容器
-                '.comment-mainContent', // 主评论内容区
-                '.CMU_z1Vn', // 新版评论列表容器 
-                '.comment-public-container', // 新版公共评论容器
-                '.lVaCGvQq', // 新版评论面板
-                '#commentArea', // 评论区ID
-                '[data-e2e="comment-list"]', // 官方评论列表标记
-                '.comment-container', // 标准评论容器
-                
-                // 通用备选容器
-                '.comment-list',
-                '.comments-list',
-                '.ReplyList',
-                '.BbQpYS1P',
-                '.comment-panel',
-                '.ESlRXJ16',
-                '.comment-area',
-                '[class*="CommentList"]',
-                '[class*="commentList"]',
-                '.modal-comment-list',
-                '.modal-comments',
-                '.EqzT2C1r',
-                '.commentWraper',
-                '.video-comment-container',
-                '.comment-list-container'
-              ];
-              
-              // 首先尝试在容器中寻找评论
-              let commentItems = [];
-              
-              for (const containerSelector of containerSelectors) {
-                const containers = document.querySelectorAll(containerSelector);
-                if (containers.length > 0) {
-                  console.log(`找到评论容器: ${containers.length}个, 使用选择器: ${containerSelector}`);
-                  
-                  // 遍历容器尝试找评论项
-                  for (const container of containers) {
-                    for (const selector of selectors.commentItem) {
-                      const items = container.querySelectorAll(selector);
-                      if (items.length > 0) {
-                        console.log(`在容器中找到评论项: ${items.length}个, 使用选择器: ${selector}`);
-                        commentItems = Array.from(items);
-                        break;
-                      }
-                    }
-                    if (commentItems.length > 0) break;
-                  }
-                }
-                if (commentItems.length > 0) break;
-              }
-              
-              // 如果在容器中没找到，尝试直接在整个页面中查找
-              if (commentItems.length === 0) {
-                for (const selector of selectors.commentItem) {
-                  const items = document.querySelectorAll(selector);
-                  if (items.length > 0) {
-                    console.log(`直接在页面中找到评论项: ${items.length}个，使用选择器: ${selector}`);
-                    commentItems = Array.from(items);
-                    break;
-                  }
-                }
-              }
-              
-              console.log(`共找到 ${commentItems.length} 个评论项`);
-              
-              // 如果没有找到评论项，记录更详细的信息
-              if (commentItems.length === 0) {
-                return {
-                  error: true,
-                  errorType: 'NO_COMMENTS_FOUND',
-                  message: '未找到评论项',
-                  debugInfo: {
-                    url: window.location.href,
-                    title: document.title,
-                    bodyText: document.body.innerText.substring(0, 1000) + '...',
-                    containerSelectors: containerSelectors,
-                    commentSelectors: selectors.commentItem
-                  }
-                };
-              }
-              
-              // 提取每条评论的数据
-              const extractedComments = Array.from(commentItems).slice(0, MAX_COMMENTS).map((item, index) => {
-                try {
-                  // 提取每条评论的数据 - 使用改进的提取函数
-                  const username = findWithSelectors(item, selectors.username);
-                  const content = findWithSelectors(item, selectors.content);
-                  const timeStr = findWithSelectors(item, selectors.time);
-                  
-                  // 使用新的点赞数提取函数
-                  const likeCount = extractLikeCount(item);
-                  
-                  // 记录日志
-                  console.log(`评论 ${index + 1}:`, {
-                    username: username.found ? username.value : '未找到用户名',
-                    content: content.found ? (content.value.length > 20 ? content.value.substring(0, 20) + '...' : content.value) : '未找到内容',
-                    time: timeStr.found ? timeStr.value : '未找到时间',
-                    likeCount: likeCount.found ? likeCount.value : '未找到点赞数'
-                  });
-                  
-                  // 返回包含更多原始信息的结构
-                  return {
-                    username: username.found ? username.value : '未知用户',
-                    content: content.found ? content.value : '无内容',
-                    time: timeStr.found ? timeStr.value : '',
-                    likeCount: likeCount.found ? likeCount.value : '0',
-                    // 添加调试信息
-                    debug: {
-                      usernameDetails: username,
-                      contentDetails: content,
-                      timeDetails: timeStr,
-                      likeCountDetails: likeCount,
-                      commentHtml: item.outerHTML.substring(0, 500) + (item.outerHTML.length > 500 ? '...' : '')
-                    }
-                  };
-                } catch (err) {
-                  console.error(`提取评论 ${index + 1} 时出错:`, err);
-                  return {
-                    username: '提取失败',
-                    content: `提取过程中出错: ${err.message || err}`,
-                    time: '',
-                    likeCount: '0',
-                    error: err.toString(),
-                    // 尝试保存评论HTML，即使提取失败
-                    debug: {
-                      error: err.toString(),
-                      stack: err.stack,
-                      commentHtml: item ? (item.outerHTML ? item.outerHTML.substring(0, 500) + '...' : '无HTML') : '无元素'
-                    }
-                  };
-                }
-              });
-              
-              console.log(`成功提取 ${extractedComments.length} 条评论`);
-              
-              // 在浏览器环境中定义parseLikes函数
+              // 在页面环境中定义parseLikes函数，确保在浏览器环境中可用
+              // 浏览器环境中的点赞数解析函数
               function parseLikes(likeText) {
                 if (!likeText) return 0;
                 
                 try {
+                  // 如果接收到的是对象，检查是否有value属性
+                  if (typeof likeText === 'object' && likeText !== null) {
+                    if (likeText.value) {
+                      likeText = likeText.value;
+                    } else if (likeText.found === false) {
+                      return 0; // 如果标记为未找到，返回0
+                    } else {
+                      return 0; // 未找到有效数据
+                    }
+                  }
+                  
                   // 清理输入文本，去除非数字、小数点和"万"以外的字符
                   const cleanText = likeText.toString().replace(/[^\d\.万]/g, '');
                   
-                  // 处理"万"单位
-                  if (cleanText.includes('万')) {
-                    return parseFloat(cleanText.replace('万', '')) * 10000;
+                  // 检查是否为空字符串
+                  if (!cleanText || cleanText === '') {
+                    return 0;
                   }
                   
-                  // 处理可能的科学计数法
-                  if (cleanText.includes('e') || cleanText.includes('E')) {
-                    return Math.round(parseFloat(cleanText));
+                  // 处理"万"单位
+                  if (cleanText.includes('万')) {
+                    // 提取数字部分
+                    const numMatch = cleanText.match(/([\d\.]+)万/);
+                    if (numMatch && numMatch[1]) {
+                      return Math.round(parseFloat(numMatch[1]) * 10000);
+                    } else {
+                      // 尝试另一种模式
+                      const altMatch = cleanText.match(/([\d\.]+)/);
+                      if (altMatch && altMatch[1]) {
+                        return Math.round(parseFloat(altMatch[1]) * 10000);
+                      }
+                    }
+                    return 10000; // 如果仅有"万"字但无法提取数字，默认为1万
                   }
                   
                   // 处理纯数字
@@ -2234,12 +1697,6 @@ app.get('/api/comments', async (req, res) => {
                     return Math.round(floatNum);
                   }
                   
-                  // 如果以上都失败，尝试提取任何数字
-                  const numMatch = cleanText.match(/\d+/);
-                  if (numMatch) {
-                    return parseInt(numMatch[0], 10);
-                  }
-                  
                   return 0;
                 } catch (err) {
                   console.error('解析点赞数出错:', err, '原始文本:', likeText);
@@ -2247,42 +1704,35 @@ app.get('/api/comments', async (req, res) => {
                 }
               }
               
-              // 按点赞数排序评论
-              const sortedComments = extractedComments.sort((a, b) => {
+              // 确保safeIncludes函数在页面环境中定义
+              function safeIncludes(obj, searchString) {
+                if (!obj) return false;
+                
                 try {
-                  const likesA = parseLikes(a.likeCount);
-                  const likesB = parseLikes(b.likeCount);
-                  return likesB - likesA; // 倒序排列
-                } catch (err) {
-                  console.error('排序评论时出错:', err);
-                  return 0; // 保持原有顺序
-                }
-              });
-              
-              // 完善的排序日志
-              console.log('按点赞数排序完成，前三条评论点赞数：');
-              try { 
-                console.log(sortedComments.slice(0, 3).map(c => {
-                  try {
-                    return `${c.likeCount || '0'} (${parseLikes(c.likeCount)})`;
-                  } catch (err) {
-                    return `${c.likeCount || '0'} (解析出错)`;
+                  if (typeof obj === 'string') {
+                    return obj.includes(searchString);
                   }
-                }).join(', ')); 
-              } catch (err) {
-                console.error('输出排序结果时出错:', err);
+                  
+                  if (Array.isArray(obj)) {
+                    return obj.some(item => 
+                      typeof item === 'string' && item.includes(searchString)
+                    );
+                  }
+                  
+                  if (typeof obj === 'object') {
+                    return Object.values(obj).some(val => 
+                      typeof val === 'string' && val.includes(searchString)
+                    );
+                  }
+                  
+                  return false;
+                } catch (err) {
+                  console.error('safeIncludes出错:', err);
+                  return false;
+                }
               }
               
-              // 只返回排序后的前10条评论，但包含更多调试信息
-              return {
-                success: true,
-                comments: sortedComments.slice(0, 10),
-                rawCommentCount: commentItems.length,
-                extractedCommentCount: extractedComments.length,
-                pageUrl: window.location.href,
-                pageTitle: document.title,
-                timestamp: new Date().toISOString()
-              };
+              // 其余评论提取代码...
             } catch (error) {
               console.error('提取评论失败:', error);
               return {
@@ -2446,33 +1896,33 @@ app.get('/api/comments', async (req, res) => {
       success: true,
       url: url,
       summary: {
-        total: comments.comments.length,
-        hasLikes: comments.comments.some(c => c.likeCount && c.likeCount !== '提取失败'),
+        total: comments?.comments?.length || 0,
+        hasLikes: comments?.comments?.some(c => c?.likeCount && c?.likeCount !== '提取失败') || false,
         processTime: Date.now() - startTime,
-        commentCount: comments.comments.length,
+        commentCount: comments?.comments?.length || 0,
       },
-      comments: comments.comments.map(comment => ({
-        username: comment.username,
-        text: comment.text || comment.content, // 兼容text或content字段
-        likes: parseLikes(comment.likeCount),
-        time: comment.time,
-        raw_like_count: comment.likeCount, // 保留原始点赞数文本
-        like_method: comment.likeMethod, // 保留点赞数提取方法信息
+      comments: (comments?.comments || []).map(comment => ({
+        username: comment?.username || '提取失败',
+        text: comment?.text || comment?.content || '提取过程中出错',
+        likes: parseLikes(comment?.likeCount),
+        time: comment?.time || '',
+        raw_like_count: comment?.likeCount || '提取失败',
+        like_method: comment?.likeMethod || '',
       })).sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 10), // 按点赞数排序，取前10条
       debug: {
-        raw: comments.debug || {},
-        firstComment: comments.comments.length > 0 ? comments.comments[0] : null,
-        commentCount: comments.comments.length,
+        raw: comments?.debug || {},
+        firstComment: comments?.comments?.length > 0 ? comments.comments[0] : null,
+        commentCount: comments?.comments?.length || 0,
         totalProcessingTime: `${Date.now() - startTime}ms`,
         timestamp: new Date().toISOString()
       },
-      screenshots: screenshotPaths.map(path => `http://localhost:${port}/${path}`)
+      screenshots: (screenshotPaths || []).map(path => `http://localhost:${port}/${path}`)
     };
     
     // 记录成功日志
-    addLog('success', `成功爬取 ${comments.comments.length} 条评论`, {
+    addLog('success', `成功爬取 ${comments?.comments?.length || 0} 条评论`, {
       url,
-      commentCount: comments.comments.length,
+      commentCount: comments?.comments?.length || 0,
       topComment: responseData.comments.length > 0 ? {
         likes: responseData.comments[0].likes,
         text: responseData.comments[0].text.substring(0, 50) + (responseData.comments[0].text.length > 50 ? '...' : '')

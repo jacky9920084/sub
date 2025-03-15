@@ -3,6 +3,8 @@ const puppeteer = require('puppeteer');
 const NodeCache = require('node-cache');
 const app = express();
 const port = 3000;
+const fs = require('fs');
+const path = require('path');
 
 // 常量定义
 const CACHE_TTL = 3600; // 缓存有效期，单位：秒
@@ -20,6 +22,27 @@ const logger = {
 
 // 缓存设置
 const cache = new NodeCache({ stdTTL: CACHE_TTL });
+
+// 创建截图目录（如果不存在）
+const screenshotDir = path.join(__dirname, 'screenshots');
+if (!fs.existsSync(screenshotDir)) {
+  try {
+    fs.mkdirSync(screenshotDir, { recursive: true });
+    console.log(`创建截图目录: ${screenshotDir}`);
+  } catch (err) {
+    console.error(`创建截图目录失败: ${err.message}`);
+  }
+}
+
+// 添加静态文件服务中间件，用于访问截图
+app.use('/screenshots', express.static(screenshotDir));
+console.log(`已启用截图访问路径: http://localhost:${port}/screenshots/`);
+
+// 设置请求日志中间件
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
@@ -44,8 +67,9 @@ app.get('/version', (req, res) => {
 const recentLogs = [];
 const MAX_LOGS = 100;
 function addLog(type, message, data = null) {
+  const timestamp = new Date().toISOString();
   const logEntry = {
-    timestamp: new Date().toISOString(),
+    timestamp,
     type,
     message,
     data
@@ -56,10 +80,22 @@ function addLog(type, message, data = null) {
     recentLogs.pop();
   }
   
-  if (type === 'error') {
-    console.error(`[${type.toUpperCase()}] ${message}`);
+  // 根据日志级别选择合适的输出方法
+  if (type === 'error' || type === 'critical') {
+    console.error(`[${timestamp}] [${type.toUpperCase()}] ${message}`);
+    // 对于严重错误，尝试写入文件
+    try {
+      fs.appendFileSync(
+        path.join(__dirname, 'error.log'), 
+        `[${timestamp}] [${type.toUpperCase()}] ${message}\n${JSON.stringify(data, null, 2)}\n\n`
+      );
+    } catch (e) {
+      console.error('写入错误日志文件失败:', e);
+    }
+  } else if (type === 'warning') {
+    console.warn(`[${timestamp}] [${type.toUpperCase()}] ${message}`);
   } else {
-    console.log(`[${type.toUpperCase()}] ${message}`);
+    console.log(`[${timestamp}] [${type.toUpperCase()}] ${message}`);
   }
 }
 
@@ -476,7 +512,7 @@ app.get('/api/page-debug', async (req, res) => {
       ]
     };
     
-    // 构造成功响应，添加更详细的信息
+    // 构造成功响应，添加更详细的信息和截图信息
     const response = {
       success: true,
       data: {
@@ -489,7 +525,12 @@ app.get('/api/page-debug', async (req, res) => {
           commentCount: result.count,
           hasLikes: result.comments.some(c => c.likes > 0),
           topLikeCount: Math.max(...result.comments.map(c => c.likes || 0))
-        }
+        },
+        debug: {
+          rawData: result.raw_data,
+          firstCommentDebug: result.comments[0]?.debug || null
+        },
+        screenshots: result.screenshots || []
       }
     };
     
@@ -500,6 +541,14 @@ app.get('/api/page-debug', async (req, res) => {
         result.comments[0] ? 
         `${result.comments[0].username.substring(0, 10)}...: ${result.comments[0].text.substring(0, 20)}...(${result.comments[0].likes}赞)` : 
         '无评论');
+    }
+    
+    // 记录截图信息
+    if (result.screenshots && result.screenshots.length > 0) {
+      console.log('截图链接:');
+      result.screenshots.forEach(screenshot => {
+        console.log(`- ${screenshot.url}`);
+      });
     }
     
     // 缓存结果
@@ -707,12 +756,39 @@ function parseLikes(likeText) {
   if (!likeText) return 0;
   
   try {
+    // 如果接收到的是对象，检查是否有value属性
+    if (typeof likeText === 'object' && likeText !== null) {
+      if (likeText.value) {
+        likeText = likeText.value;
+      } else if (likeText.found === false) {
+        return 0; // 如果标记为未找到，返回0
+      } else {
+        return 0; // 未找到有效数据
+      }
+    }
+    
     // 清理输入文本，去除非数字、小数点和"万"以外的字符
     const cleanText = likeText.toString().replace(/[^\d\.万]/g, '');
     
+    // 检查是否为空字符串
+    if (!cleanText || cleanText === '') {
+      return 0;
+    }
+    
     // 处理"万"单位
     if (cleanText.includes('万')) {
-      return parseFloat(cleanText.replace('万', '')) * 10000;
+      // 提取数字部分
+      const numMatch = cleanText.match(/([\d\.]+)万/);
+      if (numMatch && numMatch[1]) {
+        return Math.round(parseFloat(numMatch[1]) * 10000);
+      } else {
+        // 尝试另一种模式
+        const altMatch = cleanText.match(/([\d\.]+)/);
+        if (altMatch && altMatch[1]) {
+          return Math.round(parseFloat(altMatch[1]) * 10000);
+        }
+      }
+      return 10000; // 如果仅有"万"字但无法提取数字，默认为1万
     }
     
     // 处理可能的科学计数法
@@ -747,11 +823,26 @@ function parseLikes(likeText) {
 
 // 提取评论中的点赞数的辅助函数
 function extractLikeCount(commentElement) {
+  const results = {
+    found: false,
+    value: '0',
+    method: '',
+    allAttempts: []
+  };
+  
   try {
     // 尝试多种方式提取点赞数
     
     // 1. 首先尝试查找常见的点赞数容器
     const likeSelectors = [
+      // 2026年新增选择器
+      '.L38CqmDW', // 新增-2026版点赞容器
+      '.x_IwK3lT', // 新增-2026版点赞按钮
+      '.u5_kfBzn', // 新增-2026版点赞计数
+      // 2025年最新选择器
+      '.UJliHmHF', // 新增-最新点赞数容器
+      '.z8n8JKcz', // 新增-点赞计数器 
+      '.VsAqHUEt', // 新增-点赞按钮
       // 2025新版选择器
       'svg + span', 
       '.VT7pNbtS', // 2025年点赞计数
@@ -776,19 +867,49 @@ function extractLikeCount(commentElement) {
       '.action-number',
       '[class*="action"] span',
       '[class*="praise"] span',
-      '[class*="thumb"] span'
+      '[class*="thumb"] span',
+      // 尝试使用更通用的属性选择器
+      '[class*="like"]',
+      '[class*="digg"]',
+      '[class*="vote"]',
+      '[class*="praise"]'
     ];
     
     for (const selector of likeSelectors) {
-      const elements = commentElement.querySelectorAll(selector);
-      for (const el of elements) {
-        const text = el.textContent.trim();
-        // 匹配数字和可能的"万"字
-        const match = text.match(/(\d+(\.\d+)?)(万)?/);
-        if (match) {
-          console.log(`找到点赞数: ${match[0]}, 使用选择器: ${selector}`);
-          return match[0];
+      try {
+        const elements = commentElement.querySelectorAll(selector);
+        
+        // 记录尝试信息
+        const attempt = {
+          selector,
+          count: elements.length,
+          elements: Array.from(elements).slice(0, 3).map(el => ({
+            text: el.textContent.trim(),
+            html: el.outerHTML.substring(0, 100) + (el.outerHTML.length > 100 ? '...' : ''),
+            className: el.className
+          }))
+        };
+        
+        results.allAttempts.push(attempt);
+        
+        for (const el of elements) {
+          const text = el.textContent.trim();
+          // 匹配数字和可能的"万"字
+          const match = text.match(/(\d+(\.\d+)?)(万)?/);
+          if (match) {
+            console.log(`找到点赞数: ${match[0]}, 使用选择器: ${selector}`);
+            results.found = true;
+            results.value = match[0];
+            results.method = `selector:${selector}`;
+            return results;
+          }
         }
+      } catch (err) {
+        console.error(`使用选择器 "${selector}" 提取点赞数时出错:`, err);
+        results.allAttempts.push({
+          selector,
+          error: err.toString()
+        });
       }
     }
     
@@ -801,42 +922,97 @@ function extractLikeCount(commentElement) {
       /(\d+(\.\d+)?万?)\s*回复/, // "123 回复"或"1.2万 回复"
       /·[^·]*?(\d+(\.\d+)?万?)/, // 点号后的数字，通常是点赞数
       /赞\s*(\d+(\.\d+)?万?)/, // "赞 123"或"赞 1.2万"
-      /(\d+(\.\d+)?万?)\s*赞/ // "123 赞"或"1.2万 赞"
+      /(\d+(\.\d+)?万?)\s*赞/, // "123 赞"或"1.2万 赞"
+      /[\d\.]+万?[^\d]*$/ // 评论末尾的数字
     ];
     
     for (const pattern of patterns) {
-      const match = commentText.match(pattern);
-      if (match && match[1]) {
-        console.log(`从评论文本中使用模式 ${pattern} 提取到点赞数: ${match[1]}`);
-        return match[1];
+      try {
+        const match = commentText.match(pattern);
+        if (match && match[1]) {
+          console.log(`从评论文本中使用模式 ${pattern} 提取到点赞数: ${match[1]}`);
+          results.found = true;
+          results.value = match[1];
+          results.method = `pattern:${pattern}`;
+          return results;
+        }
+      } catch (err) {
+        console.error(`使用模式 "${pattern}" 提取点赞数时出错:`, err);
+        results.allAttempts.push({
+          pattern: pattern.toString(),
+          error: err.toString()
+        });
       }
     }
     
     // 3. 其他策略：查找只包含数字的短文本元素
-    const textNodes = Array.from(commentElement.querySelectorAll('*'))
-      .filter(el => {
-        const text = el.textContent.trim();
-        // 仅包含数字和可能的"万"字的短文本
-        return text.length < 10 && /^(\d+(\.\d+)?(万)?)$/.test(text);
-      });
-    
-    if (textNodes.length > 0) {
-      // 对于多个匹配，尝试找出最可能是点赞数的元素（通常位于评论底部区域）
-      // 按元素在评论中的垂直位置排序，偏下方的更可能是点赞数
-      textNodes.sort((a, b) => {
-        const rectA = a.getBoundingClientRect();
-        const rectB = b.getBoundingClientRect();
-        return rectB.top - rectA.top; // 排序，底部元素优先
-      });
+    try {
+      const textNodes = Array.from(commentElement.querySelectorAll('*'))
+        .filter(el => {
+          try {
+            const text = el.textContent.trim();
+            // 仅包含数字和可能的"万"字的短文本
+            return text.length < 10 && /^(\d+(\.\d+)?(万)?)$/.test(text);
+          } catch (err) {
+            return false;
+          }
+        });
       
-      console.log(`找到可能的点赞数元素: ${textNodes[0].textContent}`);
-      return textNodes[0].textContent;
+      if (textNodes.length > 0) {
+        // 对于多个匹配，尝试找出最可能是点赞数的元素（通常位于评论底部区域）
+        // 按元素在评论中的垂直位置排序，偏下方的更可能是点赞数
+        textNodes.sort((a, b) => {
+          try {
+            const rectA = a.getBoundingClientRect();
+            const rectB = b.getBoundingClientRect();
+            return rectB.top - rectA.top; // 排序，底部元素优先
+          } catch (err) {
+            return 0;
+          }
+        });
+        
+        results.allAttempts.push({
+          method: 'textNodeFilter',
+          count: textNodes.length,
+          nodes: textNodes.slice(0, 5).map(node => node.textContent) // 最多5个
+        });
+        
+        console.log(`找到可能的点赞数元素: ${textNodes[0].textContent}`);
+        results.found = true;
+        results.value = textNodes[0].textContent;
+        results.method = 'textNodePosition';
+        return results;
+      }
+    } catch (err) {
+      console.error('查找数字文本节点时出错:', err);
+      results.allAttempts.push({
+        method: 'textNodeFilter',
+        error: err.toString()
+      });
     }
     
-    return null;
+    // 4. 尝试通过图片识别 - 记录图像元素的存在
+    try {
+      const images = commentElement.querySelectorAll('img, svg');
+      if (images.length > 0) {
+        results.allAttempts.push({
+          method: 'images',
+          count: images.length,
+          types: Array.from(images).map(img => img.tagName)
+        });
+      }
+    } catch (err) {
+      console.error('检查图像元素时出错:', err);
+    }
+    
+    return results;
   } catch (err) {
-    console.error('提取点赞数时出错:', err);
-    return null;
+    console.error('提取点赞数主函数出错:', err);
+    results.allAttempts.push({
+      method: 'main',
+      error: err.toString()
+    });
+    return results;
   }
 }
 
@@ -857,6 +1033,134 @@ function safeIncludes(obj, searchString) {
     return obj.toString().includes(searchString);
   }
   return false;
+}
+
+// 增强的浏览器指纹伪装函数
+async function setupBrowserEvasion(page) {
+  await page.evaluateOnNewDocument(() => {
+    // 修改Navigator属性
+    const originalNavigator = window.navigator;
+    
+    // 伪装浏览器指纹信息
+    Object.defineProperties(Navigator.prototype, {
+      // 使用一致的设备信息 - 模拟Windows 10上的Chrome
+      userAgent: {
+        get: function() {
+          return 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+        }
+      },
+      appVersion: {
+        get: function() {
+          return '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36';
+        }
+      },
+      platform: {
+        get: function() {
+          return 'Win32';
+        }
+      },
+      hardwareConcurrency: {
+        get: function() {
+          return 8; // 大多数用户的CPU核心数在4-8之间
+        }
+      },
+      deviceMemory: {
+        get: function() {
+          return 8; // 大多数用户的内存在8GB左右
+        }
+      },
+      language: {
+        get: function() {
+          return 'zh-CN';
+        }
+      },
+      languages: {
+        get: function() {
+          return ['zh-CN', 'zh', 'en-US', 'en'];
+        }
+      }
+    });
+    
+    // 修改WebGL指纹
+    const getParameterProxyHandler = {
+      apply: function(target, ctx, args) {
+        const param = args[0];
+        
+        // 伪装RENDERER和VENDOR信息
+        if (param === 37445) { // RENDERER
+          return 'ANGLE (NVIDIA, NVIDIA GeForce GTX 1060 6GB Direct3D11 vs_5_0 ps_5_0, D3D11)';
+        }
+        
+        if (param === 37446) { // VENDOR
+          return 'Google Inc. (NVIDIA)';
+        }
+        
+        return target.apply(ctx, args);
+      }
+    };
+    
+    // 如果WebGL可用，修改其参数
+    try {
+      const getParameter = WebGLRenderingContext.prototype.getParameter;
+      WebGLRenderingContext.prototype.getParameter = new Proxy(getParameter, getParameterProxyHandler);
+    } catch (e) {
+      console.log('WebGL 不可用或已被修改');
+    }
+    
+    // 模拟插件
+    Object.defineProperty(navigator, 'plugins', {
+      get: () => {
+        return [
+          {
+            0: {
+              type: 'application/pdf',
+              suffixes: 'pdf',
+              description: 'Portable Document Format'
+            },
+            name: 'Chrome PDF Plugin',
+            filename: 'internal-pdf-viewer',
+            description: 'Portable Document Format',
+            length: 1
+          },
+          {
+            0: {
+              type: 'application/pdf',
+              suffixes: 'pdf',
+              description: 'Portable Document Format'
+            },
+            name: 'Chrome PDF Viewer',
+            filename: 'internal-pdf-viewer',
+            description: 'Portable Document Format',
+            length: 1
+          },
+          {
+            0: {
+              type: 'application/x-google-chrome-pdf',
+              suffixes: 'pdf',
+              description: 'Portable Document Format'
+            },
+            name: 'PDF Viewer',
+            filename: 'internal-pdf-viewer',
+            description: 'Portable Document Format',
+            length: 1
+          }
+        ];
+      }
+    });
+    
+    // 删除Automation指纹
+    delete window.navigator.webdriver;
+    
+    // 模拟常见的屏幕分辨率
+    Object.defineProperty(window.screen, 'width', { get: () => 1920 });
+    Object.defineProperty(window.screen, 'height', { get: () => 1080 });
+    Object.defineProperty(window.screen, 'availWidth', { get: () => 1920 });
+    Object.defineProperty(window.screen, 'availHeight', { get: () => 1040 });
+    Object.defineProperty(window.screen, 'colorDepth', { get: () => 24 });
+    Object.defineProperty(window.screen, 'pixelDepth', { get: () => 24 });
+    
+    console.log('浏览器指纹保护已启用');
+  });
 }
 
 // 评论爬取API
@@ -891,24 +1195,21 @@ app.get('/api/comments', async (req, res) => {
     
     // 使用重试机制包装爬取过程
     const result = await withRetry(async () => {
-      // 启动浏览器，使用与扩展程序尽可能相似的环境
+      // 启动浏览器
       const browser = await puppeteer.launch({
-        headless: true,
+        headless: 'new', // 使用新版无头模式
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
-          '--disable-web-security',
           '--disable-dev-shm-usage',
-          '--disable-features=IsolateOrigins,site-per-process',
-          '--disable-blink-features=AutomationControlled',
           '--disable-accelerated-2d-canvas',
           '--disable-gpu',
           '--window-size=1920,1080',
           '--hide-scrollbars',
-          '--no-zygote',
-          '--no-first-run',
-          '--no-default-browser-check',
-          '--disable-background-networking'
+          '--disable-notifications',
+          '--disable-extensions',
+          '--ignore-certificate-errors',
+          '--disable-web-security'
         ],
         defaultViewport: {
           width: 1920,
@@ -917,218 +1218,44 @@ app.get('/api/comments', async (req, res) => {
       });
       
       try {
+        // 打开新页面
         const page = await browser.newPage();
+        
+        // 应用指纹伪装
+        await setupBrowserEvasion(page);
+        
+        // 设置请求拦截
+        await page.setRequestInterception(true);
+        page.on('request', (req) => {
+          // 拦截图片和字体请求以加速加载
+          if (req.resourceType() === 'image' || req.resourceType() === 'font') {
+            req.abort();
+          } else {
+            req.continue();
+          }
+        });
+        
+        // 设置额外的头信息
+        await page.setExtraHTTPHeaders({
+          'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8',
+          'Accept-Encoding': 'gzip, deflate, br',
+          'Connection': 'keep-alive',
+          'Upgrade-Insecure-Requests': '1',
+          'Sec-Fetch-Dest': 'document',
+          'Sec-Fetch-Mode': 'navigate',
+          'Sec-Fetch-Site': 'none',
+          'Sec-Fetch-User': '?1',
+          'sec-ch-ua': '"Chromium";v="120", "Google Chrome";v="120", "Not-A.Brand";v="99"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"Windows"'
+        });
         
         // 设置随机用户代理
         const userAgent = getRandomUserAgent();
         console.log('使用随机用户代理:', userAgent);
         await page.setUserAgent(userAgent);
-        
-        // 设置额外的HTTP头部模拟真实浏览器
-        await page.setExtraHTTPHeaders({
-          'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-          'Sec-Ch-Ua': '"Google Chrome";v="122", "Not(A:Brand";v="24", "Chromium";v="122"',
-          'Sec-Ch-Ua-Mobile': '?0',
-          'Sec-Ch-Ua-Platform': '"Windows"',
-          'Sec-Fetch-Dest': 'document',
-          'Sec-Fetch-Mode': 'navigate',
-          'Sec-Fetch-Site': 'none',
-          'Sec-Fetch-User': '?1',
-          'Upgrade-Insecure-Requests': '1',
-          'Cache-Control': 'max-age=0',
-          'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7'
-        });
-        
-        // 修改浏览器指纹，避免被检测为爬虫 - 增强版
-        await page.evaluateOnNewDocument(() => {
-          // 伪造插件信息，类似Chrome浏览器默认插件
-          Object.defineProperty(navigator, 'plugins', {
-            get: () => {
-              const chromePlugins = [
-                { name: 'Chrome PDF Plugin', filename: 'internal-pdf-viewer', description: 'Portable Document Format', length: 1 },
-                { name: 'Chrome PDF Viewer', filename: 'mhjfbmdgcfjbbpaeojofohoefgiehjai', description: '', length: 1 },
-                { name: 'Native Client', filename: 'internal-nacl-plugin', description: '', length: 2 }
-              ];
-              return Object.setPrototypeOf(chromePlugins, { 
-                item: (i) => chromePlugins[i] || null,
-                namedItem: (name) => chromePlugins.find(p => p.name === name) || null,
-                refresh: () => {},
-                length: chromePlugins.length
-              });
-            },
-          });
-          
-          // 伪造mimeTypes
-          Object.defineProperty(navigator, 'mimeTypes', {
-            get: () => {
-              const mimeTypes = [
-                { type: 'application/pdf', suffixes: 'pdf', description: '', enabledPlugin: { name: 'Chrome PDF Plugin' } },
-                { type: 'application/x-google-chrome-pdf', suffixes: 'pdf', description: 'Portable Document Format', enabledPlugin: { name: 'Chrome PDF Viewer' } },
-                { type: 'application/x-nacl', suffixes: '', description: 'Native Client Executable', enabledPlugin: { name: 'Native Client' } }
-              ];
-              return Object.setPrototypeOf(mimeTypes, {
-                item: (i) => mimeTypes[i] || null,
-                namedItem: (name) => mimeTypes.find(mt => mt.type === name) || null,
-                length: mimeTypes.length
-              });
-            }
-          });
-          
-          // 伪造语言信息，类似中文Chrome浏览器
-          Object.defineProperty(navigator, 'languages', {
-            get: () => ['zh-CN', 'zh', 'en-US', 'en'],
-          });
-          
-          // 伪造更多导航器属性
-          const navigatorProps = {
-            deviceMemory: 8,
-            hardwareConcurrency: 8,
-            vendor: 'Google Inc.',
-            vendorSub: '',
-            doNotTrack: null,
-            maxTouchPoints: 0,
-            platform: 'Win32',
-            appVersion: '5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-            connection: { effectiveType: '4g', rtt: 50, downlink: 10, saveData: false }
-          };
-          
-          for (const [key, value] of Object.entries(navigatorProps)) {
-            try {
-              Object.defineProperty(navigator, key, { get: () => value });
-            } catch (e) {}
-          }
-          
-          // 修复permissions API
-          if (navigator.permissions) {
-            const originalQuery = navigator.permissions.query;
-            navigator.permissions.query = (parameters) => {
-              if (parameters.name === 'notifications' || 
-                  parameters.name === 'midi' || 
-                  parameters.name === 'camera' || 
-                  parameters.name === 'microphone') {
-                return Promise.resolve({ state: 'prompt', onchange: null });
-              }
-              return originalQuery(parameters);
-            };
-          }
-          
-          // 伪造WebGL信息
-          const originalGetParameter = WebGLRenderingContext.prototype.getParameter;
-          WebGLRenderingContext.prototype.getParameter = function(parameter) {
-            // UNMASKED_VENDOR_WEBGL
-            if (parameter === 37445) {
-              return 'Intel Inc.';
-            }
-            // UNMASKED_RENDERER_WEBGL
-            if (parameter === 37446) {
-              return 'Intel Iris OpenGL Engine';
-            }
-            return originalGetParameter.call(this, parameter);
-          };
-          
-          // 伪造Canvas指纹
-          const originalToDataURL = HTMLCanvasElement.prototype.toDataURL;
-          HTMLCanvasElement.prototype.toDataURL = function(type, quality) {
-            if (this.width === 0 && this.height === 0) {
-              return originalToDataURL.call(this, type, quality);
-            }
-            
-            // 添加轻微噪点，避免被识别出固定指纹
-            const ctx = this.getContext('2d');
-            if (ctx) {
-              const imageData = ctx.getImageData(0, 0, this.width, this.height);
-              const data = imageData.data;
-              
-              // 只处理实际绘制了内容的Canvas
-              let hasContent = false;
-              for (let i = 0; i < data.length; i += 4) {
-                if (data[i+3] > 0) { // 有透明度的像素
-                  hasContent = true;
-                  break;
-                }
-              }
-              
-              if (hasContent) {
-                for (let i = 0; i < data.length; i += 4) {
-                  if (data[i+3] > 0) { // 只修改有内容的像素
-                    // 随机微调RGB值
-                    data[i] = Math.max(0, Math.min(255, data[i] + Math.floor(Math.random() * 3) - 1));
-                    data[i+1] = Math.max(0, Math.min(255, data[i+1] + Math.floor(Math.random() * 3) - 1));
-                    data[i+2] = Math.max(0, Math.min(255, data[i+2] + Math.floor(Math.random() * 3) - 1));
-                  }
-                }
-                ctx.putImageData(imageData, 0, 0);
-              }
-            }
-            
-            return originalToDataURL.call(this, type, quality);
-          };
-          
-          // 伪造更完整的Chrome特有功能
-          window.chrome = {
-            runtime: {
-              id: undefined,
-              connect: () => {},
-              sendMessage: () => {}
-            },
-            loadTimes: () => ({
-              firstPaintTime: 0,
-              firstPaintAfterLoadTime: 0,
-              requestTime: Date.now() / 1000,
-              startLoadTime: Date.now() / 1000,
-              commitLoadTime: Date.now() / 1000,
-              finishDocumentLoadTime: Date.now() / 1000,
-              finishLoadTime: Date.now() / 1000,
-              navigationType: "Other",
-            }),
-            csi: () => ({ startE: Date.now(), onloadT: Date.now(), pageT: 9000, tran: 15 }),
-            app: { isInstalled: false, getDetails: () => {}, getIsInstalled: () => false },
-            webstore: { onInstallStageChanged: {}, onDownloadProgress: {} }
-          };
-          
-          // 屏蔽Puppeteer特有的navigator.webdriver
-          Object.defineProperty(navigator, 'webdriver', {
-            get: () => false,
-          });
-          
-          // 伪造日期和性能指标
-          const originalPerformance = window.performance;
-          const originalGetEntries = window.performance.getEntries;
-          window.performance.getEntries = function() {
-            const result = originalGetEntries.apply(this, arguments);
-            return result.filter(entry => !entry.name.includes('puppeteer'));
-          };
-          
-          // 添加浏览器指纹中常用的一些函数
-          window.innerWidth = 1920;
-          window.innerHeight = 1080;
-          window.outerWidth = 1920;
-          window.outerHeight = 1080;
-          window.screenX = Math.floor(Math.random() * 20);
-          window.screenY = Math.floor(Math.random() * 20);
-          
-          // 重写toString方法，隐藏伪造痕迹
-          const nativeToString = Function.prototype.toString;
-          Function.prototype.toString = function() {
-            if (this === Function.prototype.toString) return nativeToString.call(nativeToString);
-            if (this === Object.defineProperty) return 'function defineProperty() { [native code] }';
-            
-            // 对已修改的函数特殊处理
-            if (this === HTMLCanvasElement.prototype.toDataURL || 
-                this === WebGLRenderingContext.prototype.getParameter ||
-                this === navigator.permissions?.query) {
-              return `function ${this.name || ''}() { [native code] }`;
-            }
-            
-            return nativeToString.call(this);
-          };
-          
-          // 一些检测函数已被伪装
-          delete window.webdriver;
-        });
-        
-        // 捕获页面console.log消息，便于调试
-        page.on('console', msg => console.log('页面控制台:', msg.text()));
         
         console.log('正在访问URL:', url);
         await page.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
@@ -1513,7 +1640,7 @@ app.get('/api/comments', async (req, res) => {
         let comments = [];
         try {
           // 实现扩展程序的waitForComments逻辑
-          comments = await page.evaluate((MAX_COMMENTS) => {
+          comments = await page.evaluate(async (MAX_COMMENTS) => {
             try {
               console.log('开始提取评论...');
               
@@ -1675,6 +1802,13 @@ app.get('/api/comments', async (req, res) => {
               
               // 改进的查找元素内容函数
               const findWithSelectors = (element, selectorList) => {
+                const results = { 
+                  found: false, 
+                  value: '', 
+                  usedSelector: '',
+                  allAttempts: [] 
+                };
+                
                 for (const selector of selectorList) {
                   try {
                     const elements = element.querySelectorAll(selector);
@@ -1684,13 +1818,29 @@ app.get('/api/comments', async (req, res) => {
                             el.offsetWidth > 0 && el.offsetHeight > 0;
                     });
                     
+                    const attempt = {
+                      selector,
+                      count: elements.length,
+                      visibleCount: visibleElements.length,
+                      content: visibleElements.length > 0 ? visibleElements[0].innerText.trim() : 'none'
+                    };
+                    
+                    results.allAttempts.push(attempt);
+                    
                     if (visibleElements.length > 0) {
                       // 记录找到的元素，帮助调试
                       console.log(`找到内容，使用选择器: ${selector}，内容: ${visibleElements[0].innerText.trim().substring(0, 20)}${visibleElements[0].innerText.trim().length > 20 ? '...' : ''}`);
-                      return visibleElements[0].innerText.trim();
+                      results.found = true;
+                      results.value = visibleElements[0].innerText.trim();
+                      results.usedSelector = selector;
+                      return results;
                     }
                   } catch (e) {
                     console.error(`选择器 "${selector}" 出错:`, e);
+                    results.allAttempts.push({
+                      selector,
+                      error: e.toString()
+                    });
                   }
                 }
                 
@@ -1715,13 +1865,201 @@ app.get('/api/comments', async (req, res) => {
                   const text = walkTextNodes(element);
                   if (text) {
                     console.log(`通过文本节点搜索找到内容: ${text.substring(0, 20)}${text.length > 20 ? '...' : ''}`);
-                    return text;
+                    results.found = true;
+                    results.value = text;
+                    results.usedSelector = 'textNode';
+                    return results;
                   }
                 } catch (e) {
                   console.error('查找文本节点时出错:', e);
+                  results.allAttempts.push({
+                    selector: 'textNode',
+                    error: e.toString()
+                  });
                 }
                 
-                return '';
+                return results;
+              };
+              
+              // 改进点赞数提取函数
+              const extractLikeCount = (commentElement) => {
+                const results = {
+                  found: false,
+                  value: '0',
+                  method: '',
+                  allAttempts: []
+                };
+                
+                try {
+                  // 尝试多种方式提取点赞数
+                  
+                  // 1. 首先尝试查找常见的点赞数容器
+                  const likeSelectors = [
+                    // 新增2025年最新选择器
+                    '.UJliHmHF', // 新增-最新点赞数容器
+                    '.z8n8JKcz', // 新增-点赞计数器 
+                    '.VsAqHUEt', // 新增-点赞按钮
+                    // 2025新版选择器
+                    'svg + span', 
+                    '.VT7pNbtS', // 2025年点赞计数
+                    '.H7vvGdTQ', // 2025年点赞数容器
+                    '.Bc8CPX9M', // 2025年点赞按钮
+                    '.qzGBUiME', // 可能的新版点赞容器
+                    // 图片中看到的点赞数选择器（红色框内）
+                    'svg:nth-child(3) + span', // 评论内第三个SVG图标后的数字
+                    '.comment-action span', // 评论操作区的数字
+                    // 通用选择器
+                    '[class*="like-count"]',
+                    '[class*="digg"]', 
+                    '[class*="vote"]',
+                    '.like-count',
+                    '.digg-count',
+                    // 相邻元素选择器
+                    'svg[class*="like"] + span',
+                    'svg[class*="digg"] + span',
+                    '.like span',
+                    '.digg span',
+                    // 更多通用选择器
+                    '.action-number',
+                    '[class*="action"] span',
+                    '[class*="praise"] span',
+                    '[class*="thumb"] span',
+                    // 尝试使用更通用的属性选择器
+                    '[class*="like"]',
+                    '[class*="digg"]',
+                    '[class*="vote"]',
+                    '[class*="praise"]'
+                  ];
+                  
+                  for (const selector of likeSelectors) {
+                    try {
+                      const elements = commentElement.querySelectorAll(selector);
+                      const attempt = {
+                        selector,
+                        count: elements.length,
+                        elements: Array.from(elements).map(el => ({
+                          text: el.textContent.trim(),
+                          html: el.outerHTML.substring(0, 100),
+                          className: el.className
+                        })).slice(0, 3) // 最多保存3个结果
+                      };
+                      
+                      results.allAttempts.push(attempt);
+                      
+                      for (const el of elements) {
+                        const text = el.textContent.trim();
+                        // 匹配数字和可能的"万"字
+                        const match = text.match(/(\d+(\.\d+)?)(万)?/);
+                        if (match) {
+                          console.log(`找到点赞数: ${match[0]}, 使用选择器: ${selector}`);
+                          results.found = true;
+                          results.value = match[0];
+                          results.method = `selector:${selector}`;
+                          return results;
+                        }
+                      }
+                    } catch (err) {
+                      console.error(`使用选择器 "${selector}" 提取点赞数时出错:`, err);
+                      results.allAttempts.push({
+                        selector,
+                        error: err.toString()
+                      });
+                    }
+                  }
+                  
+                  // 2. 尝试从评论文本中提取
+                  const commentText = commentElement.textContent;
+                  
+                  // 匹配常见模式
+                  const patterns = [
+                    /(\d+(\.\d+)?万?)\s*分享/, // "123 分享"或"1.2万 分享"
+                    /(\d+(\.\d+)?万?)\s*回复/, // "123 回复"或"1.2万 回复"
+                    /·[^·]*?(\d+(\.\d+)?万?)/, // 点号后的数字，通常是点赞数
+                    /赞\s*(\d+(\.\d+)?万?)/, // "赞 123"或"赞 1.2万"
+                    /(\d+(\.\d+)?万?)\s*赞/, // "123 赞"或"1.2万 赞"
+                    /[\d\.]+万?[^\d]*$/ // 评论末尾的数字
+                  ];
+                  
+                  for (const pattern of patterns) {
+                    try {
+                      const match = commentText.match(pattern);
+                      if (match && match[1]) {
+                        console.log(`从评论文本中使用模式 ${pattern} 提取到点赞数: ${match[1]}`);
+                        results.found = true;
+                        results.value = match[1];
+                        results.method = `pattern:${pattern}`;
+                        return results;
+                      }
+                    } catch (err) {
+                      console.error(`使用模式 "${pattern}" 提取点赞数时出错:`, err);
+                      results.allAttempts.push({
+                        pattern: pattern.toString(),
+                        error: err.toString()
+                      });
+                    }
+                  }
+                  
+                  // 3. 其他策略：查找只包含数字的短文本元素
+                  try {
+                    const textNodes = Array.from(commentElement.querySelectorAll('*'))
+                      .filter(el => {
+                        const text = el.textContent.trim();
+                        // 仅包含数字和可能的"万"字的短文本
+                        return text.length < 10 && /^(\d+(\.\d+)?(万)?)$/.test(text);
+                      });
+                    
+                    if (textNodes.length > 0) {
+                      // 对于多个匹配，尝试找出最可能是点赞数的元素（通常位于评论底部区域）
+                      // 按元素在评论中的垂直位置排序，偏下方的更可能是点赞数
+                      textNodes.sort((a, b) => {
+                        const rectA = a.getBoundingClientRect();
+                        const rectB = b.getBoundingClientRect();
+                        return rectB.top - rectA.top; // 排序，底部元素优先
+                      });
+                      
+                      results.allAttempts.push({
+                        method: 'textNodeFilter',
+                        count: textNodes.length,
+                        nodes: textNodes.slice(0, 5).map(node => node.textContent) // 最多5个
+                      });
+                      
+                      console.log(`找到可能的点赞数元素: ${textNodes[0].textContent}`);
+                      results.found = true;
+                      results.value = textNodes[0].textContent;
+                      results.method = 'textNodePosition';
+                      return results;
+                    }
+                  } catch (err) {
+                    console.error('查找数字文本节点时出错:', err);
+                    results.allAttempts.push({
+                      method: 'textNodeFilter',
+                      error: err.toString()
+                    });
+                  }
+                  
+                  // 4. 尝试通过图片识别 - 记录图像元素的存在
+                  try {
+                    const images = commentElement.querySelectorAll('img, svg');
+                    if (images.length > 0) {
+                      results.allAttempts.push({
+                        method: 'images',
+                        count: images.length,
+                        types: Array.from(images).map(img => img.tagName)
+                      });
+                    }
+                  } catch (err) {
+                    console.error('检查图像元素时出错:', err);
+                  }
+                  
+                  return results;
+                } catch (err) {
+                  console.error('提取点赞数主函数出错:', err);
+                  results.allAttempts.push({
+                    method: 'main',
+                    error: err.toString()
+                  });
+                  return results;
+                }
               };
               
               // 寻找评论项 - 遍历多个容器选择器
@@ -1796,10 +2134,26 @@ app.get('/api/comments', async (req, res) => {
               
               console.log(`共找到 ${commentItems.length} 个评论项`);
               
+              // 如果没有找到评论项，记录更详细的信息
+              if (commentItems.length === 0) {
+                return {
+                  error: true,
+                  errorType: 'NO_COMMENTS_FOUND',
+                  message: '未找到评论项',
+                  debugInfo: {
+                    url: window.location.href,
+                    title: document.title,
+                    bodyText: document.body.innerText.substring(0, 1000) + '...',
+                    containerSelectors: containerSelectors,
+                    commentSelectors: selectors.commentItem
+                  }
+                };
+              }
+              
               // 提取每条评论的数据
               const extractedComments = Array.from(commentItems).slice(0, MAX_COMMENTS).map((item, index) => {
                 try {
-                  // 提取每条评论的数据
+                  // 提取每条评论的数据 - 使用改进的提取函数
                   const username = findWithSelectors(item, selectors.username);
                   const content = findWithSelectors(item, selectors.content);
                   const timeStr = findWithSelectors(item, selectors.time);
@@ -1809,25 +2163,41 @@ app.get('/api/comments', async (req, res) => {
                   
                   // 记录日志
                   console.log(`评论 ${index + 1}:`, {
-                    username: username || '未找到用户名',
-                    content: content ? (content.length > 20 ? content.substring(0, 20) + '...' : content) : '未找到内容',
-                    time: timeStr || '未找到时间',
-                    likeCount: likeCount || '未找到点赞数'
+                    username: username.found ? username.value : '未找到用户名',
+                    content: content.found ? (content.value.length > 20 ? content.value.substring(0, 20) + '...' : content.value) : '未找到内容',
+                    time: timeStr.found ? timeStr.value : '未找到时间',
+                    likeCount: likeCount.found ? likeCount.value : '未找到点赞数'
                   });
                   
+                  // 返回包含更多原始信息的结构
                   return {
-                    username: username || '未知用户',
-                    content: content || '无内容',
-                    time: timeStr || '',
-                    likeCount: likeCount || '0'
+                    username: username.found ? username.value : '未知用户',
+                    content: content.found ? content.value : '无内容',
+                    time: timeStr.found ? timeStr.value : '',
+                    likeCount: likeCount.found ? likeCount.value : '0',
+                    // 添加调试信息
+                    debug: {
+                      usernameDetails: username,
+                      contentDetails: content,
+                      timeDetails: timeStr,
+                      likeCountDetails: likeCount,
+                      commentHtml: item.outerHTML.substring(0, 500) + (item.outerHTML.length > 500 ? '...' : '')
+                    }
                   };
                 } catch (err) {
                   console.error(`提取评论 ${index + 1} 时出错:`, err);
                   return {
                     username: '提取失败',
-                    content: '提取过程中出错',
+                    content: `提取过程中出错: ${err.message || err}`,
                     time: '',
-                    likeCount: '0'
+                    likeCount: '0',
+                    error: err.toString(),
+                    // 尝试保存评论HTML，即使提取失败
+                    debug: {
+                      error: err.toString(),
+                      stack: err.stack,
+                      commentHtml: item ? (item.outerHTML ? item.outerHTML.substring(0, 500) + '...' : '无HTML') : '无元素'
+                    }
                   };
                 }
               });
@@ -1903,11 +2273,25 @@ app.get('/api/comments', async (req, res) => {
                 console.error('输出排序结果时出错:', err);
               }
               
-              // 只返回排序后的前10条评论
-              return sortedComments.slice(0, 10);
+              // 只返回排序后的前10条评论，但包含更多调试信息
+              return {
+                success: true,
+                comments: sortedComments.slice(0, 10),
+                rawCommentCount: commentItems.length,
+                extractedCommentCount: extractedComments.length,
+                pageUrl: window.location.href,
+                pageTitle: document.title,
+                timestamp: new Date().toISOString()
+              };
             } catch (error) {
               console.error('提取评论失败:', error);
-              throw error; // 让错误向上传递，以便更好地处理
+              return {
+                success: false,
+                error: error.toString(),
+                stack: error.stack,
+                url: window.location.href,
+                title: document.title
+              }; // 返回错误信息而不是抛出异常
             }
           }, MAX_COMMENTS);
         
@@ -1924,14 +2308,26 @@ app.get('/api/comments', async (req, res) => {
         
           // 返回评论数据
           return {
-            comments: comments.map(comment => ({
+            comments: comments.comments.map(comment => ({
               username: comment.username,
               text: comment.content, // 将content字段映射为text
               likes: parseLikes(comment.likeCount), // 解析点赞数
-              time: comment.time
+              time: comment.time,
+              raw_like_count: comment.likeCount, // 保留原始点赞数文本
+              debug: comment.debug // 保留调试信息
             })),
-            count: comments.length,
-            url: url
+            count: comments.comments.length,
+            url: url,
+            raw_data: {
+              rawCommentCount: comments.rawCommentCount,
+              extractedCommentCount: comments.extractedCommentCount,
+              pageUrl: comments.pageUrl,
+              pageTitle: comments.pageTitle
+            },
+            screenshots: comments.screenshots.map(path => ({
+              path,
+              url: path.replace('/root/douyin-comments-api', '/screenshots')
+            }))
           };
         } catch (error) {
           // 确保任何情况下浏览器都会被关闭
@@ -1966,62 +2362,177 @@ app.get('/api/comments', async (req, res) => {
       }
     });
     
-    // 构造成功响应，添加更详细的信息
-    const response = {
-      success: true,
-      data: {
-        ...result,
-        url: url,
-        summary: {
-          extractedAt: new Date().toISOString(),
-          processingTime: `${Date.now() - startTime}ms`,  // 添加处理时间
-          source: "www.douyin.com",
-          commentCount: result.count,
-          hasLikes: result.comments.some(c => c.likes > 0),
-          topLikeCount: Math.max(...result.comments.map(c => c.likes || 0))
-        }
-      }
-    };
+    // 截图功能 - 无论评论提取成功还是失败都进行截图
+    const timestamp = Date.now();
+    const screenshotPathBase = `${screenshotDir}/douyin_${timestamp}`;
+    const screenshotPaths = [];
     
-    // 添加错误处理和日志
-    console.log(`成功爬取 ${result.count} 条评论，按点赞数排序返回前 ${Math.min(result.count, 10)} 条`);
-    if (result.count > 0) {
-      console.log('排名第一的评论:', 
-        result.comments[0] ? 
-        `${result.comments[0].username.substring(0, 10)}...: ${result.comments[0].text.substring(0, 20)}...(${result.comments[0].likes}赞)` : 
-        '无评论');
+    try {
+      // 保存当前页面截图
+      const fullPagePath = `${screenshotPathBase}_full.png`;
+      await page.screenshot({ path: fullPagePath, fullPage: true });
+      screenshotPaths.push(fullPagePath);
+      console.log(`已保存完整页面截图: ${fullPagePath}`);
+      
+      // 尝试滚动并截图评论区
+      await page.evaluate(() => {
+        // 尝试找到评论区容器并滚动
+        const commentSelectors = [
+          '.comment-mainContent',
+          '.CMU_z1Vn',
+          '.UJ3DpJTM',
+          '#commentArea',
+          '[data-e2e="comment-list"]'
+        ];
+        
+        for (const selector of commentSelectors) {
+          const container = document.querySelector(selector);
+          if (container) {
+            container.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return true;
+          }
+        }
+        
+        // 如果找不到具体的评论区，尝试滚动到页面中间
+        window.scrollTo(0, document.body.scrollHeight / 2);
+        return false;
+      });
+      
+      // 等待滚动完成
+      await page.waitForTimeout(1000);
+      
+      // 再截一张评论区截图
+      const commentsPath = `${screenshotPathBase}_comments.png`;
+      await page.screenshot({ path: commentsPath });
+      screenshotPaths.push(commentsPath);
+      console.log(`已保存评论区截图: ${commentsPath}`);
+      
+    } catch (screenshotError) {
+      console.error('截图时出错:', screenshotError);
     }
     
-    // 缓存结果
-    cache.set(cacheKey, response, CACHE_TTL);
-    res.json(response);
+    // 检查评论提取结果
+    if (!comments.success || !comments.comments || comments.comments.length === 0) {
+      const errorPath = `${screenshotPathBase}_error.png`;
+      try {
+        await page.screenshot({ path: errorPath, fullPage: true });
+        screenshotPaths.push(errorPath);
+        console.log(`已保存错误状态截图: ${errorPath}`);
+      } catch (e) {
+        console.error('保存错误截图时出错:', e);
+      }
+      
+      // 记录详细日志以便调试
+      console.error('评论提取结果有误:', JSON.stringify(comments, null, 2));
+      await browser.close();
+      
+      // 返回错误信息和截图路径
+      throw new Error(JSON.stringify({
+        error: true,
+        message: '未找到评论或提取失败',
+        details: comments,
+        screenshots: screenshotPaths.map(path => ({
+          path,
+          url: `http://localhost:${port}${path.replace(screenshotDir, '/screenshots')}`
+        }))
+      }));
+    }
+    
+    // 关闭浏览器
+    await browser.close();
+    
+    // 返回处理结果并保存到缓存
+    const responseData = {
+      success: true,
+      url: url,
+      summary: {
+        total: comments.comments.length,
+        hasLikes: comments.comments.some(c => c.likeCount && c.likeCount !== '提取失败'),
+        processTime: Date.now() - startTime,
+        commentCount: comments.comments.length,
+      },
+      comments: comments.comments.map(comment => ({
+        username: comment.username,
+        text: comment.text || comment.content, // 兼容text或content字段
+        likes: parseLikes(comment.likeCount),
+        time: comment.time,
+        raw_like_count: comment.likeCount, // 保留原始点赞数文本
+        like_method: comment.likeMethod, // 保留点赞数提取方法信息
+      })).sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 10), // 按点赞数排序，取前10条
+      debug: {
+        raw: comments.debug || {},
+        firstComment: comments.comments.length > 0 ? comments.comments[0] : null,
+        commentCount: comments.comments.length,
+        totalProcessingTime: `${Date.now() - startTime}ms`,
+        timestamp: new Date().toISOString()
+      },
+      screenshots: screenshotPaths.map(path => `http://localhost:${port}/${path}`)
+    };
+    
+    // 记录成功日志
+    addLog('success', `成功爬取 ${comments.comments.length} 条评论`, {
+      url,
+      commentCount: comments.comments.length,
+      topComment: responseData.comments.length > 0 ? {
+        likes: responseData.comments[0].likes,
+        text: responseData.comments[0].text.substring(0, 50) + (responseData.comments[0].text.length > 50 ? '...' : '')
+      } : null,
+      processingTime: `${Date.now() - startTime}ms`,
+      screenshots: responseData.screenshots
+    });
+    
+    // 保存到缓存
+    cache.set(cacheKey, responseData);
+    
+    return responseData;
     
   } catch (error) {
     console.error('处理请求时出错:', error);
     console.error('错误详情:', error.stack);
+    
+    // 解析错误信息，检查是否包含截图信息
+    let errorObj = error;
+    let screenshots = [];
+    let errorDetails = null;
+    
+    try {
+      // 检查错误是否包含JSON数据
+      const errorStr = error.message || error.toString();
+      if (typeof errorStr === 'string' && (errorStr.startsWith('{') || errorStr.includes('{"error":'))) {
+        try {
+          errorObj = JSON.parse(errorStr.substring(errorStr.indexOf('{')));
+          screenshots = errorObj.screenshots || [];
+          errorDetails = errorObj.details;
+        } catch (e) {
+          console.error('解析错误JSON失败:', e);
+        }
+      }
+    } catch (parseErr) {
+      console.error('处理错误对象时出错:', parseErr);
+    }
     
     // 根据错误类型返回不同的状态码和信息
     let statusCode = 500;
     let errorMessage = '无法获取评论';
     let errorCategory = 'UNKNOWN_ERROR';
     
-    if (error.message.includes('确保您在抖音视频页面')) {
+    if (error.message && error.message.includes('确保您在抖音视频页面')) {
       statusCode = 400;
       errorMessage = '无效的URL: ' + error.message;
       errorCategory = 'INVALID_URL';
-    } else if (error.message.includes('未找到评论')) {
+    } else if (error.message && error.message.includes('未找到评论')) {
       statusCode = 404;
       errorMessage = '未找到评论: ' + error.message;
       errorCategory = 'NO_COMMENTS_FOUND';
-    } else if (error.message.includes('Navigation timeout')) {
+    } else if (error.message && error.message.includes('Navigation timeout')) {
       statusCode = 504;
       errorMessage = '页面加载超时: 请检查网络连接或目标网站是否可访问';
       errorCategory = 'TIMEOUT';
-    } else if (error.message.includes('net::ERR_')) {
+    } else if (error.message && error.message.includes('net::ERR_')) {
       statusCode = 503;
       errorMessage = '网络错误: ' + error.message;
       errorCategory = 'NETWORK_ERROR';
-    } else if (error.message.includes('context')) {
+    } else if (error.message && error.message.includes('context')) {
       statusCode = 500;
       errorMessage = '浏览器上下文错误: 可能是服务器资源不足';
       errorCategory = 'BROWSER_ERROR';
@@ -2041,7 +2552,9 @@ app.get('/api/comments', async (req, res) => {
       errorCategory,
       originalError: error.message,
       url: url,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      screenshots: screenshots,
+      errorDetails: errorDetails
     });
   }
 });
@@ -2050,5 +2563,298 @@ app.listen(port, '0.0.0.0', () => {
   console.log(`抖音评论API服务运行在 http://0.0.0.0:${port}`);
 });
 
+// 全局错误处理设置
+process.on('uncaughtException', (error) => {
+  console.error('未捕获的异常:', error);
+  console.error('堆栈:', error.stack);
+  
+  // 记录日志
+  addLog('critical', `未捕获的异常: ${error.message}`, {
+    stack: error.stack,
+    timestamp: new Date().toISOString()
+  });
+  
+  // 对于某些可恢复的错误，我们可以继续运行
+  // 但严重错误（如内存不足）可能需要重启
+  if (error.message.includes('ENOMEM') || 
+      error.message.includes('堆内存不足') || 
+      error.message.includes('out of memory')) {
+    console.error('内存不足错误，服务将在3秒后退出...');
+    setTimeout(() => {
+      process.exit(1);
+    }, 3000);
+  }
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('未处理的Promise拒绝:', reason);
+  
+  // 记录日志
+  addLog('warning', `未处理的Promise拒绝: ${reason}`, {
+    promise: String(promise),
+    timestamp: new Date().toISOString()
+  });
+});
+
+// 错误日志API端点
+app.get('/api/logs', (req, res) => {
+  const logType = req.query.type || 'all';
+  const limit = parseInt(req.query.limit || '50');
+  
+  let filteredLogs = recentLogs;
+  
+  if (logType !== 'all') {
+    filteredLogs = recentLogs.filter(log => log.type === logType);
+  }
+  
+  res.json({
+    logs: filteredLogs.slice(0, limit),
+    total: filteredLogs.length,
+    types: ['success', 'error', 'warning', 'info', 'critical'].map(type => ({
+      type,
+      count: recentLogs.filter(log => log.type === type).length
+    }))
+  });
+});
+
+// 健康检查和API文档路由
+app.get('/', (req, res) => {
+  const docsHTML = `
+  <!DOCTYPE html>
+  <html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>抖音评论爬取API文档</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #333;
+      }
+      h1 {
+        color: #ff2d55;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+      h2 {
+        color: #007aff;
+        margin-top: 30px;
+      }
+      .endpoint {
+        background: #f5f5f7;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+      .method {
+        font-weight: bold;
+        color: #34c759;
+      }
+      code {
+        background: #eee;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+      pre {
+        background: #282c34;
+        color: #abb2bf;
+        padding: 15px;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+      .status {
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+      .status.up {
+        background: #34c759;
+        color: white;
+      }
+      .status.warn {
+        background: #ffcc00;
+        color: black;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      th, td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+      th {
+        background-color: #f5f5f7;
+      }
+      .screenshot {
+        max-width: 100%;
+        border-radius: 8px;
+        margin-top: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1>抖音评论爬取API文档</h1>
+    <div>
+      <p>服务状态: <span class="status up">运行中</span></p>
+      <p>版本: ${require('puppeteer/package.json').version} (Puppeteer)</p>
+      <p>服务启动时间: ${new Date().toLocaleString()}</p>
+    </div>
+    
+    <h2>API接口</h2>
+    <div class="endpoint">
+      <p><span class="method">GET</span> /api/comments</p>
+      <p>获取抖音视频评论数据，按点赞数排序。</p>
+      <h3>请求参数:</h3>
+      <table>
+        <tr>
+          <th>参数名</th>
+          <th>类型</th>
+          <th>必须</th>
+          <th>描述</th>
+        </tr>
+        <tr>
+          <td>url</td>
+          <td>string</td>
+          <td>是</td>
+          <td>抖音视频URL，如https://www.douyin.com/video/7123456789012345678</td>
+        </tr>
+      </table>
+      <h3>响应示例:</h3>
+      <pre>{
+  "success": true,
+  "url": "https://www.douyin.com/video/7123456789012345678",
+  "summary": {
+    "total": 42,
+    "hasLikes": true,
+    "processTime": 12345,
+    "commentCount": 42
+  },
+  "comments": [
+    {
+      "username": "抖音用户123456",
+      "text": "这个视频太有意思了！",
+      "likes": 1234,
+      "time": "3天前",
+      "raw_like_count": "1234",
+      "like_method": "selector:.VT7pNbtS"
+    },
+    ...
+  ],
+  "debug": { ... },
+  "screenshots": [
+    "http://localhost:3000/screenshots/douyin_1234567890_full.png",
+    "http://localhost:3000/screenshots/douyin_1234567890_comments.png"
+  ]
+}</pre>
+    </div>
+    
+    <div class="endpoint">
+      <p><span class="method">GET</span> /api/logs</p>
+      <p>获取服务日志信息。</p>
+      <h3>请求参数:</h3>
+      <table>
+        <tr>
+          <th>参数名</th>
+          <th>类型</th>
+          <th>必须</th>
+          <th>描述</th>
+        </tr>
+        <tr>
+          <td>type</td>
+          <td>string</td>
+          <td>否</td>
+          <td>日志类型，可选值：all, success, error, warning, info, critical。默认为all</td>
+        </tr>
+        <tr>
+          <td>limit</td>
+          <td>number</td>
+          <td>否</td>
+          <td>返回日志条数，默认50</td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="endpoint">
+      <p><span class="method">GET</span> /health</p>
+      <p>健康检查接口。</p>
+    </div>
+    
+    <div class="endpoint">
+      <p><span class="method">GET</span> /version</p>
+      <p>获取版本信息。</p>
+    </div>
+    
+    <h2>使用示例</h2>
+    <pre>fetch('http://localhost:3000/api/comments?url=https://www.douyin.com/video/7123456789012345678')
+  .then(response => response.json())
+  .then(data => console.log(data));</pre>
+    
+    <h2>注意事项</h2>
+    <ul>
+      <li>请求频率不宜过高，建议使用缓存结果</li>
+      <li>每次请求会返回截图，可用于调试</li>
+      <li>如果遇到反爬虫措施，可能需要更新选择器</li>
+    </ul>
+    
+  </body>
+  </html>
+  `;
+  res.send(docsHTML);
+});
+
+// 增强的健康检查
+app.get('/health', (req, res) => {
+  // 计算服务运行时间
+  const uptime = process.uptime();
+  const uptimeHours = Math.floor(uptime / 3600);
+  const uptimeMinutes = Math.floor((uptime % 3600) / 60);
+  const uptimeSeconds = Math.floor(uptime % 60);
+  
+  // 获取内存使用情况
+  const memoryUsage = process.memoryUsage();
+  const memoryUsageMB = {
+    rss: (memoryUsage.rss / 1024 / 1024).toFixed(2) + 'MB',
+    heapTotal: (memoryUsage.heapTotal / 1024 / 1024).toFixed(2) + 'MB',
+    heapUsed: (memoryUsage.heapUsed / 1024 / 1024).toFixed(2) + 'MB',
+    external: (memoryUsage.external / 1024 / 1024).toFixed(2) + 'MB'
+  };
+  
+  // 获取CPU使用情况
+  const cpuUsage = process.cpuUsage();
+  
+  // 检查磁盘空间
+  const screenshotDirSize = fs.existsSync(screenshotDir) ? 
+    fs.readdirSync(screenshotDir).length : 0;
+  
+  res.json({
+    status: 'ok',
+    version: '1.2.0',
+    timestamp: new Date().toISOString(),
+    uptime: `${uptimeHours}h ${uptimeMinutes}m ${uptimeSeconds}s`,
+    memory: memoryUsageMB,
+    cpu: {
+      user: cpuUsage.user,
+      system: cpuUsage.system
+    },
+    storage: {
+      screenshots: screenshotDirSize
+    },
+    cache: {
+      size: cache.keys().length,
+      stats: cache.getStats()
+    }
+  });
+});
     
     

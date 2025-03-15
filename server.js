@@ -536,7 +536,7 @@ async function withRetry(fn, maxRetries = MAX_RETRIES, retryDelay = RETRY_DELAY)
 
 // 辅助函数：自动滚动页面加载更多评论
 async function autoScroll(page) {
-  return page.evaluate(async () => {
+  return page.evaluate(async (MAX_COMMENTS) => {
     // 设置最大滚动次数防止无限滚动
     const MAX_SCROLL_COUNT = 5;
     
@@ -592,7 +592,7 @@ async function autoScroll(page) {
 
     console.log(`共找到 ${comments.length} 个评论项`);
     return comments.slice(0, MAX_COMMENTS);
-  });
+  }, MAX_COMMENTS);
 }
 
 // 评论爬取API
@@ -1224,7 +1224,7 @@ app.get('/api/comments', async (req, res) => {
         await page.waitForTimeout(2000);
         
         // 实现扩展程序的waitForComments逻辑
-        await page.evaluate((MAX_COMMENTS) => {
+        const comments = await page.evaluate((MAX_COMMENTS) => {
           try {
             console.log('开始提取评论...');
             

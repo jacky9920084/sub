@@ -3,59 +3,59 @@ proxies:
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_65678217_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_23262577_time_30
     password: P186201
   - name: 'US-2'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_81452236_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_19556138_time_30
     password: P186201
   - name: 'US-3'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_95175888_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_64474355_time_30
     password: P186201
   - name: 'US-4'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_79999973_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_38298537_time_30
     password: P186201
   - name: 'US-5'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_61548839_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_96937758_time_30
     password: P186201
   - name: 'US-6'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_92553261_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_78333417_time_30
     password: P186201
   - name: 'US-7'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_88841864_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_39397385_time_30
     password: P186201
   - name: 'US-8'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_59329745_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_38958937_time_30
     password: P186201
   - name: 'US-9'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_68333691_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_89771814_time_30
     password: P186201
   - name: 'US-10'
     type: socks5
     server: us.swiftproxy.net
     port: 7878
-    username: pp186201_custom_zone_US_st_Newyork_city_Brooklyn_sid_72444627_time_60
+    username: pp186201_custom_zone_US_st_Newyork_city_Albany_sid_15622625_time_30
     password: P186201

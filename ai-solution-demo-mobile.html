@@ -120,7 +120,7 @@
             height: 80vh;
             display: flex;
             align-items: center;
-            background: url('https://raw.githubusercontent.com/jacky9920084/sub/配图/英雄区域背景图1.png') no-repeat center center/cover;
+            background: url('https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/英雄区域背景图1.png') no-repeat center center/cover;
             position: relative;
             color: white;
         }
@@ -348,13 +348,13 @@
                 <p class="fade-in">我们的AI内容全产业链解决方案通过五大核心模块，实现了从数据到内容的闭环</p>
             </div>
             <div class="fade-in" style="text-align: center; margin-bottom: 30px;">
-                <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/3.%20核心价值图标（三个并排）.jpg" alt="核心价值" style="border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/3.%20核心价值图标（三个并排）.jpg" alt="核心价值" style="border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
             </div>
             
             <div class="cards">
                 <div class="card fade-in">
                     <div class="card-image">
-                        <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/全网热点采集系统图.png" alt="全网热点采集系统">
+                        <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/全网热点采集系统图.png" alt="全网热点采集系统" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>全网热点采集系统</h3>
@@ -368,7 +368,7 @@
                 
                 <div class="card fade-in">
                     <div class="card-image">
-                        <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/智能视频内容分析图.png" alt="智能视频内容分析">
+                        <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/智能视频内容分析图.png" alt="智能视频内容分析" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>智能视频内容分析</h3>
@@ -382,7 +382,7 @@
                 
                 <div class="card fade-in">
                     <div class="card-image">
-                        <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/用户反馈智能分析图1.png" alt="用户反馈智能分析">
+                        <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/用户反馈智能分析图1.png" alt="用户反馈智能分析" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>用户反馈智能分析</h3>
@@ -396,7 +396,7 @@
                 
                 <div class="card fade-in">
                     <div class="card-image">
-                        <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/内容策略引擎图.png" alt="内容策略引擎">
+                        <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/内容策略引擎图.png" alt="内容策略引擎" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>内容策略引擎</h3>
@@ -410,7 +410,7 @@
                 
                 <div class="card fade-in">
                     <div class="card-image">
-                        <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/精准创作系统图（zh）.png" alt="精准创作系统">
+                        <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/精准创作系统图（zh）.png" alt="精准创作系统" loading="lazy">
                     </div>
                     <div class="card-content">
                         <h3>精准创作系统</h3>
@@ -433,7 +433,7 @@
                 <p class="fade-in">我们的解决方案分为数据采集层和内容生产层两大部分，通过五个核心模块的协同工作</p>
             </div>
             <div class="fade-in" style="text-align: center; margin-bottom: 30px;">
-                <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/解决方案架构图.png" alt="解决方案架构图" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/解决方案架构图.png" alt="解决方案架构图" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
             </div>
         </div>
     </section>
@@ -447,7 +447,7 @@
             </div>
             
             <div class="fade-in" style="text-align: center; margin-bottom: 30px;">
-                <img src="https://raw.githubusercontent.com/jacky9920084/sub/配图/商业模式图1zh.png" alt="商业模式图" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                <img src="https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/商业模式图1zh.png" alt="商业模式图" style="border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
             </div>
             
             <h3 class="fade-in" style="margin-top: 30px; margin-bottom: 15px; font-size: 1.4rem;">多元化收入模式</h3>
@@ -597,24 +597,48 @@
                 });
             }, 300);
             
-            // 修复图片加载问题
+            // 增强图片加载和错误处理
             document.querySelectorAll('img').forEach(img => {
-                // 将GitHub blob链接转换为raw链接
-                if (img.src.includes('github.com') && img.src.includes('/blob/')) {
-                    img.src = img.src.replace('github.com', 'raw.githubusercontent.com').replace('/blob/', '/');
-                }
+                // 备用图片URL
+                const fallbackUrl = 'data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22500%22%20height%3D%22300%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Crect%20width%3D%22500%22%20height%3D%22300%22%20fill%3D%22%23f1f5f9%22%2F%3E%3Ctext%20x%3D%22250%22%20y%3D%22150%22%20font-size%3D%2220%22%20text-anchor%3D%22middle%22%20alignment-baseline%3D%22middle%22%20font-family%3D%22sans-serif%22%20fill%3D%22%2364748b%22%3E%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD%E5%A4%B1%E8%B4%A5%3C%2Ftext%3E%3C%2Fsvg%3E';
                 
-                // 图片加载错误处理
-                img.addEventListener('error', function() {
-                    this.onerror = null;
-                    this.alt = '图片加载失败';
-                    this.style.padding = '20px';
-                    this.style.background = '#f1f5f9';
-                    this.style.color = '#64748b';
-                    this.style.textAlign = 'center';
-                    this.style.fontSize = '0.8rem';
-                });
+                // 尝试使用另一种CDN方式加载图片
+                if (img.src.includes('cdn.jsdelivr.net/gh/jacky9920084') && !img.dataset.hasFallback) {
+                    // 记录原始URL
+                    img.dataset.originalSrc = img.src;
+                    img.dataset.hasFallback = "true";
+                    
+                    img.addEventListener('error', function() {
+                        if (this.src !== fallbackUrl) {
+                            // 如果CDN链接失败，尝试使用不同的链接格式
+                            const altSrc = this.dataset.originalSrc.replace('cdn.jsdelivr.net/gh/jacky9920084/sub@main', 'fastly.jsdelivr.net/gh/jacky9920084/sub');
+                            this.src = altSrc;
+                            
+                            // 如果再次失败，使用数据URI的SVG作为占位符
+                            this.addEventListener('error', function() {
+                                this.src = fallbackUrl;
+                                this.style.padding = '20px';
+                                this.style.border = '1px solid #e5e7eb';
+                                this.style.borderRadius = '8px';
+                            }, { once: true });
+                        }
+                    }, { once: true });
+                }
             });
+            
+            // 预加载关键图片
+            function preloadImages(srcArray) {
+                srcArray.forEach(src => {
+                    const img = new Image();
+                    img.src = src;
+                });
+            }
+            
+            preloadImages([
+                'https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/英雄区域背景图1.png',
+                'https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/3.%20核心价值图标（三个并排）.jpg',
+                'https://cdn.jsdelivr.net/gh/jacky9920084/sub@main/解决方案架构图.png'
+            ]);
         });
     </script>
 </body>

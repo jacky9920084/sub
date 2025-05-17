@@ -3,25 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>短视频脚本：烧烤店老板：你的人生，缺个“撒料”！</title>
+    <title>短视频脚本：烧烤店老板的人生“撒料”哲学</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 15px;
             background-color: #f4f4f4;
             color: #333;
         }
-        h1, h2 {
-            color: #333;
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #d35400; /* Burnt orange for titles */
+        }
+        h1 {
             text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 1.4em;
+            margin-top: 25px;
+            border-bottom: 2px solid #f0ad4e; /* Light orange underline */
+            padding-bottom: 5px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #e67e22; /* Darker orange for sub-subtitles */
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 15px;
+            font-size: 0.9em;
         }
         th, td {
             border: 1px solid #ddd;
@@ -30,223 +49,346 @@
             vertical-align: top;
         }
         th {
-            background-color: #e9ecef;
+            background-color: #f5ecd8; /* Light tan for headers */
             font-weight: bold;
+            color: #8c5a2b; /* Brownish for header text */
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        td p {
+            margin: 5px 0;
+        }
+        strong {
+            color: #c0392b; /* Reddish for emphasis/speaker */
+        }
+        .highlight {
+            background-color: #fff3cd; /* Light yellow highlight */
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-style: italic;
         }
         .button-container {
             text-align: center;
-            margin-bottom: 20px;
+            margin: 25px 0;
         }
-        button {
-            background-color: #007bff;
+        .download-button {
+            background-color: #d35400;
             color: white;
-            border: none;
-            padding: 10px 20px;
-            text-align: center;
+            padding: 12px 25px;
             text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
+            border-radius: 5px;
+            font-size: 1em;
+            border: none;
             cursor: pointer;
-            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
-        button:hover {
-            background-color: #0056b3;
+        .download-button:hover {
+            background-color: #a04000;
         }
-        .meta-info {
-            background-color: #fff;
-            padding: 15px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+
+        /* Responsive table styling */
+        @media screen and (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            tr {
+                border: 1px solid #ccc;
+                margin-bottom: 10px;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+                min-height: 30px; /* Ensure space for label */
+            }
+            td:before {
+                position: absolute;
+                top: 50%;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                transform: translateY(-50%);
+                font-weight: bold;
+                color: #8c5a2b;
+            }
+            td:nth-of-type(1):before { content: "场景/类别"; }
+            td:nth-of-type(2):before { content: "画面"; }
+            td:nth-of-type(3):before { content: "文案/台词"; }
+            td:nth-of-type(4):before { content: "表演/情绪"; }
+            td:nth-of-type(5):before { content: "音效/BGM"; }
+            td:nth-of-type(6):before { content: "画面文字"; }
+            /* For the summary table */
+            .summary-table td:nth-of-type(1):before { content: "方面"; }
+            .summary-table td:nth-of-type(2):before { content: "说明"; }
         }
-        .meta-info h3 {
-            margin-top: 0;
-            color: #007bff;
-        }
-        .meta-info p, .meta-info ul {
-            margin-bottom: 10px;
-        }
-        .meta-info ul {
-            padding-left: 20px;
-        }
-        .meta-info strong {
-            color: #555;
+         @media screen and (max-width: 480px) {
+            h1 {font-size: 1.5em;}
+            h2 {font-size: 1.2em;}
+            td { padding-left: 40%; }
+            td:before { width: 35%; font-size: 0.9em; }
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
+    <div class="container">
+        <h1>短视频脚本：烧烤店老板：你的人生，缺个“撒料”！</h1>
 
-    <h1>短视频脚本：烧烤店老板：你的人生，缺个“撒料”！</h1>
+        <div class="button-container">
+            <button onclick="downloadExcel()" class="download-button">下载脚本为 Excel</button>
+        </div>
 
-    <div class="meta-info">
-        <h3>核心概念</h3>
-        <p>当“深藏不露”的烧烤店老板，用他那套“烤串哲学”一本正经地分析并“解决”顾客的各种人生困境和日常烦恼时，会发生什么？</p>
-        <h3>爆点类型</h3>
-        <p>荒诞反差 + 知识洞察（伪） + 人设魅力</p>
-        <h3>主要场景</h3>
-        <p>烧烤店的夜宵时段</p>
-        <h3>主要角色</h3>
-        <ul>
-            <li><strong>创作者扮演的角色：</strong> 烧烤店老板（忙碌、严肃认真、只讲烤串哲学）</li>
-            <li><strong>互动角色：</strong> 深夜吃烧烤的顾客（疲惫、有心事、反应真实强烈）</li>
-        </ul>
-    </div>
+        <h2>核心信息</h2>
+        <table id="coreInfoTable">
+            <thead>
+                <tr>
+                    <th>类别</th>
+                    <th>内容</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>核心概念</strong></td>
+                    <td>当“深藏不露”的烧烤店老板，用他那套“烤串哲学”一本正经地分析并“解决”顾客的各种人生困境和日常烦恼时，会发生什么？</td>
+                </tr>
+                <tr>
+                    <td><strong>爆点类型</strong></td>
+                    <td>荒诞反差 + 知识洞察（伪） + 人设魅力</td>
+                </tr>
+                <tr>
+                    <td><strong>主要场景</strong></td>
+                    <td>烧烤店的夜宵时段</td>
+                </tr>
+                <tr>
+                    <td><strong>主要角色</strong></td>
+                    <td>
+                        <p><strong>创作者扮演的角色：</strong> 烧烤店老板（忙碌、严肃认真、只讲烤串哲学）</p>
+                        <p><strong>互动角色：</strong> 深夜吃烧烤的顾客（疲惫、有心事、反应真实强烈）</p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <div class="button-container">
-        <button onclick="downloadExcel()">下载Excel</button>
-    </div>
+        <h2>场景详述</h2>
+        <table id="scriptDetailTable">
+            <thead>
+                <tr>
+                    <th>场景编号</th>
+                    <th>画面</th>
+                    <th>文案/台词</th>
+                    <th>表演/情绪指导</th>
+                    <th>音效/BGM (建议)</th>
+                    <th>画面文字 (建议)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>场景1</strong><br>夜深了，烦恼来了</td>
+                    <td>夜晚的烧烤店，炉火熊熊，烟雾缭绕，充满烟火气。老板（围着围裙，面色专注，正在快速翻烤着炉子上的串）忙碌着。桌边坐着一位顾客（面色疲惫，眼神放空，对着桌上的啤酒或饮料发呆）。环境音有烤串滋滋声和背景音乐（可选用略带生活气息或轻微伤感的音乐）。</td>
+                    <td><p><strong>顾客：</strong>（叹气）老板...最近真是烦死了...跟女朋友吵架了...感觉...没救了...</p></td>
+                    <td>顾客语气低落，显得无精打采。老板头也不抬，继续烤串。</td>
+                    <td>烤肉的滋滋声，顾客叹气声明显。背景音乐音量适中。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>场景2</strong><br>烤串哲学 - 感情火候论</td>
+                    <td>特写老板专注烤串的手部动作（翻面、刷油）。老板边烤边说。镜头切换到顾客，捕捉其表情变化。</td>
+                    <td>
+                        <p><strong>老板：</strong>（头也不抬，语气平静而认真）嗯...你俩这感情啊，就是‘火候’没掌握好。</p>
+                        <p><strong>老板：</strong>一开始‘火太猛’，一股脑把啥都往上烤，容易‘烤焦’。现在‘火又太小’，温温吞吞的，没‘滋味’。</p>
+                    </td>
+                    <td>老板说“火太猛”、“烤焦”时手部动作可能配合地快而急促，说“火太小”、“没滋味”时动作放缓。顾客听到老板的话，先是疑惑，然后眉头微皱，有点摸不着头脑。</td>
+                    <td>老板说“火太猛”时，烤肉滋滋声可略调大；说“火太小”时，声音减弱。老板诊断时，配一个轻微的“叮”或“悟了”的音效。</td>
+                    <td><p>[字幕] <span class="highlight">感情 = 火候？</span></p><p>[画面文字] <span class="highlight">火候不对，感情报废！</span></p></td>
+                </tr>
+                <tr>
+                    <td><strong>场景3</strong><br>烤串哲学 - 感情翻面论</td>
+                    <td>老板拿起一把串，开始均匀地翻面。一边翻一边继续说。顾客的困惑加深。</td>
+                    <td>
+                        <p><strong>老板：</strong>得学会‘控火’，该旺的时候旺，该小的时候小。还得‘勤翻面’（老板手部快速翻面），多看看对方啥状态，别一面烤糊了。</p>
+                        <p><strong>老板：</strong>你现在别老盯着那块‘烤糊’的地方看，换个思路，给关系‘撒点新料’（老板另一只手拿起孜然或辣椒粉，示意）。‘小火慢烤’，看看还能不能‘烤出新的香味’。</p>
+                        <p><strong>顾客：</strong>（眼神跟随老板手里的孜然粉，表情复杂，嘴唇微张）撒...撒点新料？换个孜然粉？我们是吵架了，不是烤串啊老板...</p>
+                    </td>
+                    <td>老板动作熟练，一本正经地进行“教学”。顾客听到“撒点新料”并看到孜然粉时，表情从困惑转为哭笑不得的荒谬感，语气带着无奈的反问。</td>
+                    <td>老板翻面时配快速“刷刷”声。拿起孜然粉时，配一个轻微的“唰”声。顾客反问时，配一个喜剧性的疑问音效。</td>
+                    <td><p>[字幕] <span class="highlight">感情得“勤翻面”</span></p><p>[画面文字] <span class="highlight">撒点新料？</span></p></td>
+                </tr>
+                <tr>
+                    <td><strong>场景4</strong><br>烦恼升级 - 职场困境</td>
+                    <td>顾客摇摇头，喝了口饮料，换个话题，显得更加心事重重。</td>
+                    <td><p><strong>顾客：</strong>哎，算了感情的事儿...工作也一团糟。感觉自己没啥用，领导看不见我努力，升职加薪没我的份...</p></td>
+                    <td>顾客语气更加低沉和沮丧。老板依然忙碌。</td>
+                    <td>滋滋声继续，BGM保持低沉。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>场景5</strong><br>烤串哲学 - 职场食材腌制论</td>
+                    <td>老板拿出一块准备腌制的肉（或已经腌好的），一边看一边说。</td>
+                    <td>
+                        <p><strong>老板：</strong>（看着手里的肉，语气更认真）小伙子，你得先看清自己是什么‘食材’。是‘羊肉串’（快速猛烤），还是‘大腰子’（慢烤刷油）？</p>
+                        <p><strong>老板：</strong>你光努力没用，你得学会‘腌制’自己，找准自己的‘风味’，让领导闻着就觉得‘香’。你现在可能就是块‘没腌透’的肉（老板轻轻拍打肉块），直接上火烤，光柴，没味儿！</p>
+                        <p><strong>顾客：</strong>（瞪大眼睛，一脸难以置信，看着老板手里的肉再看看自己）我...我是块没腌透的肉？</p>
+                    </td>
+                    <td>老板对食材的观察和讲解非常投入。顾客听到把自己比作“没腌透的肉”时，表情极度惊讶，带着一丝被戳中（尽管是以荒谬方式）的复杂感。</td>
+                    <td>老板说食材名称时配轻微音效，拍打肉块时配“啪啪”声。顾客反应时，配一个喜剧性的“啊？”或静默。</td>
+                    <td><p>[字幕] <span class="highlight">职场人=食材？</span></p><p>[画面文字] <span class="highlight">你是块没腌透的肉！</span></p></td>
+                </tr>
+                <tr>
+                    <td><strong>场景6</strong><br>烤串哲学 - 职场定位论</td>
+                    <td>老板把腌好的肉放在烤炉的特定位置。</td>
+                    <td><p><strong>老板：</strong>回去好好想想，你的‘独门腌料’是啥？是写材料快？还是嘴皮子利索？把自己‘腌’出特色来，找准自己适合哪个‘火候’、哪个‘位置’烤。别在‘烤鸡翅’的火上烤‘牛肉’，那不对路。</p></td>
+                    <td>老板说话时带着一种师傅教徒弟的认真劲儿。顾客听着，表情更加复杂，似乎在努力理解这种奇葩逻辑。</td>
+                    <td>放置肉块时配“嘶啦”一声。</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>场景7</strong><br>问题顶点 - 选择困难症（高潮）</td>
+                    <td>顾客显得更加纠结和痛苦，双手抱头或挠头。</td>
+                    <td><p><strong>顾客：</strong>（抓狂）感情！工作！还有好多事儿要做选择！辞不辞职？去不去那个城市？选A还是选B？我纠结死了！点个烤串我都想半天不知道点啥！我是不是没救了老板！</p></td>
+                    <td>顾客情绪崩溃边缘，非常烦躁。</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td><strong>场景8</strong><br>烤串哲学 - 撒料决定论（高潮爆发）</td>
+                    <td>老板听到“纠结不知道点啥”，猛地看向顾客，眼神坚定。他拿起一把烤好的串，再拿起一个装满孜然粉或辣椒粉的罐子。特写老板的手，将大量的孜然粉或辣椒粉豪迈地撒在烤串上。粉末飞扬。老板表情异常认真。特写顾客的脸，从抓狂到完全震惊，眼神跟着飞扬的孜然粉。嘴巴微张。</td>
+                    <td>
+                        <p><strong>老板：</strong>（严肃，语气有力）你这是‘撒料’的时候犹豫啊！人生就像一把串，你得大胆‘撒料’！</p>
+                        <p><strong>老板：</strong>想要‘辣’就多放辣椒，想要‘香’就多放孜然！你站那儿光想，料永远撒不下去，串永远没味儿！</p>
+                        <p><strong>老板：</strong>别怕‘撒错’！大不了这口‘串’味道差了点，下次换个‘料’再试试！你不动手‘撒’，永远不知道啥味道好！先随便‘撒一把’（老板把撒好大量料的串递给顾客）！烤烤看，闻闻味儿！不行再‘二次撒料’！</p>
+                        <p><strong>顾客：</strong>（完全懵住，看着老板手里撒满料的串，再看看老板，然后看看自己，声音颤抖带着难以置信）先...先随便撒一把？！老板！我是纠结要不要换个城市工作啊！不是点烤串！这...这跟撒料一样吗？！这怎么能随便撒呢？！这串还能吃吗？！</p>
+                    </td>
+                    <td>老板说“大胆撒料”时语气非常有力量，撒料动作要夸张而豪迈，表情无比认真，仿佛在传授绝世秘籍。顾客的反应要极致，从震惊到崩溃，最后是带着哭腔的强烈反驳和对面前烤串的怀疑。</td>
+                    <td>老板说“大胆撒料”时，BGM突然变得激昂或带有史诗感。撒料瞬间配震撼或滑稽的音效，如“唰！！”或“砰！”。顾客爆发时，BGM戛然而止，或者换成急促、混乱的音效。老板递串时，配一个轻微的“叮咚”提示音。</td>
+                    <td><p>[字幕] <span class="highlight">人生 = 撒料？！</span></p><p>[画面文字，全屏弹出] <span class="highlight">大胆撒料！</span></p><p>[字幕] <span class="highlight">选择困难？先撒一把！</span></p></td>
+                </tr>
+                <tr>
+                    <td><strong>场景9</strong><br>结尾 - 余韵与升华？</td>
+                    <td>老板把撒好料的串放在顾客面前，继续忙碌。顾客手里拿着那串“撒满料”的串，表情复杂，看着串，再看看老板，眼神中带着一丝丝荒谬的理解和无奈。</td>
+                    <td>
+                        <p><strong>老板：</strong>（继续烤串，语气平静）人生百味，不试试，哪知咸甜？尝尝吧。</p>
+                        <p><strong>顾客：</strong>（看着手里的串，喃喃自语，或看向镜头）不试试...哪知咸甜...（看着面前那串料巨多的串，又看看烤炉，再看看老板）...这，这“料”是不是撒得有点猛了...下次...下次换个城市前，先来老板这儿点个串试试？</p>
+                    </td>
+                    <td>老板恢复平静和忙碌。顾客的表情从极度荒谬转为一种带着无奈的思考，也许嘴角露出一丝苦笑。最后的独白或疑问可以是对着串、对着老板，或者对着镜头。</td>
+                    <td>结尾BGM转为一段略带思考、生活化但又有点荒诞感的旋律。烤肉滋滋声减弱或消失。</td>
+                    <td><p>[字幕] <span class="highlight">人生如烤串，且烤且珍惜。</span></p><p>[Logo/账号名] <span class="highlight">XX烧烤 老板的哲学课 @XXX账号</span></p></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <table id="scriptTable">
-        <thead>
-            <tr>
-                <th>场景</th>
-                <th>画面</th>
-                <th>文案/台词</th>
-                <th>表演/情绪指导</th>
-                <th>音效/BGM (建议)</th>
-                <th>画面文字 (建议)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><strong>场景1：夜深了，烦恼来了</strong></td>
-                <td>夜晚的烧烤店，炉火熊熊，烟雾缭绕，充满烟火气。老板（围着围裙，面色专注，正在快速翻烤着炉子上的串）忙碌着。桌边坐着一位顾客（面色疲惫，眼神放空，对着桌上的啤酒或饮料发呆）。环境音有烤串滋滋声和背景音乐（可选用略带生活气息或轻微伤感的音乐）。</td>
-                <td><strong>顾客：</strong> （叹气）老板...最近真是烦死了...跟女朋友吵架了...感觉...没救了...</td>
-                <td>顾客语气低落，显得无精打采。老板头也不抬，继续烤串。</td>
-                <td>烤肉的滋滋声，顾客叹气声明显。背景音乐音量适中。</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><strong>场景2：烤串哲学 - 感情火候论</strong></td>
-                <td>特写老板专注烤串的手部动作（翻面、刷油）。老板边烤边说。镜头切换到顾客，捕捉其表情变化。</td>
-                <td>
-                    <p><strong>老板：</strong> （头也不抬，语气平静而认真）嗯...你俩这感情啊，就是‘火候’没掌握好。</p>
-                    <p><strong>老板：</strong> 一开始‘火太猛’，一股脑把啥都往上烤，容易‘烤焦’。现在‘火又太小’，温温吞吞的，没‘滋味’。</p>
-                </td>
-                <td>老板说“火太猛”、“烤焦”时手部动作可能配合地快而急促，说“火太小”、“没滋味”时动作放缓。顾客听到老板的话，先是疑惑，然后眉头微皱，有点摸不着头脑。</td>
-                <td>老板说“火太猛”时，烤肉滋滋声可略调大；说“火太小”时，声音减弱。老板诊断时，配一个轻微的“叮”或“悟了”的音效。</td>
-                <td>[字幕] 感情 = 火候？<br>[画面文字] 火候不对，感情报废！</td>
-            </tr>
-            <tr>
-                <td><strong>场景3：烤串哲学 - 感情翻面论</strong></td>
-                <td>老板拿起一把串，开始均匀地翻面。一边翻一边继续说。顾客的困惑加深。</td>
-                <td>
-                    <p><strong>老板：</strong> 得学会‘控火’，该旺的时候旺，该小的时候小。还得‘勤翻面’（老板手部快速翻面），多看看对方啥状态，别一面烤糊了。</p>
-                    <p><strong>老板：</strong> 你现在别老盯着那块‘烤糊’的地方看，换个思路，给关系‘撒点新料’（老板另一只手拿起孜然或辣椒粉，示意）。‘小火慢烤’，看看还能不能‘烤出新的香味’。</p>
-                    <p><strong>顾客：</strong> （眼神跟随老板手里的孜然粉，表情复杂，嘴唇微张）撒...撒点新料？换个孜然粉？我们是吵架了，不是烤串啊老板...</p>
-                </td>
-                <td>老板动作熟练，一本正经地进行“教学”。顾客听到“撒点新料”并看到孜然粉时，表情从困惑转为哭笑不得的荒谬感，语气带着无奈的反问。</td>
-                <td>老板翻面时配快速“刷刷”声。拿起孜然粉时，配一个轻微的“唰”声。顾客反问时，配一个喜剧性的疑问音效。</td>
-                <td>[字幕] 感情得“勤翻面”<br>[画面文字] 撒点新料？</td>
-            </tr>
-            <tr>
-                <td><strong>场景4：烦恼升级 - 职场困境</strong></td>
-                <td>顾客摇摇头，喝了口饮料，换个话题，显得更加心事重重。</td>
-                <td><strong>顾客：</strong> 哎，算了感情的事儿...工作也一团糟。感觉自己没啥用，领导看不见我努力，升职加薪没我的份...</td>
-                <td>顾客语气更加低沉和沮丧。老板依然忙碌。</td>
-                <td>滋滋声继续，BGM保持低沉。</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><strong>场景5：烤串哲学 - 职场食材腌制论</strong></td>
-                <td>老板拿出一块准备腌制的肉（或已经腌好的），一边看一边说。</td>
-                <td>
-                    <p><strong>老板：</strong> （看着手里的肉，语气更认真）小伙子，你得先看清自己是什么‘食材’。是‘羊肉串’（快速猛烤），还是‘大腰子’（慢烤刷油）？</p>
-                    <p><strong>老板：</strong> 你光努力没用，你得学会‘腌制’自己，找准自己的‘风味’，让领导闻着就觉得‘香’。你现在可能就是块‘没腌透’的肉（老板轻轻拍打肉块），直接上火烤，光柴，没味儿！</p>
-                    <p><strong>顾客：</strong> （瞪大眼睛，一脸难以置信，看着老板手里的肉再看看自己）我...我是块没腌透的肉？</p>
-                </td>
-                <td>老板对食材的观察和讲解非常投入。顾客听到把自己比作“没腌透的肉”时，表情极度惊讶，带着一丝被戳中（尽管是以荒谬方式）的复杂感。</td>
-                <td>老板说食材名称时配轻微音效，拍打肉块时配“啪啪”声。顾客反应时，配一个喜剧性的“啊？”或静默。</td>
-                <td>[字幕] 职场人=食材？<br>[画面文字] 你是块没腌透的肉！</td>
-            </tr>
-            <tr>
-                <td><strong>场景6：烤串哲学 - 职场定位论</strong></td>
-                <td>老板把腌好的肉放在烤炉的特定位置。</td>
-                <td><strong>老板：</strong> 回去好好想想，你的‘独门腌料’是啥？是写材料快？还是嘴皮子利索？把自己‘腌’出特色来，找准自己适合哪个‘火候’、哪个‘位置’烤。别在‘烤鸡翅’的火上烤‘牛肉’，那不对路。</td>
-                <td>老板说话时带着一种师傅教徒弟的认真劲儿。顾客听着，表情更加复杂，似乎在努力理解这种奇葩逻辑。</td>
-                <td>放置肉块时配“嘶啦”一声。</td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><strong>场景7：问题顶点 - 选择困难症（高潮）</strong></td>
-                <td>顾客显得更加纠结和痛苦，双手抱头或挠头。</td>
-                <td><strong>顾客：</strong> （抓狂）感情！工作！还有好多事儿要做选择！辞不辞职？去不去那个城市？选A还是选B？我纠结死了！点个烤串我都想半天不知道点啥！我是不是没救了老板！</td>
-                <td>顾客情绪崩溃边缘，非常烦躁。</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><strong>场景8：烤串哲学 - 撒料决定论（高潮爆发）</strong></td>
-                <td>老板听到“纠结不知道点啥”，猛地看向顾客，眼神坚定。他拿起一把烤好的串，再拿起一个装满孜然粉或辣椒粉的罐子。<br>特写老板的手，将大量的孜然粉或辣椒粉豪迈地撒在烤串上。粉末飞扬。老板表情异常认真。<br>特写顾客的脸，从抓狂到完全震惊，眼神跟着飞扬的孜然粉。嘴巴微张。</td>
-                <td>
-                    <p><strong>老板：</strong> （严肃，语气有力）你这是‘撒料’的时候犹豫啊！人生就像一把串，你得大胆‘撒料’！</p>
-                    <p><strong>老板：</strong> 想要‘辣’就多放辣椒，想要‘香’就多放孜然！你站那儿光想，料永远撒不下去，串永远没味儿！</p>
-                    <p><strong>老板：</strong> 别怕‘撒错’！大不了这口‘串’味道差了点，下次换个‘料’再试试！你不动手‘撒’，永远不知道啥味道好！先随便‘撒一把’（老板把撒好大量料的串递给顾客）！烤烤看，闻闻味儿！不行再‘二次撒料’！</p>
-                    <p><strong>顾客：</strong> （完全懵住，看着老板手里撒满料的串，再看看老板，然后看看自己，声音颤抖带着难以置信）先...先随便撒一把？！老板！我是纠结要不要换个城市工作啊！不是点烤串！这...这跟撒料一样吗？！这怎么能随便撒呢？！这串还能吃吗？！</p>
-                </td>
-                <td>老板说“大胆撒料”时语气非常有力量，撒料动作要夸张而豪迈，表情无比认真，仿佛在传授绝世秘籍。顾客的反应要极致，从震惊到崩溃，最后是带着哭腔的强烈反驳和对面前烤串的怀疑。</td>
-                <td>老板说“大胆撒料”时，BGM突然变得激昂或带有史诗感。撒料瞬间配震撼或滑稽的音效，如“唰！！”或“砰！”。顾客爆发时，BGM戛然而止，或者换成急促、混乱的音效。老板递串时，配一个轻微的“叮咚”提示音。</td>
-                <td>[字幕] 人生 = 撒料？！<br>[画面文字，全屏弹出] 大胆撒料！<br>[字幕] 选择困难？先撒一把！</td>
-            </tr>
-            <tr>
-                <td><strong>场景9：结尾 - 余韵与升华？</strong></td>
-                <td>老板把撒好料的串放在顾客面前，继续忙碌。顾客手里拿着那串“撒满料”的串，表情复杂，看着串，再看看老板，眼神中带着一丝丝荒谬的理解和无奈。</td>
-                <td>
-                    <p><strong>老板：</strong> （继续烤串，语气平静）人生百味，不试试，哪知咸甜？尝尝吧。</p>
-                    <p><strong>顾客：</strong> （看着手里的串，喃喃自语，或看向镜头）不试试...哪知咸甜...（看着面前那串料巨多的串，又看看烤炉，再看看老板）...这，这“料”是不是撒得有点猛了...下次...下次换个城市前，先来老板这儿点个串试试？</p>
-                </td>
-                <td>老板恢复平静和忙碌。顾客的表情从极度荒谬转为一种带着无奈的思考，也许嘴角露出一丝苦笑。最后的独白或疑问可以是对着串、对着老板，或者对着镜头。</td>
-                <td>结尾BGM转为一段略带思考、生活化但又有点荒诞感的旋律。烤肉滋滋声减弱或消失。</td>
-                <td>[字幕] 人生如烤串，且烤且珍惜。<br>[Logo/账号名] XX烧烤 老板的哲学课 @XXX账号</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="meta-info">
         <h2>脚本总结与特点</h2>
-        <ul>
-            <li><strong>主要爆点和风格：</strong> 将抽象的人生问题（感情、职场、选择）与具体的烧烤物理过程（火候、腌制、撒料）进行一本正经的荒谬类比，这种认知错位和语言冲击是核心爆点。风格是接地气的烟火气反差喜剧，通过夸张的类比和角色反应制造笑点。</li>
-            <li><strong>最核心的梗或情感点：</strong> 最核心的梗是老板将“人生抉择”比作“撒料”，并且身体力行地给出一串“撒满料”的烤串作为“示范”，极具视觉冲击和荒谬感。情感点在于顾客代表观众的共鸣和吐槽，以及老板那种“看透一切”的认真劲儿带来的奇妙体验。</li>
-            <li><strong>为什么认为这是最优的版本：</strong>
-                <ul>
-                    <li><strong>梗点组合流畅且递进：</strong> 三个梗点分别代表了关系、事业和决策，涵盖面广。从相对抽象的“火候”、“腌制”到极具视觉和行为冲击力的“撒料”，梗点的呈现方式和荒谬程度是层层递进的，在“撒料”部分达到高潮。</li>
-                    <li><strong>场景契合度高：</strong> 烧烤店夜宵场景天然带有情绪释放和生活气息，非常适合展开这种哲学讨论（尽管是烤串哲学）。老板忙碌中一本正经地讲道理，增加了真实感和戏剧性。</li>
-                    <li><strong>角色互动张力：</strong> 老板的专注和顾客的崩溃形成鲜明对比，对话节奏快，反问和吐槽点密集，观众的代入感和情绪释放通过顾客得以放大。</li>
-                    <li><strong>视听元素强化：</strong> 详细规划了老板的动作、烤串的画面、撒料的特写、顾客的表情、以及音效和画面文字的配合，这些都直接服务于梗点和喜剧效果的呈现，特别是撒料的高潮部分。</li>
-                    <li><strong>接地气的哲学：</strong> 烤串哲学虽然荒谬，但其中蕴含的一些道理（如控火=管理情绪，腌制=提升自己，撒料=大胆尝试）又具有一定的普适性，让观众在笑过后也能回味一下，增加了内容的深度。</li>
-                </ul>
-            </li>
-        </ul>
-    </div>
-
-    <div class="meta-info">
-        <h2>给表演和后期的特别建议</h2>
-        <ul>
-            <li><strong>表演（老板）：</strong> 关键在于“一本正经”和“专注”。无论说出多么荒谬的道理，老板的表情和语气都要像在传授真经。烤串动作要熟练自然。语速可以慢条斯理一些，形成反差。</li>
-            <li><strong>表演（顾客）：</strong> 反应是生命！从疲惫到困惑，从无奈到震惊，再到最后的抓狂、吐槽和一丝苦笑，情绪变化要丰富和真实。听到奇葩比喻时的微表情（皱眉、瞪眼、嘴角抽动）非常重要。</li>
-            <li><strong>后期：</strong>
-                <ul>
-                    <li><strong>节奏：</strong> 控制对话和画面的切换速度，特别是在抛出金句和梗点时，可以通过短暂的停顿或慢动作（如撒料瞬间）来强调。</li>
-                    <li><strong>音效/BGM：</strong> 烤肉的滋滋声是背景，但关键时刻的音效（如悟了、疑问、爆发、撒料）是制造笑点和情绪高潮的重要手段。BGM的选择要服务于场景氛围和情绪变化。</li>
-                    <li><strong>画面文字：</strong> 核心的“烤串哲学”金句必须用画面文字突出，方便观众截图和传播。顾客的经典反问也可以作为文字梗。</li>
-                    <li><strong>镜头：</strong> 多用特写捕捉角色表情，特别是顾客的反应。中景展现老板的烤串动作和两人的互动。撒料高潮部分一定要有特写镜头，突出老板的专注和撒料的视觉冲击力。</li>
-                </ul>
-            </li>
-        </ul>
-        <p>这个脚本将烤串的具象与人生的抽象巧妙地结合，通过强烈的角色反差和层层递进的梗点设计，辅以详细的视听指导，力求达到最佳的短视频爆点效果和传播力。</p>
+        <table id="summaryTable" class="summary-table">
+            <thead>
+                <tr>
+                    <th>方面</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>主要爆点和风格</strong></td>
+                    <td>将抽象的人生问题（感情、职场、选择）与具体的烧烤物理过程（火候、腌制、撒料）进行一本正经的荒谬类比，这种认知错位和语言冲击是核心爆点。风格是接地气的烟火气反差喜剧，通过夸张的类比和角色反应制造笑点。</td>
+                </tr>
+                <tr>
+                    <td><strong>最核心的梗或情感点</strong></td>
+                    <td>最核心的梗是老板将“人生抉择”比作“撒料”，并且身体力行地给出一串“撒满料”的烤串作为“示范”，极具视觉冲击和荒谬感。情感点在于顾客代表观众的共鸣和吐槽，以及老板那种“看透一切”的认真劲儿带来的奇妙体验。</td>
+                </tr>
+                <tr>
+                    <td><strong>为什么认为这是最优的版本</strong></td>
+                    <td>
+                        <p>1. <strong>梗点组合流畅且递进：</strong> 三个梗点分别代表了关系、事业和决策，涵盖面广。从相对抽象的“火候”、“腌制”到极具视觉和行为冲击力的“撒料”，梗点的呈现方式和荒谬程度是层层递进的，在“撒料”部分达到高潮。</p>
+                        <p>2. <strong>场景契合度高：</strong> 烧烤店夜宵场景天然带有情绪释放和生活气息，非常适合展开这种哲学讨论（尽管是烤串哲学）。老板忙碌中一本正经地讲道理，增加了真实感和戏剧性。</p>
+                        <p>3. <strong>角色互动张力：</strong> 老板的专注和顾客的崩溃形成鲜明对比，对话节奏快，反问和吐槽点密集，观众的代入感和情绪释放通过顾客得以放大。</p>
+                        <p>4. <strong>视听元素强化：</strong> 详细规划了老板的动作、烤串的画面、撒料的特写、顾客的表情、以及音效和画面文字的配合，这些都直接服务于梗点和喜剧效果的呈现，特别是撒料的高潮部分。</p>
+                        <p>5. <strong>接地气的哲学：</strong> 烤串哲学虽然荒谬，但其中蕴含的一些道理（如控火=管理情绪，腌制=提升自己，撒料=大胆尝试）又具有一定的普适性，让观众在笑过后也能回味一下，增加了内容的深度。</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>给表演和后期的特别建议</strong></td>
+                    <td>
+                        <p><strong>表演（老板）：</strong> 关键在于“一本正经”和“专注”。无论说出多么荒谬的道理，老板的表情和语气都要像在传授真经。烤串动作要熟练自然。语速可以慢条斯理一些，形成反差。</p>
+                        <p><strong>表演（顾客）：</strong> 反应是生命！从疲惫到困惑，从无奈到震惊，再到最后的抓狂、吐槽和一丝苦笑，情绪变化要丰富和真实。听到奇葩比喻时的微表情（皱眉、瞪眼、嘴角抽动）非常重要。</p>
+                        <p><strong>后期：</strong></p>
+                        <ul>
+                            <li><strong>节奏：</strong> 控制对话和画面的切换速度，特别是在抛出金句和梗点时，可以通过短暂的停顿或慢动作（如撒料瞬间）来强调。</li>
+                            <li><strong>音效/BGM：</strong> 烤肉的滋滋声是背景，但关键时刻的音效（如悟了、疑问、爆发、撒料）是制造笑点和情绪高潮的重要手段。BGM的选择要服务于场景氛围和情绪变化。</li>
+                            <li><strong>画面文字：</strong> 核心的“烤串哲学”金句必须用画面文字突出，方便观众截图和传播。顾客的经典反问也可以作为文字梗。</li>
+                            <li><strong>镜头：</strong> 多用特写捕捉角色表情，特别是顾客的反应。中景展现老板的烤串动作和两人的互动。撒料高潮部分一定要有特写镜头，突出老板的专注和撒料的视觉冲击力。</li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
-        function downloadExcel() {
-            const table = document.getElementById('scriptTable');
-            const wb = XLSX.utils.table_to_book(table, { sheet: "脚本内容" });
-            XLSX.writeFile(wb, '烧烤店老板脚本.xlsx');
+    function escapeCsvCell(cellText) {
+        if (cellText === null || cellText === undefined) {
+            return '""';
         }
-    </script>
+        let text = String(cellText).replace(/"/g, '""'); // Escape double quotes
+        // If text contains comma, newline, or double quote, enclose in double quotes
+        if (text.includes(',') || text.includes('\n') || text.includes('"')) {
+            text = '"' + text + '"';
+        }
+        return text;
+    }
 
+    function tableToCsv(tableId) {
+        const table = document.getElementById(tableId);
+        let csvContent = "";
+        if (!table) return "";
+
+        const rows = table.querySelectorAll("tr");
+        rows.forEach(row => {
+            const cells = row.querySelectorAll("th, td");
+            let rowData = [];
+            cells.forEach(cell => {
+                // For cells with multiple paragraphs or lists, join them with a space or specific separator
+                let cellText = "";
+                const paragraphs = cell.querySelectorAll('p');
+                const listItems = cell.querySelectorAll('li');
+                if (paragraphs.length > 0) {
+                    cellText = Array.from(paragraphs).map(p => p.innerText.trim()).join('; '); // Join paragraphs with semicolon
+                } else if (listItems.length > 0) {
+                     cellText = Array.from(listItems).map(li => li.innerText.trim()).join('; '); // Join list items
+                }
+                else {
+                    cellText = cell.innerText.trim();
+                }
+                rowData.push(escapeCsvCell(cellText));
+            });
+            csvContent += rowData.join(",") + "\r\n";
+        });
+        return csvContent;
+    }
+
+    function downloadExcel() {
+        let csv = "\uFEFF"; // BOM for UTF-8
+        
+        csv += "核心信息\r\n";
+        csv += tableToCsv("coreInfoTable");
+        csv += "\r\n场景详述\r\n";
+        csv += tableToCsv("scriptDetailTable");
+        csv += "\r\n脚本总结与特点\r\n";
+        csv += tableToCsv("summaryTable");
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement("a");
+        if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", "烧烤店老板的哲学脚本.csv");
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    }
+    </script>
 </body>
 </html>

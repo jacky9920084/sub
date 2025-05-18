@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商单委托任务样板 - 领播教育</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 {
+            color: #0056b3; /* 主题蓝色 */
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #0056b3;
+            padding-bottom: 0.5em;
+            font-size: 2em;
+        }
+        h2 {
+            font-size: 1.6em;
+            border-left: 4px solid #007bff;
+            padding-left: 10px;
+        }
+        h3 {
+            font-size: 1.3em;
+            color: #17a2b8; /* 次级主题色 */
+        }
+        p, li {
+            margin-bottom: 0.6em;
+            color: #555;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        strong {
+            color: #28a745; /* 强调绿色 */
+        }
+        .task-card-preview {
+            background-color: #e9ecef;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .task-card-preview p {
+            margin-bottom: 8px;
+            font-size: 0.95em;
+        }
+        .task-card-preview strong {
+            color: #343a40; /* 卡片内强调色 */
+        }
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0));
+            margin: 40px 0;
+        }
+        .section-block {
+            background-color: #fdfdff;
+            padding: 20px;
+            border-radius: 5px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+        .download-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+        .download-button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .download-button:hover {
+            background-color: #218838;
+        }
+        .download-section small {
+            display: block;
+            margin-top: 10px;
+            color: #6c757d;
+        }
+        .placeholder {
+            color: #888;
+            font-style: italic;
+        }
+        .important-note strong {
+            color: #dc3545; /* 重要提示红色 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>领播教育学员商单委托任务样板</h1>
+
+        <section id="task-list-preview">
+            <h2>委托任务列表展示范式</h2>
+            <div class="section-block">
+                <p>（在网页/小程序上，每个委托任务可以以卡片或列表形式展示以下核心信息，点击进入详情页查看完整内容）</p>
+                <div class="task-card-preview">
+                    <p><strong>委托编号：</strong> <span class="placeholder">[系统自动生成或手动编号]</span></p>
+                    <p><strong>任务标题：</strong> <span class="placeholder">[简洁明了的任务名称，如：XX牙科门店引流短视频拍摄]</span></p>
+                    <p><strong>委托方：</strong> <span class="placeholder">[合作公司名称，如：XX牙科美容]</span></p>
+                    <p><strong>任务类型：</strong> <span class="placeholder">[短视频创作 / 直播主持 / 直播运营/中控 / 其他]</span></p>
+                    <p><strong>报酬标准：</strong> <span class="placeholder">[清晰的报酬计算方式，如：10元/条（合格）]</span></p>
+                    <p><strong>任务状态：</strong> <span class="placeholder">[待领取 / 已领取 / 进行中 / 待审核 / 已完成 / 已结算]</span></p>
+                    <p><strong>截止日期：</strong> <span class="placeholder">[任务完成的最终日期]</span></p>
+                </div>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="task-detail-page">
+            <h2>委托任务详情页范式</h2>
+            <div class="section-block">
+                <p>（学员点击列表项后，进入此页面查看任务的全部细节）</p>
+
+                <h3>基础信息</h3>
+                <p><strong>委托编号：</strong> <span class="placeholder">[系统自动生成或手动编号]</span></p>
+                <p><strong>任务标题：</strong> <span class="placeholder">[简洁明了的任务名称]</span></p>
+                <p><strong>委托方：</strong> <span class="placeholder">[合作公司名称]</span></p>
+                <ul>
+                    <li>（可选）委托方简介：<span class="placeholder">[简要介绍合作公司及其业务]</span></li>
+                </ul>
+                <p><strong>任务类型：</strong> <span class="placeholder">[短视频创作 / 直播主持 / 直播运营/中控 / 其他]</span></p>
+
+                <h3>任务描述</h3>
+                <ul>
+                    <li><span class="placeholder">[详细说明本次委托的任务目标、背景和整体要求。例如：为委托方（XX牙科美容）制作用于抖音/视频号平台的引流短视频，旨在吸引潜在客户了解门店服务并到店咨询。]</span></li>
+                </ul>
+
+                <h3>具体要求</h3>
+                <ul>
+                    <li><strong>内容方向：</strong> <span class="placeholder">[明确视频/直播的主题、核心卖点、目标受众。例如：围绕“牙齿美白”服务，突出效果对比和门店专业性。]</span></li>
+                    <li><strong>技术/格式要求：</strong> <span class="placeholder">[视频时长、分辨率、文件格式、直播时长、直播平台、直播间搭建要求等。例如：短视频时长15-30秒，竖屏，MP4格式，1080P。]</span></li>
+                    <li><strong>关键信息植入：</strong> <span class="placeholder">[必须在内容中体现的元素，如：门店名称、地址、联系方式、特定优惠码、品牌Logo等。]</span></li>
+                    <li><strong>风格要求：</strong> <span class="placeholder">[活泼、专业、科普、剧情等。]</span></li>
+                    <li class="important-note"><strong>合格标准：</strong> <span class="placeholder">(<strong>非常重要！</strong> 明确列出任务被判定为“合格”的最低要求，这是结算报酬的依据。)</span>
+                        <ul>
+                            <li><strong>短视频：</strong> <span class="placeholder">画面清晰稳定，声音清楚，信息传达到位（包含门店名称和核心服务），符合内容方向，无违规内容。</span></li>
+                            <li><strong>直播主持：</strong> <span class="placeholder">完成规定时长直播，口齿清晰，能与观众进行基础互动，遵守平台直播规范。</span></li>
+                            <li><strong>直播运营/中控：</strong> <span class="placeholder">完成规定场次跟播，直播方案逻辑清晰、要素完整（包含目标、流程、选品、互动等）。</span></li>
+                        </ul>
+                    </li>
+                    <li>（可选）其他要求：<span class="placeholder">[如：需自带设备、需到指定地点拍摄/直播等。]</span></li>
+                </ul>
+
+                <h3>交付成果</h3>
+                <ul>
+                    <li><span class="placeholder">[学员需要提交的具体产物。例如：]</span>
+                        <ul>
+                            <li><strong>短视频：</strong> <span class="placeholder">[数量]条符合要求的短视频文件。</span></li>
+                            <li><strong>直播主持：</strong> <span class="placeholder">完成[数量]场直播（系统记录）。</span></li>
+                            <li><strong>直播运营/中控：</strong> <span class="placeholder">完成[数量]场跟播（系统记录），提交[数量]份直播方案文档（Word/PDF格式）。</span></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>报酬标准</h3>
+                <ul>
+                    <li><span class="placeholder">[清晰说明报酬金额和计算方式。例如：]</span>
+                        <ul>
+                            <li>短视频：<span class="placeholder">10元/条（合格后支付）</span></li>
+                            <li>直播主持：<span class="placeholder">[X]元/场 或 [Y]元/天，共[总金额]</span></li>
+                            <li>直播运营/中控：<span class="placeholder">[Z]元/场跟播 + [W]元/份直播方案，共[总金额]</span></li>
+                        </ul>
+                    </li>
+                    <li>结算周期：<span class="placeholder">[例如：任务审核通过后3-5个工作日内结算]</span></li>
+                </ul>
+
+                <h3>任务周期与截止日期</h3>
+                <ul>
+                    <li>任务发布日期：<span class="placeholder">[日期]</span></li>
+                    <li>任务领取截止日期：<span class="placeholder">[日期]</span></li>
+                    <li>任务完成截止日期：<span class="placeholder">[日期]</span></li>
+                </ul>
+
+                <h3>审核流程</h3>
+                <ul>
+                    <li><span class="placeholder">提交成果 -> 委托方/平台审核 -> 审核结果通知（合格/不合格/需修改）-> 合格则进入结算流程。</span></li>
+                    <li>（可选）修改机会：<span class="placeholder">[说明是否提供修改机会，以及修改次数限制]</span></li>
+                </ul>
+
+                <h3>提交方式</h3>
+                <ul>
+                    <li><span class="placeholder">[说明学员如何提交成果，例如：通过平台上传文件、填写提交链接等。]</span></li>
+                </ul>
+
+                <h3>注意事项</h3>
+                <ul>
+                    <li><span class="placeholder">[列出学员需要遵守的规则，如：不得抄袭、不得发布违规内容、保护委托方商业信息等。]</span></li>
+                </ul>
+            </div>
+        </section>
+
+        <hr>
+
+        <section id="usage-instructions">
+            <h2>使用说明</h2>
+            <div class="section-block">
+                <ol>
+                    <li><strong>平台实现：</strong> 您可以将此范式转化为网页或小程序上的数据结构和展示界面。每个委托任务都是一个数据条目，包含上述所有字段。</li>
+                    <li><strong>字段调整：</strong> 根据实际业务需要，您可以增加、删除或修改字段。例如，可以增加“任务难度”、“所需技能标签”、“最大领取人数”等字段。</li>
+                    <li><strong>自动化：</strong> 委托编号、任务状态、发布日期等字段可以通过系统自动化管理。</li>
+                    <li><strong>与学员系统集成：</strong> 将此系统与学员账号关联，实现任务的领取、提交、审核状态查询和报酬结算。</li>
+                    <li><strong>审核流程：</strong> 明确审核人员（是委托方自己审，还是领播教育的老师审，或者两者结合）和审核的具体流程。合格标准是核心，需要与委托方提前沟通并明确。</li>
+                </ol>
+            </div>
+        </section>
+
+        <div class="download-section">
+            <button id="downloadBtn" class="download-button">下载样板 (Markdown格式)</button>
+            <p><small>提示：下载的文件为Markdown (.md) 格式，您可以使用文本编辑器打开，或将其内容复制到Word等文档编辑器中进行进一步处理和格式化为DOCX文件。</small></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', function() {
+            const markdownContent = `
+# 【领播教育学员商单委托任务样板】
+
+## 委托任务列表展示范式：
+
+（在网页/小程序上，每个委托任务可以以卡片或列表形式展示以下核心信息，点击进入详情页查看完整内容）
+
+*   **委托编号：** [系统自动生成或手动编号]
+*   **任务标题：** [简洁明了的任务名称，如：XX牙科门店引流短视频拍摄]
+*   **委托方：** [合作公司名称，如：XX牙科美容]
+*   **任务类型：** [短视频创作 / 直播主持 / 直播运营/中控 / 其他]
+*   **报酬标准：** [清晰的报酬计算方式，如：10元/条（合格）]
+*   **任务状态：** [待领取 / 已领取 / 进行中 / 待审核 / 已完成 / 已结算]
+*   **截止日期：** [任务完成的最终日期]
+
+---
+
+## 委托任务详情页范式：
+
+（学员点击列表项后，进入此页面查看任务的全部细节）
+
+**委托编号：** [系统自动生成或手动编号]
+
+**任务标题：** [简洁明了的任务名称]
+
+**委托方：** [合作公司名称]
+*   （可选）委托方简介：[简要介绍合作公司及其业务]
+
+**任务类型：** [短视频创作 / 直播主持 / 直播运营/中控 / 其他]
+
+**任务描述：**
+*   [详细说明本次委托的任务目标、背景和整体要求。例如：为委托方（XX牙科美容）制作用于抖音/视频号平台的引流短视频，旨在吸引潜在客户了解门店服务并到店咨询。]
+
+**具体要求：**
+*   **内容方向：** [明确视频/直播的主题、核心卖点、目标受众。例如：围绕“牙齿美白”服务，突出效果对比和门店专业性。]
+*   **技术/格式要求：** [视频时长、分辨率、文件格式、直播时长、直播平台、直播间搭建要求等。例如：短视频时长15-30秒，竖屏，MP4格式，1080P。]
+*   **关键信息植入：** [必须在内容中体现的元素，如：门店名称、地址、联系方式、特定优惠码、品牌Logo等。]
+*   **风格要求：** [活泼、专业、科普、剧情等。]
+*   **合格标准：** （**非常重要！** 明确列出任务被判定为“合格”的最低要求，这是结算报酬的依据。）
+    *   **短视频：** 画面清晰稳定，声音清楚，信息传达到位（包含门店名称和核心服务），符合内容方向，无违规内容。
+    *   **直播主持：** 完成规定时长直播，口齿清晰，能与观众进行基础互动，遵守平台直播规范。
+    *   **直播运营/中控：** 完成规定场次跟播，直播方案逻辑清晰、要素完整（包含目标、流程、选品、互动等）。
+*   （可选）其他要求：[如：需自带设备、需到指定地点拍摄/直播等。]
+
+**交付成果：**
+*   [学员需要提交的具体产物。例如：]
+    *   **短视频：** [数量]条符合要求的短视频文件。
+    *   **直播主持：** 完成[数量]场直播（系统记录）。
+    *   **直播运营/中控：** 完成[数量]场跟播（系统记录），提交[数量]份直播方案文档（Word/PDF格式）。
+
+**报酬标准：**
+*   [清晰说明报酬金额和计算方式。例如：]
+    *   短视频：10元/条（合格后支付）
+    *   直播主持：[X]元/场 或 [Y]元/天，共[总金额]
+    *   直播运营/中控：[Z]元/场跟播 + [W]元/份直播方案，共[总金额]
+*   结算周期：[例如：任务审核通过后3-5个工作日内结算]
+
+**任务周期与截止日期：**
+*   任务发布日期：[日期]
+*   任务领取截止日期：[日期]
+*   任务完成截止日期：[日期]
+
+**审核流程：**
+*   提交成果 -> 委托方/平台审核 -> 审核结果通知（合格/不合格/需修改）-> 合格则进入结算流程。
+*   （可选）修改机会：[说明是否提供修改机会，以及修改次数限制]
+
+**提交方式：**
+*   [说明学员如何提交成果，例如：通过平台上传文件、填写提交链接等。]
+
+**注意事项：**
+*   [列出学员需要遵守的规则，如：不得抄袭、不得发布违规内容、保护委托方商业信息等。]
+
+---
+## 使用说明：
+
+1.  **平台实现：** 您可以将此范式转化为网页或小程序上的数据结构和展示界面。每个委托任务都是一个数据条目，包含上述所有字段。
+2.  **字段调整：** 根据实际业务需要，您可以增加、删除或修改字段。例如，可以增加“任务难度”、“所需技能标签”、“最大领取人数”等字段。
+3.  **自动化：** 委托编号、任务状态、发布日期等字段可以通过系统自动化管理。
+4.  **与学员系统集成：** 将此系统与学员账号关联，实现任务的领取、提交、审核状态查询和报酬结算。
+5.  **审核流程：** 明确审核人员（是委托方自己审，还是领播教育的老师审，或者两者结合）和审核的具体流程。合格标准是核心，需要与委托方提前沟通并明确。
+`;
+
+            const blob = new Blob([markdownContent.trimStart()], { type: 'text/markdown;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '商单委托任务样板.md';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body>
+</html>

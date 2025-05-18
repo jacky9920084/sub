@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>领播教育自媒体培训推广获客策略</title>
+    <style>
+        /* 基础样式设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+        }
+        
+        :root {
+            --primary: #4a6bdf;
+            --primary-light: #7e96e8;
+            --primary-dark: #304db7;
+            --secondary: #28a745;
+            --secondary-light: #5bd778;
+            --secondary-dark: #1e7e34;
+            --accent: #ff6b6b;
+            --accent-light: #ff9f9f;
+            --accent-dark: #e53e3e;
+            --warning: #ffc107;
+            --warning-light: #ffda6a;
+            --warning-dark: #d39e00;
+            --info: #17a2b8;
+            --info-light: #4cd3e9;
+            --info-dark: #117a8b;
+            --dark: #343a40;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --gray-dark: #495057;
+            
+            --border-radius: 10px;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            --card-hover-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* 导航栏样式 */
+        .nav {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 5px 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary);
+            margin: 2px 0;
+            border-radius: 1px;
+            transition: var(--transition);
+        }
+        
+        /* 部分通用样式 */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary-dark);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 2px;
+        }
+        
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* 卡片样式 */
+        .card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .card-title {
+            color: var(--primary-dark);
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        /* 网格布局 */
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -15px;
+        }
+        
+        .col-1, .col-2, .col-3, .col-4, .col-5, .col-6, 
+        .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+            padding: 0 15px;
+            width: 100%;
+        }
+        
+        .col-1 { width: 8.33%; }
+        .col-2 { width: 16.66%; }
+        .col-3 { width: 25%; }
+        .col-4 { width: 33.33%; }
+        .col-5 { width: 41.66%; }
+        .col-6 { width: 50%; }
+        .col-7 { width: 58.33%; }
+        .col-8 { width: 66.66%; }
+        .col-9 { width: 75%; }
+        .col-10 { width: 83.33%; }
+        .col-11 { width: 91.66%; }
+        .col-12 { width: 100%; }
+        
+        /* 统计卡片样式 */
+        .stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -15px;
+        }
+        
+        .stat-card {
+            flex: 1;
+            min-width: 200px;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            margin: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .stat-card:nth-child(1) {
+            background: linear-gradient(to bottom right, #ffffff, #e8f4ff);
+        }
+        
+        .stat-card:nth-child(2) {
+            background: linear-gradient(to bottom right, #ffffff, #e6ffef);
+        }
+        
+        .stat-card:nth-child(3) {
+            background: linear-gradient(to bottom right, #ffffff, #fff4e6);
+        }
+        
+        .stat-card:nth-child(4) {
+            background: linear-gradient(to bottom right, #ffffff, #ffe6eb);
+        }
+        
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card:nth-child(1) .stat-icon {
+            color: var(--primary);
+        }
+        
+        .stat-card:nth-child(2) .stat-icon {
+            color: var(--secondary);
+        }
+        
+        .stat-card:nth-child(3) .stat-icon {
+            color: var(--warning);
+        }
+        
+        .stat-card:nth-child(4) .stat-icon {
+            color: var(--accent);
+        }
+        
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            line-height: 1;
+        }
+        
+        .stat-card:nth-child(1) .stat-value {
+            color: var(--primary-dark);
+        }
+        
+        .stat-card:nth-child(2) .stat-value {
+            color: var(--secondary-dark);
+        }
+        
+        .stat-card:nth-child(3) .stat-value {
+            color: var(--warning-dark);
+        }
+        
+        .stat-card:nth-child(4) .stat-value {
+            color: var(--accent-dark);
+        }
+        
+        .stat-label {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        /* 问题解决方案样式 */
+        .problem-solution {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .problem-box, .solution-box {
+            flex: 1;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .problem-box {
+            background-color: #ffebee;
+            border-left: 5px solid var(--accent);
+        }
+        
+        .solution-box {
+            background-color: #e8f5e9;
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .box-title {
+            display: flex;
+            align-items: center;
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .problem-box .box-title {
+            color: var(--accent-dark);
+        }
+        
+        .solution-box .box-title {
+            color: var(--secondary-dark);
+        }
+        
+        .box-title i {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .box-content ul {
+            padding-left: 20px;
+        }
+        
+        .box-content li {
+            margin-bottom: 15px;
+        }
+        
+        .highlight {
+            background-color: rgba(255, 193, 7, 0.3);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
+        
+        /* 目标受众样式 */
+        .audience-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            background-color: var(--white);
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+        }
+        
+        .audience-item:hover {
+            transform: translateX(5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .audience-item:nth-child(1) {
+            border-left: 5px solid var(--primary);
+        }
+        
+        .audience-item:nth-child(2) {
+            border-left: 5px solid var(--secondary);
+        }
+        
+        .audience-item:nth-child(3) {
+            border-left: 5px solid var(--warning);
+        }
+        
+        .audience-item:nth-child(4) {
+            border-left: 5px solid var(--accent);
+        }
+        
+        .audience-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            color: var(--white);
+        }
+        
+        .audience-item:nth-child(1) .audience-icon {
+            background-color: var(--primary);
+        }
+        
+        .audience-item:nth-child(2) .audience-icon {
+            background-color: var(--secondary);
+        }
+        
+        .audience-item:nth-child(3) .audience-icon {
+            background-color: var(--warning);
+        }
+        
+        .audience-item:nth-child(4) .audience-icon {
+            background-color: var(--accent);
+        }
+        
+        .audience-content {
+            flex-grow: 1;
+        }
+        
+        .audience-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .audience-item:nth-child(1) .audience-title {
+            color: var(--primary-dark);
+        }
+        
+        .audience-item:nth-child(2) .audience-title {
+            color: var(--secondary-dark);
+        }
+        
+        .audience-item:nth-child(3) .audience-title {
+            color: var(--warning-dark);
+        }
+        
+        .audience-item:nth-child(4) .audience-title {
+            color: var(--accent-dark);
+        }
+        
+        .audience-description {
+            color: var(--gray);
+            font-size: 1rem;
+        }
+        
+        /* 内容类型样式 */
+        .content-type {
+            margin-bottom: 30px;
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            transition: var(--transition);
+        }
+        
+        .content-type:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .content-type-icon {
+            width: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 2.5rem;
+            flex-shrink: 0;
+            border-top-left-radius: var(--border-radius);
+            border-bottom-left-radius: var(--border-radius);
+        }
+        
+        .content-type:nth-child(1) .content-type-icon {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+        
+        .content-type:nth-child(2) .content-type-icon {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+        }
+        
+        .content-type:nth-child(3) .content-type-icon {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        }
+        
+        .content-type-details {
+            padding: 25px;
+            flex-grow: 1;
+        }
+        
+        .content-type-title {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .content-type:nth-child(1) .content-type-title {
+            color: var(--primary-dark);
+        }
+        
+        .content-type:nth-child(2) .content-type-title {
+            color: var(--secondary-dark);
+        }
+        
+        .content-type:nth-child(3) .content-type-title {
+            color: var(--accent-dark);
+        }
+        
+        .content-type-description {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+        
+        .content-type-benefits {
+            padding-left: 20px;
+        }
+        
+        .content-type-benefits li {
+            margin-bottom: 10px;
+        }
+        
+        /* 流程步骤样式 */
+        .steps-container {
+            position: relative;
+            margin-top: 50px;
+            padding: 20px 0;
+        }
+        
+        .steps-line {
+            position: absolute;
+            top: 45px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--gray-light);
+            z-index: 1;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 20%;
+        }
+        
+        .step-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .step:nth-child(1) .step-circle {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+        }
+        
+        .step:nth-child(2) .step-circle {
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
+        }
+        
+        .step:nth-child(3) .step-circle {
+            background: linear-gradient(135deg, var(--info) 0%, var(--info-dark) 100%);
+        }
+        
+        .step:nth-child(4) .step-circle {
+            background: linear-gradient(135deg, var(--warning) 0%, var(--warning-dark) 100%);
+        }
+        
+        .step:nth-child(5) .step-circle {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+        }
+        
+        .step-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .step:nth-child(1) .step-title {
+            color: var(--primary-dark);
+        }
+        
+        .step:nth-child(2) .step-title {
+            color: var(--secondary-dark);
+        }
+        
+        .step:nth-child(3) .step-title {
+            color: var(--info-dark);
+        }
+        
+        .step:nth-child(4) .step-title {
+            color: var(--warning-dark);
+        }
+        
+        .step:nth-child(5) .step-title {
+            color: var(--accent-dark);
+        }
+        
+        .step-description {
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+        
+        /* 优势卡片样式 */
+        .benefit-card {
+            background-color: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            height: 100%;
+            transition: var(--transition);
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--card-hover-shadow);
+        }
+        
+        .benefit-card:nth-child(1) {
+            border-top: 4px solid var(--primary);
+        }
+        
+        .benefit-card:nth-child(2) {
+            border-top: 4px solid var(--secondary);
+        }
+        
+        .benefit-card:nth-child(3) {
+            border-top: 4px solid var(--info);
+        }
+        
+        .benefit-card:nth-child(4) {
+            border-top: 4px solid var(--warning);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .benefit-card:nth-child(1) .benefit-icon {
+            color: var(--primary);
+        }
+        
+        .benefit-card:nth-child(2) .benefit-icon {
+            color: var(--secondary);
+        }
+        
+        .benefit-card:nth-child(3) .benefit-icon {
+            color: var(--info);
+        }
+        
+        .benefit-card:nth-child(4) .benefit-icon {
+            color: var(--warning);
+        }
+        
+        .benefit-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .benefit-card:nth-child(1) .benefit-title {
+            color: var(--primary-dark);
+        }
+        
+        .benefit-card:nth-child(2) .benefit-title {
+            color: var(--secondary-dark);
+        }
+        
+        .benefit-card:nth-child(3) .benefit-title {
+            color: var(--info-dark);
+        }
+        
+        .benefit-card:nth-child(4) .benefit-title {
+            color: var(--warning-dark);
+        }
+        
+        .benefit-description {
+            color: var(--gray);
+        }
+        
+        .benefit-list {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+        
+        .benefit-list li {
+            margin-bottom: 8px;
+        }
+        
+        /* 结论部分样式 */
+        .conclusion {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 60px;
+            border-radius: var(--border-radius);
+            text-align: center;
+            color: var(--white);
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .conclusion::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        .conclusion-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .conclusion h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .conclusion p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+        
+        .btn-accent:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            background-color: var(--primary-dark);
+            color: var(--white);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            list-style: none;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--white);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .social-icon:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .footer-copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s forwards;
+            opacity: 0;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        
+        /* 响应式设计 */
+        @media (max-width: 1199px) {
+            .container {
+                max-width: 960px;
+            }
+        }
+        
+        @media (max-width: 991px) {
+            .container {
+                max-width: 720px;
+            }
+            
+            .col-md-12 { width: 100%; }
+            .col-md-6 { width: 50%; }
+            .col-md-4 { width: 33.33%; }
+            .col-md-3 { width: 25%; }
+            
+            .problem-solution {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .steps {
+                flex-wrap: wrap;
+            }
+            
+            .step {
+                width: 50%;
+                margin-bottom: 30px;
+            }
+            
+            .steps-line {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .container {
+                max-width: 540px;
+            }
+            
+            .col-sm-12 { width: 100%; }
+            .col-sm-6 { width: 50%; }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: var(--white);
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                z-index: 1000;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 10px 0;
+            }
+            
+            .content-type {
+                flex-direction: column;
+            }
+            
+            .content-type-icon {
+                width: 100%;
+                height: 80px;
+                border-radius: var(--border-radius) var(--border-radius) 0 0;
+            }
+            
+            .audience-item {
+                flex-direction: column;
+            }
+            
+            .audience-icon {
+                margin-bottom: 15px;
+                margin-right: 0;
+            }
+            
+            .step {
+                width: 100%;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .conclusion {
+                padding: 40px 20px;
+            }
+            
+            .conclusion h2 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 575px) {
+            .container {
+                padding: 0 20px;
+            }
+            
+            .col-xs-12 { width: 100%; }
+            
+            .stats-container {
+                flex-direction: column;
+            }
+            
+            .stat-card {
+                min-width: auto;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .header p {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .benefit-card,
+            .card {
+                padding: 20px;
+            }
+        }
+        
+        /* 打印样式 */
+        @media print {
+            body {
+                color: #000;
+                background: #fff;
+            }
+            
+            .nav, .footer, .btn {
+                display: none;
+            }
+            
+            .container {
+                max-width: 100%;
+                padding: 0;
+            }
+            
+            .section {
+                padding: 20px 0;
+                page-break-inside: avoid;
+            }
+            
+            .card, .stat-card, .audience-item, .content-type, .benefit-card {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .header {
+                background: none;
+                color: #000;
+                padding: 20px 0;
+            }
+            
+            .header::before {
+                display: none;
+            }
+            
+            .conclusion {
+                background: none;
+                color: #000;
+                border: 1px solid #ddd;
+            }
+            
+            .conclusion::before {
+                display: none;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- 头部 -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1>领播教育 · 自媒体培训推广获客策略</h1>
+                <p>截流策略：抢占求职入口，引导至自媒体技能培训</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 导航栏 -->
+    <nav class="nav">
+        <div class="container">
+            <div class="nav-container">
+                <a href="#" class="nav-logo">领播教育</a>
+                <ul class="nav-links">
+                    <li><a href="#market">市场背景</a></li>
+                    <li><a href="#strategy">截流策略</a></li>
+                    <li><a href="#audience">目标受众</a></li>
+                    <li><a href="#content">内容矩阵</a></li>
+                    <li><a href="#path">转化路径</a></li>
+                    <li><a href="#benefits">预期效益</a></li>
+                </ul>
+                <div class="menu-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- 主体内容 -->
+    <main>
+        <!-- 市场背景与机遇 -->
+        <section id="market" class="section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <h2 class="section-title">市场背景与机遇</h2>
+                    <p class="section-description">自媒体行业正处于快速增长期，带来了巨大的就业与发展空间</p>
+                </div>
+                
+                <div class="stats-container fade-in-up delay-1">
+                    <div class="stat-card">
+                        <i class="fas fa-money-bill-wave stat-icon"></i>
+                        <div class="stat-value">2800亿</div>
+                        <div class="stat-label">2023年自媒体市场规模</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-clock stat-icon"></i>
+                        <div class="stat-value">3小时+</div>
+                        <div class="stat-label">短视频用户日均使用时长</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-building stat-icon"></i>
+                        <div class="stat-value">3万家</div>
+                        <div class="stat-label">中国MCN机构数量</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <i class="fas fa-users stat-icon"></i>
+                        <div class="stat-value">5.76亿</div>
+                        <div class="stat-label">微短剧用户规模</div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in-up delay-2">
+                    <h3 class="card-title"><i class="fas fa-lightbulb"></i> 蓝海市场机遇</h3>
+                    <div class="row">
+                        <div class="col-3 col-md-6 col-sm-12">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <i class="fas fa-leaf" style="font-size: 2.5rem; color: var(--secondary); margin-bottom: 10px;"></i>
+                                <h4 style="margin-bottom: 10px;">三农领域</h4>
+                                <p>抖音农技视频播放量超1200亿次，快手农技创作者21.6万，乡村电商和文旅推广领域需求旺盛</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-3 col-md-6 col-sm-12">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <i class="fas fa-user-friends" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 10px;"></i>
+                                <h4 style="margin-bottom: 10px;">银发经济</h4>
+                                <p>50岁以上月活用户3.29亿，抖音中老年女装增速230%，微短剧单剧充值最高超3000万</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-3 col-md-6 col-sm-12">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <i class="fas fa-graduation-cap" style="font-size: 2.5rem; color: var(--warning); margin-bottom: 10px;"></i>
+                                <h4 style="margin-bottom: 10px;">职业教育</h4>
+                                <p>教育部"双千"计划推动职业技能培训发展，知识付费和教育类内容变现潜力巨大</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-3 col-md-6 col-sm-12">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <i class="fas fa-robot" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 10px;"></i>
+                                <h4 style="margin-bottom: 10px;">AI驱动创新</h4>
+                                <p>数字人直播成本较传统模式降低90%，智能脚本生成工具大幅降低内容创作门槛</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 截流策略 -->
+        <section id="strategy" class="section" style="background-color: var(--light);">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <h2 class="section-title">截流策略核心</h2>
+                    <p class="section-description">抢在求职者进入传统招聘平台前，引导他们了解自媒体行业机会</p>
+                </div>
+                
+                <div class="problem-solution fade-in-up delay-1">
+                    <div class="problem-box">
+                        <div class="box-title"><i class="fas fa-exclamation-triangle"></i> 现状与挑战</div>
+                        <div class="box-content">
+                            <ul>
+                                <li>求职人群大多直接去传统招聘平台（58同城、BOSS直聘、智联招聘等），错过新兴行业机会</li>
+                                <li>已入行自媒体人才基本被知识大V垄断，竞争激烈，入行门槛高</li>
+                                <li>大多数求职者对自媒体行业认知不足，未意识到其就业价值和前景</li>
+                                <li>AI时代传统岗位受到冲击，求职者面临转型压力但缺乏明确方向</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="solution-box">
+                        <div class="box-title"><i class="fas fa-lightbulb"></i> 截流策略核心</div>
+                        <div class="box-content">
+                            <ul>
+                                <li><span class="highlight">抢在前端</span>：通过短视频内容触达求职者，在其进入传统招聘平台前影响其职业选择</li>
+                                <li><span class="highlight">价值重塑</span>：让他们认识到学习自媒体技能的必要性和行业前景</li>
+                                <li><span class="highlight">引流私域</span>：通过精准内容引发咨询，再通过线下专业转化</li>
+                                <li><span class="highlight">开发增量</span>：专注"找工作的入口人群"这一增量市场，避开与知识大V的直接竞争</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in-up delay-2" style="margin-top: 30px;">
+                    <h3 class="card-title"><i class="fas fa-chart-line"></i> 核心优势</h3>
+                    <p>相比常规招生引流方式，截流策略具有成本低、转化率高、避开竞争、客户质量高的显著优势。通过短视频平台精准触达正处于职业选择或转型期的潜在客户，在他们形成明确就业意向前提供自媒体行业的信息和价值。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 目标受众 -->
+        <section id="audience" class="section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <h2 class="section-title">目标受众精准定位</h2>
+                    <p class="section-description">找到真正需要我们帮助的潜在客户群体</p>
+                </div>
+                
+                <div class="audience-item fade-in-up delay-1">
+                    <div class="audience-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <div class="audience-content">
+                        <div class="audience-title">应届毕业生</div>
+                        <div class="audience-description">对未来职业方向迷茫，寻求新兴行业机会，对高薪职业有向往，但缺乏明确方向。通过展示自媒体行业的发展前景和薪资水平，引导其考虑自媒体作为职业选择。</div>
+                    </div>
+                </div>
+                
+                <div class="audience-item fade-in-up delay-2">
+                    <div class="audience-icon"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="audience-content">
+                        <div class="audience-title">传统行业欲转型者</div>
+                        <div class="audience-description">如文员、财务等岗位，对现有工作不满意或发展遇瓶颈，寻求更高薪或更有前景的职业发展。呈现自媒体行业与传统行业的薪资与发展对比，激发转型意愿。</div>
+                    </div>
+                </div>
+                
+                <div class="audience-item fade-in-up delay-3">
+                    <div class="audience-icon"><i class="fas fa-user-clock"></i></div>
+                    <div class="audience-content">
+                        <div class="audience-title">求职空窗期人员</div>
+                        <div class="audience-description">暂时失业或待业，希望学习新技能以提升再就业竞争力，正积极寻找出路。强调自媒体技能的快速掌握和广泛应用，以及领播教育的就业支持服务。</div>
+                    </div>
+                </div>
+                
+                <div class="audience-item fade-in-up delay-4">
+                    <div class="audience-icon"><i class="fas fa-question-circle"></i></div>
+                    <div class="audience-content">
+                        <div class="audience-title">职业方向不明确者</div>
+                        <div class="audience-description">对自媒体行业有模糊兴趣或初步认知，但不了解具体岗位、技能要求和发展路径，需要外部引导来明确方向。提供行业全景和职业发展路径图，帮助其建立清晰认知。</div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in-up delay-5" style="margin-top: 30px;">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i> 共同特征</h3>
+                    <ul>
+                        <li>核心诉求是"找到一份好工作"或"改善职业现状"</li>
+                        <li>普遍缺乏自媒体行业系统知识和实战经验，是"待教育"、"待转化"的潜在学员</li>
+                        <li>对新兴行业、高薪机会、技能提升有潜在需求，但可能未将自媒体培训视作直接解决方案</li>
+                        <li>信息获取渠道多样，短视频是重要触点之一</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 内容策略 -->
+        <section id="content" class="section" style="background-color: var(--light);">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <h2 class="section-title">三大内容策略矩阵</h2>
+                    <p class="section-description">以不同形式触达目标人群，提供有价值的行业信息</p>
+                </div>
+                
+                <div class="content-type fade-in-up delay-1">
+                    <div class="content-type-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <div class="content-type-details">
+                        <h3 class="content-type-title">动态数据可视化动画</h3>
+                        <div class="content-type-description">
+                            通过生动的数据可视化动画展示自媒体行业的机遇与前景，配合专业画外音解读，突出就业和薪资优势。
+                        </div>
+                        <ul class="content-type-benefits">
+                            <li><strong>叙事结构</strong>：引入痛点/悬念 → 呈现核心数据 → 专业解读 → 暗示解决方案 → 明确CTA</li>
+                            <li><strong>典型选题</strong>：《简历投了就没影？大数据揭秘：这3个"隐形高薪"自媒体岗位，HR抢着要！》</li>
+                            <li><strong>效果优势</strong>：直观、专业、数据驱动，建立信任感，激发职业想象空间</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="content-type fade-in-up delay-2">
+                    <div class="content-type-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="content-type-details">
+                        <h3 class="content-type-title">辩论/圆桌派形式</h3>
+                        <div class="content-type-description">
+                            通过不同视角的碰撞，引发共鸣和思考，主持人作为引导者总结出破局思路，引导观众探索新可能。
+                        </div>
+                        <ul class="content-type-benefits">
+                            <li><strong>辩题方向</strong>：《工作越找越焦虑，是'躺平'认命，还是有'赛道'能逆袭？》</li>
+                            <li><strong>辩论角色</strong>：代表不同困惑、不同心态的角色，让目标用户产生强烈代入感</li>
+                            <li><strong>主持人角色</strong>：作为有经验的观察者，提供"破局思维"或"选择框架"</li>
+                            <li><strong>效果优势</strong>：多维度、有共鸣、逻辑清晰，让转化更自然</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="content-type fade-in-up delay-3">
+                    <div class="content-type-icon">
+                        <i class="fas fa-file-video"></i>
+                    </div>
+                    <div class="content-type-details">
+                        <h3 class="content-type-title">未来职业档案概念短片</h3>
+                        <div class="content-type-description">
+                            以"科幻"或"未来畅想"风格，展现未来就业市场可能的变化，凸显自媒体技能的前瞻价值。
+                        </div>
+                        <ul class="content-type-benefits">
+                            <li><strong>视觉风格</strong>：科技感、未来感，营造"未来已来"的氛围</li>
+                            <li><strong>核心故事</strong>：AI如何改变工作，哪些岗位被替代，哪些岗位（如自媒体创意岗）反而更有价值</li>
+                            <li><strong>档案呈现</strong>：以"档案卡"形式展示未来热门自媒体职业画像与所需核心能力</li>
+                            <li><strong>效果优势</strong>：制造危机感/机遇感，突出前瞻性，激发行动欲望</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 转化路径 -->
+        <section id="path" class="section">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <h2 class="section-title">转化路径设计</h2>
+                    <p class="section-description">从短视频触达到成功转化的完整闭环</p>
+                </div>
+                
+                <div class="steps-container fade-in-up delay-1">
+                    <div class="steps-line"></div>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-circle">1</div>
+                            <div class="step-title">短视频触达</div>
+                            <div class="step-description">精准内容引发共鸣，吸引目标用户关注</div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-circle">2</div>
+                            <div class="step-title">私信咨询</div>
+                            <div class="step-description">引导用户主动发起咨询，获取更多信息</div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-circle">3</div>
+                            <div class="step-title">初步线上沟通</div>
+                            <div class="step-description">快速响应，了解基本求职意向，初步植入自媒体优势</div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-circle">4</div>
+                            <div class="step-title">邀约上门</div>
+                            <div class="step-description">以"免费职业发展咨询"等名义吸引上门</div>
+                        </div>
+                        
+                        <div class="step">
+                            <div class="step-circle">5</div>
+                            <div class="step-title">线下深度转化</div>
+                            <div class="step-description">由专业招生老师进行深度沟通和转化</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card fade-in-up delay-2" style="margin-top: 50px;">
+                    <h3 class="card-title"><i class="fas fa-rocket"></i> 线下转化核心</h3>
+                    <p>线下环节是整个转化路径的关键，主要包括：</p>
+                    <ul style="margin-top: 15px;">
+                        <li>全面介绍自媒体行业前景、岗位需求、薪资待遇</li>
+                        <li>分析用户现有求职痛点与自媒体行业机会的匹配度</li>
+                        <li>详细介绍领播教育的培训课程、师资、实战项目、就业服务及金融支持</li>
+                        <li>通过"人才孵化计划"等概念，塑造"投资自己，高薪就业"的愿景</li>
+                        <li>促成报名学习</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 预期效益 -->
+        <section id="benefits" class="section" style="background-color: var(--light);">
+            <div class="container">
+                <div class="section-header fade-in-up">
+                    <h2 class="section-title">推广获客预期效益</h2>
+                    <p class="section-description">截流策略带来的多维度价值</p>
+                </div>
+                
+                <div class="row fade-in-up delay-1">
+                    <div class="col-3 col-md-6 col-sm-12" style="margin-bottom: 30px;">
+                        <div class="benefit-card">
+                            <div class="benefit-icon"><i class="fas fa-thumbs-up"></i></div>
+                            <div class="benefit-title">提升学员质量</div>
+                            <div class="benefit-description">
+                                通过内容营销对潜在学员进行前期教育和筛选，使最终报名的学员对行业有更准确的认知和更强的学习意愿。
+                                <ul class="benefit-list">
+                                    <li>降低后期退款率</li>
+                                    <li>提高学习积极性</li>
+                                    <li>改善就业效果</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="conclusion fade-in-up delay-2">
+                    <div class="conclusion-content">
+                        <h2>总结与行动建议</h2>
+                        <p>自媒体行业的巨大发展潜力与对人才的迫切需求，为我们的培训业务提供了广阔的市场空间。通过"截流策略"，我们能够以低成本、高效率抢占求职者的注意力，在他们进入传统招聘渠道前引导其了解自媒体行业的机会，从而实现招生目标的突破。</p>
+                        <a href="#" class="btn btn-accent">启动截流策略计划</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">领播教育</div>
+                <ul class="footer-links">
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">课程体系</a></li>
+                    <li><a href="#">就业服务</a></li>
+                    <li><a href="#">联系方式</a></li>
+                </ul>
+                <div class="footer-social">
+                    <a href="#" class="social-icon"><i class="fab fa-weixin"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-weibo"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                </div>
+                <div class="footer-copyright">
+                    © 2025 领播教育 版权所有
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- JavaScript -->
+    <script>
+        // 导航菜单切换
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // 滚动动画
+        document.addEventListener('DOMContentLoaded', function() {
+            let sections = document.querySelectorAll('.fade-in-up');
+            
+            function fadeInOnScroll() {
+                sections.forEach(function(section) {
+                    let sectionTop = section.getBoundingClientRect().top;
+                    let windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight * 0.75) {
+                        section.style.opacity = "1";
+                        section.style.transform = "translateY(0)";
+                    }
+                });
+            }
+            
+            // 初始检查
+            fadeInOnScroll();
+            
+            // 滚动时检查
+            window.addEventListener('scroll', fadeInOnScroll);
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                
+                if (targetId === "#") return;
+                
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 70,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 关闭移动端菜单
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html><i class="fas fa-money-bill-wave"></i></div>
+                            <div class="benefit-title">降低获客成本</div>
+                            <div class="benefit-description">
+                                通过直接触达潜在求职者，避开传统招生渠道的高成本竞争，大幅降低单个学员的获取成本。
+                                <ul class="benefit-list">
+                                    <li>避免中间环节费用</li>
+                                    <li>减少无效曝光</li>
+                                    <li>提高转化精准度</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-3 col-md-6 col-sm-12" style="margin-bottom: 30px;">
+                        <div class="benefit-card">
+                            <div class="benefit-icon"><i class="fas fa-chart-line"></i></div>
+                            <div class="benefit-title">提升转化效率</div>
+                            <div class="benefit-description">
+                                针对真正有需求的目标人群进行内容触达，通过专业内容建立信任和认知，使线下转化事半功倍。
+                                <ul class="benefit-list">
+                                    <li>提高意向客户比例</li>
+                                    <li>缩短决策周期</li>
+                                    <li>增强品牌专业形象</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-3 col-md-6 col-sm-12" style="margin-bottom: 30px;">
+                        <div class="benefit-card">
+                            <div class="benefit-icon"><i class="fas fa-users"></i></div>
+                            <div class="benefit-title">开发增量市场</div>
+                            <div class="benefit-description">
+                                专注于"找工作的入口人群"这一增量市场，避开与自媒体知识大V的直接竞争，拓展更广阔的生源基础。
+                                <ul class="benefit-list">
+                                    <li>避开红海竞争</li>
+                                    <li>挖掘潜在客户群体</li>
+                                    <li>建立差异化定位</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-3 col-md-6 col-sm-12" style="margin-bottom: 30px;">
+                        <div class="benefit-card">
+                            <div class="benefit-icon">

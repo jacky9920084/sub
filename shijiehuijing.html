@@ -2,365 +2,377 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>视界慧景AI工具评估报告与未来发展建议</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Microsoft YaHei', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f1419 0%, #1a2332 50%, #0d1421 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #0a0e1a 0%, #1a2332 50%, #0f151f 100%);
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .header {
-            background: linear-gradient(90deg, #00bcd4 0%, #2196f3 100%);
-            padding: 25px 0;
+            background: linear-gradient(135deg, #00bcd4 0%, #2196f3 100%);
+            padding: 25px 20px;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 188, 212, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 188, 212, 0.3);
         }
 
         .header h1 {
-            font-size: 2.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: 2px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+            line-height: 1.4;
         }
 
         .main-container {
-            padding: 60px 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 20px 15px;
+            max-width: 100%;
         }
 
         .subtitle {
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 0.9rem;
             color: #00bcd4;
-            margin-bottom: 80px;
-            border-bottom: 2px solid #2196f3;
-            padding-bottom: 15px;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2196f3;
             font-weight: 300;
         }
 
-        .circular-container {
-            position: relative;
-            width: 1000px;
-            height: 1000px;
-            margin: 0 auto;
+        /* 中心圆形 */
+        .center-section {
+            text-align: center;
+            margin-bottom: 40px;
         }
 
         .center-circle {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 280px;
-            height: 280px;
+            width: 200px;
+            height: 200px;
             background: linear-gradient(135deg, #00bcd4 0%, #2196f3 100%);
             border-radius: 50%;
+            margin: 0 auto 20px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 188, 212, 0.4);
-            border: 4px solid #ffffff;
-            z-index: 10;
+            box-shadow: 0 15px 35px rgba(0, 188, 212, 0.4);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
         }
 
         .center-circle h2 {
-            font-size: 2.2rem;
-            margin-bottom: 8px;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             font-weight: bold;
         }
 
         .center-circle p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.95;
             margin: 2px 0;
         }
 
-        .module {
-            position: absolute;
-            width: 260px;
-            min-height: 200px;
-            background: linear-gradient(135deg, #1e3a4a 0%, #2d5aa0 100%);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 2px solid #00bcd4;
-            transition: all 0.4s ease;
-            cursor: pointer;
-            z-index: 5;
+        /* 模块卡片 */
+        .modules-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
 
-        .module:hover {
-            transform: scale(1.08) !important;
-            box-shadow: 0 20px 50px rgba(0, 188, 212, 0.5);
-            border-color: #2196f3;
-            z-index: 15;
+        .module {
+            background: linear-gradient(135deg, #1e3a4a 0%, #2d5aa0 100%);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #00bcd4;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .module.active::before {
+            left: 100%;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
 
         .module h3 {
             color: #00bcd4;
             font-size: 1.2rem;
-            margin-bottom: 12px;
-            text-align: center;
-            border-bottom: 2px solid #2196f3;
-            padding-bottom: 8px;
             font-weight: bold;
+            margin: 0;
+        }
+
+        .expand-icon {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #00bcd4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            background: rgba(0, 188, 212, 0.1);
+        }
+
+        .expand-icon::after {
+            content: '+';
+            color: #00bcd4;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .module.expanded .expand-icon {
+            transform: rotate(45deg);
+            background: rgba(0, 188, 212, 0.2);
         }
 
         .module-content {
-            font-size: 0.85rem;
-            line-height: 1.5;
+            font-size: 0.9rem;
+            line-height: 1.6;
             color: #e0e0e0;
-        }
-
-        .module-content h4 {
-            color: #00bcd4;
-            margin: 12px 0 6px 0;
-            font-size: 0.95rem;
-            font-weight: bold;
-        }
-
-        .module-content ul {
-            margin: 8px 0;
-            padding-left: 18px;
-        }
-
-        .module-content li {
-            margin: 6px 0;
-            list-style-type: none;
-            position: relative;
-            font-size: 0.8rem;
-        }
-
-        .module-content li:before {
-            content: "▶";
-            color: #00bcd4;
-            position: absolute;
-            left: -15px;
-            font-size: 0.7rem;
-        }
-
-        .module-content strong {
-            color: #00bcd4;
-        }
-
-        /* 使用三角函数精确定位6个模块 */
-        .module-1 { /* 引言 - 顶部 12点方向 */
-            top: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .module-2 { /* 产品优点 - 右上 2点方向 */
-            top: 200px;
-            right: 100px;
-        }
-
-        .module-3 { /* 产品缺点 - 右下 4点方向 */
-            bottom: 200px;
-            right: 100px;
-        }
-
-        .module-4 { /* 市场趋势 - 底部 6点方向 */
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .module-5 { /* 发展建议 - 左下 8点方向 */
-            bottom: 200px;
-            left: 100px;
-        }
-
-        .module-6 { /* 结论 - 左上 10点方向 */
-            top: 200px;
-            left: 100px;
-        }
-
-        /* 连接线 */
-        .connection-line {
-            position: absolute;
-            background: linear-gradient(90deg, #00bcd4, #2196f3);
-            border-radius: 2px;
-            box-shadow: 0 0 10px rgba(0, 188, 212, 0.5);
-            z-index: 1;
-        }
-
-        .line-1 { /* 中心到顶部 */
-            top: 190px;
-            left: 50%;
-            width: 3px;
-            height: 160px;
-            transform: translateX(-50%);
-        }
-
-        .line-2 { /* 中心到右上 */
-            top: 50%;
-            left: 50%;
-            width: 180px;
-            height: 3px;
-            transform-origin: left center;
-            transform: rotate(-30deg);
-        }
-
-        .line-3 { /* 中心到右下 */
-            top: 50%;
-            left: 50%;
-            width: 180px;
-            height: 3px;
-            transform-origin: left center;
-            transform: rotate(30deg);
-        }
-
-        .line-4 { /* 中心到底部 */
-            bottom: 190px;
-            left: 50%;
-            width: 3px;
-            height: 160px;
-            transform: translateX(-50%);
-        }
-
-        .line-5 { /* 中心到左下 */
-            top: 50%;
-            right: 50%;
-            width: 180px;
-            height: 3px;
-            transform-origin: right center;
-            transform: rotate(-30deg);
-        }
-
-        .line-6 { /* 中心到左上 */
-            top: 50%;
-            right: 50%;
-            width: 180px;
-            height: 3px;
-            transform-origin: right center;
-            transform: rotate(30deg);
-        }
-
-        .expand-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease;
-            margin-top: 10px;
-        }
-
-        .module:hover .expand-content {
-            max-height: 1000px;
         }
 
         .base-content {
             color: #ffffff;
         }
 
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+
+        .module.expanded .expand-content {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 15px;
+        }
+
+        .module-content h4 {
+            color: #00bcd4;
+            margin: 15px 0 8px 0;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .module-content ul {
+            margin: 10px 0;
+            padding-left: 0;
+        }
+
+        .module-content li {
+            margin: 8px 0;
+            list-style-type: none;
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.85rem;
+        }
+
+        .module-content li:before {
+            content: "▶";
+            color: #00bcd4;
+            position: absolute;
+            left: 0;
+            font-size: 0.7rem;
+            top: 2px;
+        }
+
+        .module-content strong {
+            color: #00bcd4;
+        }
+
+        .module-content p {
+            margin: 10px 0;
+            text-align: justify;
+        }
+
+        /* 特殊样式 */
+        .module:nth-child(1) {
+            border-color: #4caf50;
+        }
+
+        .module:nth-child(1) h3,
+        .module:nth-child(1) .expand-icon {
+            color: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .module:nth-child(2) {
+            border-color: #2196f3;
+        }
+
+        .module:nth-child(2) h3,
+        .module:nth-child(2) .expand-icon {
+            color: #2196f3;
+            border-color: #2196f3;
+        }
+
+        .module:nth-child(3) {
+            border-color: #ff5722;
+        }
+
+        .module:nth-child(3) h3,
+        .module:nth-child(3) .expand-icon {
+            color: #ff5722;
+            border-color: #ff5722;
+        }
+
+        .module:nth-child(4) {
+            border-color: #9c27b0;
+        }
+
+        .module:nth-child(4) h3,
+        .module:nth-child(4) .expand-icon {
+            color: #9c27b0;
+            border-color: #9c27b0;
+        }
+
+        .module:nth-child(5) {
+            border-color: #ff9800;
+        }
+
+        .module:nth-child(5) h3,
+        .module:nth-child(5) .expand-icon {
+            color: #ff9800;
+            border-color: #ff9800;
+        }
+
+        .module:nth-child(6) {
+            border-color: #00bcd4;
+        }
+
+        /* 结论区域 */
         .conclusion-section {
-            margin-top: 100px;
+            margin-top: 40px;
             background: linear-gradient(135deg, #1e3a4a 0%, #2d5aa0 100%);
             border-radius: 20px;
-            padding: 40px;
+            padding: 25px 20px;
             border: 2px solid #00bcd4;
-            box-shadow: 0 15px 35px rgba(0, 188, 212, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
         }
 
         .conclusion-section h2 {
             color: #00bcd4;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
             text-align: center;
             font-weight: bold;
         }
 
         .conclusion-section p {
-            font-size: 1.1rem;
-            line-height: 1.8;
+            font-size: 0.95rem;
+            line-height: 1.7;
             color: #e0e0e0;
             text-align: justify;
         }
 
-        /* 响应式设计 */
-        @media (max-width: 1200px) {
-            .circular-container {
-                width: 800px;
-                height: 800px;
-            }
-            
-            .module {
-                width: 220px;
-                padding: 18px;
-            }
-            
-            .center-circle {
-                width: 240px;
-                height: 240px;
-            }
-
-            .module-1 { top: 40px; }
-            .module-2 { top: 160px; right: 80px; }
-            .module-3 { bottom: 160px; right: 80px; }
-            .module-4 { bottom: 40px; }
-            .module-5 { bottom: 160px; left: 80px; }
-            .module-6 { top: 160px; left: 80px; }
+        /* 触摸反馈 */
+        .module:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
-        @media (max-width: 900px) {
-            .circular-container {
-                position: static;
-                width: 100%;
-                height: auto;
-                display: block;
-            }
-            
-            .center-circle {
-                position: static;
-                margin: 0 auto 40px;
-                width: 280px;
-                height: 200px;
-                transform: none;
-            }
-            
-            .module {
-                position: static !important;
-                transform: none !important;
-                margin: 20px auto;
-                width: 100%;
-                max-width: 500px;
-                display: block;
-            }
-            
-            .connection-line {
-                display: none;
-            }
-
-            .header h1 {
-                font-size: 1.8rem;
-            }
+        /* 进度指示器 */
+        .progress-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 50;
         }
 
-        @media (max-width: 600px) {
-            .main-container {
-                padding: 40px 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-                margin-bottom: 40px;
-            }
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: #00bcd4;
+            transform: scale(1.2);
+        }
+
+        /* 滑动提示 */
+        .swipe-hint {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* 优化长内容显示 */
+        .long-content {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .long-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .long-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .long-content::-webkit-scrollbar-thumb {
+            background: #00bcd4;
+            border-radius: 2px;
         }
     </style>
 </head>
@@ -371,41 +383,45 @@
 
     <div class="main-container">
         <div class="subtitle">
-            AI工具全面评估 / 市场趋势分析 / 未来发展建议 ENTER ENGLISH TITLE
+            AI工具全面评估 / 市场趋势分析 / 未来发展建议
         </div>
 
-        <div class="circular-container">
-            <!-- 连接线 -->
-            <div class="connection-line line-1"></div>
-            <div class="connection-line line-2"></div>
-            <div class="connection-line line-3"></div>
-            <div class="connection-line line-4"></div>
-            <div class="connection-line line-5"></div>
-            <div class="connection-line line-6"></div>
-
-            <!-- 中心圆 -->
+        <div class="center-section">
             <div class="center-circle">
                 <h2>视界慧景</h2>
                 <p>AI工具综合评估</p>
                 <p>核心竞争力分析</p>
             </div>
+        </div>
 
+        <div class="swipe-hint">
+            👆 点击展开详细内容
+        </div>
+
+        <div class="modules-container">
             <!-- 模块1：引言 -->
-            <div class="module module-1">
-                <h3>引言</h3>
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>📋 引言</h3>
+                    <div class="expand-icon"></div>
+                </div>
                 <div class="module-content base-content">
-                    <p>本报告旨在对贵公司最新研发的AI工具"视界慧景"进行全面评估...</p>
+                    <p>本报告旨在对贵公司最新研发的AI工具"视界慧景"进行全面评估，结合用户体验反馈、市场竞争格局及行业发展趋势，提出产品优缺点分析及未来发展建议...</p>
                 </div>
                 <div class="module-content expand-content">
-                    <p><strong>评估目标：</strong>本报告旨在对贵公司最新研发的AI工具"视界慧景"进行全面评估，结合用户体验反馈、市场竞争格局及行业发展趋势，提出产品优缺点分析及未来发展建议，以期为产品迭代和商业化路径提供参考。</p>
+                    <h4>📊 评估目标</h4>
+                    <p><strong>全面评估：</strong>本报告旨在对贵公司最新研发的AI工具"视界慧景"进行全面评估，结合用户体验反馈、市场竞争格局及行业发展趋势，提出产品优缺点分析及未来发展建议，以期为产品迭代和商业化路径提供参考。</p>
                 </div>
             </div>
 
             <!-- 模块2：产品优点 -->
-            <div class="module module-2">
-                <h3>产品优点</h3>
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>✅ 产品优点</h3>
+                    <div class="expand-icon"></div>
+                </div>
                 <div class="module-content base-content">
-                    <h4>核心优势</h4>
+                    <h4>🎯 核心优势</h4>
                     <ul>
                         <li>功能覆盖面广</li>
                         <li>基础生成能力具备</li>
@@ -413,26 +429,29 @@
                         <li>尝试构建内容生态</li>
                     </ul>
                 </div>
-                <div class="module-content expand-content">
-                    <h4>功能覆盖面广</h4>
+                <div class="module-content expand-content long-content">
+                    <h4>🔧 功能覆盖面广</h4>
                     <p>产品尝试涵盖AIGC生成（文生图、文生视频、文生音乐）、AI编辑（智能混剪、解说、扣图、证件照、水印编辑、音频剥离、配音、转文本、加字幕、翻译）等多个领域，展现了构建综合性AI平台的雄心。</p>
                     
-                    <h4>基础生成能力具备</h4>
+                    <h4>⚡ 基础生成能力具备</h4>
                     <p>在文生视频实测中，人物面孔（尤其是中国人像）生成效果尚可，未出现明显变形，清晰度达到一定水平，表明底层模型具备一定基础能力。</p>
                     
-                    <h4>界面设计简洁</h4>
+                    <h4>🎨 界面设计简洁</h4>
                     <p>整体界面干净，操作区域布局清晰，为用户提供了相对整洁的视觉体验。</p>
                     
-                    <h4>尝试构建内容生态</h4>
+                    <h4>🌐 尝试构建内容生态</h4>
                     <p>"数据广场"及"交易授权"机制的引入，显示了平台在用户内容分享和潜在商业化方面的初步探索。</p>
                 </div>
             </div>
 
             <!-- 模块3：产品缺点 -->
-            <div class="module module-3">
-                <h3>产品缺点</h3>
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>⚠️ 产品缺点</h3>
+                    <div class="expand-icon"></div>
+                </div>
                 <div class="module-content base-content">
-                    <h4>主要问题</h4>
+                    <h4>🚨 主要问题</h4>
                     <ul>
                         <li>界面设计与科技感不足</li>
                         <li>核心功能缺乏亮点</li>
@@ -440,29 +459,32 @@
                         <li>用户体验与引导缺失</li>
                     </ul>
                 </div>
-                <div class="module-content expand-content">
-                    <h4>界面设计与科技感不足</h4>
+                <div class="module-content expand-content long-content">
+                    <h4>🎨 界面设计与科技感不足</h4>
                     <p>纯白页面缺乏科技感，给人未开发完成的印象，色彩搭配未能有效传达AI工具的先进性。</p>
                     
-                    <h4>核心功能缺乏亮点与突出优势</h4>
+                    <h4>⭐ 核心功能缺乏亮点与突出优势</h4>
                     <p>产品功能虽多，但呈现"大杂烩"状态，没有一个功能能够做到极致或形成"杀手级"优势，例如水印去除功能未能达到"完全看不出来"的极致效果。</p>
                     
-                    <h4>模型能力单一且竞争力弱</h4>
+                    <h4>🤖 模型能力单一且竞争力弱</h4>
                     <p>对话聊天AI模型缺乏创新，文生图、文生视频、文生音乐等功能均未有突出表现，与OpenRouter、Poe、Chatbox AI等聚合平台，以及GPT4O、Imagen 3、Midjourney等专业生成工具相比，竞争力不足。</p>
                     
-                    <h4>用户体验与引导缺失</h4>
+                    <h4>👤 用户体验与引导缺失</h4>
                     <p>页面功能虽多，但缺乏使用案例、对标参考或展示，用户难以直观了解工具的强大之处，主页过于空白，没有重心突出。</p>
                     
-                    <h4>其他关键问题</h4>
+                    <h4>📋 其他关键问题</h4>
                     <p>素材管理与预览功能不完善、生成效果与剧本理解偏差、数据广场功能定位模糊、商业模式不清晰、功能上线进度缓慢等问题也需要重视。</p>
                 </div>
             </div>
 
             <!-- 模块4：市场趋势 -->
-            <div class="module module-4">
-                <h3>市场趋势与竞争格局</h3>
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>📈 市场趋势与竞争格局</h3>
+                    <div class="expand-icon"></div>
+                </div>
                 <div class="module-content base-content">
-                    <h4>行业巨头动态</h4>
+                    <h4>🏢 行业巨头动态</h4>
                     <ul>
                         <li>全栈式AI能力布局</li>
                         <li>垂直领域深化专业化</li>
@@ -470,26 +492,29 @@
                         <li>技术迭代速度加快</li>
                     </ul>
                 </div>
-                <div class="module-content expand-content">
-                    <h4>Google I/O 2025示例</h4>
+                <div class="module-content expand-content long-content">
+                    <h4>🚀 Google I/O 2025示例</h4>
                     <p>当前AI领域发展迅猛，行业巨头正进行全方位、深层次的AI能力升级：涵盖AI搜索、多模态助手（Gemini Live支持摄像头/屏幕分享）、生成媒体（VEO3视频、Imagen 4图像、Flow电影制作）、新型模型（Gemini Diffusion）、硬件平台（Android XR、Google Beam）及开发者工具（Gemini Code Assist）。</p>
                     
-                    <h4>红杉资本AI闭门会核心判断</h4>
+                    <h4>💰 红杉资本AI闭门会核心判断</h4>
                     <p>红杉资本作为投资风向标，其对AI未来的判断对行业发展具有重要指导意义：</p>
                     <ul>
-                        <li><strong>判断一：AI是下一个操作系统。</strong>AI将成为类似Windows/iOS的基础平台，主导任务分发、行为编排、资源调用，市场规模预计是云计算的十倍以上，将吞噬软件和服务利润，重塑SaaS、外包、咨询等行业。</li>
-                        <li><strong>判断二：价值在于结果型AI应用。</strong>不看好底层大模型（巨头军备竞赛）和中间层工具（临时性，易被淘汰/集成），而看好能够接收任务、处理流程并直接交付结果的"结果型AI应用"。</li>
-                        <li><strong>判断三：智能体经济（Agent Economy）崛起。</strong>AI正从聊天机器人进化为有身份、有记忆、有目标、有自主行动能力的"智能体"（Agent），成为真正的"数字员工"。</li>
-                        <li><strong>判断四：企业需要AI原生化转型。</strong>AI是下一轮竞争力的关键变量，企业需重构运行方式。</li>
+                        <li><strong>🖥️ 判断一：AI是下一个操作系统。</strong>AI将成为类似Windows/iOS的基础平台，主导任务分发、行为编排、资源调用，市场规模预计是云计算的十倍以上，将吞噬软件和服务利润，重塑SaaS、外包、咨询等行业。</li>
+                        <li><strong>🎯 判断二：价值在于结果型AI应用。</strong>不看好底层大模型（巨头军备竞赛）和中间层工具（临时性，易被淘汰/集成），而看好能够接收任务、处理流程并直接交付结果的"结果型AI应用"。</li>
+                        <li><strong>🤖 判断三：智能体经济（Agent Economy）崛起。</strong>AI正从聊天机器人进化为有身份、有记忆、有目标、有自主行动能力的"智能体"（Agent），成为真正的"数字员工"。</li>
+                        <li><strong>🏢 判断四：企业需要AI原生化转型。</strong>AI是下一轮竞争力的关键变量，企业需重构运行方式。</li>
                     </ul>
                 </div>
             </div>
 
             <!-- 模块5：发展建议 -->
-            <div class="module module-5">
-                <h3>未来发展建议</h3>
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>💡 未来发展建议</h3>
+                    <div class="expand-icon"></div>
+                </div>
                 <div class="module-content base-content">
-                    <h4>核心建议</h4>
+                    <h4>🎯 核心建议</h4>
                     <ul>
                         <li>明确产品定位，深耕垂直场景</li>
                         <li>拥抱智能体（Agent）范式</li>
@@ -498,44 +523,45 @@
                         <li>加强市场营销与用户沟通</li>
                     </ul>
                 </div>
-                <div class="module-content expand-content">
-                    <h4>1. 明确产品定位，深耕垂直场景，打造"人无我有，人有我优"的极致应用</h4>
+                <div class="module-content expand-content long-content">
+                    <h4>🎯 1. 明确产品定位，深耕垂直场景，打造"人无我有，人有我优"的极致应用</h4>
                     <p><strong>从"大杂烩"转向"精而深"：</strong>贵公司应深刻理解"应用级AI"的本质——即要做到"人无我有，人有我优"。这意味着必须避免功能堆砌，选择1-2个核心场景或功能，集中所有资源进行深度优化，使其能够直接交付用户所需的结果，而非仅仅提供工具。</p>
-                    <p><strong>以LovArt为例：</strong>借鉴当前市场热点——LovArt AI Agent的成功经验。LovArt作为全球首个设计AI Agent，通过集成多模型（如GPT image-1、Flux Pro、OpenAI-o3、Gemini Imagen 3等）和构建智能工作流（Talk-Tab-Tune模式），实现了从自然语言指令到品牌设计、营销物料等全流程、多模态内容的自动化生成。</p>
+                    <p><strong>🎨 以LovArt为例：</strong>借鉴当前市场热点——LovArt AI Agent的成功经验。LovArt作为全球首个设计AI Agent，通过集成多模型（如GPT image-1、Flux Pro、OpenAI-o3、Gemini Imagen 3等）和构建智能工作流（Talk-Tab-Tune模式），实现了从自然语言指令到品牌设计、营销物料等全流程、多模态内容的自动化生成。</p>
                                         
-                    <h4>2. 拥抱智能体（Agent）范式，重塑产品交互与价值交付</h4>
+                    <h4>🤖 2. 拥抱智能体（Agent）范式，重塑产品交互与价值交付</h4>
                     <p><strong>将功能升级为"数字员工"：</strong>思考如何将现有或未来开发的功能转化为能够自主完成任务的"数字员工"或"智能体"。例如，将"智能混剪"升级为"视频内容创作Agent"，能够根据用户需求自主完成从素材选择、剪辑、配乐到字幕生成的全流程，真正解放用户双手。</p>
-                    <p><strong>构建AI原生化交互：</strong>提升界面科技感和视觉吸引力，简化操作流程，提供更智能的引导，让用户感受到AI的"自主性"和"智能性"，而非仅仅是工具的堆砌。</p>
+                    <p><strong>✨ 构建AI原生化交互：</strong>提升界面科技感和视觉吸引力，简化操作流程，提供更智能的引导，让用户感受到AI的"自主性"和"智能性"，而非仅仅是工具的堆砌。</p>
                     
-                    <h4>3. 创新商业模式，探索"第二道钱"的盈利路径</h4>
-                    <p><strong>警惕直接使用收费的局限性：</strong>在中国市场，用户对软件的直接使用付费意愿普遍较弱，除非产品能达到全球唯一且不可替代的"苹果级"刚需体验，让用户青睐到不在乎价格。因此，指望单纯依靠使用收费来盈利是极其困难且愚蠢的。</p>
-                    <p><strong>借鉴"麦当劳模式"：</strong>贵公司应学习麦当劳"汉堡不赚钱，赚钱的是商业地产和品牌"的思维。这意味着，AI应用本身可能只是一个入口或载体，真正的利润点在于其背后或延伸出的"第二道钱"。</p>
+                    <h4>💰 3. 创新商业模式，探索"第二道钱"的盈利路径</h4>
+                    <p><strong>⚠️ 警惕直接使用收费的局限性：</strong>在中国市场，用户对软件的直接使用付费意愿普遍较弱，除非产品能达到全球唯一且不可替代的"苹果级"刚需体验，让用户青睐到不在乎价格。因此，指望单纯依靠使用收费来盈利是极其困难且愚蠢的。</p>
+                    <p><strong>🍔 借鉴"麦当劳模式"：</strong>贵公司应学习麦当劳"汉堡不赚钱，赚钱的是商业地产和品牌"的思维。这意味着，AI应用本身可能只是一个入口或载体，真正的利润点在于其背后或延伸出的"第二道钱"。</p>
+                    
+                    <h4>🔧 4. 强化模型能力与创新，驱动Agent核心能力</h4>
+                    <p><strong>🎥 提升多模态理解与生成一致性：</strong>针对文生视频等复杂任务，投入更多资源进行模型训练，提高对剧本、提示词的理解能力，确保生成内容的连贯性和高质量，这是Agent能够自主完成任务的基础。</p>
+                    <p><strong>🎵 引入原生音频生成与多模态Agent：</strong>视频生成应考虑原生音频，或提供高质量的智能配音和音效生成功能。探索开发能够处理多种模态（文本、图像、视频、音频）并进行复杂决策的Agent。</p>
+                    
+                    <h4>📢 5. 加强市场营销与用户沟通，引领AI原生化认知</h4>
+                    <p><strong>🎯 突出Agent价值主张：</strong>明确并宣传产品如何帮助用户实现"一个人独角兽"或"数字员工"的愿景，吸引目标用户。</p>
+                    <p><strong>🌐 建立用户社区与Agent开发者生态：</strong>鼓励用户反馈，收集需求，并考虑开放Agent开发接口，吸引开发者共同构建Agent生态，形成良性循环，指导产品迭代。</p>
                 </div>
             </div>
 
             <!-- 模块6：结论 -->
-            <div class="module module-6">
-                <h3>结论</h3>
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>🎯 结论</h3>
+                    <div class="expand-icon"></div>
+                </div>
                 <div class="module-content base-content">
                     <p>"视界慧景"展现广阔潜力，但面临定位模糊、竞争力不足等挑战。应聚焦打造结果型AI应用和智能体...</p>
                 </div>
-                <div class="module-content expand-content">
-                    <h4>核心结论</h4>
+                <div class="module-content expand-content long-content">
+                    <h4>📊 核心结论</h4>
                     <p>"视界慧景"AI工具展现了广阔的开发潜力，但当前面临产品定位模糊、核心竞争力不足、用户体验有待提升等挑战。</p>
                     
-                    <h4>发展方向</h4>
+                    <h4>🚀 发展方向</h4>
                     <p>借鉴行业领先者的发展经验，特别是红杉资本关于"AI是下一个操作系统"、"价值在于结果型AI应用"和"智能体经济崛起"的判断，贵公司应聚焦于打造能够交付最终价值的"结果型AI应用"和"智能体"，并以此为核心重构产品设计、商业模式和组织战略。</p>
                     
-                    <h4>市场机遇</h4>
+                    <h4>💡 市场机遇</h4>
                     <p>同时，在中国市场，应创新盈利模式，探索"第二道钱"的收入来源。这将是贵公司在激烈AI市场中脱颖而出，并引领AI原生化转型的关键。</p>
                 </div>
-            </div>
-        </div>
-
-        <div class="conclusion-section">
-            <h2>核心洞察</h2>
-            <p>借鉴关于"AI是下一个操作系统"、"价值在于结果型AI应用"和"智能体经济崛起"的判断，贵公司应聚焦于打造能够交付最终价值的"结果型AI应用"和"智能体"，并以此为核心重构产品设计、商业模式和组织战略。同时，在中国市场，应创新盈利模式，探索"第二道钱"的收入来源。这将是贵公司在激烈AI市场中脱颖而出，并引领AI原生化转型的关键。</p>
-        </div>
-    </div>
-</body>
-</html>

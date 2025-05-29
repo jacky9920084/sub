@@ -24,13 +24,12 @@
         }
 
         .header {
-            background: transparent;
-            padding: 25px 20px;
+            background: rgba(10, 14, 26, 0.8);
+            padding: 20px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 20px rgba(0, 188, 212, 0.3);
             backdrop-filter: blur(10px);
             border-bottom: 1px solid rgba(0, 188, 212, 0.2);
         }
@@ -245,7 +244,7 @@
             }
 
             .header {
-                padding: 20px 15px;
+                padding: 15px 15px;
             }
             
             .header div:first-child {
@@ -258,6 +257,11 @@
             
             .header div:nth-child(3) {
                 font-size: 0.8rem !important;
+            }
+
+            .solar-viewing-area {
+                height: 220px !important;
+                margin-bottom: 30px !important;
             }
         }
 
@@ -564,6 +568,25 @@
             background: #00bcd4;
             border-radius: 2px;
         }
+
+        /* 太阳系观赏区域 */
+        .solar-viewing-area {
+            background: transparent;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solar-viewing-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: transparent;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -587,7 +610,12 @@
     </div>
 
     <div class="main-container">
-        <div class="swipe-hint" style="margin-top: 20px; margin-bottom: 30px;">
+        <!-- 预留太阳系观赏区域 -->
+        <div class="solar-viewing-area" style="height: 280px; margin-bottom: 40px; position: relative;">
+            <!-- 这个区域专门用来观赏太阳系背景 -->
+        </div>
+        
+        <div class="swipe-hint" style="margin-bottom: 30px;">
             👇 点击展开详细内容
         </div>
 

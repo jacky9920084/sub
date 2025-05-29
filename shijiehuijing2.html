@@ -31,6 +31,8 @@
             top: 0;
             z-index: 100;
             box-shadow: 0 2px 20px rgba(0, 188, 212, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 188, 212, 0.2);
         }
 
         .header h1 {
@@ -46,16 +48,6 @@
             max-width: 100%;
             position: relative;
             z-index: 10;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 0.9rem;
-            color: #00bcd4;
-            margin-bottom: 30px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #2196f3;
-            font-weight: 300;
         }
 
         /* Full-page solar system background */
@@ -251,79 +243,51 @@
                 width: 17px;
                 height: 17px;
             }
+
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header div:first-child {
+                font-size: 1.4rem !important;
+            }
+            
+            .header div:nth-child(2) {
+                font-size: 0.9rem !important;
+            }
+            
+            .header div:nth-child(3) {
+                font-size: 0.8rem !important;
+            }
         }
 
-        .center-section {
+        /* 移除不再需要的样式 */
+        .center-section,
+        .center-circle,
+        .content-overlay,
+        .subtitle {
+            display: none;
+        }
+
+        /* 手指提示优化 */
+        .swipe-hint {
             text-align: center;
-            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            animation: bounce 2s ease-in-out infinite;
             position: relative;
             z-index: 10;
         }
 
-        .center-circle {
-            width: 300px; /* Reduced size since solar system is now full-page */
-            height: 300px;
-            background: rgba(30, 58, 74, 0.3); /* Semi-transparent background for text readability */
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex; 
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 0 40px rgba(0, 160, 190, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            position: relative;
-            backdrop-filter: blur(5px); /* Blur effect for better text readability */
-        }
-
-        /* Remove old solar system from center circle */
-        .solar-system {
-            display: none;
-        }
-
-        .content-overlay {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            text-align: center;
-            z-index: 20;
-            text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
-        }
-
-        .content-overlay h2 {
-            font-size: 1.8rem;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .content-overlay p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-            margin: 3px 0;
-        }
-
-        /* Mobile responsiveness for center circle */
-        @media (max-width: 767px) {
-            .center-circle {
-                width: 250px;
-                height: 250px;
+        @keyframes bounce {
+            0%, 100% { 
+                transform: translateY(0); 
+                opacity: 0.8; 
             }
-            
-            .content-overlay h2 {
-                font-size: 1.4rem;
+            50% { 
+                transform: translateY(-8px); 
+                opacity: 1; 
             }
-            
-            .content-overlay p {
-                font-size: 0.8rem;
-            }
-        }
-
-        @keyframes rotateOrbit {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
         }
 
         /* 模块卡片 */
@@ -575,18 +539,9 @@
             transform: scale(1.2);
         }
 
-        /* 滑动提示 */
-        .swipe-hint {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.8rem;
-            margin-bottom: 20px;
-            animation: fadeInOut 2s ease-in-out infinite;
-        }
-
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        @keyframes rotateOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         /* 优化长内容显示 */
@@ -612,6 +567,12 @@
     </style>
 </head>
 <body>
+    <div class="header">
+        <div style="font-size: 1.6rem; font-weight: bold; margin-bottom: 8px; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.5);">视界慧景</div>
+        <div style="font-size: 1rem; margin-bottom: 5px; opacity: 0.9;">AI工具综合评估 · 核心竞争力分析</div>
+        <div style="font-size: 0.9rem; opacity: 0.8;">AI工具全面评估 / 市场趋势分析 / 未来发展建议</div>
+    </div>
+
     <!-- Full-page solar system background -->
     <div class="page-solar-system">
         <div class="sun"></div>
@@ -625,27 +586,9 @@
         <div class="orbit page-orbit-8"><div class="planet page-planet-8"></div></div>
     </div>
 
-    <div class="header">
-        <h1>视界慧景AI工具评估与未来发展建议</h1>
-    </div>
-
     <div class="main-container">
-        <div class="subtitle">
-            AI工具全面评估 / 市场趋势分析 / 未来发展建议
-        </div>
-
-        <div class="center-section">
-            <div class="center-circle">
-                <div class="content-overlay">
-                    <h2>视界慧景</h2>
-                    <p>AI工具综合评估</p>
-                    <p>核心竞争力分析</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="swipe-hint">
-            👆 点击展开详细内容
+        <div class="swipe-hint" style="margin-top: 20px; margin-bottom: 30px;">
+            👇 点击展开详细内容
         </div>
 
         <div class="modules-container">

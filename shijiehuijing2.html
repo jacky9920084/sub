@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>视界慧景AI工具评估与未来发展建议</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(180deg, #0a0e1a 0%, #1a2332 50%, #0f151f 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        .header {
+            background: transparent;
+            padding: 25px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 20px rgba(0, 188, 212, 0.3);
+        }
+
+        .header h1 {
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            letter-spacing: 1px;
+            line-height: 1.4;
+        }
+
+        .main-container {
+            padding: 20px 15px;
+            max-width: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #00bcd4;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #2196f3;
+            font-weight: 300;
+        }
+
+        /* Full-page solar system background */
+        .page-solar-system {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image:
+                /* Layer 1: Tiny, dense, faint */
+                radial-gradient(circle 0.4px, rgba(255,255,255,0.25) 0.4px, transparent 0.8px),
+                /* Layer 2: Small, medium density, medium faint */
+                radial-gradient(circle 0.7px, rgba(255,255,255,0.35) 0.7px, transparent 1.2px),
+                /* Layer 3: Medium, sparser, brighter */
+                radial-gradient(circle 1.0px, rgba(255,255,255,0.5) 1.0px, transparent 1.6px),
+                /* Layer 4: Tiny, different dense pattern, faint */
+                radial-gradient(circle 0.5px, rgba(255,255,255,0.3) 0.5px, transparent 1.0px),
+                /* Layer 5: Slightly larger, very sparse, quite bright */
+                radial-gradient(circle 1.3px, rgba(255,255,255,0.6) 1.3px, transparent 2.0px),
+                /* Layer 6: Very tiny, dense, very faint, different pattern */
+                radial-gradient(circle 0.3px, rgba(255,255,255,0.2) 0.3px, transparent 0.7px);
+            background-size: 
+                37px 37px,  
+                53px 53px,
+                71px 71px,
+                89px 89px,
+                103px 103px,
+                43px 43px;
+            background-position: 
+                0 0, 
+                5px 10px, 
+                15px 5px, 
+                25px 20px,
+                10px 30px,
+                30px 12px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .page-solar-system .sun {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px; 
+            height: 60px;
+            background: radial-gradient(ellipse at center, #FFFADD 0%, #FFEB3B 30%, #FFC107 60%, #FF9800 85%, rgba(255,152,0,0) 100%);
+            border-radius: 50%;
+            box-shadow: 
+                0 0 15px #FFF3A3,
+                0 0 25px #FFDC00,
+                0 0 35px #FFC107,
+                0 0 50px rgba(255,165,0,0.3);
+            transform: translate(-50%, -50%);
+            animation: sunPulse 5s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes sunPulse {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 
+                    0 0 15px #FFF3A3,
+                    0 0 25px #FFDC00,
+                    0 0 35px #FFC107,
+                    0 0 50px rgba(255,165,0,0.3);
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.05);
+                box-shadow: 
+                    0 0 20px #FFF3A3,
+                    0 0 30px #FFDC00,
+                    0 0 45px #FFC107,
+                    0 0 65px rgba(255,165,0,0.4);
+            }
+        }
+
+        .page-solar-system .orbit {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-radius: 50%;
+            transform-origin: center center; 
+            will-change: transform;
+            z-index: 2;
+        }
+
+        .page-solar-system .planet {
+            position: absolute;
+            border-radius: 50%;
+            will-change: transform; 
+        }
+
+        /* Saturn with rings */
+        .page-solar-system .planet-6 {
+            position: relative;
+        }
+
+        .page-solar-system .planet-6::before,
+        .page-solar-system .planet-6::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 245, 157, 0.4);
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .page-solar-system .planet-6::before {
+            width: 20px;
+            height: 20px;
+            border-width: 1px;
+        }
+
+        .page-solar-system .planet-6::after {
+            width: 24px;
+            height: 24px;
+            border-width: 0.5px;
+        }
+
+        /* Desktop styles */
+        @media (min-width: 768px) {
+            /* Orbit 1: Mercury */
+            .page-orbit-1 { width: 180px; height: 180px; margin-left: -90px; margin-top: -90px; animation: rotateOrbit 7s linear infinite; }
+            .page-planet-1 { width: 4px; height: 4px; background: #9E9E9E; top: -2px; left: calc(50% - 2px); }
+            
+            /* Orbit 2: Venus */
+            .page-orbit-2 { width: 240px; height: 240px; margin-left: -120px; margin-top: -120px; animation: rotateOrbit 11s linear infinite reverse; }
+            .page-planet-2 { width: 6px; height: 6px; background: #FFF8E1; top: -3px; left: calc(50% - 3px); }
+
+            /* Orbit 3: Earth */
+            .page-orbit-3 { width: 320px; height: 320px; margin-left: -160px; margin-top: -160px; animation: rotateOrbit 16s linear infinite; }
+            .page-planet-3 { width: 7px; height: 7px; background: #64B5F6; top: -3.5px; left: calc(50% - 3.5px); }
+
+            /* Orbit 4: Mars */
+            .page-orbit-4 { width: 400px; height: 400px; margin-left: -200px; margin-top: -200px; animation: rotateOrbit 22s linear infinite reverse; }
+            .page-planet-4 { width: 5px; height: 5px; background: #E57373; top: -2.5px; left: calc(50% - 2.5px); }
+
+            /* Orbit 5: Jupiter */
+            .page-orbit-5 { width: 500px; height: 500px; margin-left: -250px; margin-top: -250px; animation: rotateOrbit 35s linear infinite; }
+            .page-planet-5 { width: 12px; height: 12px; background: #FFCC80; top: -6px; left: calc(50% - 6px); }
+
+            /* Orbit 6: Saturn */
+            .page-orbit-6 { width: 600px; height: 600px; margin-left: -300px; margin-top: -300px; animation: rotateOrbit 45s linear infinite reverse; }
+            .page-planet-6 { width: 10px; height: 10px; background: #FFF59D; top: -5px; left: calc(50% - 5px); }
+            
+            /* Orbit 7: Uranus */
+            .page-orbit-7 { width: 700px; height: 700px; margin-left: -350px; margin-top: -350px; animation: rotateOrbit 55s linear infinite; }
+            .page-planet-7 { width: 8px; height: 8px; background: #80DEEA; top: -4px; left: calc(50% - 4px); }
+
+            /* Orbit 8: Neptune */
+            .page-orbit-8 { width: 800px; height: 800px; margin-left: -400px; margin-top: -400px; animation: rotateOrbit 65s linear infinite reverse; }
+            .page-planet-8 { width: 8px; height: 8px; background: #7986CB; top: -4px; left: calc(50% - 4px); }
+        }
+
+        /* Mobile styles */
+        @media (max-width: 767px) {
+            /* Smaller orbits for mobile */
+            .page-orbit-1 { width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; animation: rotateOrbit 7s linear infinite; }
+            .page-planet-1 { width: 3px; height: 3px; background: #9E9E9E; top: -1.5px; left: calc(50% - 1.5px); }
+            
+            .page-orbit-2 { width: 130px; height: 130px; margin-left: -65px; margin-top: -65px; animation: rotateOrbit 11s linear infinite reverse; }
+            .page-planet-2 { width: 4px; height: 4px; background: #FFF8E1; top: -2px; left: calc(50% - 2px); }
+
+            .page-orbit-3 { width: 160px; height: 160px; margin-left: -80px; margin-top: -80px; animation: rotateOrbit 16s linear infinite; }
+            .page-planet-3 { width: 5px; height: 5px; background: #64B5F6; top: -2.5px; left: calc(50% - 2.5px); }
+
+            .page-orbit-4 { width: 190px; height: 190px; margin-left: -95px; margin-top: -95px; animation: rotateOrbit 22s linear infinite reverse; }
+            .page-planet-4 { width: 4px; height: 4px; background: #E57373; top: -2px; left: calc(50% - 2px); }
+
+            .page-orbit-5 { width: 220px; height: 220px; margin-left: -110px; margin-top: -110px; animation: rotateOrbit 35s linear infinite; }
+            .page-planet-5 { width: 8px; height: 8px; background: #FFCC80; top: -4px; left: calc(50% - 4px); }
+
+            .page-orbit-6 { width: 250px; height: 250px; margin-left: -125px; margin-top: -125px; animation: rotateOrbit 45s linear infinite reverse; }
+            .page-planet-6 { width: 7px; height: 7px; background: #FFF59D; top: -3.5px; left: calc(50% - 3.5px); }
+            
+            .page-orbit-7 { width: 280px; height: 280px; margin-left: -140px; margin-top: -140px; animation: rotateOrbit 55s linear infinite; }
+            .page-planet-7 { width: 6px; height: 6px; background: #80DEEA; top: -3px; left: calc(50% - 3px); }
+
+            .page-orbit-8 { width: 310px; height: 310px; margin-left: -155px; margin-top: -155px; animation: rotateOrbit 65s linear infinite reverse; }
+            .page-planet-8 { width: 6px; height: 6px; background: #7986CB; top: -3px; left: calc(50% - 3px); }
+
+            /* Smaller Saturn rings for mobile */
+            .page-solar-system .planet-6::before {
+                width: 14px;
+                height: 14px;
+            }
+
+            .page-solar-system .planet-6::after {
+                width: 17px;
+                height: 17px;
+            }
+        }
+
+        .center-section {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .center-circle {
+            width: 300px; /* Reduced size since solar system is now full-page */
+            height: 300px;
+            background: rgba(30, 58, 74, 0.3); /* Semi-transparent background for text readability */
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 40px rgba(0, 160, 190, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            backdrop-filter: blur(5px); /* Blur effect for better text readability */
+        }
+
+        /* Remove old solar system from center circle */
+        .solar-system {
+            display: none;
+        }
+
+        .content-overlay {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            text-align: center;
+            z-index: 20;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(0,0,0,0.6);
+        }
+
+        .content-overlay h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .content-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin: 3px 0;
+        }
+
+        /* Mobile responsiveness for center circle */
+        @media (max-width: 767px) {
+            .center-circle {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .content-overlay h2 {
+                font-size: 1.4rem;
+            }
+            
+            .content-overlay p {
+                font-size: 0.8rem;
+            }
+        }
+
+        @keyframes rotateOrbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* 模块卡片 */
+        .modules-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .module {
+            background: linear-gradient(135deg, rgba(30, 58, 74, 0.85) 0%, rgba(45, 90, 160, 0.85) 100%);
+            border-radius: 20px;
+            padding: 20px;
+            border: 2px solid #00bcd4;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .module::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .module.active::before {
+            left: 100%;
+        }
+
+        .module-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .module h3 {
+            color: #00bcd4;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .expand-icon {
+            width: 24px;
+            height: 24px;
+            border: 2px solid #00bcd4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            background: rgba(0, 188, 212, 0.1);
+        }
+
+        .expand-icon::after {
+            content: '+';
+            color: #00bcd4;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .module.expanded .expand-icon {
+            transform: rotate(45deg);
+            background: rgba(0, 188, 212, 0.2);
+        }
+
+        .module-content {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .base-content {
+            color: #ffffff;
+        }
+
+        .expand-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, opacity 0.3s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+
+        .module.expanded .expand-content {
+            max-height: 2000px;
+            opacity: 1;
+            margin-top: 15px;
+        }
+
+        .module-content h4 {
+            color: #00bcd4;
+            margin: 15px 0 8px 0;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .module-content ul {
+            margin: 10px 0;
+            padding-left: 0;
+        }
+
+        .module-content li {
+            margin: 8px 0;
+            list-style-type: none;
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.85rem;
+        }
+
+        .module-content li:before {
+            content: "▶";
+            color: #00bcd4;
+            position: absolute;
+            left: 0;
+            font-size: 0.7rem;
+            top: 2px;
+        }
+
+        .module-content strong {
+            color: #00bcd4;
+        }
+
+        .module-content p {
+            margin: 10px 0;
+            text-align: justify;
+        }
+
+        /* 特殊样式 */
+        .module:nth-child(1) {
+            border-color: #4caf50;
+        }
+
+        .module:nth-child(1) h3,
+        .module:nth-child(1) .expand-icon {
+            color: #4caf50;
+            border-color: #4caf50;
+        }
+
+        .module:nth-child(2) {
+            border-color: #2196f3;
+        }
+
+        .module:nth-child(2) h3,
+        .module:nth-child(2) .expand-icon {
+            color: #2196f3;
+            border-color: #2196f3;
+        }
+
+        .module:nth-child(3) {
+            border-color: #ff5722;
+        }
+
+        .module:nth-child(3) h3,
+        .module:nth-child(3) .expand-icon {
+            color: #ff5722;
+            border-color: #ff5722;
+        }
+
+        .module:nth-child(4) {
+            border-color: #9c27b0;
+        }
+
+        .module:nth-child(4) h3,
+        .module:nth-child(4) .expand-icon {
+            color: #9c27b0;
+            border-color: #9c27b0;
+        }
+
+        .module:nth-child(5) {
+            border-color: #ff9800;
+        }
+
+        .module:nth-child(5) h3,
+        .module:nth-child(5) .expand-icon {
+            color: #ff9800;
+            border-color: #ff9800;
+        }
+
+        .module:nth-child(6) {
+            border-color: #00bcd4;
+        }
+
+        /* 结论区域 */
+        .conclusion-section {
+            margin-top: 40px;
+            background: linear-gradient(135deg, #1e3a4a 0%, #2d5aa0 100%);
+            border-radius: 20px;
+            padding: 25px 20px;
+            border: 2px solid #00bcd4;
+            box-shadow: 0 10px 30px rgba(0, 188, 212, 0.2);
+        }
+
+        .conclusion-section h2 {
+            color: #00bcd4;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .conclusion-section p {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: #e0e0e0;
+            text-align: justify;
+        }
+
+        /* 触摸反馈 */
+        .module:active {
+            transform: scale(0.98);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* 进度指示器 */
+        .progress-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 50;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: #00bcd4;
+            transform: scale(1.2);
+        }
+
+        /* 滑动提示 */
+        .swipe-hint {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            animation: fadeInOut 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        /* 优化长内容显示 */
+        .long-content {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .long-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .long-content::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .long-content::-webkit-scrollbar-thumb {
+            background: #00bcd4;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Full-page solar system background -->
+    <div class="page-solar-system">
+        <div class="sun"></div>
+        <div class="orbit page-orbit-1"><div class="planet page-planet-1"></div></div>
+        <div class="orbit page-orbit-2"><div class="planet page-planet-2"></div></div>
+        <div class="orbit page-orbit-3"><div class="planet page-planet-3"></div></div>
+        <div class="orbit page-orbit-4"><div class="planet page-planet-4"></div></div>
+        <div class="orbit page-orbit-5"><div class="planet page-planet-5"></div></div>
+        <div class="orbit page-orbit-6"><div class="planet page-planet-6"></div></div>
+        <div class="orbit page-orbit-7"><div class="planet page-planet-7"></div></div>
+        <div class="orbit page-orbit-8"><div class="planet page-planet-8"></div></div>
+    </div>
+
+    <div class="header">
+        <h1>视界慧景AI工具评估与未来发展建议</h1>
+    </div>
+
+    <div class="main-container">
+        <div class="hero-banner-container" style="text-align: center; margin-bottom: 30px; padding: 0 15px;">
+            <img src="images/hero-banner.png" alt="动态数据波浪设计的英雄横幅" style="width: 100%; height: auto; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,188,212,0.2); display: block;">
+        </div>
+        <div class="subtitle">
+            AI工具全面评估 / 市场趋势分析 / 未来发展建议
+        </div>
+
+        <div class="center-section">
+            <div class="center-circle">
+                <div class="content-overlay">
+                    <h2>视界慧景</h2>
+                    <p>AI工具综合评估</p>
+                    <p>核心竞争力分析</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="swipe-hint">
+            👆 点击展开详细内容
+        </div>
+
+        <div class="modules-container">
+            <!-- 模块1：引言 -->
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>📋 引言</h3>
+                    <div class="expand-icon"></div>
+                </div>
+                <div class="module-content base-content">
+                    <p>本旨在对最新研发的AI工具"视界慧景"进行全面评估，结合用户体验反馈、市场竞争格局及行业发展趋势，提出产品优缺点分析及未来发展建议...</p>
+                </div>
+                <div class="module-content expand-content">
+                    <h4>📊 评估目标</h4>
+                    <p><strong>全面评估：</strong>本旨在对最新研发的AI工具"视界慧景"进行全面评估，结合用户体验反馈、市场竞争格局及行业发展趋势，提出产品优缺点分析及未来发展建议，以期为产品迭代和商业化路径提供参考。</p>
+                </div>
+            </div>
+
+            <!-- 模块2：产品优点 -->
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>✅ 产品优点</h3>
+                    <div class="expand-icon"></div>
+                </div>
+                <div class="module-content base-content">
+                    <img src="images/core-functions.png" alt="核心功能圆形图表" style="width: 100%; max-width: 200px; margin: 0 auto 20px auto; display: block; border-radius: 10px;">
+                    <h4>🎯 核心优势</h4>
+                    <ul>
+                        <li>功能覆盖面广</li>
+                        <li>基础生成能力具备</li>
+                        <li>界面设计简洁</li>
+                        <li>尝试构建内容生态</li>
+                    </ul>
+                </div>
+                <div class="module-content expand-content long-content">
+                    <h4>🔧 功能覆盖面广</h4>
+                    <img src="images/product-highlights.png" alt="产品亮点部分的微芯片示意图" style="width: 100%; max-width: 300px; margin: 15px auto; display: block; border-radius: 10px;">
+                    <p>产品尝试涵盖AIGC生成（文生图、文生视频、文生音乐）、AI编辑（智能混剪、解说、扣图、证件照、水印编辑、音频剥离、配音、转文本、加字幕、翻译）等多个领域，展现了构建综合性AI平台的雄心。</p>
+                    
+                    <h4>⚡ 基础生成能力具备</h4>
+                    <p>在文生视频实测中，人物面孔（尤其是中国人像）生成效果尚可，未出现明显变形，清晰度达到一定水平，表明底层模型具备一定基础能力。</p>
+                    
+                    <h4>🎨 界面设计简洁</h4>
+                    <p>整体界面干净，操作区域布局清晰，为用户提供了相对整洁的视觉体验。</p>
+                    
+                    <h4>🌐 尝试构建内容生态</h4>
+                    <p>"数据广场"及"交易授权"机制的引入，显示了平台在用户内容分享和潜在商业化方面的初步探索。</p>
+                </div>
+            </div>
+
+            <!-- 模块3：产品缺点 -->
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>⚠️ 产品缺点</h3>
+                    <div class="expand-icon"></div>
+                </div>
+                <div class="module-content base-content">
+                    <img src="images/interface-design.png" alt="阐释用户界面概念的竖版图片" style="width: 100%; max-width: 220px; margin: 0 auto 20px auto; display: block; border-radius: 10px;">
+                    <h4>🚨 主要问题</h4>
+                    <ul>
+                        <li>界面设计与科技感不足</li>
+                        <li>核心功能缺乏亮点</li>
+                        <li>模型能力单一且竞争力弱</li>
+                        <li>用户体验与引导缺失</li>
+                    </ul>
+                </div>
+                <div class="module-content expand-content long-content">
+                    <h4>🎨 界面设计与科技感不足</h4>
+                    <p>纯白页面缺乏科技感，给人未开发完成的印象，色彩搭配未能有效传达AI工具的先进性。</p>
+                    
+                    <h4>⭐ 核心功能缺乏亮点与突出优势</h4>
+                    <p>产品功能虽多，但呈现"大杂烩"状态，没有一个功能能够做到极致或形成"杀手级"优势，例如水印去除功能未能达到"完全看不出来"的极致效果。</p>
+                    
+                    <h4>🤖 模型能力单一且竞争力弱</h4>
+                    <p>对话聊天AI模型缺乏创新。<strong>特别是在文生图领域，竞争对手非常多（例如GPT4O、GROK系列、各类Gemini版本、higgsfield.ai、国内的豆包等等，不胜枚举），而本产品的生图能力并未展现出特别出色的差异化优势。必须认识到，能深度使用文生图功能的用户群体，通常对AI科技高度关注，他们了解甚至会使用国外的先进模型和GitHub上的开源项目，基本不存在信息茧房的问题，因此对产品的性能和创新性有着极高要求。</strong>同样，产品的文生视频、文生音乐等其他AIGC功能也均未有突出表现，与OpenRouter、Poe、Chatbox AI等AI聚合平台，以及如Imagen 3、Midjourney等更专业的生成工具相比，整体竞争力不足。</p>
+                    
+                    <h4>👤 用户体验与引导缺失</h4>
+                    <img src="images/user-experience.png" alt="用户体验与引导部分的人物轮廓与全息元素互动场景" style="width: 100%; max-width: 300px; margin: 15px auto; display: block; border-radius: 10px;">
+                    <p>页面功能虽多，但缺乏使用案例、对标参考或展示，用户难以直观了解工具的强大之处，主页过于空白，没有重心突出。</p>
+                    
+                    <h4>📋 其他关键问题</h4>
+                    <p>素材管理与预览功能不完善、生成效果与剧本理解偏差、数据广场功能定位模糊、商业模式不清晰、功能上线进度缓慢等问题也需要重视。</p>
+                </div>
+            </div>
+
+            <!-- 模块4：市场趋势 -->
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>📈 市场趋势与竞争格局</h3>
+                    <div class="expand-icon"></div>
+                </div>
+                <div class="module-content base-content">
+                    <img src="images/market-trends.png" alt="阐释数据趋势和市场分析的宽幅可视化图片" style="width: 100%; max-width: 350px; margin: 0 auto 20px auto; display: block; border-radius: 10px;">
+                    <h4>🏢 行业巨头动态</h4>
+                    <ul>
+                        <li>全栈式AI能力布局</li>
+                        <li>垂直领域深化专业化</li>
+                        <li>用户体验与生态构建</li>
+                        <li>技术迭代速度加快</li>
+                    </ul>
+                </div>
+                <div class="module-content expand-content long-content">
+                    <h4>🚀 Google I/O 2025示例</h4>
+                    <p>当前AI领域发展迅猛，行业巨头正进行全方位、深层次的AI能力升级：涵盖AI搜索、多模态助手（Gemini Live支持摄像头/屏幕分享）、生成媒体（VEO3视频、Imagen 4图像、Flow电影制作）、新型模型（Gemini Diffusion）、硬件平台（Android XR、Google Beam）及开发者工具（Gemini Code Assist）。</p>
+                    
+                    <h4>💰 红杉资本AI闭门会核心判断</h4>
+                    <p>红杉资本作为投资风向标，其对AI未来的判断对行业发展具有重要指导意义：</p>
+                    <ul>
+                        <li><strong>🖥️ 判断一：AI是下一个操作系统。</strong>AI将成为类似Windows/iOS的基础平台，主导任务分发、行为编排、资源调用，市场规模预计是云计算的十倍以上，将吞噬软件和服务利润，重塑SaaS、外包、咨询等行业。</li>
+                        <li><strong>🎯 判断二：价值在于结果型AI应用。</strong>不看好底层大模型（巨头军备竞赛）和中间层工具（临时性，易被淘汰/集成），而看好能够接收任务、处理流程并直接交付结果的"结果型AI应用"。</li>
+                        <li><strong>🤖 判断三：智能体经济（Agent Economy）崛起。</strong>AI正从聊天机器人进化为有身份、有记忆、有目标、有自主行动能力的"智能体"（Agent），成为真正的"数字员工"。</li>
+                        <li><strong>🏢 判断四：企业需要AI原生化转型。</strong>AI是下一轮竞争力的关键变量，企业需重构运行方式。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 模块5：发展建议 -->
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>💡 未来发展建议</h3>
+                    <div class="expand-icon"></div>
+                </div>
+                <div class="module-content base-content">
+                    <img src="images/future-development-recommendations.png" alt="未来发展建议部分的AI智能体生态系统网络图" style="width: 100%; max-width: 350px; margin: 0 auto 20px auto; display: block; border-radius: 10px;">
+                    <h4>🎯 核心建议</h4>
+                    <ul>
+                        <li>明确产品定位，深耕垂直场景</li>
+                        <li>拥抱智能体（Agent）范式</li>
+                        <li>创新商业模式探索</li>
+                        <li>强化模型能力与创新</li>
+                        <li>加强市场营销与用户沟通</li>
+                    </ul>
+                </div>
+                <div class="module-content expand-content long-content">
+                    <h4>🎯 1. 明确产品定位，深耕垂直场景，打造"人无我有，人有我优"的极致应用</h4>
+                    <p><strong>从"大杂烩"转向"精而深"：</strong>应深刻理解"应用级AI"的本质——即要做到"人无我有，人有我优"。这意味着必须避免功能堆砌，选择1-2个核心场景或功能，集中所有资源进行深度优化，使其能够直接交付用户所需的结果，而非仅仅提供工具。</p>
+                    <p><strong>🚀 实施"斩首"策略，引爆头部用户：</strong>要实现上述的"精而深"与"极致体验"，关键在于采取'斩首'策略——集中核心资源，优先打造出能够首先征服那些对技术、效果及体验要求最为苛刻的'头部用户'的标杆级应用。一旦这批具有高度行业认知和影响力的核心用户被产品的高品质所打动并深度认可，他们的专业口碑和自发推荐将迅速引发'人传人'的裂变效应。这不仅能为产品带来大量高质量的免费自然流量，其推广效率和用户忠诚度也远非传统营销手段所能比拟，从而为产品后续的广泛普及奠定坚实基础。</p>
+                    <p><strong>🎨 以LovArt为例：</strong>借鉴当前市场热点——LovArt AI Agent 的成功经验。LovArt 号称全球首个设计AI Agent，将"深度思考"理念引入AI图像生成，能够直接理解用户自然语言指令，<strong>自动生成从品牌设计（甚至能搞定整套VI系统）、营销物料、插画、海报到3D设计和视频制作等全流程、多模态内容。</strong>其核心技术优势在于<strong>集成了包括GPT image-1、Flux Pro、OpenAI-o3、Gemini Imagen 3、Kling AI、Suno AI在内的众多顶级模型</strong>，并构建了能将高层设计需求自动拆解为结构化任务序列的<strong>智能工作流（其独特的Talk-Tab-Tune模式便是典型代表）</strong>。这种专业的设计能力和全链路支持使其迅速引爆市场，<strong>上线一天内测申请便排队超2万人，邀请码更是一度被炒至数百元高价，</strong>充分展现了其"牛逼"之处和用户对其能力的强烈渴求。其背后LiblibAI平台（拥有超2000万创作者和超60万模型与工作流）也为其提供了坚实的技术生态支撑。</p>
+                                        
+                    <h4>🤖 2. 拥抱智能体（Agent）范式，重塑产品交互与价值交付</h4>
+                    <p><strong>将功能升级为"数字员工"：</strong>思考如何将现有或未来开发的功能转化为能够自主完成任务的"数字员工"或"智能体"。例如，将"智能混剪"升级为"视频内容创作Agent"，能够根据用户需求自主完成从素材选择、剪辑、配乐到字幕生成的全流程，真正解放用户双手。</p>
+                    <p><strong>✨ 构建AI原生化交互：</strong>提升界面科技感和视觉吸引力，简化操作流程，提供更智能的引导，让用户感受到AI的"自主性"和"智能性"，而非仅仅是工具的堆砌。</p>
+                    
+                    <h4>💰 3. 创新商业模式，探索"第二道钱"的盈利路径</h4>
+                    <p><strong>⚠️ 警惕直接使用收费的局限性：</strong>在中国市场，用户对软件的直接使用付费意愿普遍较弱，除非产品能达到全球唯一且不可替代的"苹果级"刚需体验，让用户青睐到不在乎价格。因此，指望单纯依靠使用收费来盈利是极其困难且愚蠢的。</p>
+                    <p><strong>🍔 借鉴"麦当劳模式"：</strong>应学习麦当劳"汉堡不赚钱，赚钱的是商业地产和品牌"的思维。这意味着，AI应用本身可能只是一个入口或载体，真正的利润点在于其背后或延伸出的"第二道钱"。</p>
+                    
+                    <h4>🔧 4. 强化模型能力与创新，驱动Agent核心能力</h4>
+                    <p><strong>🎥 提升多模态理解与生成一致性：</strong>针对文生视频等复杂任务，投入更多资源进行模型训练，提高对剧本、提示词的理解能力，确保生成内容的连贯性和高质量，这是Agent能够自主完成任务的基础。</p>
+                    <p><strong>🎵 引入原生音频生成与多模态Agent：</strong>视频生成应考虑原生音频，或提供高质量的智能配音和音效生成功能。探索开发能够处理多种模态（文本、图像、视频、音频）并进行复杂决策的Agent。</p>
+                    
+                    <h4>📢 5. 加强市场营销与用户沟通，引领AI原生化认知</h4>
+                    <p><strong>🎯 突出Agent价值主张：</strong>明确并宣传产品如何帮助用户实现"一个人独角兽"或"数字员工"的愿景，吸引目标用户。</p>
+                    <p><strong>🌐 建立用户社区与Agent开发者生态：</strong>鼓励用户反馈，收集需求，并考虑开放Agent开发接口，吸引开发者共同构建Agent生态，形成良性循环，指导产品迭代。</p>
+                </div>
+            </div>
+
+            <!-- 模块6：结论 -->
+            <div class="module" onclick="toggleModule(this)">
+                <div class="module-header">
+                    <h3>🎯 结论</h3>
+                    <div class="expand-icon"></div>
+                </div>
+                <div class="module-content base-content">
+                    <img src="images/conclusion-module-image.png" alt="结论部分的指南针/路线图可视化图片" style="width: 100%; max-width: 350px; margin: 0 auto 20px auto; display: block; border-radius: 10px;">
+                    <p>"视界慧景"展现广阔潜力，但面临定位模糊、竞争力不足等挑战。应聚焦打造结果型AI应用和智能体...</p>
+                </div>
+                <div class="module-content expand-content long-content">
+                    <h4>📊 核心结论</h4>
+                    <p>"视界慧景"AI工具展现了广阔的开发潜力，但当前面临产品定位模糊、核心竞争力不足、用户体验有待提升等挑战。</p>
+                    
+                    <h4>🚀 发展方向</h4>
+                    <p>借鉴行业领先者的发展经验，特别是红杉资本关于"AI是下一个操作系统"、"价值在于结果型AI应用"和"智能体经济崛起"的判断，应聚焦于打造能够交付最终价值的"结果型AI应用"和"智能体"，并以此为核心重构产品设计、商业模式和组织战略。</p>
+                    
+                    <h4>💡 市场机遇</h4>
+                    <p>同时，在中国市场，应创新盈利模式，探索"第二道钱"的收入来源。这将是在激烈AI市场中脱颖而出，并引领AI原生化转型的关键。</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="conclusion-section">
+            <h2>🎯 核心洞察</h2>
+            <img src="images/core-insights-image.png" alt="核心洞察部分的战略洞察与发光路径图片" style="width: 100%; max-width: 400px; margin: 20px auto; display: block; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,188,212,0.2);">
+            <p>借鉴关于"AI是下一个操作系统"、"价值在于结果型AI应用"和"智能体经济崛起"的判断，应聚焦于打造能够交付最终价值的"结果型AI应用"和"智能体"，并以此为核心重构产品设计、商业模式和组织战略。同时，在中国市场，应创新盈利模式，探索"第二道钱"的收入来源。这将是在激烈AI市场中脱颖而出，并引领AI原生化转型的关键。</p>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+    </div>
+
+    <script>
+        function toggleModule(element) {
+            // 添加点击动画效果
+            element.classList.add('active');
+            setTimeout(() => element.classList.remove('active'), 300);
+            
+            // 切换展开状态
+            const isExpanded = element.classList.contains('expanded');
+            
+            // 关闭其他所有模块
+            document.querySelectorAll('.module').forEach(module => {
+                module.classList.remove('expanded');
+            });
+            
+            // 如果当前模块未展开，则展开它
+            if (!isExpanded) {
+                element.classList.add('expanded');
+                
+                // 平滑滚动到模块顶部
+                setTimeout(() => {
+                    element.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 100);
+            }
+            
+            // 更新进度指示器
+            updateProgressBar();
+        }
+
+        function updateProgressBar() {
+            const modules = document.querySelectorAll('.module');
+            const dots = document.querySelectorAll('.progress-dot');
+            
+            // 重置所有点
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            // 激活对应的点
+            modules.forEach((module, index) => {
+                if (module.classList.contains('expanded')) {
+                    dots[index].classList.add('active');
+                }
+            });
+            
+            // 如果没有展开的模块，激活第一个点
+            if (!document.querySelector('.module.expanded')) {
+                dots[0].classList.add('active');
+            }
+        }
+
+        // 监听滚动，自动更新进度条
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const modules = document.querySelectorAll('.module');
+                const dots = document.querySelectorAll('.progress-dot');
+                const scrollTop = window.pageYOffset;
+                const windowHeight = window.innerHeight;
+                
+                modules.forEach((module, index) => {
+                    const rect = module.getBoundingClientRect();
+                    const moduleTop = rect.top + scrollTop;
+                    
+                    // 如果模块在视窗中心附近
+                    if (rect.top < windowHeight / 2 && rect.bottom > windowHeight / 2) {
+                        dots.forEach(dot => dot.classList.remove('active'));
+                        dots[index].classList.add('active');
+                    }
+                });
+            }, 100);
+        });
+
+        // 点击进度点跳转到对应模块
+        document.querySelectorAll('.progress-dot').forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                const modules = document.querySelectorAll('.module');
+                if (modules[index]) {
+                    modules[index].scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 防止双击缩放
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function (event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 预加载动画
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+            
+            // 初始化进度条
+            updateProgressBar();
+        });
+    </script>
+</body>
+</html>

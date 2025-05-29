@@ -89,7 +89,7 @@
 
         .page-solar-system .sun {
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
             width: 60px; 
             height: 60px;
@@ -126,7 +126,7 @@
 
         .page-solar-system .orbit {
             position: absolute;
-            top: 50%;
+            top: 40%;
             left: 50%;
             border: 1px solid rgba(255, 255, 255, 0.08); 
             border-radius: 50%;
@@ -172,77 +172,152 @@
 
         /* Desktop styles */
         @media (min-width: 768px) {
-            /* Orbit 1: Mercury */
+            /* Orbit 1: Mercury - 带光影效果 */
             .page-orbit-1 { width: 180px; height: 180px; margin-left: -90px; margin-top: -90px; animation: rotateOrbit 7s linear infinite; }
-            .page-planet-1 { width: 4px; height: 4px; background: #9E9E9E; top: -2px; left: calc(50% - 2px); }
+            .page-planet-1 { 
+                width: 4px; height: 4px; 
+                background: radial-gradient(circle at 30% 30%, #BDBDBD 0%, #757575 40%, #424242 100%);
+                top: -2px; left: calc(50% - 2px); 
+                box-shadow: 0 0 2px rgba(0,0,0,0.5);
+            }
             
-            /* Orbit 2: Venus */
+            /* Orbit 2: Venus - 带光影效果 */
             .page-orbit-2 { width: 240px; height: 240px; margin-left: -120px; margin-top: -120px; animation: rotateOrbit 11s linear infinite reverse; }
-            .page-planet-2 { width: 6px; height: 6px; background: #FFF8E1; top: -3px; left: calc(50% - 3px); }
+            .page-planet-2 { 
+                width: 6px; height: 6px; 
+                background: radial-gradient(circle at 30% 30%, #FFF9C4 0%, #FFF176 40%, #F9A825 100%);
+                top: -3px; left: calc(50% - 3px); 
+                box-shadow: 0 0 3px rgba(249,168,37,0.4);
+            }
 
-            /* Orbit 3: Earth */
+            /* Orbit 3: Earth - 带光影效果 */
             .page-orbit-3 { width: 320px; height: 320px; margin-left: -160px; margin-top: -160px; animation: rotateOrbit 16s linear infinite; }
-            .page-planet-3 { width: 7px; height: 7px; background: #64B5F6; top: -3.5px; left: calc(50% - 3.5px); }
+            .page-planet-3 { 
+                width: 7px; height: 7px; 
+                background: radial-gradient(circle at 30% 30%, #81D4FA 0%, #42A5F5 40%, #1976D2 100%);
+                top: -3.5px; left: calc(50% - 3.5px); 
+                box-shadow: 0 0 4px rgba(25,118,210,0.4);
+            }
 
-            /* Orbit 4: Mars */
+            /* Orbit 4: Mars - 带光影效果 */
             .page-orbit-4 { width: 400px; height: 400px; margin-left: -200px; margin-top: -200px; animation: rotateOrbit 22s linear infinite reverse; }
-            .page-planet-4 { width: 5px; height: 5px; background: #E57373; top: -2.5px; left: calc(50% - 2.5px); }
+            .page-planet-4 { 
+                width: 5px; height: 5px; 
+                background: radial-gradient(circle at 30% 30%, #FFAB91 0%, #FF7043 40%, #D84315 100%);
+                top: -2.5px; left: calc(50% - 2.5px); 
+                box-shadow: 0 0 3px rgba(216,67,21,0.4);
+            }
 
-            /* Orbit 5: Jupiter */
+            /* Orbit 5: Jupiter - 带光影效果 */
             .page-orbit-5 { width: 500px; height: 500px; margin-left: -250px; margin-top: -250px; animation: rotateOrbit 35s linear infinite; }
-            .page-planet-5 { width: 12px; height: 12px; background: #FFCC80; top: -6px; left: calc(50% - 6px); }
+            .page-planet-5 { 
+                width: 12px; height: 12px; 
+                background: radial-gradient(circle at 30% 30%, #FFE0B2 0%, #FFCC80 30%, #FF8F00 70%, #E65100 100%);
+                top: -6px; left: calc(50% - 6px); 
+                box-shadow: 0 0 6px rgba(230,81,0,0.5);
+            }
 
-            /* Orbit 6: Saturn */
+            /* Orbit 6: Saturn - 带光影效果和增强光环 */
             .page-orbit-6 { width: 600px; height: 600px; margin-left: -300px; margin-top: -300px; animation: rotateOrbit 45s linear infinite reverse; }
-            .page-planet-6 { width: 10px; height: 10px; background: #FFF59D; top: -5px; left: calc(50% - 5px); }
+            .page-planet-6 { 
+                width: 10px; height: 10px; 
+                background: radial-gradient(circle at 30% 30%, #FFF8E1 0%, #FFEB3B 40%, #F57F17 100%);
+                top: -5px; left: calc(50% - 5px); 
+                box-shadow: 0 0 5px rgba(245,127,23,0.4);
+            }
             
-            /* Orbit 7: Uranus */
+            /* Orbit 7: Uranus - 带光影效果 */
             .page-orbit-7 { width: 700px; height: 700px; margin-left: -350px; margin-top: -350px; animation: rotateOrbit 55s linear infinite; }
-            .page-planet-7 { width: 8px; height: 8px; background: #80DEEA; top: -4px; left: calc(50% - 4px); }
+            .page-planet-7 { 
+                width: 8px; height: 8px; 
+                background: radial-gradient(circle at 30% 30%, #B3E5FC 0%, #4FC3F7 40%, #0288D1 100%);
+                top: -4px; left: calc(50% - 4px); 
+                box-shadow: 0 0 4px rgba(2,136,209,0.4);
+            }
 
-            /* Orbit 8: Neptune */
+            /* Orbit 8: Neptune - 带光影效果 */
             .page-orbit-8 { width: 800px; height: 800px; margin-left: -400px; margin-top: -400px; animation: rotateOrbit 65s linear infinite reverse; }
-            .page-planet-8 { width: 8px; height: 8px; background: #7986CB; top: -4px; left: calc(50% - 4px); }
+            .page-planet-8 { 
+                width: 8px; height: 8px; 
+                background: radial-gradient(circle at 30% 30%, #9FA8DA 0%, #5C6BC0 40%, #283593 100%);
+                top: -4px; left: calc(50% - 4px); 
+                box-shadow: 0 0 4px rgba(40,53,147,0.4);
+            }
         }
 
         /* Mobile styles */
         @media (max-width: 767px) {
-            /* Smaller orbits for mobile */
+            /* 移动端也添加光影效果，但尺寸更小 */
             .page-orbit-1 { width: 100px; height: 100px; margin-left: -50px; margin-top: -50px; animation: rotateOrbit 7s linear infinite; }
-            .page-planet-1 { width: 3px; height: 3px; background: #9E9E9E; top: -1.5px; left: calc(50% - 1.5px); }
+            .page-planet-1 { 
+                width: 3px; height: 3px; 
+                background: radial-gradient(circle at 30% 30%, #BDBDBD 0%, #757575 50%, #424242 100%);
+                top: -1.5px; left: calc(50% - 1.5px); 
+            }
             
             .page-orbit-2 { width: 130px; height: 130px; margin-left: -65px; margin-top: -65px; animation: rotateOrbit 11s linear infinite reverse; }
-            .page-planet-2 { width: 4px; height: 4px; background: #FFF8E1; top: -2px; left: calc(50% - 2px); }
+            .page-planet-2 { 
+                width: 4px; height: 4px; 
+                background: radial-gradient(circle at 30% 30%, #FFF9C4 0%, #FFF176 50%, #F9A825 100%);
+                top: -2px; left: calc(50% - 2px); 
+            }
 
             .page-orbit-3 { width: 160px; height: 160px; margin-left: -80px; margin-top: -80px; animation: rotateOrbit 16s linear infinite; }
-            .page-planet-3 { width: 5px; height: 5px; background: #64B5F6; top: -2.5px; left: calc(50% - 2.5px); }
+            .page-planet-3 { 
+                width: 5px; height: 5px; 
+                background: radial-gradient(circle at 30% 30%, #81D4FA 0%, #42A5F5 50%, #1976D2 100%);
+                top: -2.5px; left: calc(50% - 2.5px); 
+            }
 
             .page-orbit-4 { width: 190px; height: 190px; margin-left: -95px; margin-top: -95px; animation: rotateOrbit 22s linear infinite reverse; }
-            .page-planet-4 { width: 4px; height: 4px; background: #E57373; top: -2px; left: calc(50% - 2px); }
+            .page-planet-4 { 
+                width: 4px; height: 4px; 
+                background: radial-gradient(circle at 30% 30%, #FFAB91 0%, #FF7043 50%, #D84315 100%);
+                top: -2px; left: calc(50% - 2px); 
+            }
 
             .page-orbit-5 { width: 220px; height: 220px; margin-left: -110px; margin-top: -110px; animation: rotateOrbit 35s linear infinite; }
-            .page-planet-5 { width: 8px; height: 8px; background: #FFCC80; top: -4px; left: calc(50% - 4px); }
+            .page-planet-5 { 
+                width: 8px; height: 8px; 
+                background: radial-gradient(circle at 30% 30%, #FFE0B2 0%, #FFCC80 40%, #FF8F00 80%, #E65100 100%);
+                top: -4px; left: calc(50% - 4px); 
+            }
 
             .page-orbit-6 { width: 250px; height: 250px; margin-left: -125px; margin-top: -125px; animation: rotateOrbit 45s linear infinite reverse; }
-            .page-planet-6 { width: 7px; height: 7px; background: #FFF59D; top: -3.5px; left: calc(50% - 3.5px); }
+            .page-planet-6 { 
+                width: 7px; height: 7px; 
+                background: radial-gradient(circle at 30% 30%, #FFF8E1 0%, #FFEB3B 50%, #F57F17 100%);
+                top: -3.5px; left: calc(50% - 3.5px); 
+            }
             
             .page-orbit-7 { width: 280px; height: 280px; margin-left: -140px; margin-top: -140px; animation: rotateOrbit 55s linear infinite; }
-            .page-planet-7 { width: 6px; height: 6px; background: #80DEEA; top: -3px; left: calc(50% - 3px); }
+            .page-planet-7 { 
+                width: 6px; height: 6px; 
+                background: radial-gradient(circle at 30% 30%, #B3E5FC 0%, #4FC3F7 50%, #0288D1 100%);
+                top: -3px; left: calc(50% - 3px); 
+            }
 
             .page-orbit-8 { width: 310px; height: 310px; margin-left: -155px; margin-top: -155px; animation: rotateOrbit 65s linear infinite reverse; }
-            .page-planet-8 { width: 6px; height: 6px; background: #7986CB; top: -3px; left: calc(50% - 3px); }
+            .page-planet-8 { 
+                width: 6px; height: 6px; 
+                background: radial-gradient(circle at 30% 30%, #9FA8DA 0%, #5C6BC0 50%, #283593 100%);
+                top: -3px; left: calc(50% - 3px); 
+            }
 
-            /* Smaller Saturn rings for mobile */
+            /* 移动端土星光环 */
             .page-solar-system .planet-6::before {
                 width: 14px;
                 height: 14px;
+                border: 1.5px solid rgba(255, 245, 157, 0.6);
             }
 
             .page-solar-system .planet-6::after {
                 width: 17px;
                 height: 17px;
+                border: 1px solid rgba(255, 245, 157, 0.4);
             }
 
+            /* 移动端header优化 */
             .header {
                 padding: 15px 15px;
             }
@@ -263,6 +338,32 @@
                 height: 220px !important;
                 margin-bottom: 30px !important;
             }
+        }
+
+        /* 增强土星光环效果 */
+        .page-solar-system .planet-6::before,
+        .page-solar-system .planet-6::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .page-solar-system .planet-6::before {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 245, 157, 0.7);
+            box-shadow: 0 0 3px rgba(255, 245, 157, 0.3);
+        }
+
+        .page-solar-system .planet-6::after {
+            width: 24px;
+            height: 24px;
+            border: 1.5px solid rgba(255, 245, 157, 0.5);
+            box-shadow: 0 0 2px rgba(255, 245, 157, 0.2);
         }
 
         /* 移除不再需要的样式 */

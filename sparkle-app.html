@@ -1532,21 +1532,21 @@
             </header>
             
             <div class="main-content">
-                <!-- 功能描述 -->
-                <div style="background-color: #FEF3C7; border-radius: 12px; padding: 16px; margin-bottom: 24px;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span style="font-size: 20px;">✨</span>
-                        <span style="font-size: 16px; font-weight: 600; color: var(--text-primary);">火花·金句</span>
-                    </div>
-                    <p style="font-size: 14px; color: var(--text-secondary); line-height: 1.5;">
-                        告诉我你的产品和需求，我会为你锤炼出令人印象深刻的超级记忆点
-                    </p>
-                </div>
-                
                 <!-- 聊天对话 -->
                 <div id="caseExample" style="margin-bottom: 24px;">
                     <!-- 微信风格聊天容器 -->
                     <div class="wechat-chat-container">
+                        <!-- AI开场白 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">告诉我你的产品和需求，我会为你锤炼出令人印象深刻的超级记忆点</div>
+                                <div class="wechat-time">14:22</div>
+                            </div>
+                        </div>
+                        
                         <!-- 用户消息 -->
                         <div class="wechat-message user-msg">
                             <div class="wechat-avatar user-avatar user-line-icon">
@@ -1626,6 +1626,14 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea class="input-field" id="quoteUserInput" placeholder="输入你的需求..." rows="1"></textarea>
+                    <button class="send-btn" onclick="sendQuoteMessage()">→</button>
                 </div>
             </div>
         </div>
@@ -2038,6 +2046,138 @@
             // 可以在这里添加实际的保存逻辑
             // 例如：localStorage.setItem('savedQuotes', JSON.stringify(quotes));
         }
+        
+        // 金句页面输入功能
+        function sendQuoteMessage() {
+            const input = document.getElementById('quoteUserInput');
+            const value = input.value.trim();
+            
+            if (!value) return;
+            
+            // 添加用户消息到聊天容器
+            addQuoteMessage(value, true);
+            input.value = '';
+            
+            // 模拟AI回复
+            setTimeout(() => {
+                addQuoteMessage('收到您的需求，我来为您生成几句精彩的金句：', false);
+                
+                setTimeout(() => {
+                    const sampleQuotes = [
+                        "好产品自己会说话，更好的产品让用户替它说话。",
+                        "不是所有的创新都能被看见，但被看见的创新都值得拥有。",
+                        "品质是最好的营销，口碑是最强的推广。",
+                        "让产品成为生活的一部分，而不是生活的负担。"
+                    ];
+                    
+                    addQuoteMessageWithQuotes(sampleQuotes);
+                }, 1000);
+            }, 500);
+        }
+        
+        function quickSelectQuote(text) {
+            document.getElementById('quoteUserInput').value = text;
+            sendQuoteMessage();
+        }
+        
+        function addQuoteMessage(content, isUser = false) {
+            const chatContainer = document.querySelector('#quotePage .wechat-chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `wechat-message ${isUser ? 'user-msg' : 'ai-msg'}`;
+            
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar user-avatar user-line-icon"></div>
+                    <div class="wechat-bubble user-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar ai-avatar">
+                        <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="wechat-bubble ai-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        function addQuoteMessageWithQuotes(quotes) {
+            const chatContainer = document.querySelector('#quotePage .wechat-chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'wechat-message ai-msg';
+            
+            let quotesHtml = '';
+            quotes.forEach(quote => {
+                quotesHtml += `
+                    <div class="quote-item-wechat">
+                        <span class="quote-text">${quote}</span>
+                        <button class="copy-btn-wechat" onclick="copyQuote(this)">📋</button>
+                    </div>
+                `;
+            });
+            
+            messageDiv.innerHTML = `
+                <div class="wechat-avatar ai-avatar">
+                    <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="wechat-bubble ai-bubble">
+                    <div class="wechat-quotes">
+                        ${quotesHtml}
+                    </div>
+                    <div class="wechat-time">刚刚</div>
+                </div>
+            `;
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // 金句页面输入框自动调整高度
+        const quoteUserInput = document.getElementById('quoteUserInput');
+        if (quoteUserInput) {
+            quoteUserInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = this.scrollHeight + 'px';
+            });
+            
+            quoteUserInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendQuoteMessage();
+                }
+            });
+        }
+        
+        // 初始化金句页面输入框
+        function initQuoteInput() {
+            const quoteUserInput = document.getElementById('quoteUserInput');
+            if (quoteUserInput) {
+                quoteUserInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+                
+                quoteUserInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendQuoteMessage();
+                    }
+                });
+            }
+        }
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            initQuoteInput();
+        });
     </script>
 </body>
 </html> 

@@ -65,24 +65,31 @@
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
+            padding-bottom: 80px;
         }
         
         .app-container {
             background-color: #fff;
             min-height: 100vh;
+            max-height: 100vh;
             position: relative;
             overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         /* 页面容器 */
         .page {
             display: none;
-            min-height: 100vh;
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
             background-color: #fff;
         }
         
         .page.active {
-            display: block;
+            display: flex;
+            flex-direction: column;
         }
         
         /* 通用顶部栏 */
@@ -165,12 +172,16 @@
             transform: translateX(-50%);
             width: 100%;
             max-width: 390px;
+            height: 70px;
             background-color: transparent;
             border-top: 1px solid rgba(229, 231, 235, 0.3);
             display: flex;
             justify-content: space-around;
+            align-items: center;
             padding: 8px 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
         .nav-item {
@@ -262,7 +273,10 @@
         
         /* 主内容区域 */
         .main-content {
-            padding: 24px 20px 80px;
+            flex: 1;
+            padding: 24px 20px 100px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         /* 首页样式 */
@@ -532,6 +546,8 @@
             flex-direction: column;
             gap: 16px;
             min-height: calc(100vh - 200px);
+            max-height: calc(100vh - 200px);
+            -webkit-overflow-scrolling: touch;
         }
         
         .message {
@@ -1094,8 +1110,9 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 16px;
-            max-height: 500px;
+            max-height: 40vh;
             overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
         
         .wechat-message {
@@ -1349,7 +1366,51 @@
                 </div>
                 <div class="message ai-message">
                     <div class="message-bubble">
-                        首先，可以告诉我你的名字或昵称吗？
+                        首先，可以告诉我你的基本情况吗？比如年龄、职业、地域、家庭状况等。
+                    </div>
+                </div>
+                <div class="message user-message">
+                    <div class="message-bubble">
+                        我26岁，在北京做互联网产品经理，单身，和室友合租。
+                    </div>
+                </div>
+                <div class="message ai-message">
+                    <div class="ai-avatar"><img src="logo图/火花3.jpg" alt="火花AI"></div>
+                    <div class="message-bubble">
+                        在您的家庭或社会角色中，有没有哪个方面是您觉得最能体现您个人价值的？为什么？
+                    </div>
+                </div>
+                <div class="message user-message">
+                    <div class="message-bubble">
+                        我觉得在团队中解决复杂问题最能体现价值，因为我享受攻克难关的过程，也喜欢看到产品被用户认可。
+                    </div>
+                </div>
+                <div class="message ai-message">
+                    <div class="ai-avatar"><img src="logo图/火花3.jpg" alt="火花AI"></div>
+                    <div class="message-bubble">
+                        很棒！除了产品经理这个主要身份，有没有哪个身份是您内心深处更渴望成为的？或者您觉得哪个身份最能代表真实的您？
+                    </div>
+                </div>
+                <div class="message user-message">
+                    <div class="message-bubble">
+                        我虽然是产品经理，但内心更渴望成为一名知识分享者，因为我享受帮助别人成长的过程。
+                    </div>
+                </div>
+                <div class="message ai-message">
+                    <div class="ai-avatar"><img src="logo图/火花3.jpg" alt="火花AI"></div>
+                    <div class="message-bubble">
+                        明白了！作为产品经理这个身份，在日常生活中给您带来了哪些独特的挑战或乐趣呢？
+                    </div>
+                </div>
+                <div class="message user-message">
+                    <div class="message-bubble">
+                        挑战是要协调各方需求，经常要在用户体验和技术实现之间平衡。乐趣是能看到自己的想法变成真实的产品。
+                    </div>
+                </div>
+                <div class="message ai-message">
+                    <div class="ai-avatar"><img src="logo图/火花3.jpg" alt="火花AI"></div>
+                    <div class="message-bubble">
+                        最后一个问题，您认为您的成长环境或地域背景，对您现在看待事物的方式产生了哪些独特的影响？
                     </div>
                 </div>
             </div>

@@ -1445,7 +1445,7 @@
                         <p class="function-desc">火花AI帮我从0规划内容策略</p>
                     </div>
                     
-                    <div class="function-card">
+                    <div class="function-card" onclick="showPage('probePage')">
                         <div class="function-icon icon-probe">
                             <img src="logo图/探针图标logo.png" alt="探针" style="width: 24px; height: 24px; object-fit: contain;">
                         </div>
@@ -1710,6 +1710,75 @@
             
             <div class="logout-section">
                 <button class="logout-btn">退出登录</button>
+            </div>
+        </div>
+        
+        <!-- 火花·探针页 -->
+        <div class="page" id="probePage">
+            <header class="header">
+                <div class="header-left">
+                    <span class="back-btn" onclick="showPage('functionsPage')">←</span>
+                    <h1 class="header-title">火花·探针</h1>
+                </div>
+            </header>
+            
+            <div class="main-content">
+                <!-- 聊天对话 -->
+                <div id="probeChat" style="margin-bottom: 24px;">
+                    <!-- 微信风格聊天容器 -->
+                    <div class="wechat-chat-container">
+                        <!-- AI开场白 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">我拥有深刻的用户心理洞察和内容传播规律的洞察能力，发送你的短视频脚本/内容给我，我来帮你诊断潜力和优化建议</div>
+                                <div class="wechat-time">刚刚</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 用户发送的内容 -->
+                        <div class="wechat-message user-msg">
+                            <div class="wechat-avatar user-avatar user-line-icon">
+                            </div>
+                            <div class="wechat-bubble user-bubble">
+                                <div class="wechat-text">一场儿童轮滑比赛中，一名名为"糖糖"的小选手在起跑时意外摔倒，但她迅速爬起，在落后大半圈的情况下奋力追赶，最终逆风翻盘，夺得小组第一的励志过程。</div>
+                                <div class="wechat-time">13:25</div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI分析回复 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text"><strong>目标受众与情绪分析:</strong><br><br>
+<strong>核心目标受众:</strong><br>
+📚 <strong>学龄儿童家长群体:</strong> 对孩子的成长、教育、品格培养高度关注，渴望孩子能拥有积极向上、坚韧不拔的品质。<br><br>
+💪 <strong>追求正能量、励志故事的普通大众:</strong> 喜欢看逆袭、奋斗、克服困难的故事，容易被真情实感打动。<br><br>
+🏃‍♀️ <strong>体育爱好者/儿童运动参与者及家属:</strong> 对体育竞技、儿童成长有天然兴趣和共鸣。<br><br>
+<strong>引发情绪:</strong><br>
+😰 <strong>担忧/揪心:</strong> 看到孩子起跑摔倒的瞬间，会本能地感到心疼和担忧。<br><br>
+⚡ <strong>紧张/期待:</strong> 孩子从落后到奋力追赶的过程，引发观众的紧张感和对结果的强烈期待。<br><br>
+🎉 <strong>激动/振奋:</strong> 看到孩子最终逆风翻盘，超越所有对手，会产生强烈的胜利喜悦和振奋感。<br><br>
+❤️ <strong>感动/共鸣:</strong> 结尾对体育教育意义的升华，触动了家长对教育本质的深层思考，引发强烈的情感共鸣和认同。<br><br>
+🏆 <strong>骄傲/自豪:</strong> 无论是作为家长还是普通观众，都会为孩子的坚持和成功感到由衷的骄傲。<br><br>
+<strong>情绪强度评估:</strong> 情绪强度高。视频通过"起跑摔倒-奋力追赶-逆风翻盘-理念升华"的完整叙事弧线，制造了强烈的情绪跌宕，能够有效抓住观众的心，使其从头到尾沉浸其中。</div>
+                                <div class="wechat-time">13:26</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea class="input-field" id="probeUserInput" placeholder="粘贴你的内容..." rows="1"></textarea>
+                    <button class="send-btn" onclick="sendProbeMessage()">→</button>
+                </div>
             </div>
         </div>
         
@@ -2177,7 +2246,72 @@
         // 页面加载完成后初始化
         document.addEventListener('DOMContentLoaded', function() {
             initQuoteInput();
+            initProbeInput();
         });
+        
+        // 初始化探针页面输入框
+        function initProbeInput() {
+            const probeUserInput = document.getElementById('probeUserInput');
+            if (probeUserInput) {
+                probeUserInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+                
+                probeUserInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendProbeMessage();
+                    }
+                });
+            }
+        }
+        
+        // 探针页面功能函数
+        function sendProbeMessage() {
+            const input = document.getElementById('probeUserInput');
+            const value = input.value.trim();
+            
+            if (!value) return;
+            
+            // 添加用户消息到聊天容器
+            addProbeMessage(value, true);
+            input.value = '';
+            
+            // 模拟AI回复（暂时简单回复，等待具体内容）
+            setTimeout(() => {
+                addProbeMessage('我正在分析您的内容，请稍等...', false);
+            }, 500);
+        }
+        
+        function addProbeMessage(content, isUser = false) {
+            const chatContainer = document.querySelector('#probePage .wechat-chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `wechat-message ${isUser ? 'user-msg' : 'ai-msg'}`;
+            
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar user-avatar user-line-icon"></div>
+                    <div class="wechat-bubble user-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar ai-avatar">
+                        <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="wechat-bubble ai-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
     </script>
 </body>
 </html> 

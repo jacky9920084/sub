@@ -65,7 +65,6 @@
             margin: 0 auto;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 80px;
         }
         
         .app-container {
@@ -1110,7 +1109,7 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 16px;
-            max-height: 40vh;
+            max-height: 65vh;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
@@ -1544,7 +1543,7 @@
                     </p>
                 </div>
                 
-                <!-- 案例展示 -->
+                <!-- 聊天对话 -->
                 <div id="caseExample" style="margin-bottom: 24px;">
                     <!-- 微信风格聊天容器 -->
                     <div class="wechat-chat-container">
@@ -1626,73 +1625,6 @@
                                 <div class="wechat-time">14:26</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- 用户输入区域 -->
-                <div style="background-color: #fff; border: 1px solid var(--border-color); border-radius: 12px; padding: 20px; margin-bottom: 24px;">
-                    <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px;">
-                        🚀 开始创作你的金句
-                    </h3>
-                    <textarea 
-                        id="quoteInput" 
-                        placeholder="描述你的产品和宣传需求...&#10;&#10;例如：我的产品是...，我希望传达...的感觉"
-                        style="width: 100%; min-height: 100px; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical; outline: none;"
-                    ></textarea>
-                    <button 
-                        onclick="generateQuotes()" 
-                        style="width: 100%; margin-top: 12px; padding: 12px; background: linear-gradient(-45deg, #85CAEB, #6BB6D6, #A3D5E8); background-size: 400% 400%; animation: gradientFlow 2s ease infinite; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; position: relative; overflow: hidden;"
-                    >
-                        <span style="position: relative; z-index: 1;">✨ 生成金句</span>
-                    </button>
-                </div>
-                
-                <!-- 生成结果区域 - 微信聊天风格 -->
-                <div id="generatedQuotes" style="display: none;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0;">
-                            🎯 AI为您生成的金句
-                        </h3>
-                        <button 
-                            onclick="generateQuotes()" 
-                            style="padding: 6px 12px; background-color: var(--light-bg); border: 1px solid var(--border-color); border-radius: 6px; font-size: 12px; cursor: pointer;"
-                        >
-                            🔄 重新生成
-                        </button>
-                    </div>
-                    
-                    <!-- 微信风格生成结果 -->
-                    <div class="wechat-chat-container">
-                        <div class="wechat-message user-msg">
-                            <div class="wechat-avatar user-avatar user-line-icon">
-                            </div>
-                            <div class="wechat-bubble user-bubble">
-                                <div class="wechat-text" id="userInputDisplay"></div>
-                                <div class="wechat-time">刚刚</div>
-                            </div>
-                        </div>
-                        
-                        <div class="wechat-message ai-msg">
-                            <div class="wechat-avatar ai-avatar">
-                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
-                            </div>
-                            <div class="wechat-bubble ai-bubble">
-                                <div class="wechat-text">为您的需求定制了几句金句：</div>
-                                <div class="wechat-quotes" id="quotesContainer">
-                                    <!-- 动态生成的金句会插入这里 -->
-                                </div>
-                                <div class="wechat-time">刚刚</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border-color);">
-                        <button 
-                            onclick="saveToLibrary()" 
-                            style="width: 100%; padding: 10px; background-color: var(--light-bg); border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; cursor: pointer;"
-                        >
-                            💾 保存到作品库
-                        </button>
                     </div>
                 </div>
             </div>

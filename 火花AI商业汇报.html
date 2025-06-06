@@ -46,9 +46,7 @@
         }
 
         header {
-            background: 
-                linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(26, 26, 46, 0.9) 50%, rgba(22, 33, 62, 0.95) 100%);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(5px);
             border: 1px solid rgba(120, 119, 198, 0.2);
             padding: 3rem 0;
             text-align: center;
@@ -821,12 +819,11 @@
     </style>
 </head>
 <body>
-    <header>
+    <header style="background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/首图.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 600px; display: flex; align-items: center; justify-content: center;">
         <div class="container">
-            <h1 class="hero-title">火花AI</h1>
-            <p class="hero-subtitle">AI驱动的战略内容引擎</p>
-            <div class="chart-placeholder">
-                <img src="logo图/首图.png" alt="火花AI - AI驱动的战略内容引擎" style="width: 75%; height: auto; border-radius: 15px;">
+            <div style="text-align: center;">
+                <h1 class="hero-title" style="font-size: 5rem; margin-bottom: 1.5rem; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(96, 165, 250, 0.5);">火花AI</h1>
+                <p class="hero-subtitle" style="font-size: 2.2rem; text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 25px rgba(168, 85, 247, 0.3);">AI驱动的战略内容引擎</p>
             </div>
         </div>
     </header>

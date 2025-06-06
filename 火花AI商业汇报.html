@@ -174,6 +174,28 @@
             box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
         }
 
+        /* 突出显示关键词 */
+        .key-words {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            font-size: 1.2em;
+            position: relative;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            animation: keyword-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes keyword-glow {
+            from { 
+                filter: brightness(1) drop-shadow(0 0 5px rgba(255, 107, 107, 0.3));
+            }
+            to { 
+                filter: brightness(1.2) drop-shadow(0 0 15px rgba(78, 205, 196, 0.6));
+            }
+        }
+
         .highlight-box {
             background: 
                 linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(236, 72, 153, 0.1) 100%);
@@ -326,7 +348,7 @@
             background: 
                 linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
             backdrop-filter: blur(15px);
-            border: 2px dashed rgba(96, 165, 250, 0.5);
+            border: 1px solid rgba(96, 165, 250, 0.3);
             padding: 3rem;
             text-align: center;
             border-radius: 20px;
@@ -335,6 +357,36 @@
             font-weight: 600;
             position: relative;
             overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .ai-evolution-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/AI进化图.png');
+            min-height: 300px;
+        }
+
+        .roi-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/ROI.png');
+            min-height: 300px;
+        }
+
+        .features-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/4个功能.png');
+            min-height: 300px;
+        }
+
+        .compare-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/AI对比图.png');
+            min-height: 500px;
+            background-size: contain;
+            background-position: center;
+        }
+
+        .business-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/商业变现模式配图1.png');
+            min-height: 300px;
         }
 
         .chart-placeholder::before {
@@ -755,6 +807,17 @@
             object-fit: cover;
             border-radius: 18px;
         }
+
+        .chart-placeholder .key-words {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            font-size: 1.1em;
+            display: inline;
+            animation: keyword-glow 3s ease-in-out infinite alternate;
+        }
     </style>
 </head>
 <body>
@@ -763,7 +826,7 @@
             <h1 class="hero-title">火花AI</h1>
             <p class="hero-subtitle">AI驱动的战略内容引擎</p>
             <div class="chart-placeholder">
-                【建议配图：科技感的AI大脑与内容创作元素结合的概念图，体现"点燃内容增长真火"的主题】
+                <img src="logo图/首图.png" alt="火花AI - AI驱动的战略内容引擎" style="width: 75%; height: auto; border-radius: 15px;">
             </div>
         </div>
     </header>
@@ -791,8 +854,9 @@
                 <p><strong>在AI的喧嚣与迷雾中，我们为您点燃内容增长的真火。</strong></p>
                 <p>火花AI，不仅仅是一个AI工具，它是一个<strong>AI驱动的战略内容引擎</strong>，致力于帮助B端企业和有志于内容创业的个人，在AI时代，回归商业本质，用真正的AI智慧，实现有灵魂、能转化的内容增长。</p>
             </div>
-            <div class="chart-placeholder">
-                【建议配图：2025年AI元年概念图，展示从"AI垃圾"到"AI智慧"的转变过程】
+            <div class="chart-placeholder ai-evolution-bg">
+                <h4 style="color: #60a5fa; margin-bottom: 1rem;">AI进化历程</h4>
+                <p>从"AI垃圾"到"AI智慧"的关键转变</p>
             </div>
         </section>
 
@@ -826,8 +890,9 @@
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：市场痛点可视化图表，展示内容营销ROI下降趋势、流量成本上升曲线等数据】
+            <div class="chart-placeholder roi-bg">
+                <h4 style="color: #ef4444; margin-bottom: 1rem;">市场数据洞察</h4>
+                <p>内容营销ROI下降趋势与流量成本攀升现状</p>
             </div>
 
             <div class="subsection">
@@ -850,7 +915,7 @@
             </div>
 
             <div class="subsection">
-                <h3 class="subsection-title">核心功能：AI驱动的"做、检、优、特"内容增长闭环</h3>
+                <h3 class="subsection-title">核心功能：AI驱动的"<span class="key-words">做、检、优、特</span>"内容增长闭环</h3>
                 <div class="features-grid">
                     <div class="feature-card">
                         <div class="feature-icon">🎯</div>
@@ -879,8 +944,8 @@
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：产品功能流程图，展示"做-检-优-特"四个环节的工作流程和相互关系】
+            <div class="chart-placeholder features-bg" style="min-height: 480px; background-size: contain;">
+                <!-- 图片本身已包含完整信息，无需重复文字 -->
             </div>
         </section>
 
@@ -912,8 +977,8 @@
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：竞争优势对比图，展示火花AI与传统AI工具、大厂产品的差异化优势】
+            <div class="chart-placeholder compare-bg">
+                <!-- 图片本身已包含完整信息，无需重复文字 -->
             </div>
         </section>
 
@@ -950,8 +1015,8 @@
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：商业模式流程图，展示"汉堡策略-达人孵化-供应链撮合"的完整生态闭环】
+            <div class="chart-placeholder business-bg" style="min-height: 400px; background-size: contain;">
+                <!-- 图片本身已包含完整信息，无需重复文字 -->
             </div>
 
             <div class="subsection">
@@ -971,11 +1036,11 @@
             <h2 class="section-title">盈利预测</h2>
             
             <div class="subsection">
-                <h3 class="subsection-title">核心假设</h3>
+                <h3 class="subsection-title">核心规模预测</h3>
                 <div class="pain-points">
                     <div class="pain-point">
                         <h4>用户增长率</h4>
-                        <p>第一年：5万注册用户<br>第二年：10万用户<br>第三年：20万用户</p>
+                        <p>6个月：30万注册用户<br>第一年：100万用户<br>第二年：500万用户<br>第三年：1000万用户</p>
                     </div>
                     <div class="pain-point">
                         <h4>达人孵化成功率</h4>
@@ -983,91 +1048,263 @@
                     </div>
                     <div class="pain-point">
                         <h4>达人变现规模</h4>
-                        <p>每位活跃达人月均变现：<br>第一年：4,000元<br>第二年：8,000元<br>第三年：12,000元</p>
+                        <p>每位活跃达人月均变现：<br>第一年：4,000元<br>第二年：6,000元<br>第三年：8,000元</p>
                     </div>
                     <div class="pain-point">
                         <h4>平台分成比例</h4>
-                        <p>达人侧：5%佣金<br>商家侧：10%佣金<br>B端商家年服务费：5,000元</p>
+                        <p>达人侧：收取成交额5%佣金<br>商家侧：收取成交额10%佣金<br>B端商家年服务费：12,000元</p>
                     </div>
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：用户增长曲线图，展示三年内从5万到20万用户的增长趋势】
+            <div class="chart-placeholder" style="padding: 2rem; min-height: 400px;">
+                <div class="growth-chart-container">
+                    <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.5rem;">用户增长趋势预测</h4>
+                    <svg width="100%" height="300" viewBox="0 0 1000 300" style="overflow: visible;">
+                        <!-- 渐变定义 -->
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:0.8" />
+                                <stop offset="25%" style="stop-color:#a855f7;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#ec4899;stop-opacity:1" />
+                                <stop offset="75%" style="stop-color:#f59e0b;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.9" />
+                            </linearGradient>
+                            <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:0.05" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <!-- 网格线 - 月度刻度 -->
+                        <g stroke="rgba(96, 165, 250, 0.08)" stroke-width="1">
+                            <!-- 年度主要网格线 -->
+                            <line x1="80" y1="50" x2="80" y2="250" stroke="rgba(96, 165, 250, 0.2)" stroke-width="2"/>
+                            <line x1="330" y1="50" x2="330" y2="250" stroke="rgba(168, 85, 247, 0.2)" stroke-width="2"/>
+                            <line x1="580" y1="50" x2="580" y2="250" stroke="rgba(236, 72, 153, 0.2)" stroke-width="2"/>
+                            <line x1="830" y1="50" x2="830" y2="250" stroke="rgba(245, 158, 11, 0.2)" stroke-width="2"/>
+                            
+                            <!-- 月度次要网格线 -->
+                            <line x1="122" y1="50" x2="122" y2="250" />
+                            <line x1="164" y1="50" x2="164" y2="250" />
+                            <line x1="206" y1="50" x2="206" y2="250" />
+                            <line x1="248" y1="50" x2="248" y2="250" />
+                            <line x1="290" y1="50" x2="290" y2="250" />
+                            
+                            <line x1="372" y1="50" x2="372" y2="250" />
+                            <line x1="414" y1="50" x2="414" y2="250" />
+                            <line x1="456" y1="50" x2="456" y2="250" />
+                            <line x1="498" y1="50" x2="498" y2="250" />
+                            <line x1="540" y1="50" x2="540" y2="250" />
+                            
+                            <line x1="622" y1="50" x2="622" y2="250" />
+                            <line x1="664" y1="50" x2="664" y2="250" />
+                            <line x1="706" y1="50" x2="706" y2="250" />
+                            <line x1="748" y1="50" x2="748" y2="250" />
+                            <line x1="790" y1="50" x2="790" y2="250" />
+                            
+                            <!-- 水平网格线 -->
+                            <line x1="80" y1="250" x2="830" y2="250" stroke="rgba(96, 165, 250, 0.15)"/>
+                            <line x1="80" y1="200" x2="830" y2="200" />
+                            <line x1="80" y1="150" x2="830" y2="150" />
+                            <line x1="80" y1="100" x2="830" y2="100" />
+                            <line x1="80" y1="50" x2="830" y2="50" />
+                        </g>
+                        
+                        <!-- 爆发式增长曲线路径 -->
+                        <path d="M 80 250 L 80 250 L 122 248 L 164 246 L 206 244 L 248 240 L 290 235 L 330 230 L 372 220 L 414 210 L 456 195 L 498 180 L 540 165 L 580 150 L 622 135 L 664 120 L 706 105 L 748 85 L 790 70 L 830 50" 
+                              stroke="url(#lineGradient)" 
+                              stroke-width="3" 
+                              fill="none" 
+                              filter="url(#glow)"
+                              style="animation: drawLine 3s ease-in-out;"/>
+                        
+                        <!-- 面积填充 -->
+                        <path d="M 80 250 L 80 250 L 122 248 L 164 246 L 206 244 L 248 240 L 290 235 L 330 230 L 372 220 L 414 210 L 456 195 L 498 180 L 540 165 L 580 150 L 622 135 L 664 120 L 706 105 L 748 85 L 790 70 L 830 50 L 830 250 Z" 
+                              fill="url(#areaGradient)" opacity="0.3"/>
+                        
+                        <!-- 关键节点标记 -->
+                        <circle cx="80" cy="250" r="4" fill="#60a5fa" filter="url(#glow)"/>
+                        <circle cx="206" cy="244" r="7" fill="#a855f7" filter="url(#glow)">
+                            <animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="330" cy="230" r="7" fill="#ec4899" filter="url(#glow)">
+                            <animate attributeName="r" values="7;12;7" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="580" cy="150" r="7" fill="#f59e0b" filter="url(#glow)">
+                            <animate attributeName="r" values="7;12;7" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="830" cy="50" r="8" fill="#10b981" filter="url(#glow)">
+                            <animate attributeName="r" values="8;14;8" dur="2s" begin="1s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <!-- 数据标签 -->
+                        <text x="206" y="234" text-anchor="middle" fill="#a855f7" font-size="14" font-weight="bold">30万</text>
+                        <text x="330" y="220" text-anchor="middle" fill="#ec4899" font-size="14" font-weight="bold">100万</text>
+                        <text x="580" y="140" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="bold">500万</text>
+                        <text x="830" y="40" text-anchor="middle" fill="#10b981" font-size="15" font-weight="bold">1000万</text>
+                        
+                        <!-- 年份标签 -->
+                        <text x="80" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">0</text>
+                        <text x="205" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">6个月</text>
+                        <text x="330" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">12个月</text>
+                        <text x="455" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">18个月</text>
+                        <text x="580" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">24个月</text>
+                        <text x="705" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">30个月</text>
+                        <text x="830" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">36个月</text>
+                        
+                        <!-- Y轴标签 -->
+                        <text x="70" y="255" text-anchor="end" fill="#94a3b8" font-size="11">0</text>
+                        <text x="70" y="205" text-anchor="end" fill="#94a3b8" font-size="11">250万</text>
+                        <text x="70" y="155" text-anchor="end" fill="#94a3b8" font-size="11">500万</text>
+                        <text x="70" y="105" text-anchor="end" fill="#94a3b8" font-size="11">750万</text>
+                        <text x="70" y="55" text-anchor="end" fill="#94a3b8" font-size="11">1000万</text>
+                        
+                        <!-- 标题 -->
+                        <text x="455" y="30" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="600">月度用户增长趋势</text>
+                        
+                        <!-- 阶段分割线 -->
+                        <line x1="330" y1="250" x2="330" y2="280" stroke="#a855f7" stroke-width="2" opacity="0.5"/>
+                        <line x1="580" y1="250" x2="580" y2="280" stroke="#ec4899" stroke-width="2" opacity="0.5"/>
+                        
+                        <!-- 阶段标签 -->
+                        <text x="205" y="290" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="600">第一年</text>
+                        <text x="455" y="290" text-anchor="middle" fill="#a855f7" font-size="10" font-weight="600">第二年</text>
+                        <text x="705" y="290" text-anchor="middle" fill="#ec4899" font-size="10" font-weight="600">第三年</text>
+                    </svg>
+                    
+                    <!-- 增长指标 -->
+                    <div style="display: flex; justify-content: space-around; margin-top: 1.5rem; flex-wrap: wrap;">
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #a855f7; font-size: 1.3rem; font-weight: bold;">30万</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">6个月突破</div>
+                        </div>
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #ec4899; font-size: 1.3rem; font-weight: bold;">233%</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">半年增长率</div>
+                        </div>
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #f59e0b; font-size: 1.3rem; font-weight: bold;">400%</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">年增长率(Y2)</div>
+                        </div>
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #10b981; font-size: 1.4rem; font-weight: bold;">1000万</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">三年目标</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes drawLine {
+                        0% { stroke-dasharray: 1000; stroke-dashoffset: 1000; }
+                        100% { stroke-dasharray: 1000; stroke-dashoffset: 0; }
+                    }
+                    
+                    .growth-chart-container {
+                        background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        border: 1px solid rgba(96, 165, 250, 0.2);
+                        backdrop-filter: blur(10px);
+                    }
+                </style>
             </div>
 
-            <div class="subsection">
-                <h3 class="subsection-title">盈利预测表（未来3年）</h3>
-                <table class="profit-table">
-                    <thead>
-                        <tr>
-                            <th>指标 / 年份</th>
-                            <th>第一年</th>
-                            <th>第二年</th>
-                            <th>第三年</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>免费用户总数</strong></td>
-                            <td>50,000</td>
-                            <td>100,000</td>
-                            <td>200,000</td>
-                        </tr>
-                        <tr>
-                            <td><strong>活跃达人数量</strong></td>
-                            <td>30,000</td>
-                            <td>60,000</td>
-                            <td>120,000</td>
-                        </tr>
-                        <tr>
-                            <td><strong>达人月均变现</strong></td>
-                            <td>4,000元</td>
-                            <td>8,000元</td>
-                            <td>12,000元</td>
-                        </tr>
-                        <tr>
-                            <td><strong>达人年总变现</strong></td>
-                            <td>14.4亿</td>
-                            <td>57.6亿</td>
-                            <td>172.8亿</td>
-                        </tr>
-                        <tr>
-                            <td><strong>平台达人侧佣金收入</strong></td>
-                            <td><strong>7,200万</strong></td>
-                            <td><strong>2.88亿</strong></td>
-                            <td><strong>8.64亿</strong></td>
-                        </tr>
-                        <tr>
-                            <td><strong>B端商家入驻数量</strong></td>
-                            <td>500</td>
-                            <td>1,500</td>
-                            <td>3,000</td>
-                        </tr>
-                        <tr>
-                            <td><strong>商家年服务费收入</strong></td>
-                            <td><strong>250万</strong></td>
-                            <td><strong>750万</strong></td>
-                            <td><strong>1,500万</strong></td>
-                        </tr>
-                        <tr>
-                            <td><strong>商家侧佣金收入</strong></td>
-                            <td><strong>3,600万</strong></td>
-                            <td><strong>1.44亿</strong></td>
-                            <td><strong>4.32亿</strong></td>
-                        </tr>
-                        <tr style="background: linear-gradient(135deg, #667eea20, #764ba220);">
-                            <td><strong>平台总收入</strong></td>
-                            <td><strong>1.105亿</strong></td>
-                            <td><strong>4.485亿</strong></td>
-                            <td><strong>13.275亿</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
 
-            <div class="chart-placeholder">
-                【建议配图：收入增长柱状图，展示三年内从1.1亿到13.3亿的爆发式增长趋势】
+
+            <div class="chart-placeholder" style="padding: 2rem;">
+                <div class="visual-profit-table">
+                    <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.8rem;">收入增长预测图表</h4>
+                    
+                    <!-- 可视化表格 -->
+                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1px; background: rgba(96, 165, 250, 0.2); border-radius: 15px; overflow: hidden;">
+                        <!-- 表头 -->
+                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #e2e8f0; font-weight: 600; text-align: center;">指标 / 年份</div>
+                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第一年</div>
+                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第二年</div>
+                        <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第三年</div>
+                        
+                        <!-- 数据行 -->
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">免费用户总数</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">1,000,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">5,000,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">10,000,000</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">活跃达人数量</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">600,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">3,000,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">6,000,000</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人月均变现</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">4,000元</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">6,000元</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">8,000元</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人年总变现</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">288亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">2,160亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">5,760亿</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">平台达人侧佣金收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">7.2亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">36亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">72亿</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">B端商家入驻数量</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">5,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">25,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">50,000</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">商家年服务费收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">6,000万</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">30亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">60亿</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">商家侧佣金收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">14.4亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">72亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">144亿</div>
+                        
+                        <!-- 总收入行 - 突出显示 -->
+                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #fbbf24; font-weight: 700; font-size: 1.1rem;">平台总收入</div>
+                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">22.2亿</div>
+                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">138亿</div>
+                        <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">276亿</div>
+                    </div>
+                    
+                    <!-- 简化的关键指标 -->
+                    <div style="display: flex; justify-content: space-around; margin-top: 2rem;">
+                        <div style="text-align: center; color: #60a5fa;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">12.4倍</div>
+                            <div style="font-size: 0.9rem; color: #94a3b8;">三年增长</div>
+                        </div>
+                        <div style="text-align: center; color: #a855f7;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">15%</div>
+                            <div style="font-size: 0.9rem; color: #94a3b8;">总抽成</div>
+                        </div>
+                        <div style="text-align: center; color: #ec4899;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">276亿</div>
+                            <div style="font-size: 0.9rem; color: #94a3b8;">第三年收入</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    .visual-profit-table {
+                        background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        border: 1px solid rgba(96, 165, 250, 0.2);
+                        backdrop-filter: blur(10px);
+                    }
+                </style>
             </div>
 
             <div class="highlight-box">
@@ -1094,8 +1331,179 @@
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：用户画像信息图，展示目标用户的年龄、职业、收入、痛点等关键特征】
+            <div class="chart-placeholder" style="padding: 2rem;">
+                <div class="user-profile-charts">
+                    <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.6rem;">目标用户画像数据分析</h4>
+                    
+                    <!-- 图表网格布局 -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">
+                        <!-- 职业分布饼状图 -->
+                        <div style="text-align: center;">
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; font-size: 1.2rem;">职业分布</h5>
+                            <div class="pie-chart-container" style="position: relative; display: inline-block;">
+                                <canvas id="job-pie-chart" width="200" height="200" style="cursor: pointer;"></canvas>
+                                <div class="pie-tooltip" style="position: absolute; background: rgba(0,0,0,0.8); color: white; padding: 8px; border-radius: 6px; pointer-events: none; opacity: 0; transition: opacity 0.3s; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.9rem; white-space: nowrap; z-index: 10;"></div>
+                            </div>
+                            <div style="margin-top: 1rem; font-size: 0.85rem; color: #94a3b8; text-align: left;">
+                                <div class="legend-item" data-color="#ec4899" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #ec4899;">●</span> 个体店主 45%</div>
+                                <div class="legend-item" data-color="#60a5fa" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #60a5fa;">●</span> 上班族 40%</div>
+                                <div class="legend-item" data-color="#a855f7" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #a855f7;">●</span> 腰部达人 10%</div>
+                                <div class="legend-item" data-color="#f59e0b" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #f59e0b;">●</span> 企业主 5%</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 年龄分布饼状图 -->
+                        <div style="text-align: center;">
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; font-size: 1.2rem;">年龄分布</h5>
+                            <div class="pie-chart-container" style="position: relative; display: inline-block;">
+                                <canvas id="age-pie-chart" width="200" height="200" style="cursor: pointer;"></canvas>
+                                <div class="pie-tooltip" style="position: absolute; background: rgba(0,0,0,0.8); color: white; padding: 8px; border-radius: 6px; pointer-events: none; opacity: 0; transition: opacity 0.3s; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.9rem; white-space: nowrap; z-index: 10;"></div>
+                            </div>
+                            <div style="margin-top: 1rem; font-size: 0.85rem; color: #94a3b8; text-align: left;">
+                                <div class="legend-item" data-color="#10b981" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #10b981;">●</span> 31-35岁 35%</div>
+                                <div class="legend-item" data-color="#3b82f6" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #3b82f6;">●</span> 25-30岁 28%</div>
+                                <div class="legend-item" data-color="#8b5cf6" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #8b5cf6;">●</span> 36-40岁 25%</div>
+                                <div class="legend-item" data-color="#f97316" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #f97316;">●</span> 41-45岁 12%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 柱状图区域 -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+                        <!-- 月收入分布柱状图 -->
+                        <div>
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; text-align: center; font-size: 1.2rem;">月收入分布</h5>
+                            <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 180px; padding: 0 1rem;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #60a5fa; font-weight: bold; margin-bottom: 0.5rem;">80%</div>
+                                    <div style="width: 35px; height: 144px; background: linear-gradient(180deg, #60a5fa, #3b82f6); border-radius: 6px 6px 0 0; animation: growUp1 2s ease-out;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">5K-1W</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #a855f7; font-weight: bold; margin-bottom: 0.5rem;">17%</div>
+                                    <div style="width: 35px; height: 31px; background: linear-gradient(180deg, #a855f7, #9333ea); border-radius: 6px 6px 0 0; animation: growUp2 2s ease-out 0.3s both;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">1-3W</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #ec4899; font-weight: bold; margin-bottom: 0.5rem;">2%</div>
+                                    <div style="width: 35px; height: 5px; background: linear-gradient(180deg, #ec4899, #db2777); border-radius: 6px 6px 0 0; animation: growUp3 2s ease-out 0.6s both;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">3-5W</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #f59e0b; font-weight: bold; margin-bottom: 0.5rem;">1%</div>
+                                    <div style="width: 35px; height: 2px; background: linear-gradient(180deg, #f59e0b, #d97706); border-radius: 6px 6px 0 0; animation: growUp4 2s ease-out 0.9s both;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">5W+</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 主要痛点排名柱状图 -->
+                        <div>
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; text-align: center; font-size: 1.2rem;">核心痛点严重程度</h5>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">流量焦虑</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(239, 68, 68, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 100%; height: 100%; background: linear-gradient(90deg, #ef4444, #dc2626); border-radius: 10px; animation: fillBar1 2s ease-out;"></div>
+                                    </div>
+                                    <div style="color: #ef4444; font-weight: bold; font-size: 0.9rem;">30%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">转化率低</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(249, 115, 22, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 100%; height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); border-radius: 10px; animation: fillBar2 2s ease-out 0.3s both;"></div>
+                                    </div>
+                                    <div style="color: #f97316; font-weight: bold; font-size: 0.9rem;">30%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">内容同质化</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(168, 85, 247, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 67%; height: 100%; background: linear-gradient(90deg, #a855f7, #9333ea); border-radius: 10px; animation: fillBar3 2s ease-out 0.6s both;"></div>
+                                    </div>
+                                    <div style="color: #a855f7; font-weight: bold; font-size: 0.9rem;">20%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">缺乏策略</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(96, 165, 250, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 33%; height: 100%; background: linear-gradient(90deg, #60a5fa, #3b82f6); border-radius: 10px; animation: fillBar4 2s ease-out 0.9s both;"></div>
+                                    </div>
+                                    <div style="color: #60a5fa; font-weight: bold; font-size: 0.9rem;">10%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">AI效果差</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(16, 185, 129, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 33%; height: 100%; background: linear-gradient(90deg, #10b981, #059669); border-radius: 10px; animation: fillBar5 2s ease-out 1.2s both;"></div>
+                                    </div>
+                                    <div style="color: #10b981; font-weight: bold; font-size: 0.9rem;">10%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes growUp1 {
+                        0% { height: 0; }
+                        100% { height: 144px; }
+                    }
+                    @keyframes growUp2 {
+                        0% { height: 0; }
+                        100% { height: 31px; }
+                    }
+                    @keyframes growUp3 {
+                        0% { height: 0; }
+                        100% { height: 5px; }
+                    }
+                    @keyframes growUp4 {
+                        0% { height: 0; }
+                        100% { height: 2px; }
+                    }
+                    @keyframes fillBar1 {
+                        0% { width: 0; }
+                        100% { width: 100%; }
+                    }
+                    @keyframes fillBar2 {
+                        0% { width: 0; }
+                        100% { width: 100%; }
+                    }
+                    @keyframes fillBar3 {
+                        0% { width: 0; }
+                        100% { width: 67%; }
+                    }
+                    @keyframes fillBar4 {
+                        0% { width: 0; }
+                        100% { width: 33%; }
+                    }
+                    @keyframes fillBar5 {
+                        0% { width: 0; }
+                        100% { width: 33%; }
+                    }
+                    
+                                         .user-profile-charts {
+                         background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+                         border-radius: 20px;
+                         padding: 2rem;
+                         border: 1px solid rgba(96, 165, 250, 0.2);
+                         backdrop-filter: blur(10px);
+                     }
+                     
+                     /* 饼状图交互效果 */
+                     .pie-slice {
+                         transform-origin: 100px 100px;
+                     }
+                     
+                     .pie-slice:hover {
+                         transform: scale(1.05);
+                         filter: brightness(1.2) drop-shadow(0 0 20px currentColor);
+                         opacity: 1 !important;
+                         z-index: 10;
+                     }
+                     
+                     .legend-item:hover {
+                         color: white !important;
+                         font-weight: bold;
+                     }
+                 </style>
             </div>
 
             <div class="subsection">
@@ -1153,9 +1561,7 @@
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：团队经验时间线图，展示7年来在自媒体、培训、代运营等领域的关键里程碑】
-            </div>
+
 
             <div class="subsection">
                 <h3 class="subsection-title">核心竞争力总结</h3>
@@ -1202,9 +1608,7 @@
                 </div>
             </div>
 
-            <div class="chart-placeholder">
-                【建议配图：发展路线图，展示从短期到长期的战略规划和关键里程碑】
-            </div>
+
         </section>
 
         <!-- 投资价值 -->
@@ -1217,7 +1621,7 @@
             <div class="highlights-grid">
                 <div class="highlight-item">
                     <h4>轻资产高回报</h4>
-                    <p>避开重资产投入，专注撮合价值，预计三年内收入达13.3亿</p>
+                    <p>避开重资产投入，专注撮合价值，预计三年内收入达276亿</p>
                 </div>
                 <div class="highlight-item">
                     <h4>网络效应明显</h4>
@@ -1249,9 +1653,7 @@
             </h3>
             <button class="cta-button">联系我们</button>
             
-            <div class="chart-placeholder" style="margin-top: 3rem; border-color: #fff; color: #fff;">
-                【建议配图：象征合作共赢的握手图像，或展示火花AI生态系统的概念图】
-            </div>
+
         </section>
     </main>
 
@@ -1422,6 +1824,161 @@
             header.style.transform = 'translateY(0)';
             header.style.opacity = '1';
         });
+
+                // 饼状图绘制函数
+        function drawPieChart(canvasId, data, colors) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = 80;
+            
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 计算总和
+            const total = data.reduce((sum, item) => sum + item.value, 0);
+            
+            // 绘制扇形
+            let currentAngle = -Math.PI / 2; // 从12点方向开始
+            
+            data.forEach((item, index) => {
+                const sliceAngle = (item.value / total) * 2 * Math.PI;
+                
+                // 绘制扇形
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                ctx.closePath();
+                
+                // 设置颜色和阴影
+                ctx.fillStyle = colors[index];
+                ctx.shadowColor = colors[index];
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                
+                // 保存扇形信息用于交互
+                item.startAngle = currentAngle;
+                item.endAngle = currentAngle + sliceAngle;
+                item.color = colors[index];
+                
+                currentAngle += sliceAngle;
+            });
+            
+            // 鼠标交互
+            canvas.addEventListener('mousemove', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // 计算鼠标相对于圆心的角度
+                const dx = x - centerX;
+                const dy = y - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance <= radius) {
+                    let angle = Math.atan2(dy, dx);
+                    // 调整角度范围，使其与我们的绘制起点（-Math.PI/2）匹配
+                    angle = angle < -Math.PI / 2 ? angle + 2 * Math.PI : angle;
+                    
+                    // 找到对应的扇形
+                    const hoveredSlice = data.find(item => {
+                        let startAngle = item.startAngle;
+                        let endAngle = item.endAngle;
+                        
+                        // 处理跨越2π边界的情况
+                        if (endAngle < startAngle) {
+                            return angle >= startAngle || angle < endAngle;
+                        }
+                        return angle >= startAngle && angle < endAngle;
+                    });
+                    
+                    if (hoveredSlice) {
+                        // 重绘饼状图，突出显示悬浮的扇形
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        let currentAngle = -Math.PI / 2;
+                        
+                        data.forEach((item, index) => {
+                            const sliceAngle = (item.value / total) * 2 * Math.PI;
+                            
+                            ctx.beginPath();
+                            ctx.moveTo(centerX, centerY);
+                            
+                            // 如果是悬浮的扇形，稍微突出
+                            if (item === hoveredSlice) {
+                                const offsetX = Math.cos(currentAngle + sliceAngle / 2) * 5;
+                                const offsetY = Math.sin(currentAngle + sliceAngle / 2) * 5;
+                                ctx.moveTo(centerX + offsetX, centerY + offsetY);
+                                ctx.arc(centerX + offsetX, centerY + offsetY, radius, currentAngle, currentAngle + sliceAngle);
+                            } else {
+                                ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                            }
+                            
+                            ctx.closePath();
+                            ctx.fillStyle = item === hoveredSlice ? item.color : item.color + 'CC';
+                            ctx.shadowColor = item.color;
+                            ctx.shadowBlur = item === hoveredSlice ? 15 : 5;
+                            ctx.fill();
+                            
+                            currentAngle += sliceAngle;
+                        });
+                        
+                        // 显示tooltip
+                        const tooltip = canvas.parentElement.querySelector('.pie-tooltip');
+                        if (tooltip) {
+                            tooltip.textContent = hoveredSlice.label;
+                            tooltip.style.opacity = '1';
+                        }
+                    }
+                } else {
+                    // 鼠标离开饼状图，恢复原状
+                    drawPieChart(canvasId, data, colors);
+                    const tooltip = canvas.parentElement.querySelector('.pie-tooltip');
+                    if (tooltip) {
+                        tooltip.style.opacity = '0';
+                    }
+                }
+            });
+            
+            canvas.addEventListener('mouseleave', function() {
+                drawPieChart(canvasId, data, colors);
+                const tooltip = canvas.parentElement.querySelector('.pie-tooltip');
+                if (tooltip) {
+                    tooltip.style.opacity = '0';
+                }
+            });
+        }
+        
+        // 页面加载后绘制饼状图
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                // 职业分布数据
+                const jobData = [
+                    { label: '个体店主 45%', value: 45 },
+                    { label: '上班族 40%', value: 40 },
+                    { label: '腰部达人 10%', value: 10 },
+                    { label: '企业主 5%', value: 5 }
+                ];
+                const jobColors = ['#ec4899', '#60a5fa', '#a855f7', '#f59e0b'];
+                
+                // 年龄分布数据
+                const ageData = [
+                    { label: '31-35岁 35%', value: 35 },
+                    { label: '25-30岁 28%', value: 28 },
+                    { label: '36-40岁 25%', value: 25 },
+                    { label: '41-45岁 12%', value: 12 }
+                ];
+                const ageColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f97316'];
+                
+                // 绘制饼状图
+                drawPieChart('job-pie-chart', jobData, jobColors);
+                drawPieChart('age-pie-chart', ageData, ageColors);
+            }, 100);
+        });
+
+
 
         // 初始化页面状态
         document.body.style.opacity = '0';

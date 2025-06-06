@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>火花AI：AI驱动的战略内容引擎 - 商业汇报</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'SF Pro Display', sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(29, 78, 216, 0.15), transparent 40%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(26, 26, 46, 0.9) 50%, rgba(22, 33, 62, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(120, 119, 198, 0.2);
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 30%, #ec4899 60%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(96, 165, 250, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1) drop-shadow(0 0 5px rgba(96, 165, 250, 0.5)); }
+            to { filter: brightness(1.2) drop-shadow(0 0 20px rgba(168, 85, 247, 0.8)); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .section {
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            margin: 3rem 0;
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid rgba(120, 119, 198, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.8), transparent);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+        }
+
+        .subsection {
+            margin: 3rem 0;
+        }
+
+        .subsection-title {
+            font-size: 2rem;
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding-left: 25px;
+            border-left: 4px solid;
+            border-image: linear-gradient(45deg, #60a5fa, #a855f7) 1;
+            position: relative;
+        }
+
+        .subsection-title::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(45deg, #60a5fa, #a855f7);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+        }
+
+        .highlight-box {
+            background: 
+                linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(236, 72, 153, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(96, 165, 250, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+            animation: highlight-shimmer 4s infinite;
+        }
+
+        @keyframes highlight-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .pain-points {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .pain-point {
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.6) 0%, rgba(26, 26, 46, 0.4) 50%, rgba(22, 33, 62, 0.6) 100%);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pain-point::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ef4444, #f97316, #eab308);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .pain-point:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 
+                0 20px 40px rgba(239, 68, 68, 0.2),
+                0 0 0 1px rgba(239, 68, 68, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .pain-point:hover::before {
+            transform: scaleX(1);
+        }
+
+        .pain-point h4 {
+            color: #fca5a5;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: 
+                linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(236, 72, 153, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(96, 165, 250, 0.6);
+            box-shadow: 
+                0 20px 40px rgba(96, 165, 250, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 
+                0 10px 30px rgba(96, 165, 250, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .chart-placeholder {
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+            backdrop-filter: blur(15px);
+            border: 2px dashed rgba(96, 165, 250, 0.5);
+            padding: 3rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 2rem 0;
+            color: #60a5fa;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+            animation: chart-shimmer 3s infinite;
+        }
+
+        @keyframes chart-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .profit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(96, 165, 250, 0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .profit-table th {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .profit-table th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+        }
+
+        .profit-table td {
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+            background: rgba(15, 15, 35, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .profit-table tr:nth-child(even) td {
+            background: rgba(26, 26, 46, 0.3);
+        }
+
+        .profit-table tr:hover td {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+        }
+
+        .competitive-advantages {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .advantage-card {
+            background: 
+                linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(59, 130, 246, 0.05) 50%, rgba(147, 51, 234, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advantage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #22c55e, #3b82f6, #9333ea);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(34, 197, 94, 0.6);
+            box-shadow: 
+                0 15px 35px rgba(34, 197, 94, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .advantage-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .advantage-card h4 {
+            color: #86efac;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .team-section {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .team-member {
+            background: 
+                linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, rgba(245, 158, 11, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 
+                0 10px 30px rgba(168, 85, 247, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-item {
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(96, 165, 250, 0.05) 50%, rgba(168, 85, 247, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .highlight-item:hover {
+            transform: translateY(-5px);
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(96, 165, 250, 0.1) 50%, rgba(168, 85, 247, 0.15) 100%);
+            box-shadow: 0 10px 25px rgba(96, 165, 250, 0.2);
+        }
+
+        .investment-highlights {
+            background: 
+                linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%);
+            color: white;
+            padding: 4rem;
+            border-radius: 24px;
+            text-align: center;
+            margin: 3rem 0;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .investment-highlights::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899, #f59e0b);
+        }
+
+        .investment-highlights h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-section {
+            background: 
+                linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+            color: white;
+            padding: 4rem;
+            text-align: center;
+            border-radius: 24px;
+            margin: 3rem 0;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f59e0b, #ec4899, #a855f7, #60a5fa);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            color: white;
+            padding: 1.5rem 4rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 2rem;
+            box-shadow: 
+                0 10px 30px rgba(96, 165, 250, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(96, 165, 250, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .pain-points {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .competitive-advantages {
+                grid-template-columns: 1fr;
+            }
+            
+            .three-cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .highlights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 鼠标跟随光效 */
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            mix-blend-mode: screen;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 专门的3卡片布局 */
+        .three-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        /* 4卡片的2x2布局 */
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="hero-title">火花AI</h1>
+            <p class="hero-subtitle">AI驱动的战略内容引擎</p>
+            <div class="chart-placeholder">
+                【建议配图：科技感的AI大脑与内容创作元素结合的概念图，体现"点燃内容增长真火"的主题】
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 项目概述 -->
+        <section class="section">
+            <h2 class="section-title">项目概述</h2>
+            <div class="highlight-box">
+                <h3>核心使命</h3>
+                <p><strong>在AI的喧嚣与迷雾中，我们为您点燃内容增长的真火。</strong></p>
+                <p>火花AI，不仅仅是一个AI工具，它是一个<strong>AI驱动的战略内容引擎</strong>，致力于帮助B端企业和有志于内容创业的个人，在AI时代，回归商业本质，用真正的AI智慧，实现有灵魂、能转化的内容增长。</p>
+            </div>
+            <div class="chart-placeholder">
+                【建议配图：2025年AI元年概念图，展示从"AI垃圾"到"AI智慧"的转变过程】
+            </div>
+        </section>
+
+        <!-- 市场痛点与机遇 -->
+        <section class="section">
+            <h2 class="section-title">市场痛点与机遇</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">市场现状：内容营销的"虚假繁荣"与"深层困境"</h3>
+                <div class="pain-points">
+                    <div class="pain-point">
+                        <h4>内容同质化严重</h4>
+                        <p><strong>现状：</strong> 市场充斥着大量"看起来很美"的AI生成内容，但缺乏个性、深度和情感，导致用户审美疲劳。</p>
+                        <p><strong>投资人痛点：</strong> 营销预算不断增加，但内容效果越来越差，品牌声量难以突破。</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>内容营销ROI低下</h4>
+                        <p><strong>现状：</strong> 企业盲目追求内容数量，忽视质量和策略，流量成本高企，转化率不理想。</p>
+                        <p><strong>投资人痛点：</strong> 钱花出去了，但看不到明确的投资回报，增长曲线停滞。</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>过度依赖付费流量</h4>
+                        <p><strong>现状：</strong> 缺乏优质内容，企业被迫持续烧钱购买流量，一旦停止投放，流量立即枯竭。</p>
+                        <p><strong>投资人痛点：</strong> 增长模式不可持续，企业抗风险能力弱。</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>"AI工具"沦为垃圾制造机</h4>
+                        <p><strong>现状：</strong> 市场上多数AI工具停留在"批量生成"表层，缺乏策略理解。</p>
+                        <p><strong>投资人痛点：</strong> 投资了"AI概念"，却发现只是在制造垃圾，损害品牌形象。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：市场痛点可视化图表，展示内容营销ROI下降趋势、流量成本上升曲线等数据】
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">市场机遇：AI时代呼唤"策略先行"的智慧内容</h3>
+                <div class="highlight-box">
+                    <p><strong>AI的本质：</strong> AI是"能力"，是"电动机"，它能将"1"放大到"100"，但无法从"0"创造价值。AI是"合伙人"，不是"印钞机"。</p>
+                    <p><strong>商业的本质：</strong> 无论技术如何发展，生意的本质始终是"流量曝光、客户与企业间交易"。核心在于"你拿什么去交换？"</p>
+                    <p><strong>我们的机遇：</strong> 市场迫切需要一个能够回归商业本质、理解人性、提供策略并高效生成高质量内容的AI伙伴。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品解决方案 -->
+        <section class="section">
+            <h2 class="section-title">产品解决方案</h2>
+            
+            <div class="highlight-box">
+                <h3>产品定位：智慧可靠，轻松高效的AI内容策略与增长伙伴</h3>
+                <p><strong>核心价值主张：</strong> 火花AI，不止于生成，我们用AI为您打造有灵魂、能转化的战略内容，点燃您的品牌增长火花。</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">核心功能：AI驱动的"做、检、优、特"内容增长闭环</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h4>火花·蓝图</h4>
+                        <p><strong>战略内容规划引擎</strong></p>
+                        <p>深度洞察用户人设基因、价值观、过往经验，智能提炼最具潜力的"内容核心"，绘制清晰可执行的内容增长战略蓝图。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h4>火花·探针</h4>
+                        <p><strong>AI智能评审系统</strong></p>
+                        <p>对内容进行多维度智能评审，诊断潜在问题，预测市场反馈，成为内容质量的"智能质检员"。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h4>火花·妙笔</h4>
+                        <p><strong>人性化优化工坊</strong></p>
+                        <p>对内容素材进行情感化、趣味化、场景化深度优化，让文字"活"起来，更"懂"人心。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💎</div>
+                        <h4>火花·金句</h4>
+                        <p><strong>爆款记忆锻造器</strong></p>
+                        <p>智能生成具有高度概括性、强记忆点、易传播的Slogan和核心金句，打造"超级记忆符号"。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：产品功能流程图，展示"做-检-优-特"四个环节的工作流程和相互关系】
+            </div>
+        </section>
+
+        <!-- 核心竞争优势 -->
+        <section class="section">
+            <h2 class="section-title">核心竞争优势</h2>
+            
+            <div class="competitive-advantages">
+                <div class="advantage-card">
+                    <h4>策略先行，而非工具堆砌</h4>
+                    <p>市场上的"垃圾AI"只停留在"生成"层面，而火花AI的核心是<strong>"策略大脑"</strong>，先思考"为什么做"、"做什么"，再高效"怎么做"。</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>无法复制的行业积淀与提示词工程护城河</h4>
+                    <p><strong>7年实战知识库：</strong> 系统性转化为火花AI的"策略DNA"和"提示词工程"。</p>
+                    <p><strong>提示词工程的艺术：</strong> 构建独特的"内容策略提示词工程体系"，让普通用户也能生成专业级内容。</p>
+                    <p><strong>大厂无法复制：</strong> 技术可以复制，但7年一线实战积累的"内容感觉"和"策略智慧"无法复制。</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>深度人设洞察与哲学级思考</h4>
+                    <p>融入郭朝晖老师的哲学思想，让AI理解"人性"、"欲望"、"价值观"，生成真正"以人为本"、"有温度"的内容策略。</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>先发优势与生态壁垒</h4>
+                    <p>最早将"实战经验+AI技术+商业闭环"深度融合，构建强大的"数据飞轮"和"口碑壁垒"。</p>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：竞争优势对比图，展示火花AI与传统AI工具、大厂产品的差异化优势】
+            </div>
+        </section>
+
+        <!-- 商业模式 -->
+        <section class="section">
+            <h2 class="section-title">商业模式</h2>
+            
+            <div class="highlight-box">
+                <h3>核心模式：AI赋能的"内容孵化+资源撮合"平台</h3>
+                <p>告别传统软件收费的局限，构建以AI为核心驱动力，连接内容创作者（达人）与优质供应链（商家）的生态平台。</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">盈利逻辑</h3>
+                
+                <div class="three-cards-grid">
+                    <div class="pain-point" style="border-color: #27ae60;">
+                        <h4 style="color: #27ae60;">"汉堡"策略（基础服务）</h4>
+                        <p><strong>核心AI功能免费/低价：</strong> 人设构建、内容策略规划、文案生成等对个人用户提供免费或极低成本服务。</p>
+                        <p><strong>目的：</strong> 快速吸引和培养大量"达人种子"，积累海量用户和内容数据。</p>
+                    </div>
+                    
+                    <div class="pain-point" style="border-color: #f39c12;">
+                        <h4 style="color: #f39c12;">路径一：达人孵化与内容变现</h4>
+                        <p><strong>模式：</strong> 系统性打造个人IP，产出高质量、有策略、能转化的内容。</p>
+                        <p><strong>盈利：</strong> 达人成长服务费 + 内容变现分成（5%）</p>
+                    </div>
+                    
+                    <div class="pain-point" style="border-color: #9b59b6;">
+                        <h4 style="color: #9b59b6;">路径二：供应链撮合与资源整合</h4>
+                        <p><strong>模式：</strong> 连接优质供应链B端厂家/品牌与平台达人的"任务链接"中心。</p>
+                        <p><strong>盈利：</strong> 交易佣金（10%）+ 商家年服务费 + 数据增值服务</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：商业模式流程图，展示"汉堡策略-达人孵化-供应链撮合"的完整生态闭环】
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">商业模式核心优势</h3>
+                <ul style="font-size: 1.1rem; line-height: 2;">
+                    <li><strong>符合中国市场现实：</strong> 避开C端用户直接付费弱点，通过赋能和撮合间接盈利</li>
+                    <li><strong>强大用户粘性：</strong> 免费AI工具培养用户依赖，成为忠实粉丝</li>
+                    <li><strong>生态效应明显：</strong> 连接内容生产端和商品供应端，形成正向循环</li>
+                    <li><strong>高想象空间：</strong> 达人规模和供应链资源形成后，撮合交易价值巨大</li>
+                    <li><strong>AI核心驱动：</strong> AI成为整个生态的"发动机"</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 盈利预测 -->
+        <section class="section">
+            <h2 class="section-title">盈利预测</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">核心假设</h3>
+                <div class="pain-points">
+                    <div class="pain-point">
+                        <h4>用户增长率</h4>
+                        <p>第一年：5万注册用户<br>第二年：10万用户<br>第三年：20万用户</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>达人孵化成功率</h4>
+                        <p>保守估计：60%的注册用户能够成功打造个人IP并实现内容变现</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>达人变现规模</h4>
+                        <p>每位活跃达人月均变现：<br>第一年：4,000元<br>第二年：8,000元<br>第三年：12,000元</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>平台分成比例</h4>
+                        <p>达人侧：5%佣金<br>商家侧：10%佣金<br>B端商家年服务费：5,000元</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：用户增长曲线图，展示三年内从5万到20万用户的增长趋势】
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">盈利预测表（未来3年）</h3>
+                <table class="profit-table">
+                    <thead>
+                        <tr>
+                            <th>指标 / 年份</th>
+                            <th>第一年</th>
+                            <th>第二年</th>
+                            <th>第三年</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>免费用户总数</strong></td>
+                            <td>50,000</td>
+                            <td>100,000</td>
+                            <td>200,000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>活跃达人数量</strong></td>
+                            <td>30,000</td>
+                            <td>60,000</td>
+                            <td>120,000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>达人月均变现</strong></td>
+                            <td>4,000元</td>
+                            <td>8,000元</td>
+                            <td>12,000元</td>
+                        </tr>
+                        <tr>
+                            <td><strong>达人年总变现</strong></td>
+                            <td>14.4亿</td>
+                            <td>57.6亿</td>
+                            <td>172.8亿</td>
+                        </tr>
+                        <tr>
+                            <td><strong>平台达人侧佣金收入</strong></td>
+                            <td><strong>7,200万</strong></td>
+                            <td><strong>2.88亿</strong></td>
+                            <td><strong>8.64亿</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>B端商家入驻数量</strong></td>
+                            <td>500</td>
+                            <td>1,500</td>
+                            <td>3,000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>商家年服务费收入</strong></td>
+                            <td><strong>250万</strong></td>
+                            <td><strong>750万</strong></td>
+                            <td><strong>1,500万</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>商家侧佣金收入</strong></td>
+                            <td><strong>3,600万</strong></td>
+                            <td><strong>1.44亿</strong></td>
+                            <td><strong>4.32亿</strong></td>
+                        </tr>
+                        <tr style="background: linear-gradient(135deg, #667eea20, #764ba220);">
+                            <td><strong>平台总收入</strong></td>
+                            <td><strong>1.105亿</strong></td>
+                            <td><strong>4.485亿</strong></td>
+                            <td><strong>13.275亿</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：收入增长柱状图，展示三年内从1.1亿到13.3亿的爆发式增长趋势】
+            </div>
+
+            <div class="highlight-box">
+                <h3>盈利预测解读</h3>
+                <ul>
+                    <li><strong>爆发式增长潜力：</strong> 随着活跃达人数量和B端商家规模扩大，平台收入呈指数级增长</li>
+                    <li><strong>核心驱动力：</strong> 达人侧变现分成是主要收入来源，印证"AI赋能内容-内容孵化达人"的价值</li>
+                    <li><strong>轻资产模式：</strong> "任务链接"模式避免自建商城和库存的重资产投入</li>
+                    <li><strong>可持续性强：</strong> 网络效应明显，平台价值随规模增长而指数级提升</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 目标用户与市场策略 -->
+        <section class="section">
+            <h2 class="section-title">目标用户与市场策略</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">核心目标用户画像</h3>
+                <div class="highlight-box">
+                    <p><strong>主要群体：</strong> 已有工作经验或创业经历，目前生意不好做，渴望通过自媒体打造个人IP、拓展副业的B端企业主、个体经营者、专业人士。</p>
+                    <p><strong>核心诉求：</strong> 找到"下一次赚钱的机会"，提升"认知范围"，解决"内容同质化"、"流量焦虑"、"转化率低"等问题。</p>
+                    <p><strong>心理特征：</strong> 务实、渴望效率、对AI有期待但警惕"虚假承诺"，愿意为真正有价值的解决方案付费。</p>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：用户画像信息图，展示目标用户的年龄、职业、收入、痛点等关键特征】
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">市场进入与增长策略</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h4>"斩首"策略</h4>
+                        <p>集中资源打造行业代表性B端成功案例，通过"样板间"实际效果证明产品价值。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h4>内容营销</h4>
+                        <p>官方账号持续输出"AI+内容策略"干货，制作客户成功案例短视频。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h4>社群运营</h4>
+                        <p>建立高质量B端用户社群，提供交流平台，分享成功经验。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h4>行业合作</h4>
+                        <p>与行业协会、商学院、创业孵化器合作，口碑裂变推广。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心团队 -->
+        <section class="section">
+            <h2 class="section-title">核心团队</h2>
+            
+            <div class="team-section">
+                <div class="team-member">
+                    <h3>创始团队：驱动AI智慧的实战派</h3>
+                    <div class="highlights-grid">
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #60a5fa;">7年实战经验</h4>
+                            <p>自媒体制作、直播、短视频深度实战经验，深耕内容行业</p>
+                        </div>
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #a855f7;">领播教育</h4>
+                            <p>自媒体培训领域领军，深知用户痛点和"二八定律"</p>
+                        </div>
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #ec4899;">B端代运营经验</h4>
+                            <p>为B端商家代运营，深度理解老板困境和商业本质</p>
+                        </div>
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #f59e0b;">AI策略转化</h4>
+                            <p>将实战经验转化为AI的"策略智慧"和"提示词工程"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：团队经验时间线图，展示7年来在自媒体、培训、代运营等领域的关键里程碑】
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">核心竞争力总结</h3>
+                <div class="competitive-advantages">
+                    <div class="advantage-card">
+                        <h4>AI策略大脑</h4>
+                        <p>独创的AI工作流，主动提炼内容核心、决策最佳形式，提供"哲学级"策略指导。</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>人本温度</h4>
+                        <p>深度人设洞察，打造有温度、人性的内容，建立品牌与用户的情感连接。</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>结果导向</h4>
+                        <p>聚焦B端企业增长痛点，提供可衡量、可验证的解决方案。</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>"第二道钱"商业模式</h4>
+                        <p>突破传统软件收费瓶颈，构建多元化、可持续的盈利生态。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来展望 -->
+        <section class="section">
+            <h2 class="section-title">未来生态</h2>
+            
+            <div class="three-cards-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h4>短期目标</h4>
+                    <p>成为B端企业和内容创作者首选的AI内容策略与生成平台</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h4>中期目标</h4>
+                    <p>拓展AI MCN孵化规模，成为特定行业内容营销解决方案的领导者</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h4>长期愿景</h4>
+                    <p>构建AI内容生态，引领AI原生化内容创作标准，让每个品牌都拥有AI驱动的增长智慧</p>
+                </div>
+            </div>
+
+            <div class="chart-placeholder">
+                【建议配图：发展路线图，展示从短期到长期的战略规划和关键里程碑】
+            </div>
+        </section>
+
+        <!-- 投资价值 -->
+        <section class="investment-highlights">
+            <h3>投资价值</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                "我们深知，在中国市场，单纯的软件订阅难以支撑一个伟大的梦想。因此，火花AI从一开始就构建了一个<strong>更具想象空间、更符合中国商业生态的'AI驱动的内容孵化+任务链接'生态系统。</strong>"
+            </p>
+            
+            <div class="highlights-grid">
+                <div class="highlight-item">
+                    <h4>轻资产高回报</h4>
+                    <p>避开重资产投入，专注撮合价值，预计三年内收入达13.3亿</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>网络效应明显</h4>
+                    <p>达人越多吸引商家越多，形成正向循环，平台价值指数级增长</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>符合中国商业生态</h4>
+                    <p>符合国内商业生态和用户付费习惯，商业模式可持续</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>AI核心驱动</h4>
+                    <p>不是简单撮合平台，而是AI赋能的增长引擎，技术壁垒明显</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; font-size: 1.3rem; font-weight: 600;">
+                "我们不卖工具，我们卖的是<strong>AI驱动的增长机会</strong>，我们构建的是一个<strong>连接内容生产力与商业变现的生态闭环</strong>！"
+            </div>
+        </section>
+
+        <!-- 行动号召 -->
+        <section class="cta-section">
+
+            <p style="font-size: 1.5rem; margin-bottom: 2rem;">
+                我们正在寻找志同道合的伙伴，共同投资AI时代内容增长的未来。
+            </p>
+            <h3 style="font-size: 2rem; margin-bottom: 2rem;">
+                加入火花AI，与我们一起点燃内容智慧，引爆商业增长！
+            </h3>
+            <button class="cta-button">联系我们</button>
+            
+            <div class="chart-placeholder" style="margin-top: 3rem; border-color: #fff; color: #fff;">
+                【建议配图：象征合作共赢的握手图像，或展示火花AI生态系统的概念图】
+            </div>
+        </section>
+    </main>
+
+    <!-- 鼠标跟随光效 -->
+    <div class="mouse-glow"></div>
+
+    <script>
+        // 鼠标跟随光效
+        const mouseGlow = document.querySelector('.mouse-glow');
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX - 150;
+            mouseY = e.clientY - 150;
+            
+            // 更新CSS变量用于背景光效
+            document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        // 平滑跟随动画
+        function animateGlow() {
+            const dx = mouseX - currentX;
+            const dy = mouseY - currentY;
+            
+            currentX += dx * 0.1;
+            currentY += dy * 0.1;
+            
+            mouseGlow.style.left = currentX + 'px';
+            mouseGlow.style.top = currentY + 'px';
+            
+            requestAnimationFrame(animateGlow);
+        }
+        animateGlow();
+
+        // 添加平滑滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 增强的滚动动画效果
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // 为不同元素添加延迟动画
+                    const children = entry.target.querySelectorAll('.pain-point, .feature-card, .advantage-card');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.style.opacity = '1';
+                            child.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有section
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+
+        // 为卡片元素添加初始动画状态
+        document.querySelectorAll('.pain-point, .feature-card, .advantage-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+
+        // 3D倾斜效果
+        document.querySelectorAll('.feature-card, .advantage-card, .pain-point').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+
+        // 表格行悬浮增强效果
+        document.querySelectorAll('.profit-table tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'scale(1.02)';
+                row.style.zIndex = '10';
+            });
+            
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'scale(1)';
+                row.style.zIndex = '1';
+            });
+        });
+
+        // 按钮点击波纹效果
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+            `;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // 添加波纹动画CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+            
+            // Header动画
+            const header = document.querySelector('header');
+            header.style.transform = 'translateY(0)';
+            header.style.opacity = '1';
+        });
+
+        // 初始化页面状态
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+        
+        const header = document.querySelector('header');
+        header.style.transform = 'translateY(-50px)';
+        header.style.opacity = '0';
+        header.style.transition = 'transform 0.8s ease, opacity 0.8s ease';
+    </script>
+</body>
+</html> 

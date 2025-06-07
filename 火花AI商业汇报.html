@@ -1432,15 +1432,39 @@
             }
             
             /* 推导逻辑480px优化 */
+            .profit-deduction-section {
+                margin-left: -1.5rem !important;
+                margin-right: -1.5rem !important;
+                padding: 1.2rem 0.8rem !important;
+                width: calc(100vw - 1.5rem);
+            }
+            
+            .profit-deduction-section h5 {
+                font-size: 1.2rem !important;
+                padding: 0.6rem;
+            }
+            
+            .core-logic-box {
+                padding: 1rem !important;
+            }
+            
+            .core-logic-box p:first-child {
+                font-size: 1rem !important;
+            }
+            
+            .core-logic-box p:last-child {
+                font-size: 0.9rem !important;
+            }
+            
             .profit-deduction-grid > div {
-                flex: 0 0 calc(100vw - 3rem) !important;
-                min-width: calc(100vw - 3rem);
-                max-width: calc(100vw - 3rem);
+                flex: 0 0 calc(100vw - 2.5rem) !important;
+                min-width: calc(100vw - 2.5rem);
+                max-width: calc(100vw - 2.5rem);
                 padding: 1.3rem 1.1rem;
             }
             
             .profit-deduction-container {
-                margin: 0 -1rem;
+                margin: 0 -0.8rem;
                 padding: 0 0.8rem;
             }
             
@@ -1764,15 +1788,42 @@
             }
             
             /* 推导逻辑360px优化 */
+            .profit-deduction-section {
+                margin-left: -1rem !important;
+                margin-right: -1rem !important;
+                padding: 1rem 0.5rem !important;
+                width: calc(100vw - 1rem);
+            }
+            
+            .profit-deduction-section h5 {
+                font-size: 1.1rem !important;
+                padding: 0.5rem;
+            }
+            
+            .core-logic-box {
+                padding: 0.8rem !important;
+                margin: 0.8rem 0 !important;
+            }
+            
+            .core-logic-box p:first-child {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.6rem !important;
+            }
+            
+            .core-logic-box p:last-child {
+                font-size: 0.85rem !important;
+                line-height: 1.5 !important;
+            }
+            
             .profit-deduction-grid > div {
-                flex: 0 0 calc(100vw - 2.5rem) !important;
-                min-width: calc(100vw - 2.5rem);
-                max-width: calc(100vw - 2.5rem);
+                flex: 0 0 calc(100vw - 2rem) !important;
+                min-width: calc(100vw - 2rem);
+                max-width: calc(100vw - 2rem);
                 padding: 1.2rem 0.8rem;
             }
             
             .profit-deduction-container {
-                margin: 0 -0.8rem;
+                margin: 0 -0.5rem;
                 padding: 0 0.5rem;
             }
             
@@ -2508,7 +2559,7 @@
                     </div>
                     
                     <!-- 平台收入推导说明 -->
-                    <div style="background: rgba(96, 165, 250, 0.1); padding: 2rem; border-radius: 15px; margin-top: 2rem; border-left: 4px solid #60a5fa;">
+                    <div class="profit-deduction-section" style="background: rgba(96, 165, 250, 0.1); padding: 2rem; border-radius: 15px; margin-top: 2rem; border-left: 4px solid #60a5fa;">
                         <h5 style="color: #60a5fa; margin-bottom: 1.5rem; font-size: 1.2rem;">💡 平台收入推导逻辑</h5>
                         
                         <!-- 移动端滑动提示 -->
@@ -2548,7 +2599,7 @@
                             </div>
                         </div>
                         
-                        <div style="background: rgba(34, 197, 94, 0.1); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border: 1px solid rgba(34, 197, 94, 0.3);">
+                        <div class="core-logic-box" style="background: rgba(34, 197, 94, 0.1); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border: 1px solid rgba(34, 197, 94, 0.3);">
                             <p style="color: #22c55e; font-weight: 600; margin-bottom: 0.5rem;">🎯 核心逻辑</p>
                             <p style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.5;">
                                 平台采用<strong>双重佣金模式</strong>，从每笔交易的GMV中同时收取商家侧10%和达人侧5%佣金，总计15%的平台抽成，确保轻资产高回报的商业模式。
@@ -2651,7 +2702,55 @@
                             display: block !important;
                         }
                         
-                        /* 推导逻辑移动端优化 */
+                        /* 推导逻辑移动端优化 - 突破容器限制 */
+                        .profit-deduction-section {
+                            /* 突破父容器限制 */
+                            margin-left: -2rem !important;
+                            margin-right: -2rem !important;
+                            margin-top: 1.5rem !important;
+                            margin-bottom: 1.5rem !important;
+                            padding: 1.5rem 1rem !important;
+                            border-radius: 0 !important;
+                            border-left: none !important;
+                            border-top: 3px solid #60a5fa !important;
+                            border-bottom: 3px solid #60a5fa !important;
+                            width: calc(100vw - 2rem);
+                            position: relative;
+                            left: 50%;
+                            transform: translateX(-50%);
+                            background: linear-gradient(135deg, rgba(96, 165, 250, 0.15) 0%, rgba(168, 85, 247, 0.1) 100%) !important;
+                        }
+                        
+                        .profit-deduction-section h5 {
+                            text-align: center;
+                            font-size: 1.3rem !important;
+                            margin-bottom: 1rem !important;
+                            padding: 0.8rem;
+                            background: rgba(96, 165, 250, 0.2);
+                            border-radius: 12px;
+                            border: 1px solid rgba(96, 165, 250, 0.3);
+                        }
+                        
+                        .core-logic-box {
+                            margin: 1rem 0 !important;
+                            padding: 1.2rem !important;
+                            background: rgba(34, 197, 94, 0.15) !important;
+                            border: 2px solid rgba(34, 197, 94, 0.4) !important;
+                            border-radius: 15px !important;
+                        }
+                        
+                        .core-logic-box p:first-child {
+                            font-size: 1.1rem !important;
+                            text-align: center;
+                            margin-bottom: 0.8rem !important;
+                        }
+                        
+                        .core-logic-box p:last-child {
+                            font-size: 1rem !important;
+                            line-height: 1.6 !important;
+                            text-align: center;
+                        }
+                        
                         .profit-deduction-hint {
                             display: block !important;
                         }
@@ -2659,20 +2758,20 @@
                         .profit-deduction-container {
                             overflow-x: auto;
                             -webkit-overflow-scrolling: touch;
-                            margin: 0 -1.5rem;
+                            margin: 0 -1rem;
                             padding: 0 1rem;
                         }
                         
                         .profit-deduction-grid {
                             display: flex !important;
-                            gap: 1.2rem;
+                            gap: 1rem;
                             min-width: max-content;
                         }
                         
                         .profit-deduction-grid > div {
-                            flex: 0 0 calc(100vw - 4rem);
-                            min-width: calc(100vw - 4rem);
-                            max-width: calc(100vw - 4rem);
+                            flex: 0 0 calc(100vw - 3rem);
+                            min-width: calc(100vw - 3rem);
+                            max-width: calc(100vw - 3rem);
                         }
                         
                         .profit-deduction-container::-webkit-scrollbar {
@@ -2709,25 +2808,30 @@
                         /* 关键指标移动端优化 */
                         .key-indicators {
                             padding: 0 0.5rem;
+                            margin-top: 1.5rem !important;
                         }
                         
                         .key-indicators > div {
-                            padding: 0.8rem;
-                            background: rgba(96, 165, 250, 0.05);
-                            border-radius: 12px;
-                            border: 1px solid rgba(96, 165, 250, 0.2);
+                            padding: 1rem 0.8rem;
+                            background: rgba(96, 165, 250, 0.08);
+                            border-radius: 15px;
+                            border: 2px solid rgba(96, 165, 250, 0.3);
+                            transition: all 0.3s ease;
                         }
                         
                         .key-indicators > div:first-child {
-                            border-color: rgba(96, 165, 250, 0.3);
+                            border-color: rgba(96, 165, 250, 0.4);
+                            background: rgba(96, 165, 250, 0.1);
                         }
                         
                         .key-indicators > div:nth-child(2) {
-                            border-color: rgba(168, 85, 247, 0.3);
+                            border-color: rgba(168, 85, 247, 0.4);
+                            background: rgba(168, 85, 247, 0.1);
                         }
                         
                         .key-indicators > div:last-child {
-                            border-color: rgba(236, 72, 153, 0.3);
+                            border-color: rgba(236, 72, 153, 0.4);
+                            background: rgba(236, 72, 153, 0.1);
                         }
                     }
                     

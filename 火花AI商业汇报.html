@@ -1258,6 +1258,30 @@
                 }
             }
             
+            /* 移动端彻底禁用feature-card的伪元素边框 */
+            .three-cards-grid .feature-card::before,
+            .three-cards-grid .feature-card::after,
+            .three-cards-grid .pain-point::before,
+            .three-cards-grid .pain-point::after {
+                display: none !important;
+                content: none !important;
+                border: none !important;
+                background: transparent !important;
+                height: 0 !important;
+                width: 0 !important;
+                transform: none !important;
+            }
+            
+            /* 强制移除三卡片中所有元素的边框线条 */
+            .three-cards-grid .feature-card,
+            .three-cards-grid .pain-point {
+                border-top: none !important;
+                border-bottom: none !important;
+                border-left: 1px solid rgba(96, 165, 250, 0.2) !important;
+                border-right: 1px solid rgba(96, 165, 250, 0.2) !important;
+                overflow: hidden !important;
+            }
+            
             /* 移动端用户画像区域整体优化 */
             .user-profile-charts {
                 padding: 2rem 1rem !important;

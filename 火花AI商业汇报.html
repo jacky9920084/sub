@@ -814,29 +814,19 @@
                 display: flex !important;
                 overflow-x: auto;
                 gap: 1.5rem;
-                padding: 0 1rem 1rem 1rem;
-                margin: 2rem -1rem;
+                padding: 0 1.5rem 1rem 1.5rem;
+                margin: 2rem 0;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 grid-template-columns: none !important;
+                justify-content: flex-start;
             }
             
-            .three-cards-grid::-webkit-scrollbar {
-                height: 4px;
-            }
+
             
-            .three-cards-grid::-webkit-scrollbar-track {
-                background: rgba(96, 165, 250, 0.1);
-                border-radius: 2px;
-            }
-            
-            .three-cards-grid::-webkit-scrollbar-thumb {
-                background: rgba(96, 165, 250, 0.5);
-                border-radius: 2px;
-            }
-            
-            .three-cards-grid .pain-point {
-                flex: 0 0 280px !important; /* 固定宽度，可滚动 */
+            .three-cards-grid .pain-point,
+            .three-cards-grid .feature-card {
+                flex: 0 0 285px !important; /* 稍微增加宽度 */
                 padding: 2rem 1.5rem;
                 margin-bottom: 0;
                 border-radius: 20px;
@@ -846,8 +836,9 @@
                     rgba(236, 72, 153, 0.15) 100%);
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
                 border: 1px solid rgba(96, 165, 250, 0.2);
-                scroll-snap-align: center;
-                min-width: 280px;
+                scroll-snap-align: start;
+                min-width: 285px;
+                max-width: 285px;
             }
             
             .three-cards-grid .pain-point h4 {
@@ -891,17 +882,39 @@
                 content: '';
                 position: absolute;
                 right: 0;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 40px;
+                top: 0;
+                width: 30px;
                 height: 100%;
-                background: linear-gradient(90deg, transparent, rgba(15, 15, 35, 0.8));
+                background: linear-gradient(90deg, transparent, rgba(15, 15, 35, 0.6));
                 pointer-events: none;
                 z-index: 2;
+                border-radius: 0 20px 20px 0;
             }
             
             .three-cards-grid {
                 position: relative;
+                /* 确保滚动时内容不会被截断 */
+                box-sizing: border-box;
+            }
+            
+            /* 优化滚动条样式 */
+            .three-cards-grid::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-track {
+                background: rgba(96, 165, 250, 0.1);
+                border-radius: 3px;
+                margin: 0 1rem;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-thumb {
+                background: rgba(96, 165, 250, 0.5);
+                border-radius: 3px;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-thumb:hover {
+                background: rgba(96, 165, 250, 0.8);
             }
             
             /* 卡片内容结构化样式 - 手机端水平滚动优化 */
@@ -1393,12 +1406,16 @@
             .three-cards-grid {
                 display: flex !important;
                 grid-template-columns: none !important;
+                padding: 0 1rem 1rem 1rem;
+                gap: 1.2rem;
             }
             
-            .three-cards-grid .pain-point {
-                flex: 0 0 260px !important; /* 稍微缩小宽度 */
+            .three-cards-grid .pain-point,
+            .three-cards-grid .feature-card {
+                flex: 0 0 265px !important; /* 稍微缩小宽度 */
                 padding: 1.8rem 1.3rem;
-                min-width: 260px;
+                min-width: 265px;
+                max-width: 265px;
             }
             
             .three-cards-grid .pain-point h4 {
@@ -1493,12 +1510,15 @@
             .three-cards-grid {
                 display: flex !important;
                 grid-template-columns: none !important;
+                padding: 0 0.8rem 1rem 0.8rem;
+                gap: 1rem;
             }
             
             .three-cards-grid .pain-point,
             .three-cards-grid .feature-card {
-                flex: 0 0 240px !important;
-                min-width: 240px;
+                flex: 0 0 245px !important;
+                min-width: 245px;
+                max-width: 245px;
                 padding: 1.5rem 1.2rem;
             }
             body {

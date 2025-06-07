@@ -1434,9 +1434,9 @@
                 min-height: 45px;
             }
             
-            /* 推导逻辑480px优化 */
+            /* 推导逻辑480px优化 - 保持全屏宽度 */
             .profit-deduction-section {
-                padding: 1.2rem !important;
+                padding: 1.2rem 0.8rem !important;
             }
             
             .profit-deduction-section h5 {
@@ -1456,9 +1456,13 @@
                 font-size: 0.85rem !important;
             }
             
+            .profit-deduction-container {
+                padding: 0 0.8rem !important;
+            }
+            
             .profit-deduction-grid > div {
                 width: 100% !important;
-                max-width: 100% !important;
+                max-width: none !important;
                 margin-bottom: 1.2rem !important;
                 padding: 1rem !important;
             }
@@ -1473,13 +1477,12 @@
                 margin-bottom: 0.5rem !important;
             }
             
-            .profit-deduction-container {
-                margin: 0;
-                padding: 0;
-            }
-            
             .profit-deduction-grid {
                 gap: 0 !important;
+            }
+            
+            .visual-profit-table {
+                padding: 1.5rem 0.8rem !important;
             }
             
             /* 推导逻辑卡片内容优化 */
@@ -1800,9 +1803,9 @@
                 min-height: 40px;
             }
             
-            /* 推导逻辑360px优化 */
+            /* 推导逻辑360px优化 - 保持全屏宽度 */
             .profit-deduction-section {
-                padding: 1rem !important;
+                padding: 1rem 0.6rem !important;
             }
             
             .profit-deduction-section h5 {
@@ -1824,9 +1827,13 @@
                 line-height: 1.5 !important;
             }
             
+            .profit-deduction-container {
+                padding: 0 0.6rem !important;
+            }
+            
             .profit-deduction-grid > div {
                 width: 100% !important;
-                max-width: 100% !important;
+                max-width: none !important;
                 margin-bottom: 1rem !important;
                 padding: 0.8rem !important;
             }
@@ -1841,13 +1848,12 @@
                 margin-bottom: 0.4rem !important;
             }
             
-            .profit-deduction-container {
-                margin: 0;
-                padding: 0;
-            }
-            
             .profit-deduction-grid {
                 gap: 0 !important;
+            }
+            
+            .visual-profit-table {
+                padding: 1.2rem 0.6rem !important;
             }
             
             /* 推导逻辑卡片内容优化 - 超小屏 */
@@ -2653,13 +2659,14 @@
                         backdrop-filter: blur(10px);
                     }
                     
-                                            /* 表格容器样式 */
+                                            /* 表格容器样式 - 全屏宽度 */
                         .profit-table-container {
                             overflow-x: auto;
                             -webkit-overflow-scrolling: touch;
-                            padding: 0;
-                            margin: 0 -1rem;
-                            border-radius: 15px;
+                            padding: 0 1rem;
+                            margin: 0 calc(-50vw + 50%);
+                            width: 100vw;
+                            border-radius: 0;
                             position: relative;
                         }
                     
@@ -2722,15 +2729,28 @@
                             display: block !important;
                         }
                         
+                        /* 表格区域全屏宽度 */
+                        .visual-profit-table {
+                            margin: 0 calc(-50vw + 50%) !important;
+                            width: 100vw !important;
+                            padding: 2rem 1rem !important;
+                            border-radius: 0 !important;
+                            border-left: none !important;
+                            border-right: none !important;
+                        }
+                        
 
                         
-                        /* 推导逻辑移动端优化 - 保持在容器内 */
+                        /* 推导逻辑移动端优化 - 全屏宽度 */
                         .profit-deduction-section {
-                            margin-top: 2rem !important;
-                            padding: 1.5rem !important;
+                            margin: 2rem calc(-50vw + 50%) 0 calc(-50vw + 50%) !important;
+                            width: 100vw !important;
+                            padding: 1.5rem 1rem !important;
                             background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%) !important;
-                            border: 1px solid rgba(96, 165, 250, 0.2) !important;
-                            border-radius: 15px !important;
+                            border: none !important;
+                            border-top: 2px solid rgba(96, 165, 250, 0.3) !important;
+                            border-bottom: 2px solid rgba(96, 165, 250, 0.3) !important;
+                            border-radius: 0 !important;
                             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
                         }
                         
@@ -2745,23 +2765,28 @@
                         }
                         
                         .core-logic-box {
-                            margin: 1.5rem 0 0 0 !important;
+                            margin: 1.5rem calc(-50vw + 50%) 0 calc(-50vw + 50%) !important;
+                            width: 100vw !important;
                             padding: 1rem !important;
                             background: rgba(34, 197, 94, 0.08) !important;
-                            border: 1px solid rgba(34, 197, 94, 0.2) !important;
-                            border-radius: 12px !important;
+                            border: none !important;
+                            border-top: 1px solid rgba(34, 197, 94, 0.3) !important;
+                            border-bottom: 1px solid rgba(34, 197, 94, 0.3) !important;
+                            border-radius: 0 !important;
                         }
                         
                         .core-logic-box p:first-child {
                             font-size: 1rem !important;
                             text-align: center;
                             margin-bottom: 0.8rem !important;
+                            padding: 0 1rem;
                         }
                         
                         .core-logic-box p:last-child {
                             font-size: 0.95rem !important;
                             line-height: 1.6 !important;
                             text-align: center;
+                            padding: 0 1rem;
                         }
                         
                         .mobile-description-hint {
@@ -2774,26 +2799,28 @@
                             font-style: italic;
                         }
                         
-                        /* 移动端改为垂直布局 - 保持在容器内但充分利用空间 */
+                        /* 移动端彻底重构 - 全屏宽度布局 */
                         .profit-deduction-container {
+                            margin: 0 calc(-50vw + 50%);
+                            width: 100vw;
+                            padding: 0 1rem;
                             overflow: visible;
-                            margin: 0;
-                            padding: 0;
                         }
                         
                         .profit-deduction-grid {
                             display: block !important;
                             gap: 0;
+                            width: 100%;
                         }
                         
                         .profit-deduction-grid > div {
                             width: 100% !important;
-                            max-width: 100% !important;
+                            max-width: none !important;
                             margin-bottom: 1.5rem;
                             background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%) !important;
                             border: 1px solid rgba(96, 165, 250, 0.3) !important;
                             border-radius: 12px !important;
-                            padding: 1rem !important;
+                            padding: 1.2rem !important;
                             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
                             backdrop-filter: blur(10px) !important;
                         }
@@ -2831,13 +2858,16 @@
                         
                         .profit-deduction-grid > div p span:first-child {
                             flex: 1;
-                            min-width: 120px;
+                            min-width: 140px;
+                            text-align: left;
                         }
                         
                         .profit-deduction-grid > div p span:last-child {
                             flex-shrink: 0;
                             text-align: right;
                             font-weight: 600;
+                            max-width: 60%;
+                            word-break: break-word;
                         }
                         
                         .profit-deduction-grid > div p:last-child {

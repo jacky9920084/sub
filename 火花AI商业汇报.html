@@ -370,7 +370,10 @@
 
         .roi-bg {
             background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/ROI.png');
-            min-height: 300px;
+            min-height: 400px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .features-bg {
@@ -1086,6 +1089,15 @@
                 padding: 0 0.5rem;
             }
             
+            /* ROI图片移动端优化 */
+            .roi-bg {
+                min-height: 280px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                margin: 2rem 0 !important;
+                padding: 1.5rem 0.8rem !important;
+            }
+            
             .growth-chart-container {
                 padding: 1.5rem 1rem;
                 border-radius: 12px;
@@ -1735,6 +1747,15 @@
             .chart-placeholder h4 {
                 font-size: 1.3rem !important;
                 padding: 0 0.3rem;
+            }
+            
+            /* ROI图片480px以下优化 */
+            .roi-bg {
+                min-height: 240px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                margin: 1.5rem 0 !important;
+                padding: 1.2rem 0.6rem !important;
             }
             
             .growth-chart-container, .user-profile-charts {

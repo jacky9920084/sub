@@ -1056,19 +1056,22 @@
                 padding: 0.5rem 0;
             }
             
-            .profit-table-grid {
-                min-width: 750px !important; /* 增加最小宽度确保完整显示 */
-            }
-            
-            .profit-table-grid > div {
-                padding: 1rem 0.8rem !important;
-                font-size: 1rem !important;
-                min-height: 50px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                text-align: center;
-            }
+                                    .profit-table-grid {
+                            min-width: 750px !important; /* 增加最小宽度确保完整显示 */
+                            border: none !important;
+                        }
+                        
+                        .profit-table-grid > div {
+                            padding: 1rem 0.8rem !important;
+                            font-size: 1rem !important;
+                            min-height: 50px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-align: center;
+                            border: none !important;
+                            border-bottom: 1px solid rgba(96, 165, 250, 0.1) !important;
+                        }
             
             /* 图表容器优化 */
             .chart-placeholder {
@@ -1431,11 +1434,9 @@
                 min-height: 45px;
             }
             
-            /* 推导逻辑480px优化 - 充分利用屏幕宽度 */
+            /* 推导逻辑480px优化 */
             .profit-deduction-section {
-                margin: 2rem -0.8rem 0 -0.8rem !important;
-                padding: 1.2rem 0.8rem !important;
-                border-radius: 0 !important;
+                padding: 1.2rem !important;
             }
             
             .profit-deduction-section h5 {
@@ -1444,7 +1445,7 @@
             
             .core-logic-box {
                 padding: 1rem !important;
-                margin: 1rem -0.5rem 0 -0.5rem !important;
+                margin: 1rem 0 0 0 !important;
             }
             
             .core-logic-box p:first-child {
@@ -1456,10 +1457,10 @@
             }
             
             .profit-deduction-grid > div {
-                width: calc(100vw - 1.6rem) !important;
-                max-width: calc(100vw - 1.6rem) !important;
-                margin: 0 0.8rem 1.2rem 0.8rem !important;
-                padding: 1.2rem !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-bottom: 1.2rem !important;
+                padding: 1rem !important;
             }
             
             .profit-deduction-grid > div h6 {
@@ -1468,22 +1469,17 @@
             }
             
             .profit-deduction-grid > div p {
-                font-size: 0.85rem !important;
-                margin-bottom: 0.6rem !important;
+                font-size: 0.8rem !important;
+                margin-bottom: 0.5rem !important;
             }
             
             .profit-deduction-container {
-                margin: 0 -0.8rem;
+                margin: 0;
                 padding: 0;
             }
             
             .profit-deduction-grid {
                 gap: 0 !important;
-            }
-            
-            .visual-profit-table {
-                margin: 0 -0.8rem !important;
-                padding: 1.5rem 0.8rem !important;
             }
             
             /* 推导逻辑卡片内容优化 */
@@ -1804,11 +1800,9 @@
                 min-height: 40px;
             }
             
-            /* 推导逻辑360px优化 - 充分利用屏幕宽度 */
+            /* 推导逻辑360px优化 */
             .profit-deduction-section {
-                margin: 2rem -0.6rem 0 -0.6rem !important;
-                padding: 1rem 0.6rem !important;
-                border-radius: 0 !important;
+                padding: 1rem !important;
             }
             
             .profit-deduction-section h5 {
@@ -1817,7 +1811,7 @@
             
             .core-logic-box {
                 padding: 0.8rem !important;
-                margin: 1rem -0.3rem 0 -0.3rem !important;
+                margin: 1rem 0 0 0 !important;
             }
             
             .core-logic-box p:first-child {
@@ -1831,10 +1825,10 @@
             }
             
             .profit-deduction-grid > div {
-                width: calc(100vw - 1.2rem) !important;
-                max-width: calc(100vw - 1.2rem) !important;
-                margin: 0 0.6rem 1rem 0.6rem !important;
-                padding: 1rem !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                margin-bottom: 1rem !important;
+                padding: 0.8rem !important;
             }
             
             .profit-deduction-grid > div h6 {
@@ -1843,22 +1837,17 @@
             }
             
             .profit-deduction-grid > div p {
-                font-size: 0.8rem !important;
-                margin-bottom: 0.5rem !important;
+                font-size: 0.75rem !important;
+                margin-bottom: 0.4rem !important;
             }
             
             .profit-deduction-container {
-                margin: 0 -0.6rem;
+                margin: 0;
                 padding: 0;
             }
             
             .profit-deduction-grid {
                 gap: 0 !important;
-            }
-            
-            .visual-profit-table {
-                margin: 0 -0.6rem !important;
-                padding: 1.2rem 0.6rem !important;
             }
             
             /* 推导逻辑卡片内容优化 - 超小屏 */
@@ -2528,63 +2517,63 @@
                     
                     <!-- 可视化表格 -->
                     <div class="profit-table-container">
-                        <div class="profit-table-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1px; background: rgba(96, 165, 250, 0.2); border-radius: 15px; overflow: hidden; min-width: 700px;">
+                        <div class="profit-table-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; background: transparent; border-radius: 15px; overflow: hidden; min-width: 700px; border: 1px solid rgba(96, 165, 250, 0.3);">
                         <!-- 表头 -->
-                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #e2e8f0; font-weight: 600; text-align: center;">指标 / 年份</div>
-                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第一年</div>
-                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第二年</div>
+                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #e2e8f0; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.3);">指标 / 年份</div>
+                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.3);">第一年</div>
+                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.3);">第二年</div>
                         <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第三年</div>
                         
                         <!-- 数据行 -->
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">免费用户总数</div>
-                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">1,000,000</div>
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">5,000,000</div>
-                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">10,000,000</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">免费用户总数</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">1,000,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">5,000,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">10,000,000</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">活跃达人数量</div>
-                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">50,000</div>
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">250,000</div>
-                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">500,000</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">活跃达人数量</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">50,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">250,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">500,000</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人月均变现</div>
-                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">4,000元</div>
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">6,000元</div>
-                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">8,000元</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">达人月均变现</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">4,000元</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">6,000元</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">8,000元</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人年总变现</div>
-                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">24亿</div>
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">180亿</div>
-                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">480亿</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">达人年总变现</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">24亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">180亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">480亿</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">平台每活跃达人月均收入</div>
-                        <div style="background: rgba(96, 165, 250, 0.15); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">3,000元</div>
-                        <div style="background: rgba(168, 85, 247, 0.15); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">4,500元</div>
-                        <div style="background: rgba(236, 72, 153, 0.15); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">6,000元</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">平台每活跃达人月均收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.15); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">3,000元</div>
+                        <div style="background: rgba(168, 85, 247, 0.15); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">4,500元</div>
+                        <div style="background: rgba(236, 72, 153, 0.15); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">6,000元</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">平台达人侧佣金收入</div>
-                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">6亿</div>
-                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">45亿</div>
-                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">120亿</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">平台达人侧佣金收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">6亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">45亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">120亿</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">B端商家入驻数量</div>
-                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">5,000</div>
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">25,000</div>
-                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">50,000</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">B端商家入驻数量</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">5,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">25,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">50,000</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">商家年服务费收入</div>
-                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">6,000万</div>
-                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">30亿</div>
-                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">60亿</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">商家年服务费收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">6,000万</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">30亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">60亿</div>
                         
-                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">商家侧佣金收入</div>
-                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">12亿</div>
-                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">90亿</div>
-                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">240亿</div>
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">商家侧佣金收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">12亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center; border-right: 1px solid rgba(96, 165, 250, 0.2); border-bottom: 1px solid rgba(96, 165, 250, 0.1);">90亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.1);">240亿</div>
                         
                         <!-- 总收入行 - 突出显示 -->
-                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #fbbf24; font-weight: 700; font-size: 1.1rem;">平台总收入</div>
-                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">18.6亿</div>
-                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">138亿</div>
+                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #fbbf24; font-weight: 700; font-size: 1.1rem; border-right: 1px solid rgba(96, 165, 250, 0.3);">平台总收入</div>
+                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem; border-right: 1px solid rgba(96, 165, 250, 0.3);">18.6亿</div>
+                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem; border-right: 1px solid rgba(96, 165, 250, 0.3);">138亿</div>
                         <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">366亿</div>
                         </div>
                     </div>
@@ -2664,18 +2653,14 @@
                         backdrop-filter: blur(10px);
                     }
                     
-                                            /* 表格容器样式 - 充分利用屏幕宽度 */
+                                            /* 表格容器样式 */
                         .profit-table-container {
                             overflow-x: auto;
                             -webkit-overflow-scrolling: touch;
                             padding: 0;
                             margin: 0 -1rem;
-                            border-radius: 0;
+                            border-radius: 15px;
                             position: relative;
-                            width: calc(100vw - 2rem);
-                            margin-left: calc(-50vw + 50%);
-                            padding-left: 1rem;
-                            padding-right: 1rem;
                         }
                     
                     .profit-table-container::-webkit-scrollbar {
@@ -2737,25 +2722,16 @@
                             display: block !important;
                         }
                         
-                        /* 让整个表格区域也充分利用屏幕宽度 */
-                        .visual-profit-table {
-                            margin: 0 -1rem !important;
-                            padding: 2rem 1rem !important;
-                            border-radius: 0 !important;
-                            border-left: none !important;
-                            border-right: none !important;
-                        }
+
                         
-                        /* 推导逻辑移动端优化 - 充分利用屏幕宽度 */
+                        /* 推导逻辑移动端优化 - 保持在容器内 */
                         .profit-deduction-section {
-                            margin: 2rem -1rem 0 -1rem !important;
-                            padding: 1.5rem 1rem !important;
+                            margin-top: 2rem !important;
+                            padding: 1.5rem !important;
                             background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%) !important;
-                            border: none !important;
-                            border-radius: 0 !important;
+                            border: 1px solid rgba(96, 165, 250, 0.2) !important;
+                            border-radius: 15px !important;
                             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
-                            border-top: 2px solid rgba(96, 165, 250, 0.3) !important;
-                            border-bottom: 2px solid rgba(96, 165, 250, 0.3) !important;
                         }
                         
                         .profit-deduction-section h5 {
@@ -2770,10 +2746,10 @@
                         
                         .core-logic-box {
                             margin: 1.5rem 0 0 0 !important;
-                            padding: 1.2rem !important;
+                            padding: 1rem !important;
                             background: rgba(34, 197, 94, 0.08) !important;
                             border: 1px solid rgba(34, 197, 94, 0.2) !important;
-                            border-radius: 15px !important;
+                            border-radius: 12px !important;
                         }
                         
                         .core-logic-box p:first-child {
@@ -2798,10 +2774,10 @@
                             font-style: italic;
                         }
                         
-                        /* 移动端改为垂直布局 - 充分利用屏幕宽度 */
+                        /* 移动端改为垂直布局 - 保持在容器内但充分利用空间 */
                         .profit-deduction-container {
                             overflow: visible;
-                            margin: 0 -1rem;
+                            margin: 0;
                             padding: 0;
                         }
                         
@@ -2811,13 +2787,13 @@
                         }
                         
                         .profit-deduction-grid > div {
-                            width: calc(100vw - 2rem) !important;
-                            max-width: calc(100vw - 2rem) !important;
-                            margin: 0 1rem 1.5rem 1rem;
+                            width: 100% !important;
+                            max-width: 100% !important;
+                            margin-bottom: 1.5rem;
                             background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%) !important;
                             border: 1px solid rgba(96, 165, 250, 0.3) !important;
                             border-radius: 12px !important;
-                            padding: 1.2rem !important;
+                            padding: 1rem !important;
                             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
                             backdrop-filter: blur(10px) !important;
                         }
@@ -2841,14 +2817,27 @@
                         }
                         
                         .profit-deduction-grid > div p {
-                            font-size: 0.9rem !important;
-                            line-height: 1.6 !important;
-                            margin-bottom: 0.5rem !important;
+                            font-size: 0.85rem !important;
+                            line-height: 1.5 !important;
+                            margin-bottom: 0.4rem !important;
                             color: #e2e8f0 !important;
                             display: flex;
                             justify-content: space-between;
                             align-items: center;
-                            padding: 0.3rem 0;
+                            padding: 0.2rem 0;
+                            flex-wrap: wrap;
+                            gap: 0.5rem;
+                        }
+                        
+                        .profit-deduction-grid > div p span:first-child {
+                            flex: 1;
+                            min-width: 120px;
+                        }
+                        
+                        .profit-deduction-grid > div p span:last-child {
+                            flex-shrink: 0;
+                            text-align: right;
+                            font-weight: 600;
                         }
                         
                         .profit-deduction-grid > div p:last-child {

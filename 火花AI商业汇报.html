@@ -850,6 +850,103 @@
                 font-weight: 600;
             }
             
+            /* 卡片内容结构化样式 */
+            .card-subtitle {
+                font-size: 1rem;
+                color: #94a3b8;
+                text-align: center;
+                margin-bottom: 2rem;
+                font-style: italic;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+                padding-bottom: 1rem;
+            }
+            
+            .key-point {
+                margin-bottom: 1.8rem;
+                padding: 1.2rem;
+                background: rgba(15, 15, 35, 0.3);
+                border-radius: 12px;
+                border-left: 3px solid #60a5fa;
+            }
+            
+            .point-title {
+                font-size: 1.1rem;
+                font-weight: 600;
+                color: #60a5fa;
+                margin-bottom: 0.8rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+            
+            .point-content {
+                font-size: 1rem;
+                line-height: 1.7;
+                color: #e2e8f0;
+                text-align: left;
+            }
+            
+            .point-content br {
+                margin-bottom: 0.5rem;
+            }
+            
+            /* 目标卡片内容样式 */
+            .goal-content {
+                text-align: center;
+                margin-top: 1rem;
+            }
+            
+            .goal-highlight {
+                font-size: 1.05rem;
+                line-height: 1.6;
+                color: #cbd5e1;
+                margin-bottom: 1rem;
+            }
+            
+            .goal-main {
+                font-size: 1.2rem;
+                font-weight: 600;
+                line-height: 1.5;
+                color: #60a5fa;
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                padding: 0.5rem 0;
+            }
+            
+            /* 功能卡片内容样式 */
+            .feature-subtitle {
+                font-size: 1rem;
+                color: #a855f7;
+                font-weight: 600;
+                text-align: center;
+                margin-bottom: 1.5rem;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+            }
+            
+            .feature-description {
+                text-align: left;
+                margin-top: 1rem;
+            }
+            
+            .feature-point {
+                font-size: 1rem;
+                line-height: 1.7;
+                color: #e2e8f0;
+                margin-bottom: 0.8rem;
+                padding-left: 0.5rem;
+                border-left: 2px solid rgba(96, 165, 250, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .feature-point:hover {
+                border-left-color: #60a5fa;
+                color: #60a5fa;
+                padding-left: 1rem;
+            }
+            
             /* 图标优化 */
             .feature-icon {
                 width: 80px;
@@ -1271,6 +1368,49 @@
                 font-weight: 600;
             }
             
+            /* 小屏下的卡片内容优化 */
+            .card-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+                padding-bottom: 0.8rem;
+            }
+            
+            .key-point {
+                margin-bottom: 1.5rem;
+                padding: 1rem;
+            }
+            
+            .point-title {
+                font-size: 1rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .point-content {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            .feature-subtitle {
+                font-size: 0.9rem;
+                margin-bottom: 1.2rem;
+                padding: 0.4rem 0;
+            }
+            
+            .feature-point {
+                font-size: 0.95rem;
+                margin-bottom: 0.6rem;
+                padding-left: 0.4rem;
+            }
+            
+            .goal-highlight {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .goal-main {
+                font-size: 1.1rem;
+            }
+            
             .feature-icon {
                 width: 55px;
                 height: 55px;
@@ -1469,6 +1609,50 @@
                 padding: 0 0.2rem;
             }
             
+            /* 超小屏下的卡片内容优化 */
+            .card-subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 1.2rem;
+                padding-bottom: 0.6rem;
+            }
+            
+            .key-point {
+                margin-bottom: 1.2rem;
+                padding: 0.8rem;
+            }
+            
+            .point-title {
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .point-content {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .feature-subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+                padding: 0.3rem 0;
+            }
+            
+            .feature-point {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+                padding-left: 0.3rem;
+            }
+            
+            .goal-highlight {
+                font-size: 0.95rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .goal-main {
+                font-size: 1rem;
+                padding: 0.3rem 0;
+            }
+            
             /* Header高度优化 - 超小屏 */
             .hero-header {
                 min-height: 320px !important;
@@ -1476,11 +1660,17 @@
             }
         }
 
-        /* 触摸设备优化 */
+                    /* 触摸设备优化 */
         @media (hover: none) and (pointer: coarse) {
             /* 移除hover效果，使用touch友好的交互 */
             .pain-point:hover, .feature-card:hover, .advantage-card:hover {
                 transform: none;
+            }
+            
+            .feature-point:hover {
+                border-left-color: rgba(96, 165, 250, 0.3);
+                color: #e2e8f0;
+                padding-left: 0.5rem;
             }
             
             /* 增大触摸目标 */
@@ -1733,26 +1923,42 @@
                     <div class="feature-card">
                         <div class="feature-icon">🎯</div>
                         <h4>火花·蓝图</h4>
-                        <p><strong>战略内容规划引擎</strong></p>
-                        <p>深度洞察用户人设基因、价值观、过往经验，智能提炼最具潜力的"内容核心"，绘制清晰可执行的内容增长战略蓝图。</p>
+                        <div class="feature-subtitle">战略内容规划引擎</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 深度洞察用户人设基因</div>
+                            <div class="feature-point">• 智能提炼"内容核心"</div>
+                            <div class="feature-point">• 绘制可执行战略蓝图</div>
+                        </div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🔍</div>
                         <h4>火花·探针</h4>
-                        <p><strong>AI智能评审系统</strong></p>
-                        <p>对内容进行多维度智能评审，诊断潜在问题，预测市场反馈，成为内容质量的"智能质检员"。</p>
+                        <div class="feature-subtitle">AI智能评审系统</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 多维度智能评审</div>
+                            <div class="feature-point">• 诊断潜在问题</div>
+                            <div class="feature-point">• 预测市场反馈</div>
+                        </div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">✨</div>
                         <h4>火花·妙笔</h4>
-                        <p><strong>人性化优化工坊</strong></p>
-                        <p>对内容素材进行情感化、趣味化、场景化深度优化，让文字"活"起来，更"懂"人心。</p>
+                        <div class="feature-subtitle">人性化优化工坊</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 情感化内容优化</div>
+                            <div class="feature-point">• 趣味化场景处理</div>
+                            <div class="feature-point">• 让文字"活"起来</div>
+                        </div>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">💎</div>
                         <h4>火花·金句</h4>
-                        <p><strong>爆款记忆锻造器</strong></p>
-                        <p>智能生成具有高度概括性、强记忆点、易传播的Slogan和核心金句，打造"超级记忆符号"。</p>
+                        <div class="feature-subtitle">爆款记忆锻造器</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 高度概括性表达</div>
+                            <div class="feature-point">• 强记忆点设计</div>
+                            <div class="feature-point">• 打造"超级记忆符号"</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1809,21 +2015,59 @@
                 
                 <div class="three-cards-grid">
                     <div class="pain-point" style="border-color: #27ae60;">
-                        <h4 style="color: #27ae60;">"汉堡"策略（基础服务）</h4>
-                        <p><strong>核心AI功能免费/低价：</strong> 人设构建、内容策略规划、文案生成等对个人用户提供免费或极低成本服务。</p>
-                        <p><strong>目的：</strong> 快速吸引和培养大量"达人种子"，积累海量用户和内容数据。</p>
+                        <h4 style="color: #27ae60;">"汉堡"策略</h4>
+                        <div class="card-subtitle">基础服务</div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">💡 核心AI功能免费/低价</div>
+                            <div class="point-content">
+                                • 人设构建<br>
+                                • 内容策略规划<br>
+                                • 文案生成
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">🎯 战略目的</div>
+                            <div class="point-content">快速吸引和培养大量"达人种子"，积累海量用户和内容数据</div>
+                        </div>
                     </div>
                     
                     <div class="pain-point" style="border-color: #f39c12;">
-                        <h4 style="color: #f39c12;">路径一：达人孵化与内容变现</h4>
-                        <p><strong>模式：</strong> 系统性打造个人IP，产出高质量、有策略、能转化的内容。</p>
-                        <p><strong>盈利：</strong> 达人成长服务费 + 内容变现分成（5%）</p>
+                        <h4 style="color: #f39c12;">路径一</h4>
+                        <div class="card-subtitle">达人孵化与内容变现</div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">🚀 模式</div>
+                            <div class="point-content">系统性打造个人IP，产出高质量、有策略、能转化的内容</div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">💰 盈利</div>
+                            <div class="point-content">
+                                达人成长服务费<br>
+                                + 内容变现分成（5%）
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="pain-point" style="border-color: #9b59b6;">
-                        <h4 style="color: #9b59b6;">路径二：供应链撮合与资源整合</h4>
-                        <p><strong>模式：</strong> 连接优质供应链B端厂家/品牌与平台达人的"任务链接"中心。</p>
-                        <p><strong>盈利：</strong> 交易佣金（10%）+ 商家年服务费 + 数据增值服务</p>
+                        <h4 style="color: #9b59b6;">路径二</h4>
+                        <div class="card-subtitle">供应链撮合与资源整合</div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">🔗 模式</div>
+                            <div class="point-content">连接优质供应链B端厂家/品牌与平台达人的"任务链接"中心</div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">💰 盈利</div>
+                            <div class="point-content">
+                                交易佣金（10%）<br>
+                                + 商家年服务费<br>
+                                + 数据增值服务
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2482,17 +2726,26 @@
                 <div class="feature-card">
                     <div class="feature-icon">🚀</div>
                     <h4>短期目标</h4>
-                    <p>成为B端企业和内容创作者首选的AI内容策略与生成平台</p>
+                    <div class="goal-content">
+                        <div class="goal-highlight">成为B端企业和内容创作者首选的</div>
+                        <div class="goal-main">AI内容策略与生成平台</div>
+                    </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">📈</div>
                     <h4>中期目标</h4>
-                    <p>拓展AI MCN孵化规模，成为特定行业内容营销解决方案的领导者</p>
+                    <div class="goal-content">
+                        <div class="goal-highlight">拓展AI MCN孵化规模，成为特定行业</div>
+                        <div class="goal-main">内容营销解决方案的领导者</div>
+                    </div>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🌟</div>
                     <h4>长期愿景</h4>
-                    <p>构建AI内容生态，引领AI原生化内容创作标准，让每个品牌都拥有AI驱动的增长智慧</p>
+                    <div class="goal-content">
+                        <div class="goal-highlight">构建AI内容生态，引领AI原生化内容创作标准</div>
+                        <div class="goal-main">让每个品牌都拥有AI驱动的增长智慧</div>
+                    </div>
                 </div>
             </div>
 

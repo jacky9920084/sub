@@ -696,8 +696,8 @@
             }
             
             .three-cards-grid {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
                 margin: 3rem 0;
             }
             
@@ -813,36 +813,37 @@
                 line-height: 1.7;
             }
             
-            /* 三卡片网格特别优化 */
+            /* 三卡片网格特别优化 - 手机端横向布局 */
             .three-cards-grid .pain-point {
-                padding: 2.5rem 2rem;
-                margin-bottom: 2.5rem;
-                border-radius: 20px;
+                padding: 1.5rem 1rem;
+                margin-bottom: 1rem;
+                border-radius: 16px;
                 background: linear-gradient(135deg, 
                     rgba(96, 165, 250, 0.15) 0%, 
                     rgba(168, 85, 247, 0.1) 50%, 
                     rgba(236, 72, 153, 0.15) 100%);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
                 border: 1px solid rgba(96, 165, 250, 0.2);
             }
             
             .three-cards-grid .pain-point h4 {
-                font-size: 1.6rem;
-                margin-bottom: 1.8rem;
+                font-size: 1.1rem;
+                margin-bottom: 1rem;
                 text-align: center;
                 font-weight: 700;
                 background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
+                line-height: 1.3;
             }
             
             .three-cards-grid .pain-point p {
-                font-size: 1.1rem;
-                line-height: 2;
+                font-size: 0.9rem;
+                line-height: 1.5;
                 text-align: center;
                 color: #e2e8f0;
-                margin-bottom: 1rem;
+                margin-bottom: 0.8rem;
             }
             
             .three-cards-grid .pain-point strong {
@@ -850,44 +851,45 @@
                 font-weight: 600;
             }
             
-            /* 卡片内容结构化样式 */
+            /* 卡片内容结构化样式 - 手机端3列优化 */
             .card-subtitle {
-                font-size: 1rem;
+                font-size: 0.8rem;
                 color: #94a3b8;
                 text-align: center;
-                margin-bottom: 2rem;
+                margin-bottom: 1rem;
                 font-style: italic;
                 border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-                padding-bottom: 1rem;
+                padding-bottom: 0.5rem;
             }
             
             .key-point {
-                margin-bottom: 1.8rem;
-                padding: 1.2rem;
+                margin-bottom: 1rem;
+                padding: 0.8rem;
                 background: rgba(15, 15, 35, 0.3);
-                border-radius: 12px;
-                border-left: 3px solid #60a5fa;
+                border-radius: 8px;
+                border-left: 2px solid #60a5fa;
             }
             
             .point-title {
-                font-size: 1.1rem;
+                font-size: 0.85rem;
                 font-weight: 600;
                 color: #60a5fa;
-                margin-bottom: 0.8rem;
+                margin-bottom: 0.5rem;
                 display: flex;
                 align-items: center;
-                gap: 0.5rem;
+                gap: 0.3rem;
+                flex-wrap: wrap;
             }
             
             .point-content {
-                font-size: 1rem;
-                line-height: 1.7;
+                font-size: 0.8rem;
+                line-height: 1.5;
                 color: #e2e8f0;
                 text-align: left;
             }
             
             .point-content br {
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.3rem;
             }
             
             /* 目标卡片内容样式 */
@@ -1332,35 +1334,43 @@
                 line-height: 1.6;
             }
             
+            /* 480px以下也保持3列，但进一步紧凑 */
+            .three-cards-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+                margin: 2rem 0;
+            }
+            
             .three-cards-grid .pain-point {
-                padding: 2.5rem 1.8rem;
-                margin-bottom: 2.5rem;
-                border-radius: 20px;
+                padding: 1rem 0.6rem;
+                margin-bottom: 0.5rem;
+                border-radius: 12px;
                 background: linear-gradient(135deg, 
                     rgba(96, 165, 250, 0.15) 0%, 
                     rgba(168, 85, 247, 0.1) 50%, 
                     rgba(236, 72, 153, 0.15) 100%);
-                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
                 border: 1px solid rgba(96, 165, 250, 0.25);
             }
             
             .three-cards-grid .pain-point h4 {
-                font-size: 1.4rem;
-                margin-bottom: 1.5rem;
+                font-size: 0.95rem;
+                margin-bottom: 0.8rem;
                 text-align: center;
                 font-weight: 700;
                 background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
+                line-height: 1.2;
             }
             
             .three-cards-grid .pain-point p {
-                font-size: 1.05rem;
-                line-height: 1.9;
+                font-size: 0.75rem;
+                line-height: 1.4;
                 text-align: center;
                 color: #e2e8f0;
-                margin-bottom: 1rem;
+                margin-bottom: 0.6rem;
             }
             
             .three-cards-grid .pain-point strong {
@@ -1368,47 +1378,48 @@
                 font-weight: 600;
             }
             
-            /* 小屏下的卡片内容优化 */
+            /* 480px以下的卡片内容进一步优化 */
             .card-subtitle {
-                font-size: 0.9rem;
-                margin-bottom: 1.5rem;
-                padding-bottom: 0.8rem;
+                font-size: 0.7rem;
+                margin-bottom: 0.8rem;
+                padding-bottom: 0.4rem;
             }
             
             .key-point {
-                margin-bottom: 1.5rem;
-                padding: 1rem;
+                margin-bottom: 0.8rem;
+                padding: 0.6rem;
             }
             
             .point-title {
-                font-size: 1rem;
-                margin-bottom: 0.6rem;
+                font-size: 0.75rem;
+                margin-bottom: 0.4rem;
+                gap: 0.2rem;
             }
             
             .point-content {
-                font-size: 0.95rem;
-                line-height: 1.6;
+                font-size: 0.7rem;
+                line-height: 1.4;
             }
             
             .feature-subtitle {
-                font-size: 0.9rem;
-                margin-bottom: 1.2rem;
-                padding: 0.4rem 0;
+                font-size: 0.7rem;
+                margin-bottom: 0.8rem;
+                padding: 0.3rem 0;
             }
             
             .feature-point {
-                font-size: 0.95rem;
-                margin-bottom: 0.6rem;
-                padding-left: 0.4rem;
+                font-size: 0.7rem;
+                margin-bottom: 0.4rem;
+                padding-left: 0.3rem;
             }
             
             .goal-highlight {
-                font-size: 1rem;
-                margin-bottom: 0.8rem;
+                font-size: 0.8rem;
+                margin-bottom: 0.5rem;
             }
             
             .goal-main {
-                font-size: 1.1rem;
+                font-size: 0.9rem;
             }
             
             .feature-icon {

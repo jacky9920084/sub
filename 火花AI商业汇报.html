@@ -22,6 +22,9 @@
                 linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
             min-height: 100vh;
             position: relative;
+            /* 防止横向滚动 */
+            overflow-x: hidden;
+            max-width: 100vw;
         }
 
         body::before {
@@ -703,47 +706,81 @@
         @media (max-width: 768px) {
             /* 基础布局优化 */
             body {
-                font-size: 16px; /* 确保基础字体大小适合触摸设备 */
+                font-size: 17px; /* 提高基础字体大小 */
+                line-height: 1.6;
             }
             
             .hero-title {
-                font-size: 2.5rem;
-                line-height: 1.2;
-                margin-bottom: 1rem;
+                font-size: 2.2rem;
+                line-height: 1.3;
+                margin-bottom: 1.2rem;
+                padding: 0 1rem;
             }
             
             .hero-subtitle {
-                font-size: 1.4rem;
-                line-height: 1.4;
-                margin-bottom: 1.5rem;
+                font-size: 1.3rem;
+                line-height: 1.5;
+                margin-bottom: 2rem;
+                padding: 0 1rem;
             }
             
             .section {
-                padding: 1.5rem;
-                margin: 2rem 0;
+                padding: 2rem 1rem;
+                margin: 1.5rem 0;
+                border-radius: 16px;
             }
             
             .section-title {
-                font-size: 1.8rem;
-                margin-bottom: 1.5rem;
-                line-height: 1.3;
+                font-size: 1.7rem;
+                margin-bottom: 2rem;
+                line-height: 1.4;
+                text-align: center;
+                padding: 0 1rem;
             }
             
             .subsection-title {
-                font-size: 1.3rem;
-                margin-bottom: 1rem;
-                padding-left: 15px;
+                font-size: 1.25rem;
+                margin-bottom: 1.5rem;
+                padding-left: 12px;
+                line-height: 1.4;
             }
             
             /* 卡片优化 */
             .pain-point, .feature-card, .advantage-card, .highlight-item {
-                padding: 1.5rem;
-                margin-bottom: 1rem;
+                padding: 1.8rem 1.5rem;
+                margin-bottom: 1.5rem;
+                border-radius: 16px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
             }
             
             .pain-point h4, .feature-card h4, .advantage-card h4 {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+                line-height: 1.4;
+                font-weight: 600;
+            }
+            
+            .pain-point p, .feature-card p, .advantage-card p {
+                font-size: 1rem;
+                line-height: 1.7;
                 margin-bottom: 0.8rem;
+            }
+            
+            /* 三卡片网格特别优化 */
+            .three-cards-grid .pain-point {
+                padding: 2rem 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .three-cards-grid .pain-point h4 {
+                font-size: 1.4rem;
+                margin-bottom: 1.2rem;
+                text-align: center;
+            }
+            
+            .three-cards-grid .pain-point p {
+                font-size: 1.05rem;
+                line-height: 1.8;
             }
             
             /* 图标优化 */
@@ -764,55 +801,128 @@
             
             /* 表格移动端优化 */
             .visual-profit-table {
-                padding: 1rem;
+                padding: 1rem 0.5rem;
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
+                border-radius: 12px;
+                background: rgba(15, 15, 35, 0.9) !important;
             }
             
-            .visual-profit-table > div {
-                min-width: 600px; /* 确保表格内容不会过度压缩 */
+            .visual-profit-table h4 {
+                font-size: 1.4rem !important;
+                margin-bottom: 1rem !important;
+                padding: 0 1rem;
             }
             
-            .visual-profit-table > div > div {
-                padding: 0.8rem;
-                font-size: 0.9rem;
+            .visual-profit-table > div:nth-child(2) {
+                min-width: 700px; /* 确保表格内容不会过度压缩 */
+                margin: 0 auto;
+            }
+            
+            .visual-profit-table > div:nth-child(2) {
+                /* 优化滚动条样式 */
+                scrollbar-width: thin;
+                scrollbar-color: rgba(96, 165, 250, 0.5) rgba(15, 15, 35, 0.3);
+            }
+            
+            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar {
+                height: 8px;
+            }
+            
+            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar-track {
+                background: rgba(15, 15, 35, 0.3);
+                border-radius: 4px;
+            }
+            
+            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar-thumb {
+                background: rgba(96, 165, 250, 0.5);
+                border-radius: 4px;
+            }
+            
+            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar-thumb:hover {
+                background: rgba(96, 165, 250, 0.8);
+            }
+            
+            .visual-profit-table > div:nth-child(2) > div {
+                padding: 1rem 0.8rem;
+                font-size: 1rem;
+                min-height: 50px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
             }
             
             /* 图表容器优化 */
             .chart-placeholder {
-                padding: 1.5rem 1rem;
-                margin: 1.5rem 0;
+                padding: 2rem 1rem;
+                margin: 2rem 0.5rem;
+                border-radius: 16px;
+            }
+            
+            .chart-placeholder h4 {
+                font-size: 1.4rem !important;
+                margin-bottom: 1.5rem !important;
+                padding: 0 0.5rem;
             }
             
             .growth-chart-container {
-                padding: 1rem;
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
             }
             
             .user-profile-charts {
-                padding: 1rem;
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+            
+            .user-profile-charts h4 {
+                font-size: 1.4rem !important;
+                margin-bottom: 2rem !important;
             }
             
             /* SVG图表响应式 */
             .growth-chart-container svg {
                 width: 100%;
                 height: auto;
-                max-height: 250px;
+                max-height: 280px;
             }
             
             /* 饼状图优化 */
             .user-profile-charts > div:first-of-type {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 3rem;
+                margin-bottom: 3rem;
             }
             
             .user-profile-charts > div:last-of-type {
                 grid-template-columns: 1fr;
-                gap: 2rem;
+                gap: 2.5rem;
             }
             
             #job-pie-chart, #age-pie-chart {
-                width: 150px;
-                height: 150px;
+                width: 160px;
+                height: 160px;
+            }
+            
+            /* 饼状图标题优化 */
+            .user-profile-charts h5 {
+                font-size: 1.2rem !important;
+                margin-bottom: 1.5rem !important;
+                color: #e2e8f0 !important;
+            }
+            
+            /* 图例优化 */
+            .user-profile-charts .legend-item {
+                font-size: 1rem !important;
+                margin: 0.5rem 0 !important;
+                line-height: 1.5;
+            }
+            
+            /* Header高度优化 */
+            .hero-header {
+                min-height: 450px !important;
+                padding: 3rem 0 !important;
             }
             
             /* 视频容器优化 */
@@ -823,90 +933,273 @@
             
             /* 投资价值区域优化 */
             .investment-highlights {
-                padding: 2rem 1.5rem;
-                text-align: left;
+                padding: 2.5rem 1.5rem;
+                text-align: center;
+                margin: 2rem 0.5rem;
+                border-radius: 16px;
             }
             
             .investment-highlights h3 {
-                font-size: 1.8rem;
-                margin-bottom: 1.5rem;
+                font-size: 1.9rem;
+                margin-bottom: 2rem;
+                line-height: 1.4;
             }
             
             .investment-highlights p {
-                font-size: 1rem;
-                margin-bottom: 1.5rem;
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                line-height: 1.7;
+                padding: 0 0.5rem;
             }
             
             /* CTA区域优化 */
             .cta-section {
-                padding: 2rem 1.5rem;
+                padding: 2.5rem 1.5rem;
                 text-align: center;
+                margin: 2rem 0.5rem;
+                border-radius: 16px;
             }
             
             .cta-section h3 {
-                font-size: 1.6rem;
-                margin-bottom: 1.5rem;
-                line-height: 1.4;
+                font-size: 1.7rem;
+                margin-bottom: 2rem;
+                line-height: 1.5;
+                padding: 0 0.5rem;
             }
             
             .cta-section p {
-                font-size: 1rem;
-                margin-bottom: 1.5rem;
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                line-height: 1.7;
+                padding: 0 0.5rem;
             }
         }
 
         /* 小屏手机优化 (480px以下) */
         @media (max-width: 480px) {
+            body {
+                font-size: 16px;
+            }
+            
             .container {
-                padding: 0 10px;
+                padding: 0 8px;
             }
             
             .hero-title {
-                font-size: 2rem;
+                font-size: 1.9rem;
+                padding: 0 0.5rem;
+                margin-bottom: 1rem;
             }
             
             .hero-subtitle {
-                font-size: 1.2rem;
+                font-size: 1.15rem;
+                padding: 0 0.5rem;
+                margin-bottom: 1.5rem;
             }
             
             .section {
-                padding: 1rem;
-                margin: 1.5rem 0;
+                padding: 1.5rem 0.8rem;
+                margin: 1rem 0.2rem;
+                border-radius: 12px;
             }
             
             .section-title {
-                font-size: 1.5rem;
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                padding: 0 0.5rem;
             }
             
             .subsection-title {
                 font-size: 1.1rem;
-                padding-left: 10px;
+                padding-left: 8px;
+                margin-bottom: 1.2rem;
             }
             
             .pain-point, .feature-card, .advantage-card, .highlight-item {
-                padding: 1rem;
+                padding: 1.5rem 1.2rem;
+                margin-bottom: 1.2rem;
+                border-radius: 12px;
             }
             
             .pain-point h4, .feature-card h4, .advantage-card h4 {
-                font-size: 1.1rem;
+                font-size: 1.15rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .pain-point p, .feature-card p, .advantage-card p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+            .three-cards-grid .pain-point {
+                padding: 1.8rem 1.2rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .three-cards-grid .pain-point h4 {
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+            }
+            
+            .three-cards-grid .pain-point p {
+                font-size: 1rem;
+                line-height: 1.7;
             }
             
             .feature-icon {
-                width: 50px;
-                height: 50px;
-                font-size: 1.3rem;
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
             }
             
             .visual-profit-table {
-                padding: 0.5rem;
+                padding: 1rem 0.3rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.3rem !important;
+                padding: 0 0.5rem;
             }
             
             .chart-placeholder {
-                padding: 1rem 0.5rem;
+                padding: 1.5rem 0.8rem;
+                margin: 1.5rem 0.3rem;
+            }
+            
+            .chart-placeholder h4 {
+                font-size: 1.3rem !important;
+                padding: 0 0.3rem;
             }
             
             .growth-chart-container, .user-profile-charts {
-                padding: 0.5rem;
+                padding: 1rem 0.5rem;
+            }
+            
+            .user-profile-charts h4 {
+                font-size: 1.3rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .user-profile-charts h5 {
+                font-size: 1.1rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .cta-button {
+                padding: 1.2rem 2rem;
+                font-size: 1.05rem;
+                width: 100%;
+                max-width: 280px;
+                border-radius: 25px;
+            }
+            
+            .investment-highlights, .cta-section {
+                padding: 2rem 1.2rem;
+                margin: 1.5rem 0.3rem;
+            }
+            
+            .investment-highlights h3, .cta-section h3 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.4;
+            }
+            
+            .investment-highlights p, .cta-section p {
+                font-size: 1rem;
+                line-height: 1.6;
+                padding: 0 0.3rem;
+            }
+            
+            /* Header高度优化 - 小屏 */
+            .hero-header {
+                min-height: 380px !important;
+                padding: 2rem 0 !important;
+            }
+        }
+
+        /* 超小屏优化 (360px以下) */
+        @media (max-width: 360px) {
+            body {
+                font-size: 15px;
+            }
+            
+            .hero-title {
+                font-size: 1.7rem;
+                padding: 0 0.3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.05rem;
+                padding: 0 0.3rem;
+            }
+            
+            .section {
+                padding: 1.2rem 0.6rem;
+                margin: 0.8rem 0.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.25rem;
+                margin-bottom: 1.2rem;
+                padding: 0 0.3rem;
+            }
+            
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                padding: 1.2rem 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .pain-point h4, .feature-card h4, .advantage-card h4 {
+                font-size: 1.05rem;
+                margin-bottom: 0.7rem;
+            }
+            
+            .pain-point p, .feature-card p, .advantage-card p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .visual-profit-table {
+                padding: 0.8rem 0.2rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.2rem !important;
+                padding: 0 0.3rem;
+            }
+            
+            .visual-profit-table > div:nth-child(2) {
+                min-width: 600px;
+            }
+            
+            .visual-profit-table > div:nth-child(2) > div {
+                padding: 0.8rem 0.5rem;
+                font-size: 0.85rem;
+                min-height: 45px;
+            }
+            
+            .chart-placeholder {
+                padding: 1.2rem 0.6rem;
+                margin: 1.2rem 0.2rem;
+            }
+            
+            .chart-placeholder h4 {
+                font-size: 1.2rem !important;
+                padding: 0 0.2rem;
+            }
+            
+            .growth-chart-container, .user-profile-charts {
+                padding: 0.8rem 0.4rem;
+            }
+            
+            .growth-chart-container svg {
+                max-height: 200px;
             }
             
             #job-pie-chart, #age-pie-chart {
@@ -914,43 +1207,47 @@
                 height: 120px;
             }
             
+            .user-profile-charts h4 {
+                font-size: 1.2rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            .user-profile-charts h5 {
+                font-size: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .user-profile-charts .legend-item {
+                font-size: 0.9rem !important;
+                margin: 0.3rem 0 !important;
+            }
+            
             .cta-button {
-                padding: 1rem 2rem;
+                padding: 1rem 1.5rem;
                 font-size: 1rem;
-                width: 100%;
-                max-width: 300px;
+                max-width: 260px;
             }
             
             .investment-highlights, .cta-section {
                 padding: 1.5rem 1rem;
+                margin: 1.2rem 0.2rem;
             }
             
             .investment-highlights h3, .cta-section h3 {
-                font-size: 1.4rem;
-            }
-        }
-
-        /* 超小屏优化 (360px以下) */
-        @media (max-width: 360px) {
-            .hero-title {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
                 font-size: 1.3rem;
+                margin-bottom: 1.2rem;
             }
             
-            .visual-profit-table > div {
-                min-width: 500px;
+            .investment-highlights p, .cta-section p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+                padding: 0 0.2rem;
             }
             
-            .visual-profit-table > div > div {
-                padding: 0.6rem 0.4rem;
-                font-size: 0.8rem;
-            }
-            
-            .growth-chart-container svg {
-                max-height: 200px;
+            /* Header高度优化 - 超小屏 */
+            .hero-header {
+                min-height: 320px !important;
+                padding: 1.5rem 0 !important;
             }
         }
 
@@ -1113,7 +1410,7 @@
     </style>
 </head>
 <body>
-    <header style="background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/首图.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 600px; display: flex; align-items: center; justify-content: center;">
+    <header style="background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/首图.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 600px; display: flex; align-items: center; justify-content: center;" class="hero-header">
         <div class="container">
             <div style="text-align: center;">
                 <h1 class="hero-title" style="font-size: 5rem; margin-bottom: 1.5rem; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(96, 165, 250, 0.5);">火花AI</h1>
@@ -1650,13 +1947,24 @@
                     @media (max-width: 768px) {
                         .mobile-scroll-hint {
                             display: block !important;
-                            animation: pulse 2s infinite;
+                            animation: pulseHint 3s infinite;
+                            background: rgba(96, 165, 250, 0.1);
+                            padding: 0.8rem;
+                            border-radius: 8px;
+                            border: 1px solid rgba(96, 165, 250, 0.3);
+                            font-weight: 500;
                         }
                     }
                     
-                    @keyframes pulse {
-                        0%, 100% { opacity: 0.6; }
-                        50% { opacity: 1; }
+                    @keyframes pulseHint {
+                        0%, 100% { 
+                            opacity: 0.7; 
+                            transform: scale(1);
+                        }
+                        50% { 
+                            opacity: 1; 
+                            transform: scale(1.02);
+                        }
                     }
                 </style>
             </div>

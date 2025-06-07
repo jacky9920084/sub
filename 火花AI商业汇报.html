@@ -439,7 +439,7 @@
         .profit-table td {
             padding: 1.5rem;
             text-align: center;
-            border-bottom: 1px solid rgba(96, 165, 250, 0.1);
+            border: none;
             background: rgba(15, 15, 35, 0.3);
             transition: all 0.3s ease;
         }
@@ -1057,7 +1057,7 @@
             }
             
                                     .profit-table-grid {
-                            min-width: 750px !important; /* 增加最小宽度确保完整显示 */
+                            min-width: 800px !important; /* 增加最小宽度确保完整显示第三年 */
                             border: none !important;
                         }
                         
@@ -1070,7 +1070,6 @@
                             justify-content: center;
                             text-align: center;
                             border: none !important;
-                            border-bottom: 1px solid rgba(96, 165, 250, 0.1) !important;
                         }
             
             /* 图表容器优化 */
@@ -1425,13 +1424,14 @@
             }
             
             .profit-table-grid {
-                min-width: 680px !important; /* 适中的最小宽度 */
+                min-width: 720px !important; /* 确保第三年显示完整 */
             }
             
             .profit-table-grid > div {
                 padding: 0.8rem 0.6rem !important;
                 font-size: 0.9rem !important;
                 min-height: 45px;
+                border: none !important;
             }
             
             /* 推导逻辑480px优化 - 保持全屏宽度 */
@@ -1658,14 +1658,15 @@
                 padding: 0 0.3rem;
             }
             
-            .visual-profit-table > div:nth-child(2) {
-                min-width: 600px;
+            .profit-table-grid {
+                min-width: 650px !important; /* 确保完整显示 */
             }
             
-            .visual-profit-table > div:nth-child(2) > div {
-                padding: 0.8rem 0.5rem;
-                font-size: 0.85rem;
+            .profit-table-grid > div {
+                padding: 0.8rem 0.5rem !important;
+                font-size: 0.85rem !important;
                 min-height: 45px;
+                border: none !important;
             }
             
             .chart-placeholder {
@@ -2523,7 +2524,7 @@
                     
                     <!-- 可视化表格 -->
                     <div class="profit-table-container">
-                        <div class="profit-table-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; background: transparent; border-radius: 15px; overflow: hidden; min-width: 700px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                        <div class="profit-table-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; background: transparent; border-radius: 15px; overflow: hidden; min-width: 800px; border: 1px solid rgba(96, 165, 250, 0.3);">
                         <!-- 表头 -->
                         <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #e2e8f0; font-weight: 600; text-align: center;">指标 / 年份</div>
                         <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第一年</div>
@@ -2669,6 +2670,20 @@
                             border-radius: 0;
                             position: relative;
                         }
+                        
+                        /* 确保桌面端也能完整显示 */
+                        @media (min-width: 769px) {
+                            .profit-table-container {
+                                margin: 0;
+                                width: 100%;
+                                padding: 0;
+                            }
+                            
+                            .profit-table-grid {
+                                min-width: auto !important;
+                                width: 100% !important;
+                            }
+                        }
                     
                     .profit-table-container::-webkit-scrollbar {
                         height: 8px;
@@ -2737,6 +2752,34 @@
                             border-radius: 0 !important;
                             border-left: none !important;
                             border-right: none !important;
+                        }
+                        
+                        /* 彻底移除所有表格边框 */
+                        .profit-table-grid > div {
+                            border: none !important;
+                            border-left: none !important;
+                            border-right: none !important;
+                            border-top: none !important;
+                            border-bottom: none !important;
+                        }
+                        
+                        /* 强制移除所有div元素的内部边框 */
+                        .profit-table-grid div,
+                        .profit-table-grid > div,
+                        .visual-profit-table div,
+                        .visual-profit-table > div:nth-child(2) > div {
+                            border: none !important;
+                            border-left: 0 !important;
+                            border-right: 0 !important;
+                            border-top: 0 !important;
+                            border-bottom: 0 !important;
+                            border-width: 0 !important;
+                        }
+                        
+                        /* 确保表格容器本身没有分割线 */
+                        .profit-table-grid {
+                            border-collapse: collapse !important;
+                            border-spacing: 0 !important;
                         }
                         
 

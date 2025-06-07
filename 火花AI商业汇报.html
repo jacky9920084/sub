@@ -1258,7 +1258,37 @@
                 }
             }
             
-            /* 移动端彻底禁用feature-card的伪元素边框 */
+            /* 未来生态区域 - 彻底移除所有边框和线条 */
+            .three-cards-grid .feature-card,
+            .three-cards-grid .pain-point {
+                border: none !important;
+                border-top: none !important;
+                border-bottom: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                outline: none !important;
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2) !important;
+            }
+            
+            /* 强制移除未来生态区域所有元素的内部边框 */
+            .three-cards-grid .feature-card,
+            .three-cards-grid .feature-card *,
+            .three-cards-grid .pain-point,
+            .three-cards-grid .pain-point * {
+                border: none !important;
+                border-top: none !important;
+                border-bottom: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-width: 0 !important;
+                outline: none !important;
+            }
+            
+            /* 移动端专用：彻底禁用未来生态区域所有伪元素边框 */
+            .three-cards-grid::before,
+            .three-cards-grid::after,
+            .three-cards-grid *::before,
+            .three-cards-grid *::after,
             .three-cards-grid .feature-card::before,
             .three-cards-grid .feature-card::after,
             .three-cards-grid .pain-point::before,
@@ -1272,14 +1302,37 @@
                 transform: none !important;
             }
             
-            /* 强制移除三卡片中所有元素的边框线条 */
+            /* 专门覆盖内联样式的边框 */
+            .three-cards-grid .feature-card[style*="border"],
+            .three-cards-grid .pain-point[style*="border"] {
+                border: none !important;
+            }
+            
+            /* 未来生态区域 - 移动端全屏宽度布局 */
+            .three-cards-grid {
+                margin: 0 calc(-50vw + 50%) !important;
+                width: 100vw !important;
+                padding: 0 1rem !important;
+                border-radius: 0 !important;
+                border-left: none !important;
+                border-right: none !important;
+                background: linear-gradient(135deg, 
+                    rgba(15, 15, 35, 0.95) 0%, 
+                    rgba(26, 26, 46, 0.9) 50%, 
+                    rgba(22, 33, 62, 0.95) 100%) !important;
+            }
+            
+            /* 移动端三卡片容器强制无边框 */
+            .three-cards-grid,
+            .three-cards-grid *,
             .three-cards-grid .feature-card,
-            .three-cards-grid .pain-point {
+            .three-cards-grid .feature-card * {
+                border: none !important;
                 border-top: none !important;
                 border-bottom: none !important;
-                border-left: 1px solid rgba(96, 165, 250, 0.2) !important;
-                border-right: 1px solid rgba(96, 165, 250, 0.2) !important;
-                overflow: hidden !important;
+                border-left: none !important;
+                border-right: none !important;
+                outline: none !important;
             }
             
             /* 移动端用户画像区域整体优化 */

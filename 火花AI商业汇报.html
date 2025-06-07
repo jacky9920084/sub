@@ -1431,6 +1431,50 @@
                 min-height: 45px;
             }
             
+            /* 推导逻辑480px优化 */
+            .profit-deduction-grid > div {
+                flex: 0 0 260px !important;
+                min-width: 260px;
+                max-width: 260px;
+                padding: 1.3rem 1.1rem;
+            }
+            
+            .profit-deduction-container {
+                margin: 0 -0.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            /* 推导逻辑卡片内容优化 */
+            .profit-deduction-grid > div h6 {
+                font-size: 1.2rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            
+            .profit-deduction-grid > div p {
+                font-size: 0.85rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            /* 关键指标480px优化 */
+            .key-indicators {
+                padding: 0 0.3rem;
+                gap: 0.8rem;
+            }
+            
+            .key-indicators > div {
+                padding: 0.6rem 0.4rem;
+                min-width: 70px;
+            }
+            
+            .key-indicators > div > div:first-child {
+                font-size: 1.2rem !important;
+            }
+            
+            .key-indicators > div > div:last-child {
+                font-size: 0.8rem !important;
+            }
+            
             .feature-icon {
                 width: 55px;
                 height: 55px;
@@ -1717,6 +1761,52 @@
                 padding: 0.7rem 0.5rem !important;
                 font-size: 0.85rem !important;
                 min-height: 40px;
+            }
+            
+            /* 推导逻辑360px优化 */
+            .profit-deduction-grid > div {
+                flex: 0 0 240px !important;
+                min-width: 240px;
+                max-width: 240px;
+                padding: 1.2rem 1rem;
+            }
+            
+            .profit-deduction-container {
+                margin: 0 -0.3rem;
+                padding: 0 0.3rem;
+            }
+            
+            /* 推导逻辑卡片内容优化 - 超小屏 */
+            .profit-deduction-grid > div h6 {
+                font-size: 1.1rem !important;
+                margin-bottom: 0.7rem !important;
+            }
+            
+            .profit-deduction-grid > div p {
+                font-size: 0.8rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 0.4rem !important;
+            }
+            
+            /* 关键指标360px优化 */
+            .key-indicators {
+                padding: 0 0.2rem;
+                gap: 0.6rem;
+                flex-direction: column;
+            }
+            
+            .key-indicators > div {
+                padding: 0.5rem 0.3rem;
+                min-width: auto;
+                margin: 0 0.5rem;
+            }
+            
+            .key-indicators > div > div:first-child {
+                font-size: 1.1rem !important;
+            }
+            
+            .key-indicators > div > div:last-child {
+                font-size: 0.75rem !important;
             }
         }
 
@@ -2421,7 +2511,15 @@
                     <div style="background: rgba(96, 165, 250, 0.1); padding: 2rem; border-radius: 15px; margin-top: 2rem; border-left: 4px solid #60a5fa;">
                         <h5 style="color: #60a5fa; margin-bottom: 1.5rem; font-size: 1.2rem;">💡 平台收入推导逻辑</h5>
                         
-                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                        <!-- 移动端滑动提示 -->
+                        <div class="mobile-scroll-hint profit-deduction-hint" style="display: none; text-align: center; margin-bottom: 1.5rem; color: #60a5fa; font-size: 0.9rem;">
+                            <span style="background: rgba(96, 165, 250, 0.15); padding: 0.8rem 1.2rem; border-radius: 25px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                                👈 左右滑动查看推导逻辑 👉
+                            </span>
+                        </div>
+                        
+                        <div class="profit-deduction-container">
+                            <div class="profit-deduction-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
                             <!-- 第一年示例 -->
                             <div style="background: rgba(96, 165, 250, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(96, 165, 250, 0.2);">
                                 <h6 style="color: #60a5fa; margin-bottom: 1rem; font-weight: 600;">第一年推导示例</h6>
@@ -2447,6 +2545,7 @@
                                     <p style="border-top: 1px solid rgba(236, 72, 153, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #ec4899;">平台月收入：4,000+2,000 = 6,000元</p>
                                 </div>
                             </div>
+                            </div>
                         </div>
                         
                         <div style="background: rgba(34, 197, 94, 0.1); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border: 1px solid rgba(34, 197, 94, 0.3);">
@@ -2458,16 +2557,16 @@
                     </div>
                     
                     <!-- 简化的关键指标 -->
-                    <div style="display: flex; justify-content: space-around; margin-top: 2rem;">
-                        <div style="text-align: center; color: #60a5fa;">
+                    <div class="key-indicators" style="display: flex; justify-content: space-around; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
+                        <div style="text-align: center; color: #60a5fa; flex: 1; min-width: 80px;">
                             <div style="font-size: 1.5rem; font-weight: bold;">19.7倍</div>
                             <div style="font-size: 0.9rem; color: #94a3b8;">三年增长</div>
                         </div>
-                        <div style="text-align: center; color: #a855f7;">
+                        <div style="text-align: center; color: #a855f7; flex: 1; min-width: 80px;">
                             <div style="font-size: 1.5rem; font-weight: bold;">15%</div>
                             <div style="font-size: 0.9rem; color: #94a3b8;">总抽成</div>
                         </div>
-                        <div style="text-align: center; color: #ec4899;">
+                        <div style="text-align: center; color: #ec4899; flex: 1; min-width: 80px;">
                             <div style="font-size: 1.5rem; font-weight: bold;">366亿</div>
                             <div style="font-size: 0.9rem; color: #94a3b8;">第三年收入</div>
                         </div>
@@ -2526,6 +2625,17 @@
                     
 
                     
+                    /* 推导逻辑容器样式 */
+                    .profit-deduction-container {
+                        position: relative;
+                    }
+                    
+                    .profit-deduction-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: 1.5rem;
+                    }
+                    
                     /* 移动端滚动提示 */
                     @media (max-width: 768px) {
                         .mobile-scroll-hint {
@@ -2539,6 +2649,85 @@
                         /* 确保表格滚动提示显示 */
                         .visual-profit-table .mobile-scroll-hint {
                             display: block !important;
+                        }
+                        
+                        /* 推导逻辑移动端优化 */
+                        .profit-deduction-hint {
+                            display: block !important;
+                        }
+                        
+                        .profit-deduction-container {
+                            overflow-x: auto;
+                            -webkit-overflow-scrolling: touch;
+                            margin: 0 -1rem;
+                            padding: 0 1rem;
+                        }
+                        
+                        .profit-deduction-grid {
+                            display: flex !important;
+                            gap: 1.5rem;
+                            min-width: max-content;
+                        }
+                        
+                        .profit-deduction-grid > div {
+                            flex: 0 0 280px;
+                            min-width: 280px;
+                            max-width: 280px;
+                        }
+                        
+                        .profit-deduction-container::-webkit-scrollbar {
+                            height: 6px;
+                        }
+                        
+                        .profit-deduction-container::-webkit-scrollbar-track {
+                            background: rgba(96, 165, 250, 0.1);
+                            border-radius: 3px;
+                        }
+                        
+                        .profit-deduction-container::-webkit-scrollbar-thumb {
+                            background: rgba(96, 165, 250, 0.5);
+                            border-radius: 3px;
+                        }
+                        
+                        .profit-deduction-container::-webkit-scrollbar-thumb:hover {
+                            background: rgba(96, 165, 250, 0.8);
+                        }
+                        
+                        /* 推导逻辑右侧渐变提示 */
+                        .profit-deduction-container::after {
+                            content: '';
+                            position: absolute;
+                            right: 0;
+                            top: 0;
+                            width: 20px;
+                            height: 100%;
+                            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1));
+                            pointer-events: none;
+                            border-radius: 0 10px 10px 0;
+                        }
+                        
+                        /* 关键指标移动端优化 */
+                        .key-indicators {
+                            padding: 0 0.5rem;
+                        }
+                        
+                        .key-indicators > div {
+                            padding: 0.8rem;
+                            background: rgba(96, 165, 250, 0.05);
+                            border-radius: 12px;
+                            border: 1px solid rgba(96, 165, 250, 0.2);
+                        }
+                        
+                        .key-indicators > div:first-child {
+                            border-color: rgba(96, 165, 250, 0.3);
+                        }
+                        
+                        .key-indicators > div:nth-child(2) {
+                            border-color: rgba(168, 85, 247, 0.3);
+                        }
+                        
+                        .key-indicators > div:last-child {
+                            border-color: rgba(236, 72, 153, 0.3);
                         }
                     }
                     

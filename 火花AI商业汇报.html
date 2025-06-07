@@ -432,8 +432,9 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+            height: 0px;
+            background: transparent;
+            display: none;
         }
 
         .profit-table td {
@@ -2780,6 +2781,52 @@
                         .profit-table-grid {
                             border-collapse: collapse !important;
                             border-spacing: 0 !important;
+                        }
+                        
+                        /* 移动端专用：彻底禁用所有伪元素边框 */
+                        .profit-table-grid::before,
+                        .profit-table-grid::after,
+                        .profit-table-grid *::before,
+                        .profit-table-grid *::after,
+                        .visual-profit-table::before,
+                        .visual-profit-table::after,
+                        .visual-profit-table *::before,
+                        .visual-profit-table *::after {
+                            display: none !important;
+                            content: none !important;
+                            border: none !important;
+                            background: transparent !important;
+                            height: 0 !important;
+                        }
+                        
+                        /* 强制移除表格容器的边框和线条 */
+                        .profit-table-container,
+                        .profit-table-container *,
+                        .visual-profit-table,
+                        .visual-profit-table * {
+                            border: none !important;
+                            border-top: none !important;
+                            border-bottom: none !important;
+                            border-left: none !important;
+                            border-right: none !important;
+                            outline: none !important;
+                            box-shadow: none !important;
+                        }
+                        
+                        /* 确保网格容器边框完全移除 */
+                        .profit-table-grid {
+                            border: none !important;
+                            outline: none !important;
+                            box-shadow: none !important;
+                        }
+                        
+                        /* 专门覆盖内联样式的边框 */
+                        .profit-table-container > .profit-table-grid[style*="border"] {
+                            border: none !important;
+                        }
+                        
+                        .profit-table-grid[style*="border: 1px solid"] {
+                            border: none !important;
                         }
                         
 

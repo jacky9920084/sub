@@ -695,11 +695,7 @@
                 margin: 3rem 0;
             }
             
-            .three-cards-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1rem;
-                margin: 3rem 0;
-            }
+
             
             .highlights-grid {
                 grid-template-columns: 1fr;
@@ -813,22 +809,48 @@
                 line-height: 1.7;
             }
             
-            /* 三卡片网格特别优化 - 手机端横向布局 */
+            /* 三卡片网格 - 水平滚动布局 */
+            .three-cards-grid {
+                display: flex;
+                overflow-x: auto;
+                gap: 1.5rem;
+                padding: 0 1rem 1rem 1rem;
+                margin: 2rem -1rem;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar {
+                height: 4px;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-track {
+                background: rgba(96, 165, 250, 0.1);
+                border-radius: 2px;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-thumb {
+                background: rgba(96, 165, 250, 0.5);
+                border-radius: 2px;
+            }
+            
             .three-cards-grid .pain-point {
-                padding: 1.5rem 1rem;
-                margin-bottom: 1rem;
-                border-radius: 16px;
+                flex: 0 0 280px; /* 固定宽度，可滚动 */
+                padding: 2rem 1.5rem;
+                margin-bottom: 0;
+                border-radius: 20px;
                 background: linear-gradient(135deg, 
                     rgba(96, 165, 250, 0.15) 0%, 
                     rgba(168, 85, 247, 0.1) 50%, 
                     rgba(236, 72, 153, 0.15) 100%);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
                 border: 1px solid rgba(96, 165, 250, 0.2);
+                scroll-snap-align: center;
             }
             
             .three-cards-grid .pain-point h4 {
-                font-size: 1.1rem;
-                margin-bottom: 1rem;
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
                 text-align: center;
                 font-weight: 700;
                 background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
@@ -839,11 +861,11 @@
             }
             
             .three-cards-grid .pain-point p {
-                font-size: 0.9rem;
-                line-height: 1.5;
+                font-size: 1rem;
+                line-height: 1.6;
                 text-align: center;
                 color: #e2e8f0;
-                margin-bottom: 0.8rem;
+                margin-bottom: 1rem;
             }
             
             .three-cards-grid .pain-point strong {
@@ -851,45 +873,63 @@
                 font-weight: 600;
             }
             
-            /* 卡片内容结构化样式 - 手机端3列优化 */
+            /* 滚动提示 */
+            .three-cards-grid::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 40px;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(15, 15, 35, 0.8));
+                pointer-events: none;
+                z-index: 2;
+            }
+            
+            .three-cards-grid {
+                position: relative;
+            }
+            
+            /* 卡片内容结构化样式 - 手机端水平滚动优化 */
             .card-subtitle {
-                font-size: 0.8rem;
+                font-size: 0.95rem;
                 color: #94a3b8;
                 text-align: center;
-                margin-bottom: 1rem;
+                margin-bottom: 1.5rem;
                 font-style: italic;
                 border-bottom: 1px solid rgba(148, 163, 184, 0.3);
-                padding-bottom: 0.5rem;
+                padding-bottom: 0.8rem;
             }
             
             .key-point {
-                margin-bottom: 1rem;
-                padding: 0.8rem;
+                margin-bottom: 1.5rem;
+                padding: 1rem;
                 background: rgba(15, 15, 35, 0.3);
-                border-radius: 8px;
-                border-left: 2px solid #60a5fa;
+                border-radius: 12px;
+                border-left: 3px solid #60a5fa;
             }
             
             .point-title {
-                font-size: 0.85rem;
+                font-size: 1rem;
                 font-weight: 600;
                 color: #60a5fa;
-                margin-bottom: 0.5rem;
+                margin-bottom: 0.8rem;
                 display: flex;
                 align-items: center;
-                gap: 0.3rem;
+                gap: 0.5rem;
                 flex-wrap: wrap;
             }
             
             .point-content {
-                font-size: 0.8rem;
-                line-height: 1.5;
+                font-size: 0.95rem;
+                line-height: 1.6;
                 color: #e2e8f0;
                 text-align: left;
             }
             
             .point-content br {
-                margin-bottom: 0.3rem;
+                margin-bottom: 0.5rem;
             }
             
             /* 目标卡片内容样式 */
@@ -1334,92 +1374,21 @@
                 line-height: 1.6;
             }
             
-            /* 480px以下也保持3列，但进一步紧凑 */
-            .three-cards-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 0.5rem;
-                margin: 2rem 0;
-            }
+
             
+            /* 480px以下保持水平滚动，稍微调整尺寸 */
             .three-cards-grid .pain-point {
-                padding: 1rem 0.6rem;
-                margin-bottom: 0.5rem;
-                border-radius: 12px;
-                background: linear-gradient(135deg, 
-                    rgba(96, 165, 250, 0.15) 0%, 
-                    rgba(168, 85, 247, 0.1) 50%, 
-                    rgba(236, 72, 153, 0.15) 100%);
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-                border: 1px solid rgba(96, 165, 250, 0.25);
+                flex: 0 0 260px; /* 稍微缩小宽度 */
+                padding: 1.8rem 1.3rem;
             }
             
             .three-cards-grid .pain-point h4 {
-                font-size: 0.95rem;
-                margin-bottom: 0.8rem;
-                text-align: center;
-                font-weight: 700;
-                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
-                -webkit-background-clip: text;
-                -webkit-text-fill-color: transparent;
-                background-clip: text;
-                line-height: 1.2;
+                font-size: 1.3rem;
             }
             
             .three-cards-grid .pain-point p {
-                font-size: 0.75rem;
-                line-height: 1.4;
-                text-align: center;
-                color: #e2e8f0;
-                margin-bottom: 0.6rem;
-            }
-            
-            .three-cards-grid .pain-point strong {
-                color: #60a5fa;
-                font-weight: 600;
-            }
-            
-            /* 480px以下的卡片内容进一步优化 */
-            .card-subtitle {
-                font-size: 0.7rem;
-                margin-bottom: 0.8rem;
-                padding-bottom: 0.4rem;
-            }
-            
-            .key-point {
-                margin-bottom: 0.8rem;
-                padding: 0.6rem;
-            }
-            
-            .point-title {
-                font-size: 0.75rem;
-                margin-bottom: 0.4rem;
-                gap: 0.2rem;
-            }
-            
-            .point-content {
-                font-size: 0.7rem;
-                line-height: 1.4;
-            }
-            
-            .feature-subtitle {
-                font-size: 0.7rem;
-                margin-bottom: 0.8rem;
-                padding: 0.3rem 0;
-            }
-            
-            .feature-point {
-                font-size: 0.7rem;
-                margin-bottom: 0.4rem;
-                padding-left: 0.3rem;
-            }
-            
-            .goal-highlight {
-                font-size: 0.8rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .goal-main {
-                font-size: 0.9rem;
+                font-size: 0.95rem;
+                line-height: 1.5;
             }
             
             .feature-icon {

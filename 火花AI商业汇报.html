@@ -811,13 +811,14 @@
             
             /* 三卡片网格 - 水平滚动布局 */
             .three-cards-grid {
-                display: flex;
+                display: flex !important;
                 overflow-x: auto;
                 gap: 1.5rem;
                 padding: 0 1rem 1rem 1rem;
                 margin: 2rem -1rem;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
+                grid-template-columns: none !important;
             }
             
             .three-cards-grid::-webkit-scrollbar {
@@ -835,7 +836,7 @@
             }
             
             .three-cards-grid .pain-point {
-                flex: 0 0 280px; /* 固定宽度，可滚动 */
+                flex: 0 0 280px !important; /* 固定宽度，可滚动 */
                 padding: 2rem 1.5rem;
                 margin-bottom: 0;
                 border-radius: 20px;
@@ -846,6 +847,7 @@
                 box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
                 border: 1px solid rgba(96, 165, 250, 0.2);
                 scroll-snap-align: center;
+                min-width: 280px;
             }
             
             .three-cards-grid .pain-point h4 {
@@ -873,7 +875,18 @@
                 font-weight: 600;
             }
             
-            /* 滚动提示 */
+            /* 移动端滑动提示显示 */
+            .mobile-swipe-hint {
+                display: block !important;
+                animation: slideHint 3s ease-in-out infinite;
+            }
+            
+            @keyframes slideHint {
+                0%, 100% { transform: translateX(0); opacity: 0.8; }
+                50% { transform: translateX(10px); opacity: 1; }
+            }
+            
+            /* 滚动提示渐变效果 */
             .three-cards-grid::after {
                 content: '';
                 position: absolute;
@@ -1377,9 +1390,15 @@
 
             
             /* 480px以下保持水平滚动，稍微调整尺寸 */
+            .three-cards-grid {
+                display: flex !important;
+                grid-template-columns: none !important;
+            }
+            
             .three-cards-grid .pain-point {
-                flex: 0 0 260px; /* 稍微缩小宽度 */
+                flex: 0 0 260px !important; /* 稍微缩小宽度 */
                 padding: 1.8rem 1.3rem;
+                min-width: 260px;
             }
             
             .three-cards-grid .pain-point h4 {
@@ -1470,6 +1489,18 @@
 
         /* 超小屏优化 (360px以下) */
         @media (max-width: 360px) {
+            /* 确保三卡片布局依然是横向滚动 */
+            .three-cards-grid {
+                display: flex !important;
+                grid-template-columns: none !important;
+            }
+            
+            .three-cards-grid .pain-point,
+            .three-cards-grid .feature-card {
+                flex: 0 0 240px !important;
+                min-width: 240px;
+                padding: 1.5rem 1.2rem;
+            }
             body {
                 font-size: 15px;
             }
@@ -1992,6 +2023,13 @@
 
             <div class="subsection">
                 <h3 class="subsection-title">盈利逻辑</h3>
+                
+                <!-- 移动端滑动提示 -->
+                <div class="mobile-swipe-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #60a5fa; font-size: 0.9rem;">
+                    <span style="background: rgba(96, 165, 250, 0.1); padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                        👈 左右滑动查看完整商业模式 👉
+                    </span>
+                </div>
                 
                 <div class="three-cards-grid">
                     <div class="pain-point" style="border-color: #27ae60;">
@@ -2701,6 +2739,13 @@
         <!-- 未来展望 -->
         <section class="section">
             <h2 class="section-title">未来生态</h2>
+            
+            <!-- 移动端滑动提示 -->
+            <div class="mobile-swipe-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #60a5fa; font-size: 0.9rem;">
+                <span style="background: rgba(96, 165, 250, 0.1); padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                    👈 左右滑动查看发展规划 👉
+                </span>
+            </div>
             
             <div class="three-cards-grid">
                 <div class="feature-card">

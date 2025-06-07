@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>火花AI：AI驱动的战略内容引擎 - 商业汇报</title>
     <style>
         * {
@@ -699,6 +699,300 @@
             }
         }
 
+        /* 增强移动端优化 */
+        @media (max-width: 768px) {
+            /* 基础布局优化 */
+            body {
+                font-size: 16px; /* 确保基础字体大小适合触摸设备 */
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+                line-height: 1.2;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.4rem;
+                line-height: 1.4;
+                margin-bottom: 1.5rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.3;
+            }
+            
+            .subsection-title {
+                font-size: 1.3rem;
+                margin-bottom: 1rem;
+                padding-left: 15px;
+            }
+            
+            /* 卡片优化 */
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                padding: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .pain-point h4, .feature-card h4, .advantage-card h4 {
+                font-size: 1.2rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            /* 图标优化 */
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            /* 按钮优化 - 触摸友好 */
+            .cta-button {
+                padding: 1.2rem 2.5rem;
+                font-size: 1.1rem;
+                min-height: 48px; /* 确保触摸目标至少48px */
+                margin-top: 1.5rem;
+            }
+            
+            /* 表格移动端优化 */
+            .visual-profit-table {
+                padding: 1rem;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .visual-profit-table > div {
+                min-width: 600px; /* 确保表格内容不会过度压缩 */
+            }
+            
+            .visual-profit-table > div > div {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            /* 图表容器优化 */
+            .chart-placeholder {
+                padding: 1.5rem 1rem;
+                margin: 1.5rem 0;
+            }
+            
+            .growth-chart-container {
+                padding: 1rem;
+            }
+            
+            .user-profile-charts {
+                padding: 1rem;
+            }
+            
+            /* SVG图表响应式 */
+            .growth-chart-container svg {
+                width: 100%;
+                height: auto;
+                max-height: 250px;
+            }
+            
+            /* 饼状图优化 */
+            .user-profile-charts > div:first-of-type {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .user-profile-charts > div:last-of-type {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 150px;
+                height: 150px;
+            }
+            
+            /* 视频容器优化 */
+            .video-container {
+                margin: 0 0.5rem;
+                aspect-ratio: 16 / 9;
+            }
+            
+            /* 投资价值区域优化 */
+            .investment-highlights {
+                padding: 2rem 1.5rem;
+                text-align: left;
+            }
+            
+            .investment-highlights h3 {
+                font-size: 1.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .investment-highlights p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            /* CTA区域优化 */
+            .cta-section {
+                padding: 2rem 1.5rem;
+                text-align: center;
+            }
+            
+            .cta-section h3 {
+                font-size: 1.6rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.4;
+            }
+            
+            .cta-section p {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+            }
+        }
+
+        /* 小屏手机优化 (480px以下) */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 10px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section {
+                padding: 1rem;
+                margin: 1.5rem 0;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .subsection-title {
+                font-size: 1.1rem;
+                padding-left: 10px;
+            }
+            
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                padding: 1rem;
+            }
+            
+            .pain-point h4, .feature-card h4, .advantage-card h4 {
+                font-size: 1.1rem;
+            }
+            
+            .feature-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.3rem;
+            }
+            
+            .visual-profit-table {
+                padding: 0.5rem;
+            }
+            
+            .chart-placeholder {
+                padding: 1rem 0.5rem;
+            }
+            
+            .growth-chart-container, .user-profile-charts {
+                padding: 0.5rem;
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .cta-button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .investment-highlights, .cta-section {
+                padding: 1.5rem 1rem;
+            }
+            
+            .investment-highlights h3, .cta-section h3 {
+                font-size: 1.4rem;
+            }
+        }
+
+        /* 超小屏优化 (360px以下) */
+        @media (max-width: 360px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+            }
+            
+            .visual-profit-table > div {
+                min-width: 500px;
+            }
+            
+            .visual-profit-table > div > div {
+                padding: 0.6rem 0.4rem;
+                font-size: 0.8rem;
+            }
+            
+            .growth-chart-container svg {
+                max-height: 200px;
+            }
+        }
+
+        /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            /* 移除hover效果，使用touch友好的交互 */
+            .pain-point:hover, .feature-card:hover, .advantage-card:hover {
+                transform: none;
+            }
+            
+            /* 增大触摸目标 */
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                min-height: 48px;
+                touch-action: manipulation;
+            }
+            
+            /* 禁用3D效果避免性能问题 */
+            .feature-card, .advantage-card, .pain-point {
+                will-change: auto;
+            }
+            
+            /* 简化动画 */
+            * {
+                animation-duration: 0.3s !important;
+            }
+        }
+
+        /* 横屏手机优化 */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 1.5rem 1rem;
+            }
+            
+            .video-container {
+                max-height: 50vh;
+            }
+        }
+
         /* 鼠标跟随光效 */
         .mouse-glow {
             position: fixed;
@@ -1041,7 +1335,7 @@
                     </div>
                     <div class="pain-point">
                         <h4>达人孵化成功率</h4>
-                        <p>保守估计：60%的注册用户能够成功打造个人IP并实现内容变现</p>
+                        <p>保守估计：5%的注册用户能够成功打造个人IP并实现内容变现</p>
                     </div>
                     <div class="pain-point">
                         <h4>达人变现规模</h4>
@@ -1220,6 +1514,11 @@
                 <div class="visual-profit-table">
                     <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.8rem;">收入增长预测图表</h4>
                     
+                    <!-- 移动端滚动提示 -->
+                    <div class="mobile-scroll-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #94a3b8; font-size: 0.9rem;">
+                        👈 左右滑动查看完整数据 👉
+                    </div>
+                    
                     <!-- 可视化表格 -->
                     <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1px; background: rgba(96, 165, 250, 0.2); border-radius: 15px; overflow: hidden;">
                         <!-- 表头 -->
@@ -1235,9 +1534,9 @@
                         <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">10,000,000</div>
                         
                         <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">活跃达人数量</div>
-                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">600,000</div>
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">3,000,000</div>
-                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">6,000,000</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">50,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">250,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">500,000</div>
                         
                         <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人月均变现</div>
                         <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">4,000元</div>
@@ -1245,14 +1544,19 @@
                         <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">8,000元</div>
                         
                         <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人年总变现</div>
-                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">288亿</div>
-                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">2,160亿</div>
-                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">5,760亿</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">24亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">180亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">480亿</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">平台每活跃达人月均收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.15); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">3,000元</div>
+                        <div style="background: rgba(168, 85, 247, 0.15); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">4,500元</div>
+                        <div style="background: rgba(236, 72, 153, 0.15); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">6,000元</div>
                         
                         <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">平台达人侧佣金收入</div>
-                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">7.2亿</div>
-                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">36亿</div>
-                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">72亿</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">6亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">45亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">120亿</div>
                         
                         <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">B端商家入驻数量</div>
                         <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">5,000</div>
@@ -1265,21 +1569,61 @@
                         <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">60亿</div>
                         
                         <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">商家侧佣金收入</div>
-                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">14.4亿</div>
-                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">72亿</div>
-                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">144亿</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">12亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">90亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">240亿</div>
                         
                         <!-- 总收入行 - 突出显示 -->
                         <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #fbbf24; font-weight: 700; font-size: 1.1rem;">平台总收入</div>
-                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">22.2亿</div>
+                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">18.6亿</div>
                         <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">138亿</div>
-                        <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">276亿</div>
+                        <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">366亿</div>
+                    </div>
+                    
+                    <!-- 平台收入推导说明 -->
+                    <div style="background: rgba(96, 165, 250, 0.1); padding: 2rem; border-radius: 15px; margin-top: 2rem; border-left: 4px solid #60a5fa;">
+                        <h5 style="color: #60a5fa; margin-bottom: 1.5rem; font-size: 1.2rem;">💡 平台收入推导逻辑</h5>
+                        
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                            <!-- 第一年示例 -->
+                            <div style="background: rgba(96, 165, 250, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(96, 165, 250, 0.2);">
+                                <h6 style="color: #60a5fa; margin-bottom: 1rem; font-weight: 600;">第一年推导示例</h6>
+                                <div style="font-size: 0.9rem; line-height: 1.6; color: #e2e8f0;">
+                                    <p><strong>①</strong> 达人月均变现：<span style="color: #60a5fa; font-weight: 600;">4,000元</span></p>
+                                    <p><strong>②</strong> 假设达人佣金率：<span style="color: #60a5fa; font-weight: 600;">20%</span></p>
+                                    <p><strong>③</strong> 对应GMV：4,000÷20% = <span style="color: #60a5fa; font-weight: 600;">20,000元</span></p>
+                                    <p><strong>④</strong> 平台商家侧佣金：20,000×10% = <span style="color: #60a5fa; font-weight: 600;">2,000元</span></p>
+                                    <p><strong>⑤</strong> 平台达人侧佣金：20,000×5% = <span style="color: #60a5fa; font-weight: 600;">1,000元</span></p>
+                                    <p style="border-top: 1px solid rgba(96, 165, 250, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #60a5fa;">平台月收入：2,000+1,000 = 3,000元</p>
+                                </div>
+                            </div>
+                            
+                            <!-- 第三年示例 -->
+                            <div style="background: rgba(236, 72, 153, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(236, 72, 153, 0.2);">
+                                <h6 style="color: #ec4899; margin-bottom: 1rem; font-weight: 600;">第三年推导示例</h6>
+                                <div style="font-size: 0.9rem; line-height: 1.6; color: #e2e8f0;">
+                                    <p><strong>①</strong> 达人月均变现：<span style="color: #ec4899; font-weight: 600;">8,000元</span></p>
+                                    <p><strong>②</strong> 假设达人佣金率：<span style="color: #ec4899; font-weight: 600;">20%</span></p>
+                                    <p><strong>③</strong> 对应GMV：8,000÷20% = <span style="color: #ec4899; font-weight: 600;">40,000元</span></p>
+                                    <p><strong>④</strong> 平台商家侧佣金：40,000×10% = <span style="color: #ec4899; font-weight: 600;">4,000元</span></p>
+                                    <p><strong>⑤</strong> 平台达人侧佣金：40,000×5% = <span style="color: #ec4899; font-weight: 600;">2,000元</span></p>
+                                    <p style="border-top: 1px solid rgba(236, 72, 153, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #ec4899;">平台月收入：4,000+2,000 = 6,000元</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(34, 197, 94, 0.1); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border: 1px solid rgba(34, 197, 94, 0.3);">
+                            <p style="color: #22c55e; font-weight: 600; margin-bottom: 0.5rem;">🎯 核心逻辑</p>
+                            <p style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.5;">
+                                平台采用<strong>双重佣金模式</strong>，从每笔交易的GMV中同时收取商家侧10%和达人侧5%佣金，总计15%的平台抽成，确保轻资产高回报的商业模式。
+                            </p>
+                        </div>
                     </div>
                     
                     <!-- 简化的关键指标 -->
                     <div style="display: flex; justify-content: space-around; margin-top: 2rem;">
                         <div style="text-align: center; color: #60a5fa;">
-                            <div style="font-size: 1.5rem; font-weight: bold;">12.4倍</div>
+                            <div style="font-size: 1.5rem; font-weight: bold;">19.7倍</div>
                             <div style="font-size: 0.9rem; color: #94a3b8;">三年增长</div>
                         </div>
                         <div style="text-align: center; color: #a855f7;">
@@ -1287,7 +1631,7 @@
                             <div style="font-size: 0.9rem; color: #94a3b8;">总抽成</div>
                         </div>
                         <div style="text-align: center; color: #ec4899;">
-                            <div style="font-size: 1.5rem; font-weight: bold;">276亿</div>
+                            <div style="font-size: 1.5rem; font-weight: bold;">366亿</div>
                             <div style="font-size: 0.9rem; color: #94a3b8;">第三年收入</div>
                         </div>
                     </div>
@@ -1301,13 +1645,26 @@
                         border: 1px solid rgba(96, 165, 250, 0.2);
                         backdrop-filter: blur(10px);
                     }
+                    
+                    /* 移动端滚动提示 */
+                    @media (max-width: 768px) {
+                        .mobile-scroll-hint {
+                            display: block !important;
+                            animation: pulse 2s infinite;
+                        }
+                    }
+                    
+                    @keyframes pulse {
+                        0%, 100% { opacity: 0.6; }
+                        50% { opacity: 1; }
+                    }
                 </style>
             </div>
 
             <div class="highlight-box">
                 <h3>盈利预测解读</h3>
                 <ul>
-                    <li><strong>爆发式增长潜力：</strong> 随着活跃达人数量和B端商家规模扩大，平台收入呈指数级增长</li>
+                    <li><strong>爆发式增长潜力：</strong> 随着活跃达人数量和B端商家规模扩大，平台收入呈指数级增长，三年内预期366亿</li>
                     <li><strong>核心驱动力：</strong> 达人侧变现分成是主要收入来源，印证"AI赋能内容-内容孵化达人"的价值</li>
                     <li><strong>轻资产模式：</strong> "任务链接"模式避免自建商城和库存的重资产投入</li>
                     <li><strong>可持续性强：</strong> 网络效应明显，平台价值随规模增长而指数级提升</li>
@@ -1618,7 +1975,7 @@
             <div class="highlights-grid">
                 <div class="highlight-item">
                     <h4>轻资产高回报</h4>
-                    <p>避开重资产投入，专注撮合价值，预计三年内收入达276亿</p>
+                    <p>避开重资产投入，专注撮合价值，预计三年内收入达366亿</p>
                 </div>
                 <div class="highlight-item">
                     <h4>网络效应明显</h4>
@@ -1830,7 +2187,9 @@
             const ctx = canvas.getContext('2d');
             const centerX = canvas.width / 2;
             const centerY = canvas.height / 2;
-            const radius = 80;
+            // 移动端适配半径
+            const isMobile = window.innerWidth <= 768;
+            const radius = isMobile ? Math.min(canvas.width, canvas.height) / 3 : 80;
             
             // 清空画布
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1864,8 +2223,8 @@
                 currentAngle += sliceAngle;
             });
             
-            // 鼠标交互
-            canvas.addEventListener('mousemove', function(e) {
+            // 鼠标和触摸交互
+            function handleInteraction(e) {
                 const rect = canvas.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
@@ -1937,19 +2296,52 @@
                         tooltip.style.opacity = '0';
                     }
                 }
-            });
+            }
             
-            canvas.addEventListener('mouseleave', function() {
+            function handleLeave() {
                 drawPieChart(canvasId, data, colors);
                 const tooltip = canvas.parentElement.querySelector('.pie-tooltip');
                 if (tooltip) {
                     tooltip.style.opacity = '0';
                 }
+            }
+            
+            // 添加鼠标事件
+            canvas.addEventListener('mousemove', handleInteraction);
+            canvas.addEventListener('mouseleave', handleLeave);
+            
+            // 添加触摸事件（移动端）
+            canvas.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                handleInteraction(mouseEvent);
+            });
+            
+            canvas.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                handleInteraction(mouseEvent);
+            });
+            
+            canvas.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                handleLeave();
             });
         }
         
         // 页面加载后绘制饼状图
         document.addEventListener('DOMContentLoaded', function() {
+            // 先调整移动端适配
+            adjustChartsForMobile();
+            
             setTimeout(() => {
                 // 职业分布数据
                 const jobData = [
@@ -1977,6 +2369,82 @@
 
 
 
+        // 移动端优化检测
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // 移动端性能优化
+        if (isMobileDevice()) {
+            // 减少动画复杂度
+            document.documentElement.style.setProperty('--animation-duration', '0.3s');
+            
+            // 禁用视差效果
+            const mouseGlow = document.querySelector('.mouse-glow');
+            if (mouseGlow) {
+                mouseGlow.style.display = 'none';
+            }
+            
+            // 简化3D效果
+            document.querySelectorAll('.feature-card, .advantage-card, .pain-point').forEach(card => {
+                card.style.willChange = 'auto';
+                card.style.transform = 'none';
+            });
+        }
+        
+        // 响应式图表调整
+        function adjustChartsForMobile() {
+            if (window.innerWidth <= 768) {
+                // 调整饼状图大小
+                const pieCharts = document.querySelectorAll('#job-pie-chart, #age-pie-chart');
+                pieCharts.forEach(chart => {
+                    const size = Math.min(window.innerWidth * 0.4, 150);
+                    chart.width = size;
+                    chart.height = size;
+                });
+                
+                // 重新绘制图表
+                setTimeout(() => {
+                    if (typeof drawPieChart === 'function') {
+                        const jobData = [
+                            { label: '个体店主 45%', value: 45 },
+                            { label: '上班族 40%', value: 40 },
+                            { label: '腰部达人 10%', value: 10 },
+                            { label: '企业主 5%', value: 5 }
+                        ];
+                        const jobColors = ['#ec4899', '#60a5fa', '#a855f7', '#f59e0b'];
+                        
+                        const ageData = [
+                            { label: '31-35岁 35%', value: 35 },
+                            { label: '25-30岁 28%', value: 28 },
+                            { label: '36-40岁 25%', value: 25 },
+                            { label: '41-45岁 12%', value: 12 }
+                        ];
+                        const ageColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f97316'];
+                        
+                        drawPieChart('job-pie-chart', jobData, jobColors);
+                        drawPieChart('age-pie-chart', ageData, ageColors);
+                    }
+                }, 500);
+            }
+        }
+        
+        // 窗口大小改变时重新调整
+        window.addEventListener('resize', debounce(adjustChartsForMobile, 300));
+        
+        // 防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
         // 初始化页面状态
         document.body.style.opacity = '0';
         document.body.style.transition = 'opacity 0.5s ease';

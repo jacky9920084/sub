@@ -1453,9 +1453,9 @@
             }
             
             .profit-deduction-grid > div {
-                flex: 0 0 260px !important;
-                min-width: 260px;
-                max-width: 260px;
+                flex: 0 0 calc(92vw - 2rem) !important;
+                min-width: calc(92vw - 2rem);
+                max-width: calc(92vw - 2rem);
                 padding: 1.2rem !important;
             }
             
@@ -1470,8 +1470,12 @@
             }
             
             .profit-deduction-container {
-                margin: 0 -0.5rem;
-                padding: 0 0.5rem;
+                margin: 0 -1rem;
+                padding: 0 0.8rem;
+            }
+            
+            .profit-deduction-grid {
+                gap: 0.6rem !important;
             }
             
             /* 推导逻辑卡片内容优化 */
@@ -1817,9 +1821,9 @@
             }
             
             .profit-deduction-grid > div {
-                flex: 0 0 240px !important;
-                min-width: 240px;
-                max-width: 240px;
+                flex: 0 0 calc(94vw - 1.5rem) !important;
+                min-width: calc(94vw - 1.5rem);
+                max-width: calc(94vw - 1.5rem);
                 padding: 1rem !important;
             }
             
@@ -1834,8 +1838,12 @@
             }
             
             .profit-deduction-container {
-                margin: 0 -0.3rem;
-                padding: 0 0.3rem;
+                margin: 0 -0.8rem;
+                padding: 0 0.5rem;
+            }
+            
+            .profit-deduction-grid {
+                gap: 0.5rem !important;
             }
             
             /* 推导逻辑卡片内容优化 - 超小屏 */
@@ -2760,7 +2768,7 @@
                             border: 1px solid rgba(96, 165, 250, 0.3) !important;
                             padding: 0.6rem 1rem !important;
                             border-radius: 20px !important;
-                            font-size: 0.85rem !important;
+                            font-size: 0.9rem !important;
                             display: inline-block;
                             animation: hintPulse 2s ease-in-out infinite;
                         }
@@ -2779,28 +2787,28 @@
                         .profit-deduction-container {
                             overflow-x: auto;
                             -webkit-overflow-scrolling: touch;
-                            margin: 0 -0.5rem;
-                            padding: 0 0.5rem;
+                            margin: 0 -1.5rem;
+                            padding: 0 1rem;
                         }
                         
                         .profit-deduction-grid {
                             display: flex !important;
-                            gap: 1.2rem;
+                            gap: 0.8rem;
                             min-width: max-content;
                             padding-bottom: 1rem;
                         }
                         
                         .profit-deduction-grid > div {
-                            flex: 0 0 280px;
-                            min-width: 280px;
-                            max-width: 280px;
+                            flex: 0 0 calc(90vw - 2rem);
+                            min-width: calc(90vw - 2rem);
+                            max-width: calc(90vw - 2rem);
                             background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%) !important;
                             border: 1px solid rgba(96, 165, 250, 0.3) !important;
                             border-radius: 16px !important;
                             padding: 1.5rem !important;
                             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
                             backdrop-filter: blur(10px) !important;
-                            scroll-snap-align: start;
+                            scroll-snap-align: center;
                         }
                         
                         .profit-deduction-container::-webkit-scrollbar {

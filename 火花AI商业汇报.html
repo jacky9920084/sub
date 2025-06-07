@@ -659,7 +659,8 @@
             }
             
             .container {
-                padding: 0 15px;
+                padding: 0 1rem;
+                max-width: 100%;
             }
             
             .video-container {
@@ -678,27 +679,32 @@
             
             .pain-points {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2.5rem;
+                margin: 3rem 0;
             }
             
             .features-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2.5rem;
+                margin: 3rem 0;
             }
             
             .competitive-advantages {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2.5rem;
+                margin: 3rem 0;
             }
             
             .three-cards-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2.5rem;
+                margin: 3rem 0;
             }
             
             .highlights-grid {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 2.5rem;
+                margin: 3rem 0;
             }
         }
 
@@ -725,9 +731,22 @@
             }
             
             .section {
-                padding: 2rem 1rem;
-                margin: 1.5rem 0;
-                border-radius: 16px;
+                padding: 3rem 1.5rem;
+                margin: 2.5rem 0.5rem;
+                border-radius: 20px;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+                opacity: 0.8;
             }
             
             .section-title {
@@ -747,56 +766,110 @@
             
             /* 卡片优化 */
             .pain-point, .feature-card, .advantage-card, .highlight-item {
-                padding: 1.8rem 1.5rem;
-                margin-bottom: 1.5rem;
-                border-radius: 16px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                padding: 2.2rem 1.8rem;
+                margin-bottom: 2rem;
+                border-radius: 20px;
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
             }
             
             .pain-point h4, .feature-card h4, .advantage-card h4 {
-                font-size: 1.3rem;
-                margin-bottom: 1rem;
-                line-height: 1.4;
-                font-weight: 600;
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.5;
+                font-weight: 700;
+                text-align: center;
             }
             
             .pain-point p, .feature-card p, .advantage-card p {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                margin-bottom: 1.2rem;
+                text-align: left;
+                color: #e2e8f0;
+            }
+            
+            /* 功能卡片特殊优化 */
+            .feature-card {
+                text-align: center;
+                background: linear-gradient(135deg, 
+                    rgba(96, 165, 250, 0.12) 0%, 
+                    rgba(168, 85, 247, 0.08) 50%, 
+                    rgba(236, 72, 153, 0.12) 100%);
+            }
+            
+            .feature-card h4 {
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 1.2rem;
+            }
+            
+            .feature-card p {
+                text-align: center;
                 font-size: 1rem;
                 line-height: 1.7;
-                margin-bottom: 0.8rem;
             }
             
             /* 三卡片网格特别优化 */
             .three-cards-grid .pain-point {
-                padding: 2rem 1.5rem;
-                margin-bottom: 2rem;
+                padding: 2.5rem 2rem;
+                margin-bottom: 2.5rem;
+                border-radius: 20px;
+                background: linear-gradient(135deg, 
+                    rgba(96, 165, 250, 0.15) 0%, 
+                    rgba(168, 85, 247, 0.1) 50%, 
+                    rgba(236, 72, 153, 0.15) 100%);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(96, 165, 250, 0.2);
             }
             
             .three-cards-grid .pain-point h4 {
-                font-size: 1.4rem;
-                margin-bottom: 1.2rem;
+                font-size: 1.6rem;
+                margin-bottom: 1.8rem;
                 text-align: center;
+                font-weight: 700;
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }
             
             .three-cards-grid .pain-point p {
-                font-size: 1.05rem;
-                line-height: 1.8;
+                font-size: 1.1rem;
+                line-height: 2;
+                text-align: center;
+                color: #e2e8f0;
+                margin-bottom: 1rem;
+            }
+            
+            .three-cards-grid .pain-point strong {
+                color: #60a5fa;
+                font-weight: 600;
             }
             
             /* 图标优化 */
             .feature-icon {
-                width: 60px;
-                height: 60px;
-                font-size: 1.5rem;
-                margin-bottom: 1rem;
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+                box-shadow: 0 8px 25px rgba(96, 165, 250, 0.4);
+                transition: all 0.3s ease;
             }
             
             /* 按钮优化 - 触摸友好 */
             .cta-button {
-                padding: 1.2rem 2.5rem;
-                font-size: 1.1rem;
-                min-height: 48px; /* 确保触摸目标至少48px */
-                margin-top: 1.5rem;
+                padding: 1.5rem 3rem;
+                font-size: 1.2rem;
+                min-height: 56px; /* 增大触摸目标 */
+                margin-top: 2rem;
+                border-radius: 30px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                box-shadow: 0 10px 30px rgba(96, 165, 250, 0.4);
             }
             
             /* 表格移动端优化 */
@@ -891,44 +964,175 @@
             /* 饼状图优化 */
             .user-profile-charts > div:first-of-type {
                 grid-template-columns: 1fr;
-                gap: 3rem;
-                margin-bottom: 3rem;
+                gap: 4rem;
+                margin-bottom: 4rem;
             }
             
             .user-profile-charts > div:last-of-type {
                 grid-template-columns: 1fr;
-                gap: 2.5rem;
+                gap: 3rem;
+            }
+            
+            /* 饼状图容器 */
+            .user-profile-charts > div:first-of-type > div {
+                background: rgba(15, 15, 35, 0.6);
+                padding: 2.5rem 2rem;
+                border-radius: 20px;
+                border: 1px solid rgba(96, 165, 250, 0.2);
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            .user-profile-charts > div:last-of-type > div {
+                background: rgba(15, 15, 35, 0.6);
+                padding: 2.5rem 2rem;
+                border-radius: 20px;
+                border: 1px solid rgba(96, 165, 250, 0.2);
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
             }
             
             #job-pie-chart, #age-pie-chart {
-                width: 160px;
-                height: 160px;
+                width: 180px;
+                height: 180px;
+                margin: 0 auto;
+                display: block;
             }
             
             /* 饼状图标题优化 */
             .user-profile-charts h5 {
-                font-size: 1.2rem !important;
-                margin-bottom: 1.5rem !important;
-                color: #e2e8f0 !important;
+                font-size: 1.4rem !important;
+                margin-bottom: 2rem !important;
+                color: #60a5fa !important;
+                text-align: center;
+                font-weight: 600;
             }
             
             /* 图例优化 */
             .user-profile-charts .legend-item {
-                font-size: 1rem !important;
-                margin: 0.5rem 0 !important;
-                line-height: 1.5;
+                font-size: 1.1rem !important;
+                margin: 0.8rem 0 !important;
+                line-height: 1.6;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            }
+            
+            .user-profile-charts .legend-item:last-child {
+                border-bottom: none;
             }
             
             /* Header高度优化 */
             .hero-header {
-                min-height: 450px !important;
+                min-height: 500px !important;
                 padding: 3rem 0 !important;
+                background-attachment: scroll !important; /* 移动端滚动优化 */
+            }
+            
+            /* 移动端专用分隔线 */
+            .subsection + .subsection {
+                margin-top: 4rem;
+                padding-top: 2rem;
+                border-top: 1px solid rgba(96, 165, 250, 0.2);
+            }
+            
+            /* 内容列表优化 */
+            .subsection ul, .subsection ol {
+                padding-left: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .subsection li {
+                margin-bottom: 1rem;
+                line-height: 1.8;
+                color: #e2e8f0;
+            }
+            
+            /* 高亮文本框优化 */
+            .highlight-box {
+                padding: 2.5rem 2rem;
+                margin: 3rem 0;
+                border-radius: 20px;
+                border: 1px solid rgba(96, 165, 250, 0.3);
+                background: linear-gradient(135deg, 
+                    rgba(96, 165, 250, 0.12) 0%, 
+                    rgba(168, 85, 247, 0.08) 50%, 
+                    rgba(236, 72, 153, 0.12) 100%);
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+            }
+            
+            .highlight-box h3 {
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                color: #60a5fa;
+                text-align: center;
+                font-weight: 600;
+            }
+            
+            .highlight-box p {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                color: #e2e8f0;
+                margin-bottom: 1.2rem;
+            }
+            
+            .highlight-box strong {
+                color: #60a5fa;
+                font-weight: 600;
+            }
+            
+            /* 团队部分优化 */
+            .team-member {
+                padding: 2.5rem 2rem;
+                margin: 3rem 0;
+                border-radius: 20px;
+                border: 1px solid rgba(168, 85, 247, 0.3);
+                box-shadow: 0 8px 30px rgba(168, 85, 247, 0.15);
+            }
+            
+            .team-member h3 {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+                text-align: center;
+                color: #a855f7;
+                font-weight: 600;
+            }
+            
+            /* 移动端专用卡片动画 */
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                animation: slideInUp 0.6s ease-out;
+            }
+            
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
             }
             
             /* 视频容器优化 */
             .video-container {
-                margin: 0 0.5rem;
+                margin: 2rem 0.5rem;
                 aspect-ratio: 16 / 9;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            .video-placeholder {
+                padding: 2rem 1rem;
+            }
+            
+            .video-placeholder .video-icon {
+                font-size: 3rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .video-placeholder p {
+                font-size: 1.1rem;
+                margin: 0.8rem 0;
+                color: #cbd5e1;
             }
             
             /* 投资价值区域优化 */
@@ -1032,18 +1236,39 @@
             }
             
             .three-cards-grid .pain-point {
-                padding: 1.8rem 1.2rem;
-                margin-bottom: 1.5rem;
+                padding: 2.5rem 1.8rem;
+                margin-bottom: 2.5rem;
+                border-radius: 20px;
+                background: linear-gradient(135deg, 
+                    rgba(96, 165, 250, 0.15) 0%, 
+                    rgba(168, 85, 247, 0.1) 50%, 
+                    rgba(236, 72, 153, 0.15) 100%);
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+                border: 1px solid rgba(96, 165, 250, 0.25);
             }
             
             .three-cards-grid .pain-point h4 {
-                font-size: 1.25rem;
-                margin-bottom: 1rem;
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                text-align: center;
+                font-weight: 700;
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }
             
             .three-cards-grid .pain-point p {
-                font-size: 1rem;
-                line-height: 1.7;
+                font-size: 1.05rem;
+                line-height: 1.9;
+                text-align: center;
+                color: #e2e8f0;
+                margin-bottom: 1rem;
+            }
+            
+            .three-cards-grid .pain-point strong {
+                color: #60a5fa;
+                font-weight: 600;
             }
             
             .feature-icon {
@@ -1812,8 +2037,10 @@
                     <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.8rem;">收入增长预测图表</h4>
                     
                     <!-- 移动端滚动提示 -->
-                    <div class="mobile-scroll-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #94a3b8; font-size: 0.9rem;">
-                        👈 左右滑动查看完整数据 👉
+                    <div class="mobile-scroll-hint" style="display: none; text-align: center; margin-bottom: 1.5rem; color: #60a5fa; font-size: 1rem; font-weight: 600;">
+                        <div style="background: rgba(96, 165, 250, 0.15); padding: 1rem; border-radius: 12px; border: 1px solid rgba(96, 165, 250, 0.3); animation: pulseHint 3s infinite;">
+                            📱 左右滑动查看完整数据表格 👆
+                        </div>
                     </div>
                     
                     <!-- 可视化表格 -->
@@ -1947,23 +2174,22 @@
                     @media (max-width: 768px) {
                         .mobile-scroll-hint {
                             display: block !important;
+                        }
+                        
+                        .mobile-scroll-hint > div {
                             animation: pulseHint 3s infinite;
-                            background: rgba(96, 165, 250, 0.1);
-                            padding: 0.8rem;
-                            border-radius: 8px;
-                            border: 1px solid rgba(96, 165, 250, 0.3);
-                            font-weight: 500;
                         }
                     }
                     
                     @keyframes pulseHint {
                         0%, 100% { 
-                            opacity: 0.7; 
+                            opacity: 0.8; 
                             transform: scale(1);
                         }
                         50% { 
                             opacity: 1; 
-                            transform: scale(1.02);
+                            transform: scale(1.05);
+                            box-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
                         }
                     }
                 </style>

@@ -1453,10 +1453,9 @@
             }
             
             .profit-deduction-grid > div {
-                flex: 0 0 calc(92vw - 2rem) !important;
-                min-width: calc(92vw - 2rem);
-                max-width: calc(92vw - 2rem);
+                width: 100% !important;
                 padding: 1.2rem !important;
+                margin-bottom: 1.2rem !important;
             }
             
             .profit-deduction-grid > div h6 {
@@ -1470,12 +1469,12 @@
             }
             
             .profit-deduction-container {
-                margin: 0 -1rem;
-                padding: 0 0.8rem;
+                margin: 0;
+                padding: 0;
             }
             
             .profit-deduction-grid {
-                gap: 0.6rem !important;
+                gap: 0 !important;
             }
             
             /* 推导逻辑卡片内容优化 */
@@ -1821,10 +1820,9 @@
             }
             
             .profit-deduction-grid > div {
-                flex: 0 0 calc(94vw - 1.5rem) !important;
-                min-width: calc(94vw - 1.5rem);
-                max-width: calc(94vw - 1.5rem);
+                width: 100% !important;
                 padding: 1rem !important;
+                margin-bottom: 1rem !important;
             }
             
             .profit-deduction-grid > div h6 {
@@ -1838,12 +1836,12 @@
             }
             
             .profit-deduction-container {
-                margin: 0 -0.8rem;
-                padding: 0 0.5rem;
+                margin: 0;
+                padding: 0;
             }
             
             .profit-deduction-grid {
-                gap: 0.5rem !important;
+                gap: 0 !important;
             }
             
             /* 推导逻辑卡片内容优化 - 超小屏 */
@@ -2578,10 +2576,10 @@
                     <div class="profit-deduction-section" style="background: rgba(96, 165, 250, 0.1); padding: 2rem; border-radius: 15px; margin-top: 2rem; border-left: 4px solid #60a5fa;">
                         <h5 style="color: #60a5fa; margin-bottom: 1.5rem; font-size: 1.2rem;">💡 平台收入推导逻辑</h5>
                         
-                        <!-- 移动端滑动提示 -->
-                        <div class="mobile-scroll-hint profit-deduction-hint" style="display: none; text-align: center; margin-bottom: 1.5rem; color: #60a5fa; font-size: 0.9rem;">
-                            <span style="background: rgba(96, 165, 250, 0.15); padding: 0.8rem 1.2rem; border-radius: 25px; border: 1px solid rgba(96, 165, 250, 0.3);">
-                                👈 左右滑动查看推导逻辑 👉
+                        <!-- 移动端说明文字 -->
+                        <div class="mobile-description-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #94a3b8; font-size: 0.9rem;">
+                            <span style="background: rgba(96, 165, 250, 0.08); padding: 0.6rem 1rem; border-radius: 15px; border: 1px solid rgba(96, 165, 250, 0.2);">
+                                📊 以下是平台收入的详细推导过程
                             </span>
                         </div>
                         
@@ -2589,27 +2587,27 @@
                             <div class="profit-deduction-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
                             <!-- 第一年示例 -->
                             <div style="background: rgba(96, 165, 250, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(96, 165, 250, 0.2);">
-                                <h6 style="color: #60a5fa; margin-bottom: 1rem; font-weight: 600;">第一年推导示例</h6>
+                                <h6 style="color: #60a5fa; margin-bottom: 1rem; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.2); padding-bottom: 0.5rem;">第一年推导示例</h6>
                                 <div style="font-size: 0.9rem; line-height: 1.6; color: #e2e8f0;">
-                                    <p><strong>①</strong> 达人月均变现：<span style="color: #60a5fa; font-weight: 600;">4,000元</span></p>
-                                    <p><strong>②</strong> 假设达人佣金率：<span style="color: #60a5fa; font-weight: 600;">20%</span></p>
-                                    <p><strong>③</strong> 对应GMV：4,000÷20% = <span style="color: #60a5fa; font-weight: 600;">20,000元</span></p>
-                                    <p><strong>④</strong> 平台商家侧佣金：20,000×10% = <span style="color: #60a5fa; font-weight: 600;">2,000元</span></p>
-                                    <p><strong>⑤</strong> 平台达人侧佣金：20,000×5% = <span style="color: #60a5fa; font-weight: 600;">1,000元</span></p>
-                                    <p style="border-top: 1px solid rgba(96, 165, 250, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #60a5fa;">平台月收入：2,000+1,000 = 3,000元</p>
+                                    <p><span><strong>①</strong> 达人月均变现</span><span style="color: #60a5fa; font-weight: 600;">4,000元</span></p>
+                                    <p><span><strong>②</strong> 假设达人佣金率</span><span style="color: #60a5fa; font-weight: 600;">20%</span></p>
+                                    <p><span><strong>③</strong> 对应GMV</span><span style="color: #60a5fa; font-weight: 600;">4,000÷20% = 20,000元</span></p>
+                                    <p><span><strong>④</strong> 平台商家侧佣金</span><span style="color: #60a5fa; font-weight: 600;">20,000×10% = 2,000元</span></p>
+                                    <p><span><strong>⑤</strong> 平台达人侧佣金</span><span style="color: #60a5fa; font-weight: 600;">20,000×5% = 1,000元</span></p>
+                                    <p style="border-top: 1px solid rgba(96, 165, 250, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #60a5fa;"><span style="color: #e2e8f0;">平台月收入</span><span>2,000+1,000 = 3,000元</span></p>
                                 </div>
                             </div>
                             
                             <!-- 第三年示例 -->
                             <div style="background: rgba(236, 72, 153, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(236, 72, 153, 0.2);">
-                                <h6 style="color: #ec4899; margin-bottom: 1rem; font-weight: 600;">第三年推导示例</h6>
+                                <h6 style="color: #ec4899; margin-bottom: 1rem; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(236, 72, 153, 0.2); padding-bottom: 0.5rem;">第三年推导示例</h6>
                                 <div style="font-size: 0.9rem; line-height: 1.6; color: #e2e8f0;">
-                                    <p><strong>①</strong> 达人月均变现：<span style="color: #ec4899; font-weight: 600;">8,000元</span></p>
-                                    <p><strong>②</strong> 假设达人佣金率：<span style="color: #ec4899; font-weight: 600;">20%</span></p>
-                                    <p><strong>③</strong> 对应GMV：8,000÷20% = <span style="color: #ec4899; font-weight: 600;">40,000元</span></p>
-                                    <p><strong>④</strong> 平台商家侧佣金：40,000×10% = <span style="color: #ec4899; font-weight: 600;">4,000元</span></p>
-                                    <p><strong>⑤</strong> 平台达人侧佣金：40,000×5% = <span style="color: #ec4899; font-weight: 600;">2,000元</span></p>
-                                    <p style="border-top: 1px solid rgba(236, 72, 153, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #ec4899;">平台月收入：4,000+2,000 = 6,000元</p>
+                                    <p><span><strong>①</strong> 达人月均变现</span><span style="color: #ec4899; font-weight: 600;">8,000元</span></p>
+                                    <p><span><strong>②</strong> 假设达人佣金率</span><span style="color: #ec4899; font-weight: 600;">20%</span></p>
+                                    <p><span><strong>③</strong> 对应GMV</span><span style="color: #ec4899; font-weight: 600;">8,000÷20% = 40,000元</span></p>
+                                    <p><span><strong>④</strong> 平台商家侧佣金</span><span style="color: #ec4899; font-weight: 600;">40,000×10% = 4,000元</span></p>
+                                    <p><span><strong>⑤</strong> 平台达人侧佣金</span><span style="color: #ec4899; font-weight: 600;">40,000×5% = 2,000元</span></p>
+                                    <p style="border-top: 1px solid rgba(236, 72, 153, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #ec4899;"><span style="color: #e2e8f0;">平台月收入</span><span>4,000+2,000 = 6,000元</span></p>
                                 </div>
                             </div>
                             </div>
@@ -2758,76 +2756,40 @@
                             text-align: center;
                         }
                         
-                        .profit-deduction-hint {
+                        .mobile-description-hint {
                             display: block !important;
                             margin-bottom: 1rem !important;
                         }
                         
-                        .profit-deduction-hint span {
-                            background: rgba(96, 165, 250, 0.1) !important;
-                            border: 1px solid rgba(96, 165, 250, 0.3) !important;
-                            padding: 0.6rem 1rem !important;
-                            border-radius: 20px !important;
-                            font-size: 0.9rem !important;
+                        .mobile-description-hint span {
                             display: inline-block;
-                            animation: hintPulse 2s ease-in-out infinite;
+                            font-style: italic;
                         }
                         
-                        @keyframes hintPulse {
-                            0%, 100% { 
-                                opacity: 0.8; 
-                                transform: scale(1);
-                            }
-                            50% { 
-                                opacity: 1; 
-                                transform: scale(1.02);
-                            }
-                        }
-                        
+                        /* 移动端改为垂直布局 */
                         .profit-deduction-container {
-                            overflow-x: auto;
-                            -webkit-overflow-scrolling: touch;
-                            margin: 0 -1.5rem;
-                            padding: 0 1rem;
+                            overflow: visible;
+                            margin: 0;
+                            padding: 0;
                         }
                         
                         .profit-deduction-grid {
-                            display: flex !important;
-                            gap: 0.8rem;
-                            min-width: max-content;
-                            padding-bottom: 1rem;
+                            display: block !important;
+                            gap: 0;
                         }
                         
                         .profit-deduction-grid > div {
-                            flex: 0 0 calc(90vw - 2rem);
-                            min-width: calc(90vw - 2rem);
-                            max-width: calc(90vw - 2rem);
-                            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%) !important;
-                            border: 1px solid rgba(96, 165, 250, 0.3) !important;
-                            border-radius: 16px !important;
-                            padding: 1.5rem !important;
-                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
-                            backdrop-filter: blur(10px) !important;
-                            scroll-snap-align: center;
+                            width: 100% !important;
+                            max-width: 100% !important;
+                            margin-bottom: 1.5rem;
+                            background: linear-gradient(135deg, rgba(15, 15, 35, 0.6) 0%, rgba(26, 26, 46, 0.4) 100%) !important;
+                            border: 1px solid rgba(96, 165, 250, 0.2) !important;
+                            border-radius: 12px !important;
+                            padding: 1.2rem !important;
+                            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15) !important;
                         }
                         
-                        .profit-deduction-container::-webkit-scrollbar {
-                            height: 4px;
-                        }
-                        
-                        .profit-deduction-container::-webkit-scrollbar-track {
-                            background: rgba(96, 165, 250, 0.1);
-                            border-radius: 2px;
-                        }
-                        
-                        .profit-deduction-container::-webkit-scrollbar-thumb {
-                            background: rgba(96, 165, 250, 0.4);
-                            border-radius: 2px;
-                        }
-                        
-                        .profit-deduction-container::-webkit-scrollbar-thumb:hover {
-                            background: rgba(96, 165, 250, 0.6);
-                        }
+
                         
                         /* 推导逻辑卡片标题样式 */
                         .profit-deduction-grid > div h6 {
@@ -2847,9 +2809,13 @@
                         
                         .profit-deduction-grid > div p {
                             font-size: 0.9rem !important;
-                            line-height: 1.5 !important;
-                            margin-bottom: 0.8rem !important;
+                            line-height: 1.6 !important;
+                            margin-bottom: 0.5rem !important;
                             color: #e2e8f0 !important;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 0.3rem 0;
                         }
                         
                         .profit-deduction-grid > div p:last-child {
@@ -2857,7 +2823,10 @@
                             padding-top: 0.8rem;
                             border-top: 1px solid rgba(96, 165, 250, 0.2);
                             font-weight: 600 !important;
-                            text-align: center;
+                            justify-content: center;
+                            background: rgba(96, 165, 250, 0.1);
+                            border-radius: 8px;
+                            padding: 0.8rem;
                         }
                         
                         /* 关键指标移动端优化 */

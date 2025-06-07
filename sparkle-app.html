@@ -1437,7 +1437,7 @@
                 <p class="sub-text">准备好让火花AI助您一臂之力了吗？</p>
                 
                 <div class="function-grid">
-                    <div class="function-card">
+                    <div class="function-card" onclick="showPage('blueprintPage')">
                         <div class="function-icon icon-blueprint">
                             <img src="logo图/火花蓝图.png" alt="蓝图" style="width: 24px; height: 24px; object-fit: contain;">
                         </div>
@@ -1453,7 +1453,7 @@
                         <p class="function-desc">火花AI帮我诊断内容潜力</p>
                     </div>
                     
-                    <div class="function-card">
+                    <div class="function-card" onclick="showPage('penPage')">
                         <div class="function-icon icon-pen">
                             <img src="logo图/火花妙笔.png" alt="妙笔" style="width: 24px; height: 24px; object-fit: contain;">
                         </div>
@@ -1778,6 +1778,208 @@
                 <div class="input-wrapper">
                     <textarea class="input-field" id="probeUserInput" placeholder="粘贴你的内容..." rows="1"></textarea>
                     <button class="send-btn" onclick="sendProbeMessage()">→</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 火花·妙笔页 -->
+        <div class="page" id="penPage">
+            <header class="header">
+                <div class="header-left">
+                    <span class="back-btn" onclick="showPage('functionsPage')">←</span>
+                    <h1 class="header-title">火花·妙笔</h1>
+                </div>
+            </header>
+            
+            <div class="main-content">
+                <div id="penChat" style="margin-bottom: 24px;">
+                    <div class="wechat-chat-container">
+
+                        
+                        <!-- 用户消息 -->
+                        <div class="wechat-message user-msg">
+                            <div class="wechat-avatar user-avatar user-line-icon">
+                            </div>
+                            <div class="wechat-bubble user-bubble">
+                                <div class="wechat-text">我想测试你的能力，你认为你擅长什么，我该怎么测试你比较好。</div>
+                                <div class="wechat-time">14:20</div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI开场白 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">我是一个顶级的营销文案专家，我的核心优势在于：<br><br>
+*   **深度洞察消费者心理：** 我能透过产品表象，挖掘消费者内心深处的渴望、痛点和情绪纽带。<br>
+*   **批判性思辨营销场景：** 我不盲目追随传统，而是以独特的视角审视每一个营销机会，寻找突破同质化的路径。<br>
+*   **文案的本质是"写事情"：** 我理解文案不是简单罗列卖点，而是要触达消费者，与他们的生活、情感、经历相关联，引发思考和本能反应。<br>
+*   **严格遵循具象化原则：** 在文案创作和优化中，我优先使用具体的事件、明确的选择和可感知的行为来引发用户思考和情绪，而非直接描述抽象感受、意图或过程。<br><br>
+要测试我的能力，请直接给我一个具体的营销场景或产品信息。例如：<br><br>
+1.  **提供一个产品或服务，并描述其主要特点。** 然后，你可以要求我：<br>
+    *   分析其潜在的核心目标受众及其心理动机。<br>
+    *   提出2-3个文案策略，并创作相应的文案版本，说明如何运用具象化原则。<br>
+    *   阐释这些文案如何触达消费者，而非仅仅表达产品卖点。<br>
+2.  **提供一段你现有的产品文案。** 然后，你可以要求我：<br>
+    *   评估这段文案的优缺点，并指出其符合或不符合顶级营销文案的哪些原则。<br>
+    *   推演这段文案可能在目标受众中引发的具体情绪或疑问。<br>
+    *   提供具体的优化建议和修改后的文案示例，特别强调如何将抽象描述转化为具象事件或行为。<br><br>
+请直接提出你的测试内容，我将立即为你提供专业的分析和文案建议。</div>
+                                <div class="wechat-time">14:21</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 用户继续提问 -->
+                        <div class="wechat-message user-msg">
+                            <div class="wechat-avatar user-avatar user-line-icon">
+                            </div>
+                            <div class="wechat-bubble user-bubble">
+                                <div class="wechat-text">帮我写个普通签字笔，营销文案。</div>
+                                <div class="wechat-time">14:22</div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI详细回答 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">**1. 脚本/产品信息分析：**<br>
+*   **产品概括：** 一支"普通"的签字笔。这意味着它没有特别突出的高科技卖点，也没有奢华的材质或设计。它的核心价值在于其基本功能——书写。<br>
+*   **核心目标受众与心理动机：** 目标受众是日常需要书写的人群，从学生到职场人士。他们的心理动机可能包括：<br>
+    *   **实用性需求：** 需要一支稳定、流畅、不掉链子的笔。<br>
+    *   **效率需求：** 不希望书写过程被卡顿、断墨打断。<br>
+    *   **情绪需求：** 在重要时刻（如签字、记录灵感）希望笔能带来顺畅和安心感，避免因笔的问题而产生挫败感。<br>
+    *   **价值认知：** 对普通文具的期望是"好用不贵"，而非"炫酷高科技"。<br>
+*   **剖析情绪：** 脚本试图引发的情绪是"共鸣"和"安心"。共鸣源于对日常书写痛点的理解（卡顿、断墨），安心则来自对笔的可靠性和稳定性的承诺。</div>
+                                <div class="wechat-time">14:23</div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI文案策略 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">**2. 文案策略与创作：**<br><br>
+针对普通签字笔的"普通"属性，我将采取"反骨文案"和"洞察遗憾"的策略，结合"文案写事情"的思路，让这支笔在平淡中显露不凡。<br><br>
+**文案版本一：**<br><br>
+没有花哨的名字，也没有惊人的科技。<br><br>
+它只是，一支好写的笔。<br><br>
+告别卡顿，告别断墨。<br><br>
+告别那些让你抓狂的瞬间。<br><br>
+你可能不会记住它的名字，<br><br>
+但你会记住它写下的每一个字。</div>
+                                <div class="wechat-time">14:24</div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI技巧解析 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">*   **运用技巧与选择理由：**<br>
+    *   **反骨文案：** 开篇直接承认"没有花哨的名字，也没有惊人的科技"，用"它只是，一支好写的笔"来表达一种朴素而自信的姿态，这与知识库中"没有什么核心科技，只是我们坚持纯棉"异曲同工，避免了过度自夸，反而显得真诚。<br>
+    *   **洞察遗憾：** "告别卡顿，告别断墨。告别那些让你抓狂的瞬间。"直接点出消费者在使用普通笔时最常见的痛点和遗憾，引发强烈共鸣。<br>
+    *   **文案写事情 & 与消费者相关：** 文案没有罗列笔的参数，而是聚焦于"写下的每一个字"和"让你抓狂的瞬间"，将笔的功能与消费者的实际体验和情绪紧密关联，让笔成为解决问题的工具，而非冰冷的产品。</div>
+                                <div class="wechat-time">14:25</div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI第二版文案 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">**文案版本2：聚焦用户本质需求的"懂你"与"简单"**<br><br>
+**文案：**<br>
+你拿起笔，是为了写下想法。<br>
+不是为了和它较劲。<br>
+这支笔，不谈什么大道理。<br>
+它只管，你随手一拿，它就懂你。<br>
+让你只管写，别管笔。<br>
+毕竟，生活已经够复杂了。<br><br>
+**运用技巧及深层策略：**<br>
+**实话策略：** "你拿起笔，是为了写下想法"和"它只管，你随手一拿，它就懂你"直接说出用户的真实需求和期待，没有任何修饰，用最朴素的语言击中用户内心。<br>
+**格调塑造：** "不谈什么大道理"体现产品的低调和务实，与市面上喜欢夸大功能的产品形成鲜明对比，塑造出一种"我不装，我就是实用"的独特格调。<br>
+**情绪共鸣：** "让你只管写，别管笔"精准捕捉到用户在书写时最核心的情绪需求——专注于内容本身，而不被工具打扰，这是对用户心流状态的深度理解。<br>
+**生活洞察升华：** "毕竟，生活已经够复杂了"从产品功能上升到生活哲学，暗示这支笔是生活中的一个简单美好，在复杂世界中给用户一份纯粹的书写体验。</div>
+                                <div class="wechat-time">14:26</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea class="input-field" id="penUserInput" placeholder="输入你的需求..." rows="1"></textarea>
+                    <button class="send-btn" onclick="sendPenMessage()">→</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 火花·蓝图页 -->
+        <div class="page" id="blueprintPage">
+            <header class="header">
+                <div class="header-left">
+                    <span class="back-btn" onclick="showPage('functionsPage')">←</span>
+                    <h1 class="header-title">火花·蓝图</h1>
+                </div>
+            </header>
+            
+            <div class="main-content">
+                <div id="blueprintChat" style="margin-bottom: 24px;">
+                    <div class="wechat-chat-container">
+                        <!-- AI开场白 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">您好，系统检测到您已有的信息档案：<br>个人信息摘要 (IP):         <br>赛道规划摘要 :                  <br><br>请问您希望如何继续？<br>A. 使用当前信息进入内容策划阶段 。<br>B. 我想修改/更新我的赛道规划 (例如，我有新的产品想法或想调整方向)。<br>C. 我想修改我的个人信息 (温馨提示：这将重新开始信息采集)。<br>D. 全部重新开始。</div>
+                                <div class="wechat-time">刚刚</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 用户消息 -->
+                        <div class="wechat-message user-msg">
+                            <div class="wechat-avatar user-avatar user-line-icon">
+                            </div>
+                            <div class="wechat-bubble user-bubble">
+                                <div class="wechat-text">A</div>
+                                <div class="wechat-time">1分钟前</div>
+                            </div>
+                        </div>
+                        
+                        <!-- AI消息 -->
+                        <div class="wechat-message ai-msg">
+                            <div class="wechat-avatar ai-avatar">
+                                <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div class="wechat-bubble ai-bubble">
+                                <div class="wechat-text">### **视频脚本/文案大纲：当"看起来凶"的武当教练，遇上撒娇不想练功的小胖墩…【真实记录】**<br><br>https://aii.jacky.onl/%E8%84%9A%E6%9C%AC1.html
+                                </div>
+                                <div class="wechat-time">2分钟前</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="input-area">
+                <div class="input-wrapper">
+                    <textarea class="input-field" id="blueprintUserInput" placeholder="输入你的需求..." rows="1"></textarea>
+                    <button class="send-btn" onclick="sendBlueprintMessage()">→</button>
                 </div>
             </div>
         </div>
@@ -2247,6 +2449,8 @@
         document.addEventListener('DOMContentLoaded', function() {
             initQuoteInput();
             initProbeInput();
+            initBlueprintInput();
+            initPenInput(); // Add this line to initialize pen input
         });
         
         // 初始化探针页面输入框
@@ -2311,6 +2515,133 @@
             
             chatContainer.appendChild(messageDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // 火花·蓝图页面功能函数
+        function sendBlueprintMessage() {
+            const input = document.getElementById('blueprintUserInput');
+            const value = input.value.trim();
+
+            if (!value) return;
+
+            addBlueprintMessage(value, true);
+            input.value = '';
+            input.style.height = 'auto'; // Reset height after sending
+
+            // Simulate AI reply
+            setTimeout(() => {
+                addBlueprintMessage('我正在根据您的需求调整策略蓝图，请稍候...', false);
+                // Add more detailed AI response logic here if needed
+            }, 500);
+        }
+
+        function addBlueprintMessage(content, isUser = false) {
+            const chatContainer = document.querySelector('#blueprintPage .wechat-chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `wechat-message ${isUser ? 'user-msg' : 'ai-msg'}`;
+
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar user-avatar user-line-icon"></div>
+                    <div class="wechat-bubble user-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar ai-avatar">
+                        <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="wechat-bubble ai-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            }
+
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function initBlueprintInput() {
+            const blueprintUserInput = document.getElementById('blueprintUserInput');
+            if (blueprintUserInput) {
+                blueprintUserInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+
+                blueprintUserInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendBlueprintMessage();
+                    }
+                });
+            }
+        }
+        
+        // 火花·妙笔页面功能函数
+        function sendPenMessage() {
+            const input = document.getElementById('penUserInput');
+            const value = input.value.trim();
+
+            if (!value) return;
+
+            addPenMessage(value, true);
+            input.value = '';
+            input.style.height = 'auto'; // Reset height after sending
+
+            // Simulate AI reply
+            setTimeout(() => {
+                addPenMessage('收到您的测试请求，我将立即为您分析并提供文案建议。请提供具体的营销场景或产品信息。', false);
+            }, 500);
+        }
+
+        function addPenMessage(content, isUser = false) {
+            const chatContainer = document.querySelector('#penPage .wechat-chat-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `wechat-message ${isUser ? 'user-msg' : 'ai-msg'}`;
+
+            if (isUser) {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar user-avatar user-line-icon"></div>
+                    <div class="wechat-bubble user-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="wechat-avatar ai-avatar">
+                        <img src="logo图/火花3.jpg" alt="火花AI" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <div class="wechat-bubble ai-bubble">
+                        <div class="wechat-text">${content}</div>
+                        <div class="wechat-time">刚刚</div>
+                    </div>
+                `;
+            }
+
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function initPenInput() {
+            const penUserInput = document.getElementById('penUserInput');
+            if (penUserInput) {
+                penUserInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+
+                penUserInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendPenMessage();
+                    }
+                });
+            }
         }
     </script>
 </body>

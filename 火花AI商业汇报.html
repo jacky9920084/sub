@@ -1040,8 +1040,6 @@
             /* 表格移动端优化 */
             .visual-profit-table {
                 padding: 1rem 0.5rem;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
                 border-radius: 12px;
                 background: rgba(15, 15, 35, 0.9) !important;
             }
@@ -1052,38 +1050,19 @@
                 padding: 0 1rem;
             }
             
-            .visual-profit-table > div:nth-child(2) {
-                min-width: 700px; /* 确保表格内容不会过度压缩 */
-                margin: 0 auto;
+            /* 移动端表格容器样式调整 */
+            .profit-table-container {
+                margin: 0 -0.5rem;
+                padding: 0.5rem 0;
             }
             
-            .visual-profit-table > div:nth-child(2) {
-                /* 优化滚动条样式 */
-                scrollbar-width: thin;
-                scrollbar-color: rgba(96, 165, 250, 0.5) rgba(15, 15, 35, 0.3);
+            .profit-table-grid {
+                min-width: 750px !important; /* 增加最小宽度确保完整显示 */
             }
             
-            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar {
-                height: 8px;
-            }
-            
-            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar-track {
-                background: rgba(15, 15, 35, 0.3);
-                border-radius: 4px;
-            }
-            
-            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar-thumb {
-                background: rgba(96, 165, 250, 0.5);
-                border-radius: 4px;
-            }
-            
-            .visual-profit-table > div:nth-child(2)::-webkit-scrollbar-thumb:hover {
-                background: rgba(96, 165, 250, 0.8);
-            }
-            
-            .visual-profit-table > div:nth-child(2) > div {
-                padding: 1rem 0.8rem;
-                font-size: 1rem;
+            .profit-table-grid > div {
+                padding: 1rem 0.8rem !important;
+                font-size: 1rem !important;
                 min-height: 50px;
                 display: flex;
                 align-items: center;
@@ -1427,6 +1406,31 @@
                 line-height: 1.5;
             }
             
+            /* 480px以下表格样式优化 */
+            .visual-profit-table {
+                padding: 0.8rem 0.3rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.3rem !important;
+                padding: 0 0.3rem;
+            }
+            
+            .profit-table-container {
+                margin: 0 -0.3rem;
+                padding: 0.3rem 0;
+            }
+            
+            .profit-table-grid {
+                min-width: 680px !important; /* 适中的最小宽度 */
+            }
+            
+            .profit-table-grid > div {
+                padding: 0.8rem 0.6rem !important;
+                font-size: 0.9rem !important;
+                min-height: 45px;
+            }
+            
             .feature-icon {
                 width: 55px;
                 height: 55px;
@@ -1688,6 +1692,31 @@
             .hero-header {
                 min-height: 320px !important;
                 padding: 1.5rem 0 !important;
+            }
+            
+            /* 超小屏表格样式优化 */
+            .visual-profit-table {
+                padding: 0.8rem 0.3rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.2rem !important;
+                padding: 0 0.3rem;
+            }
+            
+            .profit-table-container {
+                margin: 0 -0.3rem;
+                padding: 0.2rem 0;
+            }
+            
+            .profit-table-grid {
+                min-width: 650px !important; /* 适当缩小但保持可读性 */
+            }
+            
+            .profit-table-grid > div {
+                padding: 0.7rem 0.5rem !important;
+                font-size: 0.85rem !important;
+                min-height: 40px;
             }
         }
 
@@ -2326,7 +2355,8 @@
                     </div>
                     
                     <!-- 可视化表格 -->
-                    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1px; background: rgba(96, 165, 250, 0.2); border-radius: 15px; overflow: hidden;">
+                    <div class="profit-table-container">
+                        <div class="profit-table-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 1px; background: rgba(96, 165, 250, 0.2); border-radius: 15px; overflow: hidden; min-width: 700px;">
                         <!-- 表头 -->
                         <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #e2e8f0; font-weight: 600; text-align: center;">指标 / 年份</div>
                         <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第一年</div>
@@ -2384,6 +2414,7 @@
                         <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">18.6亿</div>
                         <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">138亿</div>
                         <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">366亿</div>
+                        </div>
                     </div>
                     
                     <!-- 平台收入推导说明 -->
@@ -2452,6 +2483,49 @@
                         backdrop-filter: blur(10px);
                     }
                     
+                    /* 表格容器样式 */
+                    .profit-table-container {
+                        overflow-x: auto;
+                        -webkit-overflow-scrolling: touch;
+                        padding: 0;
+                        margin: 0 -1rem;
+                        border-radius: 15px;
+                        position: relative;
+                    }
+                    
+                    .profit-table-container::-webkit-scrollbar {
+                        height: 8px;
+                    }
+                    
+                    .profit-table-container::-webkit-scrollbar-track {
+                        background: rgba(96, 165, 250, 0.1);
+                        border-radius: 4px;
+                    }
+                    
+                    .profit-table-container::-webkit-scrollbar-thumb {
+                        background: rgba(96, 165, 250, 0.5);
+                        border-radius: 4px;
+                    }
+                    
+                    .profit-table-container::-webkit-scrollbar-thumb:hover {
+                        background: rgba(96, 165, 250, 0.8);
+                    }
+                    
+                    /* 表格右侧渐变提示 */
+                    .profit-table-container::after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: 20px;
+                        height: 100%;
+                        background: linear-gradient(90deg, transparent, rgba(15, 15, 35, 0.6));
+                        pointer-events: none;
+                        border-radius: 0 15px 15px 0;
+                    }
+                    
+
+                    
                     /* 移动端滚动提示 */
                     @media (max-width: 768px) {
                         .mobile-scroll-hint {
@@ -2460,6 +2534,11 @@
                         
                         .mobile-scroll-hint > div {
                             animation: pulseHint 3s infinite;
+                        }
+                        
+                        /* 确保表格滚动提示显示 */
+                        .visual-profit-table .mobile-scroll-hint {
+                            display: block !important;
                         }
                     }
                     

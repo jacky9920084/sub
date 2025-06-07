@@ -382,10 +382,18 @@
         }
 
         .compare-bg {
-            background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/AI对比图.png');
+            background-image: linear-gradient(rgba(15, 15, 35, 0.1), rgba(26, 26, 46, 0.1)), url('logo图/AI对比图.png');
             min-height: 500px;
             background-size: contain;
             background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 禁用AI对比图的动画效果 */
+        .compare-bg::before {
+            /* display: none !important; */ /* 恢复光效，注释掉此行 */
         }
 
         .business-bg {
@@ -1098,6 +1106,21 @@
                 padding: 1.5rem 0.8rem !important;
             }
             
+            /* AI对比图移动端优化 */
+            .compare-bg {
+                min-height: 320px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                background-image: linear-gradient(rgba(15, 15, 35, 0.05), rgba(26, 26, 46, 0.05)), url('logo图/AI对比图.png') !important;
+                margin: 2rem 0 !important;
+                padding: 1.5rem 0.8rem !important;
+                z-index: 5 !important;
+            }
+            
+            .compare-bg::before {
+                /* display: none !important; */ /* 恢复光效，注释掉此行 */
+            }
+            
             .growth-chart-container {
                 padding: 1.5rem 1rem;
                 border-radius: 12px;
@@ -1756,6 +1779,17 @@
                 background-position: center !important;
                 margin: 1.5rem 0 !important;
                 padding: 1.2rem 0.6rem !important;
+            }
+            
+            /* AI对比图480px以下优化 */
+            .compare-bg {
+                min-height: 260px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                background-image: linear-gradient(rgba(15, 15, 35, 0.03), rgba(26, 26, 46, 0.03)), url('logo图/AI对比图.png') !important;
+                margin: 1.5rem 0 !important;
+                padding: 1.2rem 0.6rem !important;
+                z-index: 5 !important;
             }
             
             .growth-chart-container, .user-profile-charts {

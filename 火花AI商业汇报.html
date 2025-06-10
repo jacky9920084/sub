@@ -689,6 +689,12 @@
                 font-size: 1rem;
             }
             
+            .video-play-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+                margin-top: 0.8rem;
+            }
+            
             .pain-points {
                 grid-template-columns: 1fr;
                 gap: 2.5rem;
@@ -2371,12 +2377,71 @@
             color: #e2e8f0;
         }
 
+        /* 视频播放按钮样式 */
+        .video-play-btn {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.4);
+        }
+        
+        .video-play-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(96, 165, 250, 0.6);
+        }
+        
         /* 当实际添加video标签时的样式 */
         .video-container video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* 改为contain保持比例 */
             border-radius: 18px;
+            background: #000;
+        }
+        
+        /* 视频优化 */
+        .video-container video::-webkit-media-controls-panel {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* 移动端视频优化 */
+        @media (max-width: 768px) {
+            .video-container video {
+                object-fit: contain;
+                max-height: 70vh; /* 限制移动端高度 */
+            }
+        }
+        
+        /* 视频加载状态 */
+        .video-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #60a5fa;
+        }
+        
+        .video-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(96, 165, 250, 0.3);
+            border-top: 3px solid #60a5fa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .chart-placeholder .key-words {
@@ -2388,6 +2453,17 @@
             font-size: 1.1em;
             display: inline;
             animation: keyword-glow 3s ease-in-out infinite alternate;
+        }
+
+        .growth-chart-container {
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+            max-width: 1200px;
+            text-align: center;
         }
     </style>
 </head>
@@ -2405,11 +2481,12 @@
     <section class="video-section">
         <div class="container">
             <div class="video-container">
-                <div class="video-placeholder">
+                <div class="video-placeholder" id="video-placeholder">
                     <div class="video-icon">🎥</div>
-                    <p>预留视频区域 (16:9)</p>
-                    <p>可插入MP4视频文件</p>
-                    <!-- 实际使用时替换为: <video controls width="100%"><source src="your-video.mp4" type="video/mp4"></video> -->
+                    <p>火花AI产品演示视频</p>
+                    <p>点击播放 (建议使用外链视频)</p>
+                    <button class="video-play-btn" onclick="loadVideo()">▶ 播放视频</button>
+                    <!-- 视频将在用户点击时动态加载，避免影响页面初始加载速度 -->
                 </div>
             </div>
         </div>
@@ -2844,6 +2921,9 @@
                         padding: 2rem;
                         border: 1px solid rgba(96, 165, 250, 0.2);
                         backdrop-filter: blur(10px);
+                        margin: 0 auto;
+                        max-width: 1200px;
+                        text-align: center;
                     }
                 </style>
             </div>
@@ -4160,6 +4240,111 @@
                 timeout = setTimeout(later, wait);
             };
         }
+        
+        // 视频懒加载函数
+        function loadVideo() {
+            const placeholder = document.getElementById('video-placeholder');
+            
+            // 显示加载状态
+            placeholder.innerHTML = `
+                <div class="video-loading">
+                    <div class="spinner"></div>
+                    <p>正在加载高清视频...</p>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">火花AI产品演示 - 9分39秒</p>
+                </div>
+            `;
+            
+            // 实际加载视频
+            setTimeout(() => {
+                placeholder.innerHTML = `
+                    <video 
+                        controls 
+                        preload="metadata"
+                        width="100%" 
+                        height="100%" 
+                        style="border-radius: 18px; background: #000;"
+                        poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzMzMzMyIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjBhNWZhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+火花AI</dGV4dD48L3N2Zz4="
+                        playsinline
+                        webkit-playsinline
+                        x5-playsinline
+                        x5-video-player-type="h5"
+                        x5-video-player-fullscreen="true"
+                        x5-video-orientation="portraint">
+                        
+                        <source src="https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4" type="video/mp4">
+                        
+                        <!-- 备用方案：如果主链接失败 -->
+                        <p style="color: #ef4444; text-align: center; padding: 2rem;">
+                            您的浏览器不支持视频播放，请 
+                            <a href="https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4" 
+                               target="_blank" 
+                               style="color: #60a5fa; text-decoration: underline;">
+                               点击直接观看
+                            </a>
+                        </p>
+                    </video>
+                `;
+                
+                // 添加视频事件监听
+                const video = placeholder.querySelector('video');
+                if (video) {
+                    // 加载进度显示
+                    video.addEventListener('loadstart', () => {
+                        console.log('视频开始加载');
+                    });
+                    
+                    video.addEventListener('canplay', () => {
+                        console.log('视频可以播放');
+                    });
+                    
+                    video.addEventListener('error', (e) => {
+                        console.error('视频加载错误:', e);
+                        placeholder.innerHTML = `
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #ef4444; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div>
+                                <p>视频加载失败</p>
+                                <a href="https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4" 
+                                   target="_blank" 
+                                   style="color: #60a5fa; text-decoration: underline; margin-top: 1rem;">
+                                   点击直接下载观看
+                                </a>
+                            </div>
+                        `;
+                    });
+                }
+            }, 800);
+        }
+        
+        // 预加载关键资源，但不包括视频
+        function preloadCriticalResources() {
+            // 预加载关键图片
+            const criticalImages = [
+                'logo图/首图.png',
+                'logo图/AI进化图.png',
+                'logo图/ROI.png'
+            ];
+            
+            criticalImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+            
+            // 预连接到视频域名，加速DNS解析
+            const preconnectLink = document.createElement('link');
+            preconnectLink.rel = 'preconnect';
+            preconnectLink.href = 'https://video-script.jacky.onl';
+            document.head.appendChild(preconnectLink);
+            
+            // 预加载视频metadata（不下载整个视频）
+            const videoPreload = document.createElement('link');
+            videoPreload.rel = 'prefetch';
+            videoPreload.href = 'https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4';
+            videoPreload.as = 'video';
+            document.head.appendChild(videoPreload);
+        }
+        
+        // 页面加载完成后预加载资源
+        window.addEventListener('load', preloadCriticalResources);
         
         // 初始化页面状态
         document.body.style.opacity = '0';

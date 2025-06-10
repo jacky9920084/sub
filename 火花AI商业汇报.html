@@ -676,17 +676,27 @@
             }
             
             .video-container {
-                max-width: 100%;
+                max-width: calc(100vw - 2rem);
                 margin: 0 1rem;
                 border-radius: 15px;
+                min-height: 300px;
+                aspect-ratio: 16 / 10;
+            }
+            
+            .video-placeholder {
+                padding: 1.5rem 1rem;
+                min-height: 280px;
+                justify-content: space-around;
             }
             
             .video-icon {
                 font-size: 3rem;
+                margin-bottom: 1rem;
             }
             
             .video-placeholder p {
                 font-size: 1rem;
+                margin: 0.5rem 0;
             }
             
             .video-play-btn {
@@ -695,11 +705,12 @@
                 margin-top: 1rem;
                 min-width: 140px;
                 font-weight: 700;
+                flex-shrink: 0; /* 防止按钮被压缩 */
             }
             
             .video-duration {
                 font-size: 0.9rem;
-                margin-top: 0.3rem;
+                margin: 0.3rem 0;
             }
             
             .pain-points {
@@ -2336,6 +2347,16 @@
                 0 20px 40px rgba(0, 0, 0, 0.3),
                 inset 0 1px 0 rgba(255, 255, 255, 0.1);
         }
+        
+        /* 移动端视频容器优化 */
+        @media (max-width: 768px) {
+            .video-container {
+                margin: 0 1rem;
+                max-width: calc(100vw - 2rem);
+                min-height: 300px;
+                aspect-ratio: 16 / 10; /* 稍微调整比例给按钮更多空间 */
+            }
+        }
 
         .video-placeholder {
             display: flex;
@@ -2346,6 +2367,16 @@
             color: #cbd5e1;
             text-align: center;
             position: relative;
+            padding: 2rem 1rem;
+        }
+        
+        /* 移动端视频占位符优化 */
+        @media (max-width: 768px) {
+            .video-placeholder {
+                padding: 1.5rem 1rem;
+                min-height: 280px;
+                justify-content: space-evenly;
+            }
         }
 
         .video-placeholder::before {
@@ -2499,7 +2530,7 @@
                 <div class="video-placeholder" id="video-placeholder">
                     <div class="video-icon">🎥</div>
                     <p>火花AI产品演示视频</p>
-                    <p class="video-duration">9分39秒完整演示</p>
+                    <p class="video-duration">完整演示</p>
                     <button class="video-play-btn" onclick="loadVideo()">▶ 点击播放</button>
                     <!-- 视频将在用户点击时动态加载，避免影响页面初始加载速度 -->
                 </div>
@@ -4265,64 +4296,83 @@
                 <div class="video-loading">
                     <div class="spinner"></div>
                     <p>正在加载高清视频...</p>
-                    <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">火花AI产品演示 - 9分39秒</p>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">火花AI产品介绍演示 - </p>
                 </div>
             `;
             
             // 实际加载视频
             setTimeout(() => {
-                placeholder.innerHTML = `
-                    <video 
-                        controls 
-                        preload="metadata"
-                        width="100%" 
-                        height="100%" 
-                        style="border-radius: 18px; background: #000;"
-                        poster="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzMzMzMzMyIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNjBhNWZhIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+火花AI</dGV4dD48L3N2Zz4="
-                        playsinline
-                        webkit-playsinline
-                        x5-playsinline
-                        x5-video-player-type="h5"
-                        x5-video-player-fullscreen="true"
-                        x5-video-orientation="portraint">
-                        
-                        <source src="https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4" type="video/mp4">
-                        
-                        <!-- 备用方案：如果主链接失败 -->
-                        <p style="color: #ef4444; text-align: center; padding: 2rem;">
-                            您的浏览器不支持视频播放，请 
-                            <a href="https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4" 
-                               target="_blank" 
-                               style="color: #60a5fa; text-decoration: underline;">
-                               点击直接观看
-                            </a>
-                        </p>
-                    </video>
+                // 创建视频元素，防止IDM等下载器捕捉
+                const videoContainer = document.createElement('div');
+                videoContainer.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 18px;
+                    background: #000;
+                    position: relative;
+                    overflow: hidden;
                 `;
                 
+                const video = document.createElement('video');
+                video.controls = true;
+                video.preload = 'metadata';
+                video.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 18px;
+                    background: #000;
+                `;
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.setAttribute('x5-playsinline', '');
+                video.setAttribute('x5-video-player-type', 'h5');
+                video.setAttribute('x5-video-player-fullscreen', 'true');
+                video.setAttribute('x5-video-orientation', 'portraint');
+                
+                // 防止右键下载和IDM捕捉
+                video.setAttribute('controlsList', 'nodownload');
+                video.setAttribute('disablePictureInPicture', '');
+                video.oncontextmenu = function(e) {
+                    e.preventDefault();
+                    return false;
+                };
+                
+                // 动态设置视频源，延迟加载防止IDM捕捉
+                setTimeout(() => {
+                    const source = document.createElement('source');
+                    const videoUrl = 'https://video-script.jacky.onl/' + 
+                        encodeURIComponent('黄清晰') + '/' +
+                        encodeURIComponent('AI爆款内容系统宣传视频素材') + '/' +
+                        encodeURIComponent('视频素材') + '/' +
+                        encodeURIComponent('正片.mp4');
+                    source.src = videoUrl;
+                    source.type = 'video/mp4';
+                    video.appendChild(source);
+                }, 500);
+                
+                videoContainer.appendChild(video);
+                placeholder.innerHTML = '';
+                placeholder.appendChild(videoContainer);
+                
                 // 添加视频事件监听
-                const video = placeholder.querySelector('video');
-                if (video) {
+                const videoElement = videoContainer.querySelector('video');
+                if (videoElement) {
                     // 加载进度显示
-                    video.addEventListener('loadstart', () => {
+                    videoElement.addEventListener('loadstart', () => {
                         console.log('视频开始加载');
                     });
                     
-                    video.addEventListener('canplay', () => {
+                    videoElement.addEventListener('canplay', () => {
                         console.log('视频可以播放');
                     });
                     
-                    video.addEventListener('error', (e) => {
+                    videoElement.addEventListener('error', (e) => {
                         console.error('视频加载错误:', e);
                         placeholder.innerHTML = `
                             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #ef4444; text-align: center;">
                                 <div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div>
                                 <p>视频加载失败</p>
-                                <a href="https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4" 
-                                   target="_blank" 
-                                   style="color: #60a5fa; text-decoration: underline; margin-top: 1rem;">
-                                   点击直接下载观看
-                                </a>
+                                <p style="margin-top: 1rem; color: #94a3b8; font-size: 0.9rem;">请刷新页面重试</p>
                             </div>
                         `;
                     });

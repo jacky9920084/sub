@@ -1,0 +1,4428 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>火花AI：AI驱动的战略内容引擎 - 商业汇报</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'PingFang SC', 'Microsoft YaHei', 'SF Pro Display', sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            min-height: 100vh;
+            position: relative;
+            /* 防止横向滚动 */
+            overflow-x: hidden;
+            max-width: 100vw;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(29, 78, 216, 0.15), transparent 40%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        header {
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(120, 119, 198, 0.2);
+            padding: 3rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 30%, #ec4899 60%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(96, 165, 250, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: brightness(1) drop-shadow(0 0 5px rgba(96, 165, 250, 0.5)); }
+            to { filter: brightness(1.2) drop-shadow(0 0 20px rgba(168, 85, 247, 0.8)); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .section {
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+            backdrop-filter: blur(20px);
+            margin: 3rem 0;
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid rgba(120, 119, 198, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(120, 119, 198, 0.8), transparent);
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(96, 165, 250, 0.5);
+        }
+
+        .subsection {
+            margin: 3rem 0;
+        }
+
+        .subsection-title {
+            font-size: 2rem;
+            color: #e2e8f0;
+            margin-bottom: 1.5rem;
+            padding-left: 25px;
+            border-left: 4px solid;
+            border-image: linear-gradient(45deg, #60a5fa, #a855f7) 1;
+            position: relative;
+        }
+
+        .subsection-title::before {
+            content: '';
+            position: absolute;
+            left: -4px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(45deg, #60a5fa, #a855f7);
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+        }
+
+        /* 突出显示关键词 */
+        .key-words {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            font-size: 1.2em;
+            position: relative;
+            text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+            animation: keyword-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes keyword-glow {
+            from { 
+                filter: brightness(1) drop-shadow(0 0 5px rgba(255, 107, 107, 0.3));
+            }
+            to { 
+                filter: brightness(1.2) drop-shadow(0 0 15px rgba(78, 205, 196, 0.6));
+            }
+        }
+
+        .highlight-box {
+            background: 
+                linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(236, 72, 153, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(96, 165, 250, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .highlight-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+            animation: highlight-shimmer 4s infinite;
+        }
+
+        @keyframes highlight-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .pain-points {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .pain-point {
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.6) 0%, rgba(26, 26, 46, 0.4) 50%, rgba(22, 33, 62, 0.6) 100%);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pain-point::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ef4444, #f97316, #eab308);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .pain-point:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(239, 68, 68, 0.6);
+            box-shadow: 
+                0 20px 40px rgba(239, 68, 68, 0.2),
+                0 0 0 1px rgba(239, 68, 68, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .pain-point:hover::before {
+            transform: scaleX(1);
+        }
+
+        .pain-point h4 {
+            color: #fca5a5;
+            margin-bottom: 1.5rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: 
+                linear-gradient(135deg, rgba(96, 165, 250, 0.1) 0%, rgba(168, 85, 247, 0.05) 50%, rgba(236, 72, 153, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(96, 165, 250, 0.6);
+            box-shadow: 
+                0 20px 40px rgba(96, 165, 250, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 
+                0 10px 30px rgba(96, 165, 250, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .chart-placeholder {
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            padding: 3rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 2rem 0;
+            color: #60a5fa;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .ai-evolution-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.3), rgba(26, 26, 46, 0.3)), url('logo图/AI进化图.png');
+            min-height: 300px;
+        }
+
+        .roi-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.3), rgba(26, 26, 46, 0.3)), url('logo图/ROI.png');
+            min-height: 400px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .features-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.3), rgba(26, 26, 46, 0.3)), url('logo图/4个功能.png');
+            min-height: 300px;
+        }
+
+        .compare-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.1), rgba(26, 26, 46, 0.1)), url('logo图/AI对比图.png');
+            min-height: 500px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            position: relative;
+            z-index: 2;
+        }
+        
+        /* 禁用AI对比图的动画效果 */
+        .compare-bg::before {
+            /* display: none !important; */ /* 恢复光效，注释掉此行 */
+        }
+
+        .business-bg {
+            background-image: linear-gradient(rgba(15, 15, 35, 0.3), rgba(26, 26, 46, 0.3)), url('logo图/商业变现模式配图1.png');
+            min-height: 300px;
+        }
+
+        .chart-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+            animation: chart-shimmer 3s infinite;
+        }
+
+        @keyframes chart-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .profit-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(96, 165, 250, 0.3);
+            backdrop-filter: blur(15px);
+        }
+
+        .profit-table th {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .profit-table th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0px;
+            background: transparent;
+            display: none;
+        }
+
+        .profit-table td {
+            padding: 1.5rem;
+            text-align: center;
+            border: none;
+            background: rgba(15, 15, 35, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .profit-table tr:nth-child(even) td {
+            background: rgba(26, 26, 46, 0.3);
+        }
+
+        .profit-table tr:hover td {
+            background: rgba(96, 165, 250, 0.1);
+            color: #60a5fa;
+        }
+
+        .competitive-advantages {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .advantage-card {
+            background: 
+                linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(59, 130, 246, 0.05) 50%, rgba(147, 51, 234, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advantage-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #22c55e, #3b82f6, #9333ea);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(34, 197, 94, 0.6);
+            box-shadow: 
+                0 15px 35px rgba(34, 197, 94, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .advantage-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .advantage-card h4 {
+            color: #86efac;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .team-section {
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .team-member {
+            background: 
+                linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, rgba(245, 158, 11, 0.1) 100%);
+            backdrop-filter: blur(15px);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            box-shadow: 
+                0 10px 30px rgba(168, 85, 247, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        .highlight-item {
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(96, 165, 250, 0.05) 50%, rgba(168, 85, 247, 0.1) 100%);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .highlight-item:hover {
+            transform: translateY(-5px);
+            background: 
+                linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(96, 165, 250, 0.1) 50%, rgba(168, 85, 247, 0.15) 100%);
+            box-shadow: 0 10px 25px rgba(96, 165, 250, 0.2);
+        }
+
+        .investment-highlights {
+            background: 
+                linear-gradient(135deg, #1e293b 0%, #334155 25%, #475569 50%, #64748b 75%, #94a3b8 100%);
+            color: white;
+            padding: 4rem;
+            border-radius: 24px;
+            text-align: center;
+            margin: 3rem 0;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .investment-highlights::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899, #f59e0b);
+        }
+
+        .investment-highlights h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cta-section {
+            background: 
+                linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+            color: white;
+            padding: 4rem;
+            text-align: center;
+            border-radius: 24px;
+            margin: 3rem 0;
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #f59e0b, #ec4899, #a855f7, #60a5fa);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            color: white;
+            padding: 1.5rem 4rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 2rem;
+            box-shadow: 
+                0 10px 30px rgba(96, 165, 250, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(96, 165, 250, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+                max-width: 100%;
+            }
+            
+            .video-container {
+                max-width: calc(100vw - 2rem);
+                margin: 0 1rem;
+                border-radius: 15px;
+                min-height: 300px;
+                aspect-ratio: 16 / 10;
+            }
+            
+            .video-placeholder {
+                padding: 1.5rem 1rem;
+                min-height: 280px;
+                justify-content: space-around;
+            }
+            
+            .video-icon {
+                font-size: 3rem;
+                margin-bottom: 1rem;
+            }
+            
+            .video-placeholder p {
+                font-size: 1rem;
+                margin: 0.5rem 0;
+            }
+            
+            .video-play-btn {
+                padding: 1rem 2.5rem;
+                font-size: 1.1rem;
+                margin-top: 1rem;
+                min-width: 140px;
+                font-weight: 700;
+                flex-shrink: 0; /* 防止按钮被压缩 */
+            }
+            
+            .video-duration {
+                font-size: 0.9rem;
+                margin: 0.3rem 0;
+            }
+            
+            .pain-points {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                margin: 3rem 0;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                margin: 3rem 0;
+            }
+            
+            .competitive-advantages {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                margin: 3rem 0;
+            }
+            
+
+            
+            .highlights-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+                margin: 3rem 0;
+            }
+        }
+
+        /* 增强移动端优化 */
+        @media (max-width: 768px) {
+            /* 基础布局优化 */
+            body {
+                font-size: 17px; /* 提高基础字体大小 */
+                line-height: 1.6;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+                line-height: 1.3;
+                margin-bottom: 1.2rem;
+                padding: 0 1rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.3rem;
+                line-height: 1.5;
+                margin-bottom: 2rem;
+                padding: 0 1rem;
+            }
+            
+            .section {
+                padding: 3rem 1.5rem;
+                margin: 2.5rem 0.5rem;
+                border-radius: 20px;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .section::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: linear-gradient(90deg, #60a5fa, #a855f7, #ec4899);
+                opacity: 0.8;
+            }
+            
+            .section-title {
+                font-size: 1.7rem;
+                margin-bottom: 2rem;
+                line-height: 1.4;
+                text-align: center;
+                padding: 0 1rem;
+            }
+            
+            .subsection-title {
+                font-size: 1.25rem;
+                margin-bottom: 1.5rem;
+                padding-left: 12px;
+                line-height: 1.4;
+            }
+            
+            /* 卡片优化 */
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                padding: 2.2rem 1.8rem;
+                margin-bottom: 2rem;
+                border-radius: 20px;
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(15px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .pain-point h4, .feature-card h4, .advantage-card h4 {
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.5;
+                font-weight: 700;
+                text-align: center;
+            }
+            
+            .pain-point p, .feature-card p, .advantage-card p {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                margin-bottom: 1.2rem;
+                text-align: left;
+                color: #e2e8f0;
+            }
+            
+            /* 功能卡片特殊优化 */
+            .feature-card {
+                text-align: center;
+                background: linear-gradient(135deg, 
+                    rgba(96, 165, 250, 0.12) 0%, 
+                    rgba(168, 85, 247, 0.08) 50%, 
+                    rgba(236, 72, 153, 0.12) 100%);
+            }
+            
+            .feature-card h4 {
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                margin-bottom: 1.2rem;
+            }
+            
+            .feature-card p {
+                text-align: center;
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+            
+            /* 三卡片网格 - 水平滚动布局 */
+            .three-cards-grid {
+                display: flex !important;
+                overflow-x: auto;
+                gap: 1.5rem;
+                padding: 0 1.5rem 1rem 1.5rem;
+                margin: 2rem 0;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                grid-template-columns: none !important;
+                justify-content: flex-start;
+            }
+            
+
+            
+            .three-cards-grid .pain-point,
+            .three-cards-grid .feature-card {
+                flex: 0 0 285px !important; /* 稍微增加宽度 */
+                padding: 2rem 1.5rem;
+                margin-bottom: 0;
+                border-radius: 20px;
+                background: linear-gradient(135deg, 
+                    rgba(96, 165, 250, 0.15) 0%, 
+                    rgba(168, 85, 247, 0.1) 50%, 
+                    rgba(236, 72, 153, 0.15) 100%);
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+                border: 1px solid rgba(96, 165, 250, 0.2);
+                scroll-snap-align: start;
+                min-width: 285px;
+                max-width: 285px;
+            }
+            
+            .three-cards-grid .pain-point h4 {
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                text-align: center;
+                font-weight: 700;
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                line-height: 1.3;
+            }
+            
+            .three-cards-grid .pain-point p {
+                font-size: 1rem;
+                line-height: 1.6;
+                text-align: center;
+                color: #e2e8f0;
+                margin-bottom: 1rem;
+            }
+            
+            .three-cards-grid .pain-point strong {
+                color: #60a5fa;
+                font-weight: 600;
+            }
+            
+            /* 移动端滑动提示显示 */
+            .mobile-swipe-hint {
+                display: block !important;
+                animation: slideHint 3s ease-in-out infinite;
+            }
+            
+            @keyframes slideHint {
+                0%, 100% { transform: translateX(0); opacity: 0.8; }
+                50% { transform: translateX(10px); opacity: 1; }
+            }
+            
+            /* 滚动提示渐变效果 */
+            .three-cards-grid::after {
+                content: '';
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 30px;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(15, 15, 35, 0.6));
+                pointer-events: none;
+                z-index: 2;
+                border-radius: 0 20px 20px 0;
+            }
+            
+            .three-cards-grid {
+                position: relative;
+                /* 确保滚动时内容不会被截断 */
+                box-sizing: border-box;
+            }
+            
+            /* 优化滚动条样式 */
+            .three-cards-grid::-webkit-scrollbar {
+                height: 6px;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-track {
+                background: rgba(96, 165, 250, 0.1);
+                border-radius: 3px;
+                margin: 0 1rem;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-thumb {
+                background: rgba(96, 165, 250, 0.5);
+                border-radius: 3px;
+            }
+            
+            .three-cards-grid::-webkit-scrollbar-thumb:hover {
+                background: rgba(96, 165, 250, 0.8);
+            }
+            
+            /* 卡片内容结构化样式 - 手机端水平滚动优化 */
+            .card-subtitle {
+                font-size: 0.95rem;
+                color: #94a3b8;
+                text-align: center;
+                margin-bottom: 1.5rem;
+                font-style: italic;
+                border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+                padding-bottom: 0.8rem;
+            }
+            
+            .key-point {
+                margin-bottom: 1.5rem;
+                padding: 1rem;
+                background: rgba(15, 15, 35, 0.3);
+                border-radius: 12px;
+                border-left: 3px solid #60a5fa;
+            }
+            
+            .point-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: #60a5fa;
+                margin-bottom: 0.8rem;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                flex-wrap: wrap;
+            }
+            
+            .point-content {
+                font-size: 0.95rem;
+                line-height: 1.6;
+                color: #e2e8f0;
+                text-align: left;
+            }
+            
+            .point-content br {
+                margin-bottom: 0.5rem;
+            }
+            
+            /* 目标卡片内容样式 */
+            .goal-content {
+                text-align: center;
+                margin-top: 1rem;
+            }
+            
+            .goal-highlight {
+                font-size: 1.05rem;
+                line-height: 1.6;
+                color: #cbd5e1;
+                margin-bottom: 1rem;
+            }
+            
+            .goal-main {
+                font-size: 1.2rem;
+                font-weight: 600;
+                line-height: 1.5;
+                color: #60a5fa;
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                padding: 0.5rem 0;
+            }
+            
+            /* 功能卡片内容样式 */
+            .feature-subtitle {
+                font-size: 1rem;
+                color: #a855f7;
+                font-weight: 600;
+                text-align: center;
+                margin-bottom: 1.5rem;
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+            }
+            
+            .feature-description {
+                text-align: left;
+                margin-top: 1rem;
+            }
+            
+            .feature-point {
+                font-size: 1rem;
+                line-height: 1.7;
+                color: #e2e8f0;
+                margin-bottom: 0.8rem;
+                padding-left: 0.5rem;
+                border-left: 2px solid rgba(96, 165, 250, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .feature-point:hover {
+                border-left-color: #60a5fa;
+                color: #60a5fa;
+                padding-left: 1rem;
+            }
+            
+            /* 图标优化 */
+            .feature-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 2rem;
+                margin-bottom: 1.5rem;
+                box-shadow: 0 8px 25px rgba(96, 165, 250, 0.4);
+                transition: all 0.3s ease;
+            }
+            
+            /* 按钮优化 - 触摸友好 */
+            .cta-button {
+                padding: 1.5rem 3rem;
+                font-size: 1.2rem;
+                min-height: 56px; /* 增大触摸目标 */
+                margin-top: 2rem;
+                border-radius: 30px;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                box-shadow: 0 10px 30px rgba(96, 165, 250, 0.4);
+            }
+            
+            /* 表格移动端优化 */
+            .visual-profit-table {
+                padding: 1rem 0.5rem;
+                border-radius: 12px;
+                background: rgba(15, 15, 35, 0.9) !important;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.4rem !important;
+                margin-bottom: 1rem !important;
+                padding: 0 1rem;
+            }
+            
+            /* 移动端表格容器样式调整 */
+            .profit-table-container {
+                margin: 0 -0.5rem;
+                padding: 0.5rem 0;
+            }
+            
+                                    .profit-table-grid {
+                            min-width: 800px !important; /* 增加最小宽度确保完整显示第三年 */
+                            border: none !important;
+                        }
+                        
+                        .profit-table-grid > div {
+                            padding: 1rem 0.8rem !important;
+                            font-size: 1rem !important;
+                            min-height: 50px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            text-align: center;
+                            border: none !important;
+                        }
+            
+            /* 图表容器优化 */
+            .chart-placeholder {
+                padding: 2rem 1rem;
+                margin: 2rem 0.5rem;
+                border-radius: 16px;
+            }
+            
+            .chart-placeholder h4 {
+                font-size: 1.4rem !important;
+                margin-bottom: 1.5rem !important;
+                padding: 0 0.5rem;
+            }
+            
+            /* ROI图片移动端优化 */
+            .roi-bg {
+                min-height: 280px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                margin: 2rem 0 !important;
+                padding: 1.5rem 0.8rem !important;
+            }
+            
+            /* AI对比图移动端优化 */
+            .compare-bg {
+                min-height: 320px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                background-image: linear-gradient(rgba(15, 15, 35, 0.05), rgba(26, 26, 46, 0.05)), url('logo图/AI对比图.png') !important;
+                margin: 2rem 0 !important;
+                padding: 1.5rem 0.8rem !important;
+                z-index: 5 !important;
+            }
+            
+            .compare-bg::before {
+                /* display: none !important; */ /* 恢复光效，注释掉此行 */
+            }
+            
+            .growth-chart-container {
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+            
+            .user-profile-charts {
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+            
+            .user-profile-charts h4 {
+                font-size: 1.4rem !important;
+                margin-bottom: 2rem !important;
+            }
+            
+            /* SVG图表响应式 */
+            .growth-chart-container svg {
+                width: 100%;
+                height: auto;
+                max-height: 280px;
+            }
+            
+            /* 用户画像图表移动端完全重构 */
+            .user-profile-charts > div:first-of-type,
+            .user-profile-charts > div:last-of-type {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 3rem !important;
+                grid-template-columns: none !important;
+            }
+            
+            .user-profile-charts > div:first-of-type {
+                margin-bottom: 3rem;
+            }
+            
+            /* 移动端图表容器优化 */
+            .user-profile-charts > div:first-of-type > div,
+            .user-profile-charts > div:last-of-type > div {
+                background: linear-gradient(135deg, 
+                    rgba(15, 15, 35, 0.8) 0%, 
+                    rgba(26, 26, 46, 0.6) 50%, 
+                    rgba(22, 33, 62, 0.8) 100%) !important;
+                padding: 2.5rem 2rem !important;
+                border-radius: 20px !important;
+                border: 1px solid rgba(96, 165, 250, 0.2) !important;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+                backdrop-filter: blur(15px) !important;
+                margin-bottom: 0 !important;
+                width: 100% !important;
+                max-width: none !important;
+            }
+            
+            /* 饼状图容器 */
+            .user-profile-charts > div:first-of-type > div {
+                background: rgba(15, 15, 35, 0.6);
+                padding: 2.5rem 2rem;
+                border-radius: 20px;
+                border: 1px solid rgba(96, 165, 250, 0.2);
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            .user-profile-charts > div:last-of-type > div {
+                background: rgba(15, 15, 35, 0.6);
+                padding: 2.5rem 2rem;
+                border-radius: 20px;
+                border: 1px solid rgba(96, 165, 250, 0.2);
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 200px;
+                height: 200px;
+                margin: 0 auto 1.5rem auto;
+                display: block;
+            }
+            
+            /* 饼状图标题优化 */
+            .user-profile-charts h5 {
+                font-size: 1.4rem !important;
+                margin-bottom: 2rem !important;
+                color: #60a5fa !important;
+                text-align: center;
+                font-weight: 600;
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                padding: 0.5rem 0;
+                border-bottom: 2px solid rgba(96, 165, 250, 0.3);
+            }
+            
+            /* 图例优化 */
+            .user-profile-charts .legend-item {
+                font-size: 1.1rem !important;
+                margin: 0.8rem 0.5rem !important;
+                line-height: 1.6;
+                padding: 0.8rem 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                background: rgba(96, 165, 250, 0.05);
+                border-radius: 8px;
+                text-align: center !important;
+                transition: all 0.3s ease;
+            }
+            
+            .user-profile-charts .legend-item:last-child {
+                border-bottom: none;
+            }
+            
+            .user-profile-charts .legend-item:hover {
+                background: rgba(96, 165, 250, 0.1);
+                transform: translateX(5px);
+            }
+            
+            /* 移动端柱状图优化 */
+            .user-profile-charts > div:last-of-type > div:first-child > div:last-child {
+                height: 200px !important;
+                margin: 2rem 0 !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:first-child > div:last-child > div {
+                margin: 0 0.5rem !important;
+                flex: 1 !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:first-child > div:last-child > div > div:first-child {
+                font-size: 1rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:first-child > div:last-child > div > div:last-child {
+                font-size: 0.9rem !important;
+                margin-top: 0.8rem !important;
+            }
+            
+            /* 移动端痛点柱状图优化 */
+            .user-profile-charts > div:last-of-type > div:last-child > div:last-child {
+                gap: 1.5rem !important;
+                margin: 2rem 0 !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:last-child > div:last-child > div {
+                gap: 1rem !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:last-child > div:last-child > div > div:first-child {
+                width: 100px !important;
+                font-size: 0.9rem !important;
+                font-weight: 600;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:last-child > div:last-child > div > div:last-child {
+                font-size: 1rem !important;
+                min-width: 40px;
+            }
+            
+            /* 移动端提示显示 */
+            .mobile-charts-hint {
+                display: block !important;
+                animation: chartHint 3s ease-in-out infinite;
+            }
+            
+            @keyframes chartHint {
+                0%, 100% { 
+                    opacity: 0.8; 
+                    transform: translateY(0);
+                }
+                50% { 
+                    opacity: 1; 
+                    transform: translateY(5px);
+                }
+            }
+            
+            /* 未来生态区域 - 彻底移除所有边框和线条 */
+            .three-cards-grid .feature-card,
+            .three-cards-grid .pain-point {
+                border: none !important;
+                border-top: none !important;
+                border-bottom: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                outline: none !important;
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.2) !important;
+            }
+            
+            /* 强制移除未来生态区域所有元素的内部边框 */
+            .three-cards-grid .feature-card,
+            .three-cards-grid .feature-card *,
+            .three-cards-grid .pain-point,
+            .three-cards-grid .pain-point * {
+                border: none !important;
+                border-top: none !important;
+                border-bottom: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-width: 0 !important;
+                outline: none !important;
+            }
+            
+            /* 移动端专用：彻底禁用未来生态区域所有伪元素边框 */
+            .three-cards-grid::before,
+            .three-cards-grid::after,
+            .three-cards-grid *::before,
+            .three-cards-grid *::after,
+            .three-cards-grid .feature-card::before,
+            .three-cards-grid .feature-card::after,
+            .three-cards-grid .pain-point::before,
+            .three-cards-grid .pain-point::after {
+                display: none !important;
+                content: none !important;
+                border: none !important;
+                background: transparent !important;
+                height: 0 !important;
+                width: 0 !important;
+                transform: none !important;
+            }
+            
+            /* 专门覆盖内联样式的边框 */
+            .three-cards-grid .feature-card[style*="border"],
+            .three-cards-grid .pain-point[style*="border"] {
+                border: none !important;
+            }
+            
+            /* 未来生态区域 - 移动端全屏宽度布局 */
+            .three-cards-grid {
+                margin: 0 calc(-50vw + 50%) !important;
+                width: 100vw !important;
+                padding: 0 1rem !important;
+                border-radius: 0 !important;
+                border-left: none !important;
+                border-right: none !important;
+                background: linear-gradient(135deg, 
+                    rgba(15, 15, 35, 0.95) 0%, 
+                    rgba(26, 26, 46, 0.9) 50%, 
+                    rgba(22, 33, 62, 0.95) 100%) !important;
+            }
+            
+            /* 移动端三卡片容器强制无边框 */
+            .three-cards-grid,
+            .three-cards-grid *,
+            .three-cards-grid .feature-card,
+            .three-cards-grid .feature-card * {
+                border: none !important;
+                border-top: none !important;
+                border-bottom: none !important;
+                border-left: none !important;
+                border-right: none !important;
+                outline: none !important;
+            }
+            
+            /* 移动端用户画像区域整体优化 */
+            .user-profile-charts {
+                padding: 2rem 1rem !important;
+                margin: 0 calc(-50vw + 50%) !important;
+                width: 100vw !important;
+                border-radius: 0 !important;
+                border-left: none !important;
+                border-right: none !important;
+                border-top: 2px solid rgba(96, 165, 250, 0.3) !important;
+                border-bottom: 2px solid rgba(96, 165, 250, 0.3) !important;
+                background: linear-gradient(135deg, 
+                    rgba(15, 15, 35, 0.95) 0%, 
+                    rgba(26, 26, 46, 0.9) 50%, 
+                    rgba(22, 33, 62, 0.95) 100%) !important;
+            }
+            
+            .user-profile-charts h4 {
+                font-size: 1.6rem !important;
+                margin-bottom: 2rem !important;
+                padding: 0 1rem;
+                background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            
+            /* Header高度优化 */
+            .hero-header {
+                min-height: 500px !important;
+                padding: 3rem 0 !important;
+                background-attachment: scroll !important; /* 移动端滚动优化 */
+            }
+            
+            /* 移动端专用分隔线 */
+            .subsection + .subsection {
+                margin-top: 4rem;
+                padding-top: 2rem;
+                border-top: 1px solid rgba(96, 165, 250, 0.2);
+            }
+            
+            /* 内容列表优化 */
+            .subsection ul, .subsection ol {
+                padding-left: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .subsection li {
+                margin-bottom: 1rem;
+                line-height: 1.8;
+                color: #e2e8f0;
+            }
+            
+            /* 高亮文本框优化 */
+            .highlight-box {
+                padding: 2.5rem 2rem;
+                margin: 3rem 0;
+                border-radius: 20px;
+                border: 1px solid rgba(96, 165, 250, 0.3);
+                background: linear-gradient(135deg, 
+                    rgba(96, 165, 250, 0.12) 0%, 
+                    rgba(168, 85, 247, 0.08) 50%, 
+                    rgba(236, 72, 153, 0.12) 100%);
+                box-shadow: 0 6px 30px rgba(0, 0, 0, 0.15);
+            }
+            
+            .highlight-box h3 {
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                color: #60a5fa;
+                text-align: center;
+                font-weight: 600;
+            }
+            
+            .highlight-box p {
+                font-size: 1.05rem;
+                line-height: 1.8;
+                color: #e2e8f0;
+                margin-bottom: 1.2rem;
+            }
+            
+            .highlight-box strong {
+                color: #60a5fa;
+                font-weight: 600;
+            }
+            
+            /* 团队部分优化 */
+            .team-member {
+                padding: 2.5rem 2rem;
+                margin: 3rem 0;
+                border-radius: 20px;
+                border: 1px solid rgba(168, 85, 247, 0.3);
+                box-shadow: 0 8px 30px rgba(168, 85, 247, 0.15);
+            }
+            
+            .team-member h3 {
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+                text-align: center;
+                color: #a855f7;
+                font-weight: 600;
+            }
+            
+            /* 移动端专用卡片动画 */
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                animation: slideInUp 0.6s ease-out;
+            }
+            
+            @keyframes slideInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            
+            /* 视频容器优化 */
+            .video-container {
+                margin: 2rem 0.5rem;
+                aspect-ratio: 16 / 9;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            }
+            
+            .video-placeholder {
+                padding: 2rem 1rem;
+            }
+            
+            .video-placeholder .video-icon {
+                font-size: 3rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .video-placeholder p {
+                font-size: 1.1rem;
+                margin: 0.8rem 0;
+                color: #cbd5e1;
+            }
+            
+            /* 投资价值区域优化 */
+            .investment-highlights {
+                padding: 2.5rem 1.5rem;
+                text-align: center;
+                margin: 2rem 0.5rem;
+                border-radius: 16px;
+            }
+            
+            .investment-highlights h3 {
+                font-size: 1.9rem;
+                margin-bottom: 2rem;
+                line-height: 1.4;
+            }
+            
+            .investment-highlights p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                line-height: 1.7;
+                padding: 0 0.5rem;
+            }
+            
+            /* CTA区域优化 */
+            .cta-section {
+                padding: 2.5rem 1.5rem;
+                text-align: center;
+                margin: 2rem 0.5rem;
+                border-radius: 16px;
+            }
+            
+            .cta-section h3 {
+                font-size: 1.7rem;
+                margin-bottom: 2rem;
+                line-height: 1.5;
+                padding: 0 0.5rem;
+            }
+            
+            .cta-section p {
+                font-size: 1.1rem;
+                margin-bottom: 2rem;
+                line-height: 1.7;
+                padding: 0 0.5rem;
+            }
+        }
+
+        /* 小屏手机优化 (480px以下) */
+        @media (max-width: 480px) {
+            body {
+                font-size: 16px;
+            }
+            
+            .container {
+                padding: 0 8px;
+            }
+            
+            .hero-title {
+                font-size: 1.9rem;
+                padding: 0 0.5rem;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.15rem;
+                padding: 0 0.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .section {
+                padding: 1.5rem 0.8rem;
+                margin: 1rem 0.2rem;
+                border-radius: 12px;
+            }
+            
+            .section-title {
+                font-size: 1.4rem;
+                margin-bottom: 1.5rem;
+                padding: 0 0.5rem;
+            }
+            
+            .subsection-title {
+                font-size: 1.1rem;
+                padding-left: 8px;
+                margin-bottom: 1.2rem;
+            }
+            
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                padding: 1.5rem 1.2rem;
+                margin-bottom: 1.2rem;
+                border-radius: 12px;
+            }
+            
+            .pain-point h4, .feature-card h4, .advantage-card h4 {
+                font-size: 1.15rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .pain-point p, .feature-card p, .advantage-card p {
+                font-size: 0.95rem;
+                line-height: 1.6;
+            }
+            
+
+            
+            /* 480px以下保持水平滚动，稍微调整尺寸 */
+            .three-cards-grid {
+                display: flex !important;
+                grid-template-columns: none !important;
+                padding: 0 1rem 1rem 1rem;
+                gap: 1.2rem;
+            }
+            
+            .three-cards-grid .pain-point,
+            .three-cards-grid .feature-card {
+                flex: 0 0 265px !important; /* 稍微缩小宽度 */
+                padding: 1.8rem 1.3rem;
+                min-width: 265px;
+                max-width: 265px;
+            }
+            
+            .three-cards-grid .pain-point h4 {
+                font-size: 1.3rem;
+            }
+            
+            .three-cards-grid .pain-point p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+            }
+            
+            /* 480px以下表格样式优化 */
+            .visual-profit-table {
+                padding: 0.8rem 0.3rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.3rem !important;
+                padding: 0 0.3rem;
+            }
+            
+            .profit-table-container {
+                margin: 0 -0.3rem;
+                padding: 0.3rem 0;
+            }
+            
+            .profit-table-grid {
+                min-width: 720px !important; /* 确保第三年显示完整 */
+            }
+            
+            .profit-table-grid > div {
+                padding: 0.8rem 0.6rem !important;
+                font-size: 0.9rem !important;
+                min-height: 45px;
+                border: none !important;
+            }
+            
+            /* 推导逻辑480px优化 - 保持全屏宽度 */
+            .profit-deduction-section {
+                padding: 1.2rem 0.8rem !important;
+            }
+            
+            .profit-deduction-section h5 {
+                font-size: 1.1rem !important;
+            }
+            
+            .core-logic-box {
+                padding: 1rem !important;
+                margin: 1rem 0 0 0 !important;
+            }
+            
+            .core-logic-box p:first-child {
+                font-size: 0.95rem !important;
+            }
+            
+            .core-logic-box p:last-child {
+                font-size: 0.85rem !important;
+            }
+            
+            .profit-deduction-container {
+                padding: 0 0.8rem !important;
+            }
+            
+            .profit-deduction-grid > div {
+                width: 100% !important;
+                max-width: none !important;
+                margin-bottom: 1.2rem !important;
+                padding: 1rem !important;
+            }
+            
+            .profit-deduction-grid > div h6 {
+                font-size: 1rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            
+            .profit-deduction-grid > div p {
+                font-size: 0.8rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            .profit-deduction-grid {
+                gap: 0 !important;
+            }
+            
+            .visual-profit-table {
+                padding: 1.5rem 0.8rem !important;
+            }
+            
+            /* 推导逻辑卡片内容优化 */
+            .profit-deduction-grid > div h6 {
+                font-size: 1.2rem !important;
+                margin-bottom: 0.8rem !important;
+            }
+            
+            .profit-deduction-grid > div p {
+                font-size: 0.85rem !important;
+                line-height: 1.5 !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            /* 关键指标480px优化 */
+            .key-indicators {
+                gap: 0.6rem !important;
+            }
+            
+            .key-indicators > div {
+                padding: 0.6rem 0.4rem;
+                min-width: 70px;
+            }
+            
+            .key-indicators > div > div:first-child {
+                font-size: 1.2rem !important;
+            }
+            
+            .key-indicators > div > div:last-child {
+                font-size: 0.8rem !important;
+            }
+            
+            .feature-icon {
+                width: 55px;
+                height: 55px;
+                font-size: 1.4rem;
+                margin-bottom: 1rem;
+            }
+            
+            .visual-profit-table {
+                padding: 1rem 0.3rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.3rem !important;
+                padding: 0 0.5rem;
+            }
+            
+            .chart-placeholder {
+                padding: 1.5rem 0.8rem;
+                margin: 1.5rem 0.3rem;
+            }
+            
+            .chart-placeholder h4 {
+                font-size: 1.3rem !important;
+                padding: 0 0.3rem;
+            }
+            
+            /* ROI图片480px以下优化 */
+            .roi-bg {
+                min-height: 240px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                margin: 1.5rem 0 !important;
+                padding: 1.2rem 0.6rem !important;
+            }
+            
+            /* AI对比图480px以下优化 */
+            .compare-bg {
+                min-height: 260px !important;
+                background-size: contain !important;
+                background-position: center !important;
+                background-image: linear-gradient(rgba(15, 15, 35, 0.03), rgba(26, 26, 46, 0.03)), url('logo图/AI对比图.png') !important;
+                margin: 1.5rem 0 !important;
+                padding: 1.2rem 0.6rem !important;
+                z-index: 5 !important;
+            }
+            
+            .growth-chart-container, .user-profile-charts {
+                padding: 1rem 0.5rem;
+            }
+            
+            .user-profile-charts h4 {
+                font-size: 1.3rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            /* 480px以下用户画像优化 */
+            .user-profile-charts {
+                padding: 1.5rem 0.8rem !important;
+            }
+            
+            .user-profile-charts > div:first-of-type > div,
+            .user-profile-charts > div:last-of-type > div {
+                padding: 2rem 1.5rem !important;
+                margin-bottom: 2rem !important;
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 160px !important;
+                height: 160px !important;
+            }
+            
+            .user-profile-charts .legend-item {
+                font-size: 1rem !important;
+                margin: 0.8rem 0 !important;
+                padding: 0.7rem 0.8rem;
+            }
+            
+            .user-profile-charts h5 {
+                font-size: 1.2rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+        }
+
+        /* 超小屏优化 (360px以下) */
+        @media (max-width: 360px) {
+            /* 用户画像图表360px优化 */
+            .user-profile-charts {
+                padding: 1.2rem 0.6rem !important;
+            }
+            
+            .user-profile-charts h4 {
+                font-size: 1.2rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            .user-profile-charts > div:first-of-type > div,
+            .user-profile-charts > div:last-of-type > div {
+                padding: 1.5rem 1.2rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 140px !important;
+                height: 140px !important;
+            }
+            
+            .user-profile-charts .legend-item {
+                font-size: 0.9rem !important;
+                margin: 0.6rem 0 !important;
+                padding: 0.6rem 0.7rem;
+            }
+            
+            .user-profile-charts h5 {
+                font-size: 1.1rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            /* 超小屏柱状图优化 */
+            .user-profile-charts > div:last-of-type > div:first-child > div:last-child {
+                height: 150px !important;
+                margin: 1.5rem 0 !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:first-child > div:last-child > div > div:first-child {
+                font-size: 0.9rem !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:first-child > div:last-child > div > div:last-child {
+                font-size: 0.8rem !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:last-child > div:last-child > div > div:first-child {
+                width: 90px !important;
+                font-size: 0.8rem !important;
+            }
+            
+            .user-profile-charts > div:last-of-type > div:last-child > div:last-child > div > div:last-child {
+                font-size: 0.9rem !important;
+            }
+        }
+
+        /* 480px以下的其他样式继续 */
+        @media (max-width: 480px) {
+            .user-profile-charts h5 {
+                font-size: 1.1rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 140px;
+                height: 140px;
+            }
+            
+            .cta-button {
+                padding: 1.2rem 2rem;
+                font-size: 1.05rem;
+                width: 100%;
+                max-width: 280px;
+                border-radius: 25px;
+            }
+            
+            .investment-highlights, .cta-section {
+                padding: 2rem 1.2rem;
+                margin: 1.5rem 0.3rem;
+            }
+            
+            .investment-highlights h3, .cta-section h3 {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.4;
+            }
+            
+            .investment-highlights p, .cta-section p {
+                font-size: 1rem;
+                line-height: 1.6;
+                padding: 0 0.3rem;
+            }
+            
+            /* Header高度优化 - 小屏 */
+            .hero-header {
+                min-height: 380px !important;
+                padding: 2rem 0 !important;
+            }
+        }
+
+        /* 超小屏优化 (360px以下) */
+        @media (max-width: 360px) {
+            /* 确保三卡片布局依然是横向滚动 */
+            .three-cards-grid {
+                display: flex !important;
+                grid-template-columns: none !important;
+                padding: 0 0.8rem 1rem 0.8rem;
+                gap: 1rem;
+            }
+            
+            .three-cards-grid .pain-point,
+            .three-cards-grid .feature-card {
+                flex: 0 0 245px !important;
+                min-width: 245px;
+                max-width: 245px;
+                padding: 1.5rem 1.2rem;
+            }
+            body {
+                font-size: 15px;
+            }
+            
+            .hero-title {
+                font-size: 1.7rem;
+                padding: 0 0.3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.05rem;
+                padding: 0 0.3rem;
+            }
+            
+            .section {
+                padding: 1.2rem 0.6rem;
+                margin: 0.8rem 0.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.25rem;
+                margin-bottom: 1.2rem;
+                padding: 0 0.3rem;
+            }
+            
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                padding: 1.2rem 1rem;
+                margin-bottom: 1rem;
+            }
+            
+            .pain-point h4, .feature-card h4, .advantage-card h4 {
+                font-size: 1.05rem;
+                margin-bottom: 0.7rem;
+            }
+            
+            .pain-point p, .feature-card p, .advantage-card p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .visual-profit-table {
+                padding: 0.8rem 0.2rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.2rem !important;
+                padding: 0 0.3rem;
+            }
+            
+            .profit-table-grid {
+                min-width: 650px !important; /* 确保完整显示 */
+            }
+            
+            .profit-table-grid > div {
+                padding: 0.8rem 0.5rem !important;
+                font-size: 0.85rem !important;
+                min-height: 45px;
+                border: none !important;
+            }
+            
+            .chart-placeholder {
+                padding: 1.2rem 0.6rem;
+                margin: 1.2rem 0.2rem;
+            }
+            
+            .chart-placeholder h4 {
+                font-size: 1.2rem !important;
+                padding: 0 0.2rem;
+            }
+            
+            .growth-chart-container, .user-profile-charts {
+                padding: 0.8rem 0.4rem;
+            }
+            
+            .growth-chart-container svg {
+                max-height: 200px;
+            }
+            
+            #job-pie-chart, #age-pie-chart {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .user-profile-charts h4 {
+                font-size: 1.2rem !important;
+                margin-bottom: 1.2rem !important;
+            }
+            
+            .user-profile-charts h5 {
+                font-size: 1rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .user-profile-charts .legend-item {
+                font-size: 0.9rem !important;
+                margin: 0.3rem 0 !important;
+            }
+            
+            .cta-button {
+                padding: 1rem 1.5rem;
+                font-size: 1rem;
+                max-width: 260px;
+            }
+            
+            .investment-highlights, .cta-section {
+                padding: 1.5rem 1rem;
+                margin: 1.2rem 0.2rem;
+            }
+            
+            .investment-highlights h3, .cta-section h3 {
+                font-size: 1.3rem;
+                margin-bottom: 1.2rem;
+            }
+            
+            .investment-highlights p, .cta-section p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+                padding: 0 0.2rem;
+            }
+            
+            /* 超小屏下的卡片内容优化 */
+            .card-subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 1.2rem;
+                padding-bottom: 0.6rem;
+            }
+            
+            .key-point {
+                margin-bottom: 1.2rem;
+                padding: 0.8rem;
+            }
+            
+            .point-title {
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .point-content {
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            .feature-subtitle {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+                padding: 0.3rem 0;
+            }
+            
+            .feature-point {
+                font-size: 0.9rem;
+                margin-bottom: 0.5rem;
+                padding-left: 0.3rem;
+            }
+            
+            .goal-highlight {
+                font-size: 0.95rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .goal-main {
+                font-size: 1rem;
+                padding: 0.3rem 0;
+            }
+            
+            /* Header高度优化 - 超小屏 */
+            .hero-header {
+                min-height: 320px !important;
+                padding: 1.5rem 0 !important;
+            }
+            
+            /* 超小屏表格样式优化 */
+            .visual-profit-table {
+                padding: 0.8rem 0.3rem;
+            }
+            
+            .visual-profit-table h4 {
+                font-size: 1.2rem !important;
+                padding: 0 0.3rem;
+            }
+            
+            .profit-table-container {
+                margin: 0 -0.3rem;
+                padding: 0.2rem 0;
+            }
+            
+            .profit-table-grid {
+                min-width: 650px !important; /* 适当缩小但保持可读性 */
+            }
+            
+            .profit-table-grid > div {
+                padding: 0.7rem 0.5rem !important;
+                font-size: 0.85rem !important;
+                min-height: 40px;
+            }
+            
+            /* 推导逻辑360px优化 - 保持全屏宽度 */
+            .profit-deduction-section {
+                padding: 1rem 0.6rem !important;
+            }
+            
+            .profit-deduction-section h5 {
+                font-size: 1rem !important;
+            }
+            
+            .core-logic-box {
+                padding: 0.8rem !important;
+                margin: 1rem 0 0 0 !important;
+            }
+            
+            .core-logic-box p:first-child {
+                font-size: 0.9rem !important;
+                margin-bottom: 0.6rem !important;
+            }
+            
+            .core-logic-box p:last-child {
+                font-size: 0.8rem !important;
+                line-height: 1.5 !important;
+            }
+            
+            .profit-deduction-container {
+                padding: 0 0.6rem !important;
+            }
+            
+            .profit-deduction-grid > div {
+                width: 100% !important;
+                max-width: none !important;
+                margin-bottom: 1rem !important;
+                padding: 0.8rem !important;
+            }
+            
+            .profit-deduction-grid > div h6 {
+                font-size: 0.95rem !important;
+                margin-bottom: 0.7rem !important;
+            }
+            
+            .profit-deduction-grid > div p {
+                font-size: 0.75rem !important;
+                margin-bottom: 0.4rem !important;
+            }
+            
+            .profit-deduction-grid {
+                gap: 0 !important;
+            }
+            
+            .visual-profit-table {
+                padding: 1.2rem 0.6rem !important;
+            }
+            
+            /* 推导逻辑卡片内容优化 - 超小屏 */
+            .profit-deduction-grid > div h6 {
+                font-size: 1.1rem !important;
+                margin-bottom: 0.7rem !important;
+            }
+            
+            .profit-deduction-grid > div p {
+                font-size: 0.8rem !important;
+                line-height: 1.4 !important;
+                margin-bottom: 0.4rem !important;
+            }
+            
+            /* 关键指标360px优化 */
+            .key-indicators {
+                gap: 0.5rem !important;
+            }
+            
+            .key-indicators > div {
+                padding: 0.5rem 0.3rem;
+                min-width: 60px;
+            }
+            
+            .key-indicators > div > div:first-child {
+                font-size: 1rem !important;
+            }
+            
+            .key-indicators > div > div:last-child {
+                font-size: 0.75rem !important;
+            }
+        }
+
+                    /* 触摸设备优化 */
+        @media (hover: none) and (pointer: coarse) {
+            /* 移除hover效果，使用touch友好的交互 */
+            .pain-point:hover, .feature-card:hover, .advantage-card:hover {
+                transform: none;
+            }
+            
+            .feature-point:hover {
+                border-left-color: rgba(96, 165, 250, 0.3);
+                color: #e2e8f0;
+                padding-left: 0.5rem;
+            }
+            
+            /* 增大触摸目标 */
+            .pain-point, .feature-card, .advantage-card, .highlight-item {
+                min-height: 48px;
+                touch-action: manipulation;
+            }
+            
+            /* 禁用3D效果避免性能问题 */
+            .feature-card, .advantage-card, .pain-point {
+                will-change: auto;
+            }
+            
+            /* 简化动画 */
+            * {
+                animation-duration: 0.3s !important;
+            }
+        }
+
+        /* 横屏手机优化 */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 1.5rem 1rem;
+            }
+            
+            .video-container {
+                max-height: 50vh;
+            }
+        }
+
+        /* 鼠标跟随光效 */
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            pointer-events: none;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            mix-blend-mode: screen;
+            z-index: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 专门的3卡片布局 */
+        .three-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        /* 4卡片的2x2布局 */
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2.5rem;
+            margin: 2rem 0;
+        }
+
+        /* 视频展示区域 */
+        .video-section {
+            margin: 2rem 0;
+            padding: 0;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            aspect-ratio: 16 / 9;
+            background: 
+                linear-gradient(135deg, rgba(15, 15, 35, 0.95) 0%, rgba(26, 26, 46, 0.9) 50%, rgba(22, 33, 62, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(96, 165, 250, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 移动端视频容器优化 */
+        @media (max-width: 768px) {
+            .video-container {
+                margin: 0 1rem;
+                max-width: calc(100vw - 2rem);
+                min-height: 300px;
+                aspect-ratio: 16 / 10; /* 稍微调整比例给按钮更多空间 */
+            }
+        }
+
+        .video-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #cbd5e1;
+            text-align: center;
+            position: relative;
+            padding: 2rem 1rem;
+        }
+        
+        /* 移动端视频占位符优化 */
+        @media (max-width: 768px) {
+            .video-placeholder {
+                padding: 1.5rem 1rem;
+                min-height: 280px;
+                justify-content: space-evenly;
+            }
+        }
+
+        .video-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(96, 165, 250, 0.1), transparent);
+            animation: video-shimmer 3s infinite;
+        }
+
+        @keyframes video-shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .video-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(96, 165, 250, 0.5));
+        }
+
+        .video-placeholder p {
+            margin: 0.5rem 0;
+            font-size: 1.2rem;
+        }
+
+        .video-placeholder p:first-of-type {
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        /* 视频播放按钮样式 */
+        .video-play-btn {
+            background: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+            color: white;
+            border: none;
+            padding: 1.2rem 3rem;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(96, 165, 250, 0.4);
+            letter-spacing: 1px;
+            min-width: 160px;
+        }
+        
+        .video-play-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(96, 165, 250, 0.6);
+        }
+        
+        .video-duration {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* 当实际添加video标签时的样式 */
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 改为contain保持比例 */
+            border-radius: 18px;
+            background: #000;
+        }
+        
+        /* 视频优化 */
+        .video-container video::-webkit-media-controls-panel {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* 移动端视频优化 */
+        @media (max-width: 768px) {
+            .video-container video {
+                object-fit: contain;
+                max-height: 70vh; /* 限制移动端高度 */
+            }
+        }
+        
+        /* 视频加载状态 */
+        .video-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #60a5fa;
+        }
+        
+        .video-loading .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(96, 165, 250, 0.3);
+            border-top: 3px solid #60a5fa;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .chart-placeholder .key-words {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 25%, #45b7d1 50%, #96ceb4 75%, #feca57 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 900;
+            font-size: 1.1em;
+            display: inline;
+            animation: keyword-glow 3s ease-in-out infinite alternate;
+        }
+
+        .growth-chart-container {
+            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(96, 165, 250, 0.2);
+            backdrop-filter: blur(10px);
+            margin: 0 auto;
+            max-width: 1200px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header style="background-image: linear-gradient(rgba(15, 15, 35, 0.7), rgba(26, 26, 46, 0.5)), url('logo图/首图.png'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 600px; display: flex; align-items: center; justify-content: center;" class="hero-header">
+        <div class="container">
+            <div style="text-align: center;">
+                <h1 class="hero-title" style="font-size: 5rem; margin-bottom: 1.5rem; text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8), 0 0 40px rgba(96, 165, 250, 0.5);">火花AI</h1>
+                <p class="hero-subtitle" style="font-size: 2.2rem; text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8), 0 0 25px rgba(168, 85, 247, 0.3);">AI驱动的战略内容引擎</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- 视频展示区域 -->
+    <section class="video-section">
+        <div class="container">
+            <div class="video-container">
+                <div class="video-placeholder" id="video-placeholder">
+                    <div class="video-icon">🎥</div>
+                    <p>火花AI产品演示视频</p>
+                    <p class="video-duration">完整演示</p>
+                    <button class="video-play-btn" onclick="loadVideo()">▶ 点击播放</button>
+                    <!-- 视频将在用户点击时动态加载，避免影响页面初始加载速度 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- 项目概述 -->
+        <section class="section">
+            <h2 class="section-title">项目概述</h2>
+            <div class="highlight-box">
+                <h3>核心使命</h3>
+                <p><strong>在AI的喧嚣与迷雾中，我们为您点燃内容增长的真火。</strong></p>
+                <p>火花AI，不仅仅是一个AI工具，它是一个<strong>AI驱动的战略内容引擎</strong>，致力于帮助B端企业和有志于内容创业的个人，在AI时代，回归商业本质，用真正的AI智慧，实现有灵魂、能转化的内容增长。</p>
+            </div>
+            <div class="chart-placeholder ai-evolution-bg">
+                <h4 style="color: #60a5fa; margin-bottom: 1rem;">AI进化历程</h4>
+                <p>从"AI垃圾"到"AI智慧"的关键转变</p>
+            </div>
+        </section>
+
+        <!-- 市场痛点与机遇 -->
+        <section class="section">
+            <h2 class="section-title">市场痛点与机遇</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">市场现状：内容营销的"虚假繁荣"与"深层困境"</h3>
+                <div class="pain-points">
+                    <div class="pain-point">
+                        <h4>内容同质化严重</h4>
+                        <p><strong>现状：</strong> 市场充斥着大量"看起来很美"的AI生成内容，但缺乏个性、深度和情感，导致用户审美疲劳。</p>
+                        <p><strong>营销痛点：</strong> 营销预算不断增加，但内容效果越来越差，品牌声量难以突破。</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>内容营销ROI低下</h4>
+                        <p><strong>现状：</strong> 企业盲目追求内容数量，忽视质量和策略，流量成本高企，转化率不理想。</p>
+                        <p><strong>营销痛点：</strong> 钱花出去了，但看不到明确的投资回报，增长曲线停滞。</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>过度依赖付费流量</h4>
+                        <p><strong>现状：</strong> 缺乏优质内容，企业被迫持续烧钱购买流量，一旦停止投放，流量立即枯竭。</p>
+                        <p><strong>营销痛点：</strong> 增长模式不可持续，企业抗风险能力弱。</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>"AI工具"沦为垃圾制造机</h4>
+                        <p><strong>现状：</strong> 市场上多数AI工具停留在"批量生成"表层，缺乏策略理解。</p>
+                        <p><strong>营销痛点：</strong> 投资了"AI概念"，却发现只是在制造垃圾，损害品牌形象。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder roi-bg">
+                <h4 style="color: #ef4444; margin-bottom: 1rem;">市场数据洞察</h4>
+                <p>内容营销ROI下降趋势与流量成本攀升现状</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">市场机遇：AI时代呼唤"策略先行"的智慧内容</h3>
+                <div class="highlight-box">
+                    <p><strong>AI的本质：</strong> AI是"能力"，是"电动机"，它能将"1"放大到"100"，但无法从"0"创造价值。AI是"合伙人"，不是"印钞机"。</p>
+                    <p><strong>商业的本质：</strong> 无论技术如何发展，生意的本质始终是"流量曝光、客户与企业间交易"。核心在于"你拿什么去交换？"</p>
+                    <p><strong>我们的机遇：</strong> 市场迫切需要一个能够回归商业本质、理解人性、提供策略并高效生成高质量内容的AI伙伴。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品解决方案 -->
+        <section class="section">
+            <h2 class="section-title">产品解决方案</h2>
+            
+            <div class="highlight-box">
+                <h3>产品定位：智慧可靠，轻松高效的AI内容策略与增长伙伴</h3>
+                <p><strong>核心价值主张：</strong> 火花AI，不止于生成，我们用AI为您打造有灵魂、能转化的战略内容，点燃您的品牌增长火花。</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">核心功能：AI驱动的"<span class="key-words">做、检、优、特</span>"内容增长闭环</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h4>火花·蓝图</h4>
+                        <div class="feature-subtitle">战略内容规划引擎</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 深度洞察用户人设基因</div>
+                            <div class="feature-point">• 智能提炼"内容核心"</div>
+                            <div class="feature-point">• 绘制可执行战略蓝图</div>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h4>火花·探针</h4>
+                        <div class="feature-subtitle">AI智能评审系统</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 多维度智能评审</div>
+                            <div class="feature-point">• 诊断潜在问题</div>
+                            <div class="feature-point">• 预测市场反馈</div>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">✨</div>
+                        <h4>火花·妙笔</h4>
+                        <div class="feature-subtitle">人性化优化工坊</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 情感化内容优化</div>
+                            <div class="feature-point">• 趣味化场景处理</div>
+                            <div class="feature-point">• 让文字"活"起来</div>
+                        </div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">💎</div>
+                        <h4>火花·金句</h4>
+                        <div class="feature-subtitle">爆款记忆锻造器</div>
+                        <div class="feature-description">
+                            <div class="feature-point">• 高度概括性表达</div>
+                            <div class="feature-point">• 强记忆点设计</div>
+                            <div class="feature-point">• 打造"超级记忆符号"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder features-bg" style="min-height: 480px; background-size: contain;">
+                <!-- 图片本身已包含完整信息，无需重复文字 -->
+            </div>
+        </section>
+
+        <!-- 核心竞争优势 -->
+        <section class="section">
+            <h2 class="section-title">核心竞争优势</h2>
+            
+            <div class="competitive-advantages">
+                <div class="advantage-card">
+                    <h4>策略先行，而非工具堆砌</h4>
+                    <p>市场上的"垃圾AI"只停留在"生成"层面，而火花AI的核心是<strong>"策略大脑"</strong>，先思考"为什么做"、"做什么"，再高效"怎么做"。</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>无法复制的行业积淀与提示词工程护城河</h4>
+                    <p><strong>7年实战知识库：</strong> 系统性转化为火花AI的"策略DNA"和"提示词工程"。</p>
+                    <p><strong>提示词工程的艺术：</strong> 构建独特的"内容策略提示词工程体系"，让普通用户也能生成专业级内容。</p>
+                    <p><strong>大厂无法复制：</strong> 技术可以复制，但7年一线实战积累的"内容感觉"和"策略智慧"无法复制。</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>深度人设洞察与哲学级思考</h4>
+                    <p>融入郭朝晖老师的哲学思想，让AI理解"人性"、"欲望"、"价值观"，生成真正"以人为本"、"有温度"的内容策略。</p>
+                </div>
+                
+                <div class="advantage-card">
+                    <h4>先发优势与生态壁垒</h4>
+                    <p>最早将"实战经验+AI技术+商业闭环"深度融合，构建强大的"数据飞轮"和"口碑壁垒"。</p>
+                </div>
+            </div>
+
+            <div class="chart-placeholder compare-bg">
+                <!-- 图片本身已包含完整信息，无需重复文字 -->
+            </div>
+        </section>
+
+        <!-- 商业模式 -->
+        <section class="section">
+            <h2 class="section-title">商业模式</h2>
+            
+            <div class="highlight-box">
+                <h3>核心模式：AI赋能的"内容孵化+资源撮合"平台</h3>
+                <p>告别传统软件收费的局限，构建以AI为核心驱动力，连接内容创作者（达人）与优质供应链（商家）的生态平台。</p>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">盈利逻辑</h3>
+                
+                <!-- 移动端滑动提示 -->
+                <div class="mobile-swipe-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #60a5fa; font-size: 0.9rem;">
+                    <span style="background: rgba(96, 165, 250, 0.1); padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                        👈 左右滑动查看完整商业模式 👉
+                    </span>
+                </div>
+                
+                <div class="three-cards-grid">
+                    <div class="pain-point" style="border-color: #27ae60;">
+                        <h4 style="color: #27ae60;">"汉堡"策略</h4>
+                        <div class="card-subtitle">基础服务</div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">💡 核心AI功能免费/低价</div>
+                            <div class="point-content">
+                                • 人设构建<br>
+                                • 内容策略规划<br>
+                                • 文案生成
+                            </div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">🎯 战略目的</div>
+                            <div class="point-content">快速吸引和培养大量"达人种子"，积累海量用户和内容数据</div>
+                        </div>
+                    </div>
+                    
+                    <div class="pain-point" style="border-color: #f39c12;">
+                        <h4 style="color: #f39c12;">路径一</h4>
+                        <div class="card-subtitle">达人孵化与内容变现</div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">🚀 模式</div>
+                            <div class="point-content">系统性打造个人IP，产出高质量、有策略、能转化的内容</div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">💰 盈利</div>
+                            <div class="point-content">
+                                达人成长服务费<br>
+                                + 内容变现分成（5%）
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="pain-point" style="border-color: #9b59b6;">
+                        <h4 style="color: #9b59b6;">路径二</h4>
+                        <div class="card-subtitle">供应链撮合与资源整合</div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">🔗 模式</div>
+                            <div class="point-content">连接优质供应链B端厂家/品牌与平台达人的"任务链接"中心</div>
+                        </div>
+                        
+                        <div class="key-point">
+                            <div class="point-title">💰 盈利</div>
+                            <div class="point-content">
+                                交易佣金（10%）<br>
+                                + 商家年服务费<br>
+                                + 数据增值服务
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder business-bg" style="min-height: 400px; background-size: contain;">
+                <!-- 图片本身已包含完整信息，无需重复文字 -->
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">商业模式核心优势</h3>
+                <ul style="font-size: 1.1rem; line-height: 2;">
+                    <li><strong>符合中国市场现实：</strong> 避开C端用户直接付费弱点，通过赋能和撮合间接盈利</li>
+                    <li><strong>强大用户粘性：</strong> 免费AI工具培养用户依赖，成为忠实粉丝</li>
+                    <li><strong>生态效应明显：</strong> 连接内容生产端和商品供应端，形成正向循环</li>
+                    <li><strong>高想象空间：</strong> 达人规模和供应链资源形成后，撮合交易价值巨大</li>
+                    <li><strong>AI核心驱动：</strong> AI成为整个生态的"发动机"</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 盈利预测 -->
+        <section class="section">
+            <h2 class="section-title">盈利预测</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">核心规模预测</h3>
+                <div class="pain-points">
+                    <div class="pain-point">
+                        <h4>用户增长率</h4>
+                        <p>6个月：30万注册用户<br>第一年：100万用户<br>第二年：500万用户<br>第三年：1000万用户</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>达人孵化成功率</h4>
+                        <p>保守估计：5%的注册用户能够成功打造个人IP并实现内容变现</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>达人变现规模</h4>
+                        <p>每位活跃达人月均变现：<br>第一年：4,000元<br>第二年：6,000元<br>第三年：8,000元</p>
+                    </div>
+                    <div class="pain-point">
+                        <h4>平台分成比例</h4>
+                        <p>达人侧：收取成交额5%佣金<br>商家侧：收取成交额10%佣金<br>B端商家年服务费：12,000元</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-placeholder" style="padding: 2rem; min-height: 400px;">
+                <div class="growth-chart-container">
+                    <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.5rem;">用户增长趋势预测</h4>
+                    <svg width="100%" height="300" viewBox="0 0 1000 300" style="overflow: visible;">
+                        <!-- 渐变定义 -->
+                        <defs>
+                            <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:0.8" />
+                                <stop offset="25%" style="stop-color:#a855f7;stop-opacity:1" />
+                                <stop offset="50%" style="stop-color:#ec4899;stop-opacity:1" />
+                                <stop offset="75%" style="stop-color:#f59e0b;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.9" />
+                            </linearGradient>
+                            <linearGradient id="areaGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:0.05" />
+                            </linearGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge> 
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <!-- 网格线 - 月度刻度 -->
+                        <g stroke="rgba(96, 165, 250, 0.08)" stroke-width="1">
+                            <!-- 年度主要网格线 -->
+                            <line x1="80" y1="50" x2="80" y2="250" stroke="rgba(96, 165, 250, 0.2)" stroke-width="2"/>
+                            <line x1="330" y1="50" x2="330" y2="250" stroke="rgba(168, 85, 247, 0.2)" stroke-width="2"/>
+                            <line x1="580" y1="50" x2="580" y2="250" stroke="rgba(236, 72, 153, 0.2)" stroke-width="2"/>
+                            <line x1="830" y1="50" x2="830" y2="250" stroke="rgba(245, 158, 11, 0.2)" stroke-width="2"/>
+                            
+                            <!-- 月度次要网格线 -->
+                            <line x1="122" y1="50" x2="122" y2="250" />
+                            <line x1="164" y1="50" x2="164" y2="250" />
+                            <line x1="206" y1="50" x2="206" y2="250" />
+                            <line x1="248" y1="50" x2="248" y2="250" />
+                            <line x1="290" y1="50" x2="290" y2="250" />
+                            
+                            <line x1="372" y1="50" x2="372" y2="250" />
+                            <line x1="414" y1="50" x2="414" y2="250" />
+                            <line x1="456" y1="50" x2="456" y2="250" />
+                            <line x1="498" y1="50" x2="498" y2="250" />
+                            <line x1="540" y1="50" x2="540" y2="250" />
+                            
+                            <line x1="622" y1="50" x2="622" y2="250" />
+                            <line x1="664" y1="50" x2="664" y2="250" />
+                            <line x1="706" y1="50" x2="706" y2="250" />
+                            <line x1="748" y1="50" x2="748" y2="250" />
+                            <line x1="790" y1="50" x2="790" y2="250" />
+                            
+                            <!-- 水平网格线 -->
+                            <line x1="80" y1="250" x2="830" y2="250" stroke="rgba(96, 165, 250, 0.15)"/>
+                            <line x1="80" y1="200" x2="830" y2="200" />
+                            <line x1="80" y1="150" x2="830" y2="150" />
+                            <line x1="80" y1="100" x2="830" y2="100" />
+                            <line x1="80" y1="50" x2="830" y2="50" />
+                        </g>
+                        
+                        <!-- 爆发式增长曲线路径 -->
+                        <path d="M 80 250 L 80 250 L 122 248 L 164 246 L 206 244 L 248 240 L 290 235 L 330 230 L 372 220 L 414 210 L 456 195 L 498 180 L 540 165 L 580 150 L 622 135 L 664 120 L 706 105 L 748 85 L 790 70 L 830 50" 
+                              stroke="url(#lineGradient)" 
+                              stroke-width="3" 
+                              fill="none" 
+                              filter="url(#glow)"
+                              style="animation: drawLine 3s ease-in-out;"/>
+                        
+                        <!-- 面积填充 -->
+                        <path d="M 80 250 L 80 250 L 122 248 L 164 246 L 206 244 L 248 240 L 290 235 L 330 230 L 372 220 L 414 210 L 456 195 L 498 180 L 540 165 L 580 150 L 622 135 L 664 120 L 706 105 L 748 85 L 790 70 L 830 50 L 830 250 Z" 
+                              fill="url(#areaGradient)" opacity="0.3"/>
+                        
+                        <!-- 关键节点标记 -->
+                        <circle cx="80" cy="250" r="4" fill="#60a5fa" filter="url(#glow)"/>
+                        <circle cx="206" cy="244" r="7" fill="#a855f7" filter="url(#glow)">
+                            <animate attributeName="r" values="7;12;7" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="330" cy="230" r="7" fill="#ec4899" filter="url(#glow)">
+                            <animate attributeName="r" values="7;12;7" dur="2s" begin="0.3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="580" cy="150" r="7" fill="#f59e0b" filter="url(#glow)">
+                            <animate attributeName="r" values="7;12;7" dur="2s" begin="0.6s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="830" cy="50" r="8" fill="#10b981" filter="url(#glow)">
+                            <animate attributeName="r" values="8;14;8" dur="2s" begin="1s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <!-- 数据标签 -->
+                        <text x="206" y="234" text-anchor="middle" fill="#a855f7" font-size="14" font-weight="bold">30万</text>
+                        <text x="330" y="220" text-anchor="middle" fill="#ec4899" font-size="14" font-weight="bold">100万</text>
+                        <text x="580" y="140" text-anchor="middle" fill="#f59e0b" font-size="14" font-weight="bold">500万</text>
+                        <text x="830" y="40" text-anchor="middle" fill="#10b981" font-size="15" font-weight="bold">1000万</text>
+                        
+                        <!-- 年份标签 -->
+                        <text x="80" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">0</text>
+                        <text x="205" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">6个月</text>
+                        <text x="330" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">12个月</text>
+                        <text x="455" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">18个月</text>
+                        <text x="580" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">24个月</text>
+                        <text x="705" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">30个月</text>
+                        <text x="830" y="275" text-anchor="middle" fill="#cbd5e1" font-size="12">36个月</text>
+                        
+                        <!-- Y轴标签 -->
+                        <text x="70" y="255" text-anchor="end" fill="#94a3b8" font-size="11">0</text>
+                        <text x="70" y="205" text-anchor="end" fill="#94a3b8" font-size="11">250万</text>
+                        <text x="70" y="155" text-anchor="end" fill="#94a3b8" font-size="11">500万</text>
+                        <text x="70" y="105" text-anchor="end" fill="#94a3b8" font-size="11">750万</text>
+                        <text x="70" y="55" text-anchor="end" fill="#94a3b8" font-size="11">1000万</text>
+                        
+                        <!-- 标题 -->
+                        <text x="455" y="30" text-anchor="middle" fill="#e2e8f0" font-size="16" font-weight="600">月度用户增长趋势</text>
+                        
+                        <!-- 阶段分割线 -->
+                        <line x1="330" y1="250" x2="330" y2="280" stroke="#a855f7" stroke-width="2" opacity="0.5"/>
+                        <line x1="580" y1="250" x2="580" y2="280" stroke="#ec4899" stroke-width="2" opacity="0.5"/>
+                        
+                        <!-- 阶段标签 -->
+                        <text x="205" y="290" text-anchor="middle" fill="#60a5fa" font-size="10" font-weight="600">第一年</text>
+                        <text x="455" y="290" text-anchor="middle" fill="#a855f7" font-size="10" font-weight="600">第二年</text>
+                        <text x="705" y="290" text-anchor="middle" fill="#ec4899" font-size="10" font-weight="600">第三年</text>
+                    </svg>
+                    
+                    <!-- 增长指标 -->
+                    <div style="display: flex; justify-content: space-around; margin-top: 1.5rem; flex-wrap: wrap;">
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #a855f7; font-size: 1.3rem; font-weight: bold;">30万</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">6个月突破</div>
+                        </div>
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #ec4899; font-size: 1.3rem; font-weight: bold;">233%</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">半年增长率</div>
+                        </div>
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #f59e0b; font-size: 1.3rem; font-weight: bold;">400%</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">年增长率(Y2)</div>
+                        </div>
+                        <div style="text-align: center; margin: 0.5rem;">
+                            <div style="color: #10b981; font-size: 1.4rem; font-weight: bold;">1000万</div>
+                            <div style="color: #94a3b8; font-size: 0.9rem;">三年目标</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes drawLine {
+                        0% { stroke-dasharray: 1000; stroke-dashoffset: 1000; }
+                        100% { stroke-dasharray: 1000; stroke-dashoffset: 0; }
+                    }
+                    
+                    .growth-chart-container {
+                        background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        border: 1px solid rgba(96, 165, 250, 0.2);
+                        backdrop-filter: blur(10px);
+                        margin: 0 auto;
+                        max-width: 1200px;
+                        text-align: center;
+                    }
+                </style>
+            </div>
+
+
+
+            <div class="chart-placeholder" style="padding: 2rem;">
+                <div class="visual-profit-table">
+                    <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.8rem;">收入增长预测图表</h4>
+                    
+                    <!-- 移动端滚动提示 -->
+                    <div class="mobile-scroll-hint" style="display: none; text-align: center; margin-bottom: 1.5rem; color: #60a5fa; font-size: 1rem; font-weight: 600;">
+                        <div style="background: rgba(96, 165, 250, 0.15); padding: 1rem; border-radius: 12px; border: 1px solid rgba(96, 165, 250, 0.3); animation: pulseHint 3s infinite;">
+                            📱 左右滑动查看完整数据表格 👆
+                        </div>
+                    </div>
+                    
+                    <!-- 可视化表格 -->
+                    <div class="profit-table-container">
+                        <div class="profit-table-grid" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; background: transparent; border-radius: 15px; overflow: hidden; min-width: 800px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                        <!-- 表头 -->
+                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #e2e8f0; font-weight: 600; text-align: center;">指标 / 年份</div>
+                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第一年</div>
+                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第二年</div>
+                        <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 600; text-align: center;">第三年</div>
+                        
+                        <!-- 数据行 -->
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">免费用户总数</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">1,000,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">5,000,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">10,000,000</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">活跃达人数量</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">50,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">250,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">500,000</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人月均变现</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">4,000元</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">6,000元</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">8,000元</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">达人年总变现</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">24亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">180亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">480亿</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">平台每活跃达人月均收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.15); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">3,000元</div>
+                        <div style="background: rgba(168, 85, 247, 0.15); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">4,500元</div>
+                        <div style="background: rgba(236, 72, 153, 0.15); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">6,000元</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">平台达人侧佣金收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">6亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">45亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">120亿</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">B端商家入驻数量</div>
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1.2rem; color: #60a5fa; font-weight: 600; text-align: center;">5,000</div>
+                        <div style="background: rgba(168, 85, 247, 0.1); padding: 1.2rem; color: #a855f7; font-weight: 600; text-align: center;">25,000</div>
+                        <div style="background: rgba(236, 72, 153, 0.1); padding: 1.2rem; color: #ec4899; font-weight: 600; text-align: center;">50,000</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">商家年服务费收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">6,000万</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">3亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">6亿</div>
+                        
+                        <div style="background: rgba(15, 15, 35, 0.6); padding: 1.2rem; color: #e2e8f0; font-weight: 500;">商家侧佣金收入</div>
+                        <div style="background: rgba(96, 165, 250, 0.2); padding: 1.2rem; color: #60a5fa; font-weight: 700; text-align: center;">12亿</div>
+                        <div style="background: rgba(168, 85, 247, 0.2); padding: 1.2rem; color: #a855f7; font-weight: 700; text-align: center;">90亿</div>
+                        <div style="background: rgba(236, 72, 153, 0.2); padding: 1.2rem; color: #ec4899; font-weight: 700; text-align: center;">240亿</div>
+                        
+                        <!-- 总收入行 - 突出显示 -->
+                        <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem; color: #fbbf24; font-weight: 700; font-size: 1.1rem;">平台总收入</div>
+                        <div style="background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">18.6亿</div>
+                        <div style="background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">138亿</div>
+                        <div style="background: linear-gradient(135deg, #ec4899 0%, #db2777 100%); padding: 1.5rem; color: white; font-weight: 800; text-align: center; font-size: 1.2rem;">366亿</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 平台收入推导说明 -->
+                    <div class="profit-deduction-section" style="background: rgba(96, 165, 250, 0.1); padding: 2rem; border-radius: 15px; margin-top: 2rem; border-left: 4px solid #60a5fa;">
+                        <h5 style="color: #60a5fa; margin-bottom: 1.5rem; font-size: 1.2rem;">💡 平台收入推导逻辑</h5>
+                        
+                        <!-- 移动端说明文字 -->
+                        <div class="mobile-description-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #94a3b8; font-size: 0.9rem;">
+                            <span style="background: rgba(96, 165, 250, 0.08); padding: 0.6rem 1rem; border-radius: 15px; border: 1px solid rgba(96, 165, 250, 0.2);">
+                                📊 以下是平台收入的详细推导过程
+                            </span>
+                        </div>
+                        
+                        <div class="profit-deduction-container">
+                            <div class="profit-deduction-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+                            <!-- 第一年示例 -->
+                            <div style="background: rgba(96, 165, 250, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(96, 165, 250, 0.2);">
+                                <h6 style="color: #60a5fa; margin-bottom: 1rem; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(96, 165, 250, 0.2); padding-bottom: 0.5rem;">第一年推导示例</h6>
+                                <div style="font-size: 0.9rem; line-height: 1.6; color: #e2e8f0;">
+                                    <p><span><strong>①</strong> 达人月均变现</span><span style="color: #60a5fa; font-weight: 600;">4,000元</span></p>
+                                    <p><span><strong>②</strong> 假设达人佣金率</span><span style="color: #60a5fa; font-weight: 600;">20%</span></p>
+                                    <p><span><strong>③</strong> 对应GMV</span><span style="color: #60a5fa; font-weight: 600;">4,000÷20% = 20,000元</span></p>
+                                    <p><span><strong>④</strong> 平台商家侧佣金</span><span style="color: #60a5fa; font-weight: 600;">20,000×10% = 2,000元</span></p>
+                                    <p><span><strong>⑤</strong> 平台达人侧佣金</span><span style="color: #60a5fa; font-weight: 600;">20,000×5% = 1,000元</span></p>
+                                    <p style="border-top: 1px solid rgba(96, 165, 250, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #60a5fa;"><span style="color: #e2e8f0;">平台月收入</span><span>2,000+1,000 = 3,000元</span></p>
+                                </div>
+                            </div>
+                            
+                            <!-- 第三年示例 -->
+                            <div style="background: rgba(236, 72, 153, 0.05); padding: 1.5rem; border-radius: 10px; border: 1px solid rgba(236, 72, 153, 0.2);">
+                                <h6 style="color: #ec4899; margin-bottom: 1rem; font-weight: 600; text-align: center; border-bottom: 1px solid rgba(236, 72, 153, 0.2); padding-bottom: 0.5rem;">第三年推导示例</h6>
+                                <div style="font-size: 0.9rem; line-height: 1.6; color: #e2e8f0;">
+                                    <p><span><strong>①</strong> 达人月均变现</span><span style="color: #ec4899; font-weight: 600;">8,000元</span></p>
+                                    <p><span><strong>②</strong> 假设达人佣金率</span><span style="color: #ec4899; font-weight: 600;">20%</span></p>
+                                    <p><span><strong>③</strong> 对应GMV</span><span style="color: #ec4899; font-weight: 600;">8,000÷20% = 40,000元</span></p>
+                                    <p><span><strong>④</strong> 平台商家侧佣金</span><span style="color: #ec4899; font-weight: 600;">40,000×10% = 4,000元</span></p>
+                                    <p><span><strong>⑤</strong> 平台达人侧佣金</span><span style="color: #ec4899; font-weight: 600;">40,000×5% = 2,000元</span></p>
+                                    <p style="border-top: 1px solid rgba(236, 72, 153, 0.3); padding-top: 0.5rem; margin-top: 0.5rem; font-weight: 600; color: #ec4899;"><span style="color: #e2e8f0;">平台月收入</span><span>4,000+2,000 = 6,000元</span></p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        
+                        <div class="core-logic-box" style="background: rgba(34, 197, 94, 0.1); padding: 1.5rem; border-radius: 10px; margin-top: 1.5rem; border: 1px solid rgba(34, 197, 94, 0.3);">
+                            <p style="color: #22c55e; font-weight: 600; margin-bottom: 0.5rem;">🎯 核心逻辑</p>
+                            <p style="color: #e2e8f0; font-size: 0.95rem; line-height: 1.5;">
+                                平台采用<strong>双重佣金模式</strong>，从每笔交易的GMV中同时收取商家侧10%和达人侧5%佣金，总计15%的平台抽成，确保轻资产高回报的商业模式。
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- 简化的关键指标 -->
+                    <div class="key-indicators" style="display: flex; justify-content: space-around; margin-top: 2rem; flex-wrap: wrap; gap: 1rem;">
+                        <div style="text-align: center; color: #60a5fa; flex: 1; min-width: 80px;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">19.7倍</div>
+                            <div style="font-size: 0.9rem; color: #94a3b8;">三年增长</div>
+                        </div>
+                        <div style="text-align: center; color: #a855f7; flex: 1; min-width: 80px;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">15%</div>
+                            <div style="font-size: 0.9rem; color: #94a3b8;">总抽成</div>
+                        </div>
+                        <div style="text-align: center; color: #ec4899; flex: 1; min-width: 80px;">
+                            <div style="font-size: 1.5rem; font-weight: bold;">366亿</div>
+                            <div style="font-size: 0.9rem; color: #94a3b8;">第三年收入</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    .visual-profit-table {
+                        background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+                        border-radius: 20px;
+                        padding: 2rem;
+                        border: 1px solid rgba(96, 165, 250, 0.2);
+                        backdrop-filter: blur(10px);
+                    }
+                    
+                                            /* 表格容器样式 - 全屏宽度 */
+                        .profit-table-container {
+                            overflow-x: auto;
+                            -webkit-overflow-scrolling: touch;
+                            padding: 0 1rem;
+                            margin: 0 calc(-50vw + 50%);
+                            width: 100vw;
+                            border-radius: 0;
+                            position: relative;
+                        }
+                        
+                        /* 确保桌面端也能完整显示 */
+                        @media (min-width: 769px) {
+                            .profit-table-container {
+                                margin: 0;
+                                width: 100%;
+                                padding: 0;
+                            }
+                            
+                            .profit-table-grid {
+                                min-width: auto !important;
+                                width: 100% !important;
+                            }
+                        }
+                    
+                    .profit-table-container::-webkit-scrollbar {
+                        height: 8px;
+                    }
+                    
+                    .profit-table-container::-webkit-scrollbar-track {
+                        background: rgba(96, 165, 250, 0.1);
+                        border-radius: 4px;
+                    }
+                    
+                    .profit-table-container::-webkit-scrollbar-thumb {
+                        background: rgba(96, 165, 250, 0.5);
+                        border-radius: 4px;
+                    }
+                    
+                    .profit-table-container::-webkit-scrollbar-thumb:hover {
+                        background: rgba(96, 165, 250, 0.8);
+                    }
+                    
+                    /* 表格右侧渐变提示 */
+                    .profit-table-container::after {
+                        content: '';
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: 20px;
+                        height: 100%;
+                        background: linear-gradient(90deg, transparent, rgba(15, 15, 35, 0.6));
+                        pointer-events: none;
+                        border-radius: 0 15px 15px 0;
+                    }
+                    
+
+                    
+                    /* 推导逻辑容器样式 */
+                    .profit-deduction-container {
+                        position: relative;
+                    }
+                    
+                    .profit-deduction-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                        gap: 1.5rem;
+                    }
+                    
+                    /* 移动端滚动提示 */
+                    @media (max-width: 768px) {
+                        .mobile-scroll-hint {
+                            display: block !important;
+                        }
+                        
+                        .mobile-scroll-hint > div {
+                            animation: pulseHint 3s infinite;
+                        }
+                        
+                        /* 确保表格滚动提示显示 */
+                        .visual-profit-table .mobile-scroll-hint {
+                            display: block !important;
+                        }
+                        
+                        /* 表格区域全屏宽度 */
+                        .visual-profit-table {
+                            margin: 0 calc(-50vw + 50%) !important;
+                            width: 100vw !important;
+                            padding: 2rem 1rem !important;
+                            border-radius: 0 !important;
+                            border-left: none !important;
+                            border-right: none !important;
+                        }
+                        
+                        /* 彻底移除所有表格边框 */
+                        .profit-table-grid > div {
+                            border: none !important;
+                            border-left: none !important;
+                            border-right: none !important;
+                            border-top: none !important;
+                            border-bottom: none !important;
+                        }
+                        
+                        /* 强制移除所有div元素的内部边框 */
+                        .profit-table-grid div,
+                        .profit-table-grid > div,
+                        .visual-profit-table div,
+                        .visual-profit-table > div:nth-child(2) > div {
+                            border: none !important;
+                            border-left: 0 !important;
+                            border-right: 0 !important;
+                            border-top: 0 !important;
+                            border-bottom: 0 !important;
+                            border-width: 0 !important;
+                        }
+                        
+                        /* 确保表格容器本身没有分割线 */
+                        .profit-table-grid {
+                            border-collapse: collapse !important;
+                            border-spacing: 0 !important;
+                        }
+                        
+                        /* 移动端专用：彻底禁用所有伪元素边框 */
+                        .profit-table-grid::before,
+                        .profit-table-grid::after,
+                        .profit-table-grid *::before,
+                        .profit-table-grid *::after,
+                        .visual-profit-table::before,
+                        .visual-profit-table::after,
+                        .visual-profit-table *::before,
+                        .visual-profit-table *::after {
+                            display: none !important;
+                            content: none !important;
+                            border: none !important;
+                            background: transparent !important;
+                            height: 0 !important;
+                        }
+                        
+                        /* 强制移除表格容器的边框和线条 */
+                        .profit-table-container,
+                        .profit-table-container *,
+                        .visual-profit-table,
+                        .visual-profit-table * {
+                            border: none !important;
+                            border-top: none !important;
+                            border-bottom: none !important;
+                            border-left: none !important;
+                            border-right: none !important;
+                            outline: none !important;
+                            box-shadow: none !important;
+                        }
+                        
+                        /* 确保网格容器边框完全移除 */
+                        .profit-table-grid {
+                            border: none !important;
+                            outline: none !important;
+                            box-shadow: none !important;
+                        }
+                        
+                        /* 专门覆盖内联样式的边框 */
+                        .profit-table-container > .profit-table-grid[style*="border"] {
+                            border: none !important;
+                        }
+                        
+                        .profit-table-grid[style*="border: 1px solid"] {
+                            border: none !important;
+                        }
+                        
+
+                        
+                        /* 推导逻辑移动端优化 - 全屏宽度 */
+                        .profit-deduction-section {
+                            margin: 2rem calc(-50vw + 50%) 0 calc(-50vw + 50%) !important;
+                            width: 100vw !important;
+                            padding: 1.5rem 1rem !important;
+                            background: linear-gradient(135deg, rgba(96, 165, 250, 0.08) 0%, rgba(168, 85, 247, 0.05) 100%) !important;
+                            border: none !important;
+                            border-top: 2px solid rgba(96, 165, 250, 0.3) !important;
+                            border-bottom: 2px solid rgba(96, 165, 250, 0.3) !important;
+                            border-radius: 0 !important;
+                            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+                        }
+                        
+                        .profit-deduction-section h5 {
+                            text-align: center;
+                            font-size: 1.2rem !important;
+                            margin-bottom: 1.2rem !important;
+                            padding: 0;
+                            background: none;
+                            border: none;
+                            color: #60a5fa !important;
+                        }
+                        
+                        .core-logic-box {
+                            margin: 1.5rem calc(-50vw + 50%) 0 calc(-50vw + 50%) !important;
+                            width: 100vw !important;
+                            padding: 1rem !important;
+                            background: rgba(34, 197, 94, 0.08) !important;
+                            border: none !important;
+                            border-top: 1px solid rgba(34, 197, 94, 0.3) !important;
+                            border-bottom: 1px solid rgba(34, 197, 94, 0.3) !important;
+                            border-radius: 0 !important;
+                        }
+                        
+                        .core-logic-box p:first-child {
+                            font-size: 1rem !important;
+                            text-align: center;
+                            margin-bottom: 0.8rem !important;
+                            padding: 0 1rem;
+                        }
+                        
+                        .core-logic-box p:last-child {
+                            font-size: 0.95rem !important;
+                            line-height: 1.6 !important;
+                            text-align: center;
+                            padding: 0 1rem;
+                        }
+                        
+                        .mobile-description-hint {
+                            display: block !important;
+                            margin-bottom: 1rem !important;
+                        }
+                        
+                        .mobile-description-hint span {
+                            display: inline-block;
+                            font-style: italic;
+                        }
+                        
+                        /* 移动端彻底重构 - 全屏宽度布局 */
+                        .profit-deduction-container {
+                            margin: 0 calc(-50vw + 50%);
+                            width: 100vw;
+                            padding: 0 1rem;
+                            overflow: visible;
+                        }
+                        
+                        .profit-deduction-grid {
+                            display: block !important;
+                            gap: 0;
+                            width: 100%;
+                        }
+                        
+                        .profit-deduction-grid > div {
+                            width: 100% !important;
+                            max-width: none !important;
+                            margin-bottom: 1.5rem;
+                            background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 100%) !important;
+                            border: 1px solid rgba(96, 165, 250, 0.3) !important;
+                            border-radius: 12px !important;
+                            padding: 1.8rem 1.5rem !important;
+                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+                            backdrop-filter: blur(10px) !important;
+                        }
+                        
+
+                        
+                        /* 推导逻辑卡片标题样式 */
+                        .profit-deduction-grid > div h6 {
+                            color: #60a5fa !important;
+                            font-size: 1.1rem !important;
+                            margin-bottom: 1rem !important;
+                            text-align: center;
+                            font-weight: 600 !important;
+                            padding-bottom: 0.5rem;
+                            border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+                        }
+                        
+                        .profit-deduction-grid > div:nth-child(2) h6 {
+                            color: #ec4899 !important;
+                            border-bottom-color: rgba(236, 72, 153, 0.2);
+                        }
+                        
+                        .profit-deduction-grid > div p {
+                            font-size: 0.85rem !important;
+                            line-height: 1.5 !important;
+                            margin-bottom: 0.4rem !important;
+                            color: #e2e8f0 !important;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 0.2rem 0;
+                            flex-wrap: wrap;
+                            gap: 0.5rem;
+                        }
+                        
+                        .profit-deduction-grid > div p span:first-child {
+                            flex: 1;
+                            min-width: 140px;
+                            text-align: left;
+                        }
+                        
+                        .profit-deduction-grid > div p span:last-child {
+                            flex-shrink: 0;
+                            text-align: right;
+                            font-weight: 600;
+                            max-width: 60%;
+                            word-break: break-word;
+                        }
+                        
+                        .profit-deduction-grid > div p:last-child {
+                            margin-top: 1rem;
+                            padding-top: 0.8rem;
+                            border-top: 1px solid rgba(96, 165, 250, 0.2);
+                            font-weight: 600 !important;
+                            justify-content: center;
+                            background: rgba(96, 165, 250, 0.1);
+                            border-radius: 8px;
+                            padding: 0.8rem;
+                        }
+                        
+                        /* 关键指标移动端优化 */
+                        .key-indicators {
+                            padding: 0;
+                            margin-top: 1.5rem !important;
+                            gap: 0.8rem !important;
+                        }
+                        
+                        .key-indicators > div {
+                            padding: 0.8rem;
+                            background: rgba(96, 165, 250, 0.05);
+                            border-radius: 12px;
+                            border: 1px solid rgba(96, 165, 250, 0.2);
+                            transition: all 0.3s ease;
+                        }
+                        
+                        .key-indicators > div:first-child {
+                            border-color: rgba(96, 165, 250, 0.3);
+                            background: rgba(96, 165, 250, 0.08);
+                        }
+                        
+                        .key-indicators > div:nth-child(2) {
+                            border-color: rgba(168, 85, 247, 0.3);
+                            background: rgba(168, 85, 247, 0.08);
+                        }
+                        
+                        .key-indicators > div:last-child {
+                            border-color: rgba(236, 72, 153, 0.3);
+                            background: rgba(236, 72, 153, 0.08);
+                        }
+                    }
+                    
+                    @keyframes pulseHint {
+                        0%, 100% { 
+                            opacity: 0.8; 
+                            transform: scale(1);
+                        }
+                        50% { 
+                            opacity: 1; 
+                            transform: scale(1.05);
+                            box-shadow: 0 4px 20px rgba(96, 165, 250, 0.3);
+                        }
+                    }
+                </style>
+            </div>
+
+            <div class="highlight-box">
+                <h3>盈利预测解读</h3>
+                <ul>
+                    <li><strong>爆发式增长潜力：</strong> 随着活跃达人数量和B端商家规模扩大，平台收入呈指数级增长，三年内预期366亿</li>
+                    <li><strong>核心驱动力：</strong> 达人侧变现分成是主要收入来源，印证"AI赋能内容-内容孵化达人"的价值</li>
+                    <li><strong>轻资产模式：</strong> "任务链接"模式避免自建商城和库存的重资产投入</li>
+                    <li><strong>可持续性强：</strong> 网络效应明显，平台价值随规模增长而指数级提升</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 目标用户与市场策略 -->
+        <section class="section">
+            <h2 class="section-title">目标用户与市场策略</h2>
+            
+            <div class="subsection">
+                <h3 class="subsection-title">核心目标用户画像</h3>
+                <div class="highlight-box">
+                    <p><strong>主要群体：</strong> 已有工作经验或创业经历，目前生意不好做，渴望通过自媒体打造个人IP、拓展副业的B端企业主、个体经营者、专业人士。</p>
+                    <p><strong>核心诉求：</strong> 找到"下一次赚钱的机会"，提升"认知范围"，解决"内容同质化"、"流量焦虑"、"转化率低"等问题。</p>
+                    <p><strong>心理特征：</strong> 务实、渴望效率、对AI有期待但警惕"虚假承诺"，愿意为真正有价值的解决方案付费。</p>
+                </div>
+            </div>
+
+            <div class="chart-placeholder" style="padding: 2rem;">
+                <div class="user-profile-charts">
+                    <h4 style="color: #60a5fa; margin-bottom: 2rem; text-align: center; font-size: 1.6rem;">目标用户画像数据分析</h4>
+                    
+                    <!-- 移动端滚动提示 -->
+                    <div class="mobile-charts-hint" style="display: none; text-align: center; margin-bottom: 2rem; color: #94a3b8; font-size: 0.9rem;">
+                        <div style="background: rgba(96, 165, 250, 0.1); padding: 1rem; border-radius: 12px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                            📊 向下滑动查看完整用户画像数据 ↓
+                        </div>
+                    </div>
+                    
+                    <!-- 图表网格布局 -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-bottom: 3rem;">
+                        <!-- 职业分布饼状图 -->
+                        <div style="text-align: center;">
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; font-size: 1.2rem;">职业分布</h5>
+                            <div class="pie-chart-container" style="position: relative; display: inline-block;">
+                                <canvas id="job-pie-chart" width="200" height="200" style="cursor: pointer;"></canvas>
+                                <div class="pie-tooltip" style="position: absolute; background: rgba(0,0,0,0.8); color: white; padding: 8px; border-radius: 6px; pointer-events: none; opacity: 0; transition: opacity 0.3s; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.9rem; white-space: nowrap; z-index: 10;"></div>
+                            </div>
+                            <div style="margin-top: 1rem; font-size: 0.85rem; color: #94a3b8; text-align: left; padding: 0 0.5rem;">
+                                <div class="legend-item" data-color="#ec4899" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #ec4899;">●</span> 个体店主 45%</div>
+                                <div class="legend-item" data-color="#60a5fa" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #60a5fa;">●</span> 上班族 40%</div>
+                                <div class="legend-item" data-color="#a855f7" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #a855f7;">●</span> 腰部达人 10%</div>
+                                <div class="legend-item" data-color="#f59e0b" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #f59e0b;">●</span> 企业主 5%</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 年龄分布饼状图 -->
+                        <div style="text-align: center;">
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; font-size: 1.2rem;">年龄分布</h5>
+                            <div class="pie-chart-container" style="position: relative; display: inline-block;">
+                                <canvas id="age-pie-chart" width="200" height="200" style="cursor: pointer;"></canvas>
+                                <div class="pie-tooltip" style="position: absolute; background: rgba(0,0,0,0.8); color: white; padding: 8px; border-radius: 6px; pointer-events: none; opacity: 0; transition: opacity 0.3s; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 0.9rem; white-space: nowrap; z-index: 10;"></div>
+                            </div>
+                            <div style="margin-top: 1rem; font-size: 0.85rem; color: #94a3b8; text-align: left; padding: 0 0.5rem;">
+                                <div class="legend-item" data-color="#10b981" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #10b981;">●</span> 31-35岁 35%</div>
+                                <div class="legend-item" data-color="#3b82f6" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #3b82f6;">●</span> 25-30岁 28%</div>
+                                <div class="legend-item" data-color="#8b5cf6" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #8b5cf6;">●</span> 36-40岁 25%</div>
+                                <div class="legend-item" data-color="#f97316" style="margin: 0.3rem 0; cursor: pointer; transition: color 0.3s;"><span style="color: #f97316;">●</span> 41-45岁 12%</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 柱状图区域 -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;">
+                        <!-- 月收入分布柱状图 -->
+                        <div>
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; text-align: center; font-size: 1.2rem;">月收入分布</h5>
+                            <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 180px; padding: 0 1rem;">
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #60a5fa; font-weight: bold; margin-bottom: 0.5rem;">80%</div>
+                                    <div style="width: 35px; height: 144px; background: linear-gradient(180deg, #60a5fa, #3b82f6); border-radius: 6px 6px 0 0; animation: growUp1 2s ease-out;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">5K-1W</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #a855f7; font-weight: bold; margin-bottom: 0.5rem;">17%</div>
+                                    <div style="width: 35px; height: 31px; background: linear-gradient(180deg, #a855f7, #9333ea); border-radius: 6px 6px 0 0; animation: growUp2 2s ease-out 0.3s both;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">1-3W</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #ec4899; font-weight: bold; margin-bottom: 0.5rem;">2%</div>
+                                    <div style="width: 35px; height: 5px; background: linear-gradient(180deg, #ec4899, #db2777); border-radius: 6px 6px 0 0; animation: growUp3 2s ease-out 0.6s both;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">3-5W</div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <div style="font-size: 0.9rem; color: #f59e0b; font-weight: bold; margin-bottom: 0.5rem;">1%</div>
+                                    <div style="width: 35px; height: 2px; background: linear-gradient(180deg, #f59e0b, #d97706); border-radius: 6px 6px 0 0; animation: growUp4 2s ease-out 0.9s both;"></div>
+                                    <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 0.5rem; text-align: center;">5W+</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 主要痛点排名柱状图 -->
+                        <div>
+                            <h5 style="color: #e2e8f0; margin-bottom: 1.5rem; text-align: center; font-size: 1.2rem;">核心痛点严重程度</h5>
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">流量焦虑</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(239, 68, 68, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 100%; height: 100%; background: linear-gradient(90deg, #ef4444, #dc2626); border-radius: 10px; animation: fillBar1 2s ease-out;"></div>
+                                    </div>
+                                    <div style="color: #ef4444; font-weight: bold; font-size: 0.9rem;">30%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">转化率低</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(249, 115, 22, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 100%; height: 100%; background: linear-gradient(90deg, #f97316, #ea580c); border-radius: 10px; animation: fillBar2 2s ease-out 0.3s both;"></div>
+                                    </div>
+                                    <div style="color: #f97316; font-weight: bold; font-size: 0.9rem;">30%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">内容同质化</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(168, 85, 247, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 67%; height: 100%; background: linear-gradient(90deg, #a855f7, #9333ea); border-radius: 10px; animation: fillBar3 2s ease-out 0.6s both;"></div>
+                                    </div>
+                                    <div style="color: #a855f7; font-weight: bold; font-size: 0.9rem;">20%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">缺乏策略</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(96, 165, 250, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 33%; height: 100%; background: linear-gradient(90deg, #60a5fa, #3b82f6); border-radius: 10px; animation: fillBar4 2s ease-out 0.9s both;"></div>
+                                    </div>
+                                    <div style="color: #60a5fa; font-weight: bold; font-size: 0.9rem;">10%</div>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <div style="width: 80px; font-size: 0.85rem; color: #94a3b8;">AI效果差</div>
+                                    <div style="flex: 1; height: 20px; background: rgba(16, 185, 129, 0.2); border-radius: 10px; overflow: hidden;">
+                                        <div style="width: 33%; height: 100%; background: linear-gradient(90deg, #10b981, #059669); border-radius: 10px; animation: fillBar5 2s ease-out 1.2s both;"></div>
+                                    </div>
+                                    <div style="color: #10b981; font-weight: bold; font-size: 0.9rem;">10%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <style>
+                    @keyframes growUp1 {
+                        0% { height: 0; }
+                        100% { height: 144px; }
+                    }
+                    @keyframes growUp2 {
+                        0% { height: 0; }
+                        100% { height: 31px; }
+                    }
+                    @keyframes growUp3 {
+                        0% { height: 0; }
+                        100% { height: 5px; }
+                    }
+                    @keyframes growUp4 {
+                        0% { height: 0; }
+                        100% { height: 2px; }
+                    }
+                    @keyframes fillBar1 {
+                        0% { width: 0; }
+                        100% { width: 100%; }
+                    }
+                    @keyframes fillBar2 {
+                        0% { width: 0; }
+                        100% { width: 100%; }
+                    }
+                    @keyframes fillBar3 {
+                        0% { width: 0; }
+                        100% { width: 67%; }
+                    }
+                    @keyframes fillBar4 {
+                        0% { width: 0; }
+                        100% { width: 33%; }
+                    }
+                    @keyframes fillBar5 {
+                        0% { width: 0; }
+                        100% { width: 33%; }
+                    }
+                    
+                                         .user-profile-charts {
+                         background: linear-gradient(135deg, rgba(15, 15, 35, 0.8) 0%, rgba(26, 26, 46, 0.6) 50%, rgba(22, 33, 62, 0.8) 100%);
+                         border-radius: 20px;
+                         padding: 2rem;
+                         border: 1px solid rgba(96, 165, 250, 0.2);
+                         backdrop-filter: blur(10px);
+                     }
+                     
+                     /* 饼状图交互效果 */
+                     .pie-slice {
+                         transform-origin: 100px 100px;
+                     }
+                     
+                     .pie-slice:hover {
+                         transform: scale(1.05);
+                         filter: brightness(1.2) drop-shadow(0 0 20px currentColor);
+                         opacity: 1 !important;
+                         z-index: 10;
+                     }
+                     
+                     .legend-item:hover {
+                         color: white !important;
+                         font-weight: bold;
+                     }
+                 </style>
+            </div>
+
+            <div class="subsection">
+                <h3 class="subsection-title">市场进入与增长策略</h3>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h4>"斩首"策略</h4>
+                        <p>集中资源打造行业代表性B端成功案例，通过"样板间"实际效果证明产品价值。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📱</div>
+                        <h4>内容营销</h4>
+                        <p>官方账号持续输出"AI+内容策略"干货，制作客户成功案例短视频。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">👥</div>
+                        <h4>社群运营</h4>
+                        <p>建立高质量B端用户社群，提供交流平台，分享成功经验。</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤝</div>
+                        <h4>行业合作</h4>
+                        <p>与行业协会、商学院、创业孵化器合作，口碑裂变推广。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 核心团队 -->
+        <section class="section">
+            <h2 class="section-title">核心团队</h2>
+            
+            <div class="team-section">
+                <div class="team-member">
+                    <h3>创始团队：驱动AI智慧的实战派</h3>
+                    <div class="highlights-grid">
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #60a5fa;">7年实战经验</h4>
+                            <p>自媒体制作、直播、短视频深度实战经验，深耕内容行业</p>
+                        </div>
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #a855f7;">领播教育</h4>
+                            <p>自媒体培训领域领军，深知用户痛点和"二八定律"</p>
+                        </div>
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #ec4899;">B端代运营经验</h4>
+                            <p>为B端商家代运营，深度理解老板困境和商业本质</p>
+                        </div>
+                        <div class="highlight-item" style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15)); color: #e2e8f0;">
+                            <h4 style="color: #f59e0b;">AI策略转化</h4>
+                            <p>将实战经验转化为AI的"策略智慧"和"提示词工程"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="subsection">
+                <h3 class="subsection-title">核心竞争力总结</h3>
+                <div class="competitive-advantages">
+                    <div class="advantage-card">
+                        <h4>AI策略大脑</h4>
+                        <p>独创的AI工作流，主动提炼内容核心、决策最佳形式，提供"哲学级"策略指导。</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>人本温度</h4>
+                        <p>深度人设洞察，打造有温度、人性的内容，建立品牌与用户的情感连接。</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>结果导向</h4>
+                        <p>聚焦B端企业增长痛点，提供可衡量、可验证的解决方案。</p>
+                    </div>
+                    <div class="advantage-card">
+                        <h4>"第二道钱"商业模式</h4>
+                        <p>突破传统软件收费瓶颈，构建多元化、可持续的盈利生态。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 未来展望 -->
+        <section class="section">
+            <h2 class="section-title">未来生态</h2>
+            
+            <!-- 移动端滑动提示 -->
+            <div class="mobile-swipe-hint" style="display: none; text-align: center; margin-bottom: 1rem; color: #60a5fa; font-size: 0.9rem;">
+                <span style="background: rgba(96, 165, 250, 0.1); padding: 0.5rem 1rem; border-radius: 20px; border: 1px solid rgba(96, 165, 250, 0.3);">
+                    👈 左右滑动查看发展规划 👉
+                </span>
+            </div>
+            
+            <div class="three-cards-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h4>短期目标</h4>
+                    <div class="goal-content">
+                        <div class="goal-highlight">成为B端企业和内容创作者首选的</div>
+                        <div class="goal-main">AI内容策略与生成平台</div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h4>中期目标</h4>
+                    <div class="goal-content">
+                        <div class="goal-highlight">拓展AI MCN孵化规模，成为特定行业</div>
+                        <div class="goal-main">内容营销解决方案的领导者</div>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h4>长期愿景</h4>
+                    <div class="goal-content">
+                        <div class="goal-highlight">构建AI内容生态，引领AI原生化内容创作标准</div>
+                        <div class="goal-main">让每个品牌都拥有AI驱动的增长智慧</div>
+                    </div>
+                </div>
+            </div>
+
+
+        </section>
+
+        <!-- 投资价值 -->
+        <section class="investment-highlights">
+            <h3>投资价值</h3>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                "我们深知，在中国市场，单纯的软件订阅难以支撑一个伟大的梦想。因此，火花AI从一开始就构建了一个<strong>更具想象空间、更符合中国商业生态的'AI驱动的内容孵化+任务链接'生态系统。</strong>"
+            </p>
+            
+            <div class="highlights-grid">
+                <div class="highlight-item">
+                    <h4>轻资产高回报</h4>
+                    <p>避开重资产投入，专注撮合价值，预计三年内收入达366亿</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>网络效应明显</h4>
+                    <p>达人越多吸引商家越多，形成正向循环，平台价值指数级增长</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>符合中国商业生态</h4>
+                    <p>符合国内商业生态和用户付费习惯，商业模式可持续</p>
+                </div>
+                <div class="highlight-item">
+                    <h4>AI核心驱动</h4>
+                    <p>不是简单撮合平台，而是AI赋能的增长引擎，技术壁垒明显</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; font-size: 1.3rem; font-weight: 600;">
+                "我们不卖工具，我们卖的是<strong>AI驱动的增长机会</strong>，我们构建的是一个<strong>连接内容生产力与商业变现的生态闭环</strong>！"
+            </div>
+        </section>
+
+        <!-- 行动号召 -->
+        <section class="cta-section">
+
+            <p style="font-size: 1.5rem; margin-bottom: 2rem;">
+                我们正在寻找志同道合的伙伴，共同投资AI时代内容增长的未来。
+            </p>
+            <h3 style="font-size: 2rem; margin-bottom: 2rem;">
+                加入火花AI，与我们一起点燃内容智慧，引爆商业增长！
+            </h3>
+            <button class="cta-button">联系我们</button>
+            
+
+        </section>
+    </main>
+
+    <!-- 鼠标跟随光效 -->
+    <div class="mouse-glow"></div>
+
+    <script>
+        // 鼠标跟随光效
+        const mouseGlow = document.querySelector('.mouse-glow');
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX - 150;
+            mouseY = e.clientY - 150;
+            
+            // 更新CSS变量用于背景光效
+            document.documentElement.style.setProperty('--mouse-x', e.clientX + 'px');
+            document.documentElement.style.setProperty('--mouse-y', e.clientY + 'px');
+        });
+
+        // 平滑跟随动画
+        function animateGlow() {
+            const dx = mouseX - currentX;
+            const dy = mouseY - currentY;
+            
+            currentX += dx * 0.1;
+            currentY += dy * 0.1;
+            
+            mouseGlow.style.left = currentX + 'px';
+            mouseGlow.style.top = currentY + 'px';
+            
+            requestAnimationFrame(animateGlow);
+        }
+        animateGlow();
+
+        // 添加平滑滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // 增强的滚动动画效果
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // 为不同元素添加延迟动画
+                    const children = entry.target.querySelectorAll('.pain-point, .feature-card, .advantage-card');
+                    children.forEach((child, index) => {
+                        setTimeout(() => {
+                            child.style.opacity = '1';
+                            child.style.transform = 'translateY(0)';
+                        }, index * 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有section
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+            observer.observe(section);
+        });
+
+        // 为卡片元素添加初始动画状态
+        document.querySelectorAll('.pain-point, .feature-card, .advantage-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+
+        // 3D倾斜效果
+        document.querySelectorAll('.feature-card, .advantage-card, .pain-point').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            });
+        });
+
+        // 表格行悬浮增强效果
+        document.querySelectorAll('.profit-table tr').forEach(row => {
+            row.addEventListener('mouseenter', () => {
+                row.style.transform = 'scale(1.02)';
+                row.style.zIndex = '10';
+            });
+            
+            row.addEventListener('mouseleave', () => {
+                row.style.transform = 'scale(1)';
+                row.style.zIndex = '1';
+            });
+        });
+
+        // 按钮点击波纹效果
+        document.querySelector('.cta-button').addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s ease-out;
+                pointer-events: none;
+            `;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+
+        // 添加波纹动画CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(2);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 页面加载动画
+        window.addEventListener('load', () => {
+            document.body.style.opacity = '1';
+            
+            // Header动画
+            const header = document.querySelector('header');
+            header.style.transform = 'translateY(0)';
+            header.style.opacity = '1';
+        });
+
+                // 饼状图绘制函数
+        function drawPieChart(canvasId, data, colors) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            // 移动端适配半径
+            const isMobile = window.innerWidth <= 768;
+            const radius = isMobile ? Math.min(canvas.width, canvas.height) / 3 : 80;
+            
+            // 清空画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 计算总和
+            const total = data.reduce((sum, item) => sum + item.value, 0);
+            
+            // 绘制扇形
+            let currentAngle = -Math.PI / 2; // 从12点方向开始
+            
+            data.forEach((item, index) => {
+                const sliceAngle = (item.value / total) * 2 * Math.PI;
+                
+                // 绘制扇形
+                ctx.beginPath();
+                ctx.moveTo(centerX, centerY);
+                ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                ctx.closePath();
+                
+                // 设置颜色和阴影
+                ctx.fillStyle = colors[index];
+                ctx.shadowColor = colors[index];
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                
+                // 保存扇形信息用于交互
+                item.startAngle = currentAngle;
+                item.endAngle = currentAngle + sliceAngle;
+                item.color = colors[index];
+                
+                currentAngle += sliceAngle;
+            });
+            
+            // 鼠标和触摸交互
+            function handleInteraction(e) {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                // 计算鼠标相对于圆心的角度
+                const dx = x - centerX;
+                const dy = y - centerY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance <= radius) {
+                    let angle = Math.atan2(dy, dx);
+                    // 调整角度范围，使其与我们的绘制起点（-Math.PI/2）匹配
+                    angle = angle < -Math.PI / 2 ? angle + 2 * Math.PI : angle;
+                    
+                    // 找到对应的扇形
+                    const hoveredSlice = data.find(item => {
+                        let startAngle = item.startAngle;
+                        let endAngle = item.endAngle;
+                        
+                        // 处理跨越2π边界的情况
+                        if (endAngle < startAngle) {
+                            return angle >= startAngle || angle < endAngle;
+                        }
+                        return angle >= startAngle && angle < endAngle;
+                    });
+                    
+                    if (hoveredSlice) {
+                        // 重绘饼状图，突出显示悬浮的扇形
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        let currentAngle = -Math.PI / 2;
+                        
+                        data.forEach((item, index) => {
+                            const sliceAngle = (item.value / total) * 2 * Math.PI;
+                            
+                            ctx.beginPath();
+                            ctx.moveTo(centerX, centerY);
+                            
+                            // 如果是悬浮的扇形，稍微突出
+                            if (item === hoveredSlice) {
+                                const offsetX = Math.cos(currentAngle + sliceAngle / 2) * 5;
+                                const offsetY = Math.sin(currentAngle + sliceAngle / 2) * 5;
+                                ctx.moveTo(centerX + offsetX, centerY + offsetY);
+                                ctx.arc(centerX + offsetX, centerY + offsetY, radius, currentAngle, currentAngle + sliceAngle);
+                            } else {
+                                ctx.arc(centerX, centerY, radius, currentAngle, currentAngle + sliceAngle);
+                            }
+                            
+                            ctx.closePath();
+                            ctx.fillStyle = item === hoveredSlice ? item.color : item.color + 'CC';
+                            ctx.shadowColor = item.color;
+                            ctx.shadowBlur = item === hoveredSlice ? 15 : 5;
+                            ctx.fill();
+                            
+                            currentAngle += sliceAngle;
+                        });
+                        
+                        // 显示tooltip
+                        const tooltip = canvas.parentElement.querySelector('.pie-tooltip');
+                        if (tooltip) {
+                            tooltip.textContent = hoveredSlice.label;
+                            tooltip.style.opacity = '1';
+                        }
+                    }
+                } else {
+                    // 鼠标离开饼状图，恢复原状
+                    drawPieChart(canvasId, data, colors);
+                    const tooltip = canvas.parentElement.querySelector('.pie-tooltip');
+                    if (tooltip) {
+                        tooltip.style.opacity = '0';
+                    }
+                }
+            }
+            
+            function handleLeave() {
+                drawPieChart(canvasId, data, colors);
+                const tooltip = canvas.parentElement.querySelector('.pie-tooltip');
+                if (tooltip) {
+                    tooltip.style.opacity = '0';
+                }
+            }
+            
+            // 添加鼠标事件
+            canvas.addEventListener('mousemove', handleInteraction);
+            canvas.addEventListener('mouseleave', handleLeave);
+            
+            // 添加触摸事件（移动端）
+            canvas.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                handleInteraction(mouseEvent);
+            });
+            
+            canvas.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                const touch = e.touches[0];
+                const mouseEvent = new MouseEvent('mousemove', {
+                    clientX: touch.clientX,
+                    clientY: touch.clientY
+                });
+                handleInteraction(mouseEvent);
+            });
+            
+            canvas.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                handleLeave();
+            });
+        }
+        
+        // 页面加载后绘制饼状图
+        document.addEventListener('DOMContentLoaded', function() {
+            // 先调整移动端适配
+            adjustChartsForMobile();
+            
+            setTimeout(() => {
+                // 职业分布数据
+                const jobData = [
+                    { label: '个体店主 45%', value: 45 },
+                    { label: '上班族 40%', value: 40 },
+                    { label: '腰部达人 10%', value: 10 },
+                    { label: '企业主 5%', value: 5 }
+                ];
+                const jobColors = ['#ec4899', '#60a5fa', '#a855f7', '#f59e0b'];
+                
+                // 年龄分布数据
+                const ageData = [
+                    { label: '31-35岁 35%', value: 35 },
+                    { label: '25-30岁 28%', value: 28 },
+                    { label: '36-40岁 25%', value: 25 },
+                    { label: '41-45岁 12%', value: 12 }
+                ];
+                const ageColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f97316'];
+                
+                // 绘制饼状图
+                drawPieChart('job-pie-chart', jobData, jobColors);
+                drawPieChart('age-pie-chart', ageData, ageColors);
+            }, 100);
+        });
+
+
+
+        // 移动端优化检测
+        function isMobileDevice() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+        
+        // 移动端性能优化
+        if (isMobileDevice()) {
+            // 减少动画复杂度
+            document.documentElement.style.setProperty('--animation-duration', '0.3s');
+            
+            // 禁用视差效果
+            const mouseGlow = document.querySelector('.mouse-glow');
+            if (mouseGlow) {
+                mouseGlow.style.display = 'none';
+            }
+            
+            // 简化3D效果
+            document.querySelectorAll('.feature-card, .advantage-card, .pain-point').forEach(card => {
+                card.style.willChange = 'auto';
+                card.style.transform = 'none';
+            });
+        }
+        
+        // 响应式图表调整
+        function adjustChartsForMobile() {
+            if (window.innerWidth <= 768) {
+                // 调整饼状图大小
+                const pieCharts = document.querySelectorAll('#job-pie-chart, #age-pie-chart');
+                pieCharts.forEach(chart => {
+                    const size = Math.min(window.innerWidth * 0.4, 150);
+                    chart.width = size;
+                    chart.height = size;
+                });
+                
+                // 重新绘制图表
+                setTimeout(() => {
+                    if (typeof drawPieChart === 'function') {
+                        const jobData = [
+                            { label: '个体店主 45%', value: 45 },
+                            { label: '上班族 40%', value: 40 },
+                            { label: '腰部达人 10%', value: 10 },
+                            { label: '企业主 5%', value: 5 }
+                        ];
+                        const jobColors = ['#ec4899', '#60a5fa', '#a855f7', '#f59e0b'];
+                        
+                        const ageData = [
+                            { label: '31-35岁 35%', value: 35 },
+                            { label: '25-30岁 28%', value: 28 },
+                            { label: '36-40岁 25%', value: 25 },
+                            { label: '41-45岁 12%', value: 12 }
+                        ];
+                        const ageColors = ['#10b981', '#3b82f6', '#8b5cf6', '#f97316'];
+                        
+                        drawPieChart('job-pie-chart', jobData, jobColors);
+                        drawPieChart('age-pie-chart', ageData, ageColors);
+                    }
+                }, 500);
+            }
+        }
+        
+        // 窗口大小改变时重新调整
+        window.addEventListener('resize', debounce(adjustChartsForMobile, 300));
+        
+        // 防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // 视频懒加载函数
+        function loadVideo() {
+            const placeholder = document.getElementById('video-placeholder');
+            
+            // 显示加载状态
+            placeholder.innerHTML = `
+                <div class="video-loading">
+                    <div class="spinner"></div>
+                    <p>正在加载高清视频...</p>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">火花AI产品介绍演示 - </p>
+                </div>
+            `;
+            
+            // 实际加载视频
+            setTimeout(() => {
+                // 创建视频元素，防止IDM等下载器捕捉
+                const videoContainer = document.createElement('div');
+                videoContainer.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 18px;
+                    background: #000;
+                    position: relative;
+                    overflow: hidden;
+                `;
+                
+                const video = document.createElement('video');
+                video.controls = true;
+                video.preload = 'metadata';
+                video.style.cssText = `
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 18px;
+                    background: #000;
+                `;
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.setAttribute('x5-playsinline', '');
+                video.setAttribute('x5-video-player-type', 'h5');
+                video.setAttribute('x5-video-player-fullscreen', 'true');
+                video.setAttribute('x5-video-orientation', 'portraint');
+                
+                // 防止右键下载和IDM捕捉
+                video.setAttribute('controlsList', 'nodownload');
+                video.setAttribute('disablePictureInPicture', '');
+                video.oncontextmenu = function(e) {
+                    e.preventDefault();
+                    return false;
+                };
+                
+                // 动态设置视频源，延迟加载防止IDM捕捉
+                setTimeout(() => {
+                    const source = document.createElement('source');
+                    const videoUrl = 'https://video-script.jacky.onl/' + 
+                        encodeURIComponent('黄清晰') + '/' +
+                        encodeURIComponent('AI爆款内容系统宣传视频素材') + '/' +
+                        encodeURIComponent('视频素材') + '/' +
+                        encodeURIComponent('正片.mp4');
+                    source.src = videoUrl;
+                    source.type = 'video/mp4';
+                    video.appendChild(source);
+                }, 500);
+                
+                videoContainer.appendChild(video);
+                placeholder.innerHTML = '';
+                placeholder.appendChild(videoContainer);
+                
+                // 添加视频事件监听
+                const videoElement = videoContainer.querySelector('video');
+                if (videoElement) {
+                    // 自动播放功能
+                    videoElement.addEventListener('canplay', () => {
+                        console.log('视频可以播放，自动开始播放');
+                        videoElement.play().catch(e => {
+                            console.log('自动播放被阻止，用户需要手动点击播放按钮');
+                        });
+                    });
+                    
+                    // 加载进度显示
+                    videoElement.addEventListener('loadstart', () => {
+                        console.log('视频开始加载');
+                    });
+                    
+                    videoElement.addEventListener('error', (e) => {
+                        console.error('视频加载错误:', e);
+                        placeholder.innerHTML = `
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #ef4444; text-align: center;">
+                                <div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div>
+                                <p>视频加载失败</p>
+                                <p style="margin-top: 1rem; color: #94a3b8; font-size: 0.9rem;">请刷新页面重试</p>
+                            </div>
+                        `;
+                    });
+                }
+            }, 800);
+        }
+        
+        // 预加载关键资源，但不包括视频
+        function preloadCriticalResources() {
+            // 预加载关键图片
+            const criticalImages = [
+                'logo图/首图.png',
+                'logo图/AI进化图.png',
+                'logo图/ROI.png'
+            ];
+            
+            criticalImages.forEach(src => {
+                const img = new Image();
+                img.src = src;
+            });
+            
+            // 预连接到视频域名，加速DNS解析
+            const preconnectLink = document.createElement('link');
+            preconnectLink.rel = 'preconnect';
+            preconnectLink.href = 'https://video-script.jacky.onl';
+            document.head.appendChild(preconnectLink);
+            
+            // 预加载视频metadata（不下载整个视频）
+            const videoPreload = document.createElement('link');
+            videoPreload.rel = 'prefetch';
+            videoPreload.href = 'https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4';
+            videoPreload.as = 'video';
+            document.head.appendChild(videoPreload);
+        }
+        
+        // 页面加载完成后预加载资源
+        window.addEventListener('load', preloadCriticalResources);
+        
+        // 初始化页面状态
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+        
+        const header = document.querySelector('header');
+        header.style.transform = 'translateY(-50px)';
+        header.style.opacity = '0';
+        header.style.transition = 'transform 0.8s ease, opacity 0.8s ease';
+    </script>
+</body>
+</html> 

@@ -4287,7 +4287,7 @@
             };
         }
         
-        // 视频懒加载函数
+        // 视频懒加载函数 - 优化版
         function loadVideo() {
             const placeholder = document.getElementById('video-placeholder');
             
@@ -4296,13 +4296,12 @@
                 <div class="video-loading">
                     <div class="spinner"></div>
                     <p>正在加载高清视频...</p>
-                    <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">火花AI产品介绍演示 - </p>
+                    <p style="font-size: 0.9rem; color: #94a3b8; margin-top: 0.5rem;">火花AI产品介绍演示</p>
                 </div>
             `;
             
-            // 实际加载视频
+                            // 实际加载视频 - 一键播放策略
             setTimeout(() => {
-                // 创建视频元素，防止IDM等下载器捕捉
                 const videoContainer = document.createElement('div');
                 videoContainer.style.cssText = `
                     width: 100%;
@@ -4315,7 +4314,7 @@
                 
                 const video = document.createElement('video');
                 video.controls = true;
-                video.preload = 'metadata';
+                video.preload = 'metadata'; // 使用metadata平衡加载速度
                 video.style.cssText = `
                     width: 100%;
                     height: 100%;
@@ -4329,37 +4328,241 @@
                 video.setAttribute('x5-video-player-fullscreen', 'true');
                 video.setAttribute('x5-video-orientation', 'portraint');
                 
-                // 防止右键下载和IDM捕捉
+                // IDM兼容设置
                 video.setAttribute('controlsList', 'nodownload');
                 video.setAttribute('disablePictureInPicture', '');
+                
+                // 温和的右键处理
                 video.oncontextmenu = function(e) {
-                    e.preventDefault();
-                    return false;
+                    if (e.ctrlKey || e.shiftKey) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    return true;
                 };
                 
-                // 动态设置视频源，延迟加载防止IDM捕捉
-                setTimeout(() => {
-                    const source = document.createElement('source');
-                    const videoUrl = 'https://video-script.jacky.onl/' + 
-                        encodeURIComponent('黄清晰') + '/' +
-                        encodeURIComponent('AI爆款内容系统宣传视频素材') + '/' +
-                        encodeURIComponent('视频素材') + '/' +
-                        encodeURIComponent('正片.mp4');
-                    source.src = videoUrl;
-                    source.type = 'video/mp4';
-                    video.appendChild(source);
-                }, 500);
+                // 设置视频源
+                const source = document.createElement('source');
+                const videoUrl = 'https://video-script.jacky.onl/' + 
+                    encodeURIComponent('黄清晰') + '/' +
+                    encodeURIComponent('AI爆款内容系统宣传视频素材') + '/' +
+                    encodeURIComponent('视频素材') + '/' +
+                    encodeURIComponent('正片.mp4');
+                source.src = videoUrl;
+                source.type = 'video/mp4';
+                video.appendChild(source);
                 
                 videoContainer.appendChild(video);
                 placeholder.innerHTML = '';
                 placeholder.appendChild(videoContainer);
                 
-                // 添加视频事件监听
+                // 添加视频事件监听和自动播放
                 const videoElement = videoContainer.querySelector('video');
                 if (videoElement) {
-                    // 加载进度显示
+                    // 自动播放功能
+                    videoElement.addEventListener('canplay', () => {
+                        console.log('视频可以播放，自动开始播放');
+                        videoElement.play().catch(e => {
+                            console.log('自动播放被阻止，用户需要手动点击播放按钮');
+                        });
+                    });
+                    
+                    // 智能缓存策略 - 让video元素直接使用已下载的数据
+                    videoElement.addEventListener('loadedmetadata', () => {
+                        console.log('视频metadata加载完成，启动智能缓存系统');
+                        
+                        const duration = videoElement.duration;
+                        const videoUrl = videoElement.src || videoElement.querySelector('source').src;
+                        
+                        console.log('视频总时长:', duration, '秒');
+                        
+                        // 创建一个隐藏的video元素用于预加载
+                        const preloadVideo = document.createElement('video');
+                        preloadVideo.style.display = 'none';
+                        preloadVideo.preload = 'auto';
+                        preloadVideo.muted = true; // 静音避免干扰
+                        preloadVideo.src = videoUrl;
+                        document.body.appendChild(preloadVideo);
+                        
+                        // 设置更激进的预加载
+                        preloadVideo.setAttribute('preload', 'auto');
+                        preloadVideo.setAttribute('buffered', 'true');
+                        
+                        // 智能缓存管理器
+                        const cacheManager = {
+                            preloadVideo: preloadVideo,
+                            isPreloading: false,
+                            preloadedRanges: [], // 记录已预加载的时间范围
+                            
+                            // 开始全量预加载
+                            startFullPreload() {
+                                if (this.isPreloading) return;
+                                this.isPreloading = true;
+                                
+                                console.log('开始全量预加载，让浏览器自然缓存整个视频');
+                                
+                                // 让预加载video自然下载整个文件
+                                this.preloadVideo.addEventListener('progress', () => {
+                                    const buffered = this.preloadVideo.buffered;
+                                    if (buffered.length > 0) {
+                                        const loadedEnd = buffered.end(buffered.length - 1);
+                                        const progress = Math.floor(loadedEnd / duration * 100);
+                                        console.log(`预加载进度: ${Math.floor(loadedEnd)}秒/${Math.floor(duration)}秒 (${progress}%)`);
+                                        
+                                        // 更新已预加载的范围
+                                        this.preloadedRanges = [];
+                                        for (let i = 0; i < buffered.length; i++) {
+                                            this.preloadedRanges.push({
+                                                start: buffered.start(i),
+                                                end: buffered.end(i)
+                                            });
+                                        }
+                                    }
+                                });
+                                
+                                this.preloadVideo.addEventListener('canplaythrough', () => {
+                                    console.log('整个视频已预加载完成，可以随意快进！');
+                                });
+                                
+                                // 开始预加载
+                                this.preloadVideo.load();
+                            },
+                            
+                            // 检查指定时间是否已缓存
+                            isTimeCached(time) {
+                                return this.preloadedRanges.some(range => 
+                                    time >= range.start && time <= range.end
+                                );
+                            },
+                            
+                            // 快进时的智能处理
+                            handleSeek(seekTime) {
+                                console.log(`快进到 ${Math.floor(seekTime)}秒`);
+                                
+                                if (this.isTimeCached(seekTime)) {
+                                    console.log('该时间点已缓存，应该能立即播放');
+                                } else {
+                                    console.log('该时间点未缓存，触发优先预加载');
+                                    this.prioritizeTime(seekTime);
+                                }
+                            },
+                            
+                                                         // 优先预加载指定时间点（简化版，避免频繁跳转）
+                             prioritizeTime(time) {
+                                 console.log(`优先预加载 ${Math.floor(time)}秒 位置`);
+                                 // 只让预加载video跳转到该时间点一次
+                                 this.preloadVideo.currentTime = time;
+                             }
+                        };
+                        
+                        // 立即开始预加载
+                        setTimeout(() => {
+                            cacheManager.startFullPreload();
+                        }, 500);
+                        
+                        // 将缓存管理器绑定到video元素
+                        videoElement.cacheManager = cacheManager;
+                    });
+                    
+                    // 播放状态监控 - 显示缓存进度
+                    let lastProgressCheck = 0;
+                    videoElement.addEventListener('timeupdate', () => {
+                        const currentTime = videoElement.currentTime;
+                        const duration = videoElement.duration;
+                        const buffered = videoElement.buffered;
+                        
+                        // 每5秒显示一次缓存状态
+                        if (currentTime - lastProgressCheck > 5) {
+                            lastProgressCheck = currentTime;
+                            
+                            if (buffered.length > 0) {
+                                const bufferedEnd = buffered.end(buffered.length - 1);
+                                const bufferedAhead = bufferedEnd - currentTime;
+                                const cacheProgress = Math.floor(bufferedEnd / duration * 100);
+                                
+                                console.log(`播放: ${Math.floor(currentTime)}秒/${Math.floor(duration)}秒, 缓冲领先: ${Math.floor(bufferedAhead)}秒, 缓存进度: ${cacheProgress}%`);
+                                
+                                // 显示预加载video的缓存状态
+                                if (videoElement.cacheManager && videoElement.cacheManager.preloadVideo.buffered.length > 0) {
+                                    const preloadBuffered = videoElement.cacheManager.preloadVideo.buffered;
+                                    const preloadEnd = preloadBuffered.end(preloadBuffered.length - 1);
+                                    const preloadProgress = Math.floor(preloadEnd / duration * 100);
+                                    console.log(`预加载进度: ${preloadProgress}% (${Math.floor(preloadEnd)}秒)`);
+                                }
+                            }
+                        }
+                    });
+                    
+                    // 用户快进时的智能处理
+                    videoElement.addEventListener('seeking', () => {
+                        const seekTime = videoElement.currentTime;
+                        
+                        // 使用缓存管理器处理快进
+                        if (videoElement.cacheManager) {
+                            videoElement.cacheManager.handleSeek(seekTime);
+                        }
+                    });
+                    
+                    // 监听快进完成，简单检查缓存状态（不修改currentTime避免循环）
+                    videoElement.addEventListener('seeked', () => {
+                        const currentTime = videoElement.currentTime;
+                        
+                        if (videoElement.cacheManager) {
+                            const preloadVideo = videoElement.cacheManager.preloadVideo;
+                            
+                            // 检查预加载video是否已缓存该时间点
+                            if (preloadVideo.buffered.length > 0) {
+                                let isCached = false;
+                                for (let i = 0; i < preloadVideo.buffered.length; i++) {
+                                    const start = preloadVideo.buffered.start(i);
+                                    const end = preloadVideo.buffered.end(i);
+                                    
+                                    if (currentTime >= start && currentTime <= end) {
+                                        console.log(`快进到 ${Math.floor(currentTime)}秒 - 该时间点已预加载，应该能流畅播放`);
+                                        isCached = true;
+                                        break;
+                                    }
+                                }
+                                
+                                if (!isCached) {
+                                    console.log(`快进到 ${Math.floor(currentTime)}秒 - 该时间点未预加载，后台加载中...`);
+                                    // 不再触发prioritizeTime，避免修改currentTime导致循环
+                                }
+                            }
+                        }
+                    });
+                    
+                    // 暂停时继续后台下载（不停止）
+                    videoElement.addEventListener('pause', () => {
+                        console.log('视频暂停，后台下载继续进行');
+                        // 下载管理器会自动继续下载，无需额外处理
+                    });
+                    
+                    // 监听播放开始
+                    videoElement.addEventListener('play', () => {
+                        console.log('视频开始播放');
+                    });
+                    
+                    // IDM兼容性处理 - 检测和处理IDM干扰
+                    let idmInterferenceCount = 0;
                     videoElement.addEventListener('loadstart', () => {
-                        console.log('视频开始加载');
+                        console.log('视频开始加载，IDM可能会弹窗');
+                    });
+                    
+                    videoElement.addEventListener('stalled', () => {
+                        idmInterferenceCount++;
+                        if (idmInterferenceCount > 2) {
+                            console.log('检测到可能的IDM干扰，尝试恢复播放');
+                            // 不强制处理，让用户自然点击IDM的取消按钮
+                        }
+                    });
+                    
+                    // 播放恢复检测
+                    videoElement.addEventListener('canplay', () => {
+                        if (idmInterferenceCount > 0) {
+                            console.log('视频恢复正常，IDM干扰已解决');
+                            idmInterferenceCount = 0;
+                        }
                     });
                     
                     videoElement.addEventListener('canplay', () => {
@@ -4372,15 +4575,17 @@
                             <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #ef4444; text-align: center;">
                                 <div style="font-size: 2rem; margin-bottom: 1rem;">⚠️</div>
                                 <p>视频加载失败</p>
-                                <p style="margin-top: 1rem; color: #94a3b8; font-size: 0.9rem;">请刷新页面重试</p>
+                                <p style="margin-top: 1rem; color: #94a3b8; font-size: 0.9rem;">可能是IDM下载器干扰或网络问题</p>
+                                <p style="color: #94a3b8; font-size: 0.8rem;">如果IDM弹窗出现，点击"取消"即可正常播放</p>
+                                <button onclick="location.reload()" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #60a5fa; color: white; border: none; border-radius: 8px; cursor: pointer;">刷新页面</button>
                             </div>
                         `;
                     });
                 }
-            }, 800);
+            }, 300); // 减少延迟
         }
         
-        // 预加载关键资源，但不包括视频
+        // 更激进的预加载策略
         function preloadCriticalResources() {
             // 预加载关键图片
             const criticalImages = [
@@ -4398,14 +4603,35 @@
             const preconnectLink = document.createElement('link');
             preconnectLink.rel = 'preconnect';
             preconnectLink.href = 'https://video-script.jacky.onl';
+            preconnectLink.crossOrigin = 'anonymous';
             document.head.appendChild(preconnectLink);
             
-            // 预加载视频metadata（不下载整个视频）
+            // 预加载视频的前几秒（更激进的策略）
             const videoPreload = document.createElement('link');
             videoPreload.rel = 'prefetch';
             videoPreload.href = 'https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4';
             videoPreload.as = 'video';
             document.head.appendChild(videoPreload);
+            
+            // 在用户空闲时预加载视频开头
+            if ('requestIdleCallback' in window) {
+                requestIdleCallback(() => {
+                    const hiddenVideo = document.createElement('video');
+                    hiddenVideo.preload = 'auto';
+                    hiddenVideo.muted = true;
+                    hiddenVideo.style.display = 'none';
+                    hiddenVideo.src = 'https://video-script.jacky.onl/%E9%BB%84%E6%B8%85%E6%99%B0/AI%E7%88%86%E6%AC%BE%E5%86%85%E5%AE%B9%E7%B3%BB%E7%BB%9F%E5%AE%A3%E4%BC%A0%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E8%A7%86%E9%A2%91%E7%B4%A0%E6%9D%90/%E6%AD%A3%E7%89%87.mp4';
+                    document.body.appendChild(hiddenVideo);
+                    
+                    // 预加载前10秒
+                    hiddenVideo.addEventListener('loadedmetadata', () => {
+                        hiddenVideo.currentTime = 10;
+                        setTimeout(() => {
+                            hiddenVideo.currentTime = 0;
+                        }, 1000);
+                    });
+                });
+            }
         }
         
         // 页面加载完成后预加载资源
